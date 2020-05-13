@@ -19,6 +19,15 @@ class Preguntas extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
   }
+	public function guarda_pregunta(){
+		try{
+			$tipo=$_REQUEST['tipo'];
+			return $tipo;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
 }
 
 $db = new Preguntas();

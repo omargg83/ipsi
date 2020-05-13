@@ -5,10 +5,12 @@
 <body>
   <?php
     $id=0;
+    $idcuestionario=1;
   ?>
 
   <form id='form_comision' action='' data-lugar='db_'  data-funcion='guarda_pregunta'>
     <input class='form-control' type='text' id='id' NAME='id' value='<?php echo $id; ?>' >
+    <input class='form-control' type='text' id='id2' NAME='id2' value='<?php echo $idcuestionario; ?>' >
     <div class='container'>
       <div class='row'>
         <div class='col-2'>
