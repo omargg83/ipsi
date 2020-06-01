@@ -498,7 +498,7 @@
 		}
 }
 	if(strlen($ctrl)>0){
-		$db = new Tienda();
+		$db = new ipsi();
 		if(strlen($function)>0){
 			echo $db->$function();
 		}
@@ -532,8 +532,6 @@
 			return $fecha->format('d-m-Y');
 		}
 	}
-
-
 
 
 ?>
