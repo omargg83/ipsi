@@ -17,15 +17,18 @@
 		public $limite=300;
 
 		public function __construct(){
-			$this->Salud = array();
 			date_default_timezone_set("America/Mexico_City");
-			$_SESSION['mysqluser']="sagyccom_esponda";
-			$_SESSION['mysqlpass']="esponda123$";
-			$_SESSION['servidor'] ="sagyc.com.mx";
-			$_SESSION['bdd']="sagycrmr_txpika";
-			$this->dbh = new PDO("mysql:host=".$_SESSION['servidor'].";dbname=".$_SESSION['bdd']."", $_SESSION['mysqluser'], $_SESSION['mysqlpass']);
-			self::set_names();
-
+			try{
+				$_SESSION['mysqluser']="sagyccom_esponda";
+				$_SESSION['mysqlpass']="esponda123$";
+				$_SESSION['servidor'] ="sagyc.com.mx";
+				$_SESSION['bdd']="sagycrmr_txpika";
+				$this->dbh = new PDO("mysql:host=".$_SESSION['servidor'].";dbname=".$_SESSION['bdd']."", $_SESSION['mysqluser'], $_SESSION['mysqlpass']);
+				self::set_names();
+			}
+			catch(PDOException $e){
+				return "Database access FAILED!".$e->getMessage();
+			}
 		}
 		public function set_names(){
 			return $this->dbh->query("SET NAMES 'utf8'");
@@ -51,8 +54,7 @@
 					$_SESSION['pagnivel']=40;
 					$_SESSION['idpersona']=$CLAVE['idpersona'];
 					$_SESSION['remoto']=0;
-					//$fondo=mysqli_fetch_array(mysqli_query($link,"select * from config_fondo where idfondo='".$CLAVE['idfondo']."'"));
-					//$_SESSION['fondo']=$fondo['fondo'];
+
 					$_SESSION['anio']=date("Y");
 					$_SESSION['mes']=date("m");
 					$_SESSION['dia']=date("d");
@@ -87,10 +89,7 @@
 					$x.="<button class='btn btn-outline-secondary' type='button' id='sidebarCollapse'>";
 						$x.="<span class='navbar-toggler-icon'></span>";
 					$x.="</button>";
-					/*
-					$x.="<img src='img/escudo.png' width='40' height='30' alt=''>";
-					$x.="<img src='img/SSH.png' width='40' height='30' alt=''>";
-					*/
+
 					$x.="<a class='navbar-brand' href='#escritorio/dashboard' style='font-size:10px'>Tic Shop ASASD</a>";
 
 					$x.="<button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#principal' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>";

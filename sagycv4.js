@@ -2,13 +2,13 @@
 
 	$(function(){
 		$("#cargando").removeClass("is-active");
-		acceso();
+		login();
 		if(intval==""){
 			intval=window.setInterval("sesion_ver()",180000);
 		}
 	});
 
-	function acceso(){
+	function login(){
 		$.ajax({
 			data:  {
 				"ctrl":"control",
@@ -21,7 +21,7 @@
 				var datos = JSON.parse(response);
 				if (datos.sess=="cerrada"){
 					$("#header").html("");
-					$("#bodyx").html("");
+					$("#menu").html("");
 					$("#modal_dispo").removeClass("modal-lg");
 					$("#modal_form").load("dash/login.php");
 					$('#myModal').modal({backdrop: 'static', keyboard: false})
@@ -32,7 +32,7 @@
 					$("#modal_dispo").addClass("modal-lg");
 
 					$("#header").load("dash/header.php");
-					$("#bodyx").load("dash/body.php");
+					$("#menu").load("dash/menu.php");
 
 					loadContent(location.hash.slice(1));
 					$("#cargando").removeClass("is-active");
@@ -198,7 +198,7 @@
 			type:  'post',
 			success:  function (response) {
 				window.location.hash="dash/index";
-				acceso();
+				login();
 			}
 		});
 	}
@@ -237,7 +237,7 @@
 	$(document).on('submit','#acceso',function(e){
 		e.preventDefault();
 		var userAcceso=document.getElementById("userAcceso").value;
-		var passAcceso=document.getElementById("passAcceso").value;
+		var passAcceso=$.md5(document.getElementById("passAcceso").value);
 
 		$.ajax({
 		  url: "control_db.php",
@@ -251,7 +251,7 @@
 		  success: function( response ) {
 				var data = JSON.parse(response);
 				if (data.acceso==1){
-					acceso();
+					login();
 					$('#myModal').modal('hide');
 					$("#modal_dispo").addClass("modal-lg");
 				}
