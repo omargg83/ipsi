@@ -1,16 +1,49 @@
 <?php
-require_once("control_db.php");
+require_once("../control_db.php");
 if (isset($_REQUEST['function'])){$function=$_REQUEST['function'];}	else{ $function="";}
 
-class Preguntas extends ipsi{
-	private $accesox;
-	private $comic;
-	private $editar;
-
+class Cuest extends ipsi{
 	public function __construct(){
 		parent::__construct();
 	}
-  public function pregunta_tipo(){
+	public function cuestionario_lista(){
+		try{
+			self::set_names();
+			$sql="select * from cuestionario";
+			$sth = $this->dbh->query($sql);
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function preguntas($id){
+		try{
+			self::set_names();
+			$sql="select * from cuest_pregunta where idcuestionario=:cuest order by orden";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":cuest",$id);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function pregunta_edit($id){
+		try{
+			self::set_names();
+			$sql="select * from cuest_pregunta where id=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function pregunta_tipo(){
 		try{
 			$tipo=$_REQUEST['tipo'];
 			$texto="a";
@@ -19,6 +52,9 @@ class Preguntas extends ipsi{
 			}
 			else if($tipo=="caja"){
 				$texto="<input type='checkbox' id='customRadio1' name='customRadio'>";
+			}
+			else{
+
 			}
 			return $texto;
 		}
@@ -55,7 +91,7 @@ class Preguntas extends ipsi{
 	}
 }
 
-$db = new Preguntas();
+$db = new Cuest();
 if(strlen($function)>0){
   echo $db->$function();
 }

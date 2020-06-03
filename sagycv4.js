@@ -125,7 +125,7 @@
 			type: "POST",
 			timeout:30000,
 			beforeSend: function () {
-				$("#contenido").html("<div class='container' style='background-color:white; width:300px'><center><img src='img/carga1.gif' width='100px'></center></div>");
+				$("#contenido").html("<div class='container' style='background-color:white; width:300px'><center><img src='img/carga.gif' width='100px'></center></div>");
 			},
 			success:  function (response) {
 				$("#contenido").html(response);
@@ -396,18 +396,18 @@
     });
 	$(document).on("click","[id^='edit_'], [id^='lista_'], [id^='new_']",function(e){	//////////// para ir a alguna opcion
 			e.preventDefault();
-
+			var param1=0;
 			var id=$(this).attr('id');
 			var funcion="";
 			if ( $(this).data('funcion') ) {
 				funcion = $(this).data('funcion');
 			}
+
 			var lugar="";
 			var contenido="#trabajo";
 			var xyId=0;
 			var valor="";
 			padre=id.split("_")[0]
-			opcion=id.split("_")[1];
 			$("#cargando").addClass("is-active");
 
 			if ( $(this).data('valor')!=undefined ) {
@@ -416,6 +416,10 @@
 
 			if ( $(this).data('div')!=undefined ) {
 				contenido="#"+$(this).data('div');
+			}
+
+			if ( $(this).data('param1') ) {
+				param1 = $(this).data('param1');
 			}
 
 			if(padre=="edit" || padre=="new" || padre=="lista"){
@@ -431,12 +435,12 @@
 				}
 			}
 			$.ajax({
-				data:  {"algo":"algo","padre":padre,"opcion":opcion,"id":xyId,"nombre":id,"funcion":funcion,"valor":valor},
+				data:  {"id":xyId,"param1":param1,"funcion":funcion,"valor":valor},
 				url:   lugar,
 				type:  'post',
 				timeout:30000,
 				beforeSend: function () {
-					$(contenido).html("<div class='container' style='background-color:white; width:300px'><center><img src='img/carga1.gif' width='100px'></center></div>");
+					$(contenido).html("<div class='container' style='background-color:white; width:300px'><center><img src='img/carga.gif' width='100px'></center></div>");
 				},
 				success:  function (response) {
 					$(contenido).html(response);

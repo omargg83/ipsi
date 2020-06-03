@@ -43,11 +43,12 @@
 
 </body>
 	<!--   Core JS Files   -->
-	<script src="librerias15/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
 	<!--   url   -->
-	<script src="librerias15/jquery/jquery-ui.js"></script>
-	<link rel="stylesheet" type="text/css" href="librerias15/jquery/jquery-ui.min.css" />
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+
 
 	<!-- Animation library for notifications   -->
   <link href="librerias15/animate.css" rel="stylesheet"/>
@@ -84,5 +85,18 @@
 	<!--   Pass   -->
 	<script src="librerias15/jQuery-MD5-master/jquery.md5.js"></script>
 
+	<!--   Tablas  -->
+	<script type="text/javascript" src="librerias15/DataTables/datatables.js"></script>
+	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.min.js"></script>
+	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/buttons.flash.min.js"></script>
+	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/jszip.min.js"></script>
+	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/pdfmake.min.js"></script>
+	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/vfs_fonts.js"></script>
+	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/buttons.html5.min.js"></script>
+	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/buttons.print.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="librerias15/DataTables/datatables.min.css"/>
+	<link rel="stylesheet" type="text/css" href="librerias15/DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.css"/>
 
 </html>
