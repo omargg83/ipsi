@@ -5,7 +5,7 @@
 	echo "<br>";
 ?>
 
-	<table id='x_cliente' class='dataTable compact hover row-border' style='font-size:10pt;'>
+	<table id='x_cliente' class='table table-striped table-bordered' style='font-size:10pt;'>
 	<thead>
 	<th>#</th>
 	<th>Prof.</th>
@@ -16,7 +16,7 @@
 	<tbody>
 		<?php
 			foreach($pd as $key){
-				echo "<tr id='".$key->idcliente."'' class='edit-t'>";
+				echo "<tr id='".$key->id."'' class='edit-t'>";
 					echo "<td>";
 					echo "<div class='btn-group'>";
 					echo "<button class='btn btn-outline-primary btn-sm' id='edit_persona' title='Editar' data-lugar='a_cliente/editar'><i class='fas fa-pencil-alt'></i></button>";

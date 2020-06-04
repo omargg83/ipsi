@@ -52,7 +52,7 @@
 					$_SESSION['pass'] = $CLAVE['pass'];
 					$_SESSION['nivel'] = $CLAVE['nivel'];
 					$_SESSION['pagnivel']=40;
-					$_SESSION['idpersona']=$CLAVE['idpersona'];
+					$_SESSION['idusuario']=$CLAVE['idusuario'];
 					$_SESSION['remoto']=0;
 
 					$_SESSION['anio']=date("Y");
@@ -62,7 +62,7 @@
 					$_SESSION['foco']=mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"));
 					$_SESSION['cfondo']="white";
 					$arr=array();
-					$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idpersona']);
+					$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idusuario']);
 					return json_encode($arr);
 				}
 				else {
@@ -81,7 +81,7 @@
 			if(!isset($_SESSION['idfondo'])){
 				$_SESSION['idfondo']="";
 			}
-			if(isset($_SESSION['idpersona']) and $_SESSION['autoriza'] == 1) {
+			if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
 				///////////////////////////sesion abierta
 				$valor=$_SESSION['idfondo'];
 				$x="";
@@ -113,7 +113,7 @@
 								$x.="</a>";
 
 								$x.="<div class='dropdown-menu' aria-labelledby='navbarDropdown'>";
-									$x.="<a class='dropdown-item' id='winmodal_pass' data-id='".$_SESSION['idpersona']."' data-lugar='a_usuarios/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</a>";
+									$x.="<a class='dropdown-item' id='winmodal_pass' data-id='".$_SESSION['idusuario']."' data-lugar='a_usuarios/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</a>";
 								$x.="</div>";
 							$x.="</li>";
 						$x.="</ul>";
@@ -156,10 +156,10 @@
 		}
 		public function salir(){
 			$_SESSION['autoriza'] = 0;
-			$_SESSION['idpersona']="";
+			$_SESSION['idusuario']="";
 		}
 		public function ses(){
-			if(isset($_SESSION['autoriza']) and isset($_SESSION['idpersona']) and ($_SESSION['autoriza']==1 and strlen($_SESSION['idpersona'])>0)){
+			if(isset($_SESSION['autoriza']) and isset($_SESSION['idusuario']) and ($_SESSION['autoriza']==1 and strlen($_SESSION['idusuario'])>0)){
 				$arr=array();
 				$arr=array('sess'=>"abierta");
 				return json_encode($arr);
@@ -301,7 +301,7 @@
 
 		public function fondo(){
 			$_SESSION['idfondo']=$_REQUEST['imagen'];
-			$this->update('usuarios',array('idpersona'=>$_SESSION['idpersona']), array('idfondo'=>$_SESSION['idfondo']));
+			$this->update('usuarios',array('idpersona'=>$_SESSION['idusuario']), array('idfondo'=>$_SESSION['idfondo']));
 		}
 		public function fondo_carga(){
 			$x="";

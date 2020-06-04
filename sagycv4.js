@@ -20,8 +20,7 @@
 			success:  function (response) {
 				var datos = JSON.parse(response);
 				if (datos.sess=="cerrada"){
-					$("#header").html("");
-					$("#menu").html("");
+					$("#sidebar").html("");
 					$("#modal_dispo").removeClass("modal-lg");
 					$("#modal_form").load("dash/login.php");
 					$('#myModal').modal({backdrop: 'static', keyboard: false})
@@ -30,10 +29,7 @@
 				if (datos.sess=="abierta"){
 					$("#cargando").addClass("is-active");
 					$("#modal_dispo").addClass("modal-lg");
-
-					$("#header").load("dash/header.php");
-					$("#menu").load("dash/menu.php");
-
+					$("#sidebar").load("dash/menu.php");
 					loadContent(location.hash.slice(1));
 					$("#cargando").removeClass("is-active");
 				}
@@ -213,7 +209,7 @@
 			success:  function (response) {
 				var datos = JSON.parse(response);
 				if (datos.sess=="cerrada"){
-					$("#header").html("");
+					//$("#sidebar").html("");
 					$("#bodyx").html("");
 					$("#modal_dispo").removeClass("modal-lg");
 					$("#modal_form").load("dash/login.php");
@@ -249,6 +245,7 @@
 				"passAcceso":passAcceso
 		  },
 		  success: function( response ) {
+				console.log(response);
 				var data = JSON.parse(response);
 				if (data.acceso==1){
 					login();
@@ -369,10 +366,6 @@
 			$.alert('Debe seleccionar un archivo');
 		}
 	});
-	$(document).on('click','.sidebar a', function() {
-       $(".sidebar a").removeClass("activeside");
-       $(this).addClass("activeside");
-	});
 	$(document).on("click","#fondocambia",function(e){
 		e.preventDefault();
 		var imagen=$("img", this).attr("src");
@@ -389,11 +382,10 @@
 			}
 		});
 	});
+
 	$(document).on('click','#sidebarCollapse', function () {
-		$('#navx').toggleClass('sidenav');
-        $('#contenido').toggleClass('fijaproceso');
-        $('#sidebar').toggleClass('active');
-    });
+		$('#sidebar').toggleClass('active');
+  });
 	$(document).on("click","[id^='edit_'], [id^='lista_'], [id^='new_']",function(e){	//////////// para ir a alguna opcion
 			e.preventDefault();
 			var param1=0;

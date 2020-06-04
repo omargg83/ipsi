@@ -11,7 +11,7 @@ class Usuario extends ipsi{
 		parent::__construct();
 		$this->doc="a_clientes/papeles/";
 
-		if(isset($_SESSION['idpersona']) and $_SESSION['autoriza'] == 1) {
+		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
 
 		}
 		else{
@@ -19,28 +19,17 @@ class Usuario extends ipsi{
 			die();
 		}
 	}
-
-	public function usuario($id){
+	public function usuario_lista(){
+		self::set_names();
+		$sql="select * from usuarios";
+		$sth = $this->dbh->query($sql);
+		return $sth->fetchAll(PDO::FETCH_OBJ);
+	}
+	public function usuario_editar($id){
 		self::set_names();
 		$sql="select * from usuarios where idusuario='$id'";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
-		return $sth->fetch();
-	}
-	public function usuario_lista(){
-    self::set_names();
-		$sql="select usuarios.idusuario, usuarios.idtienda, usuarios.nombre, usuarios.user, usuarios.pass, usuarios.nivel, usuarios.activo, et_tienda.nombre as tienda  from usuarios left outer join et_tienda on et_tienda.id=usuarios.idtienda";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
-		return $sth->fetchAll();
-  }
-
-  public function tiendas_lista(){
-		self::set_names();
-		$sql="SELECT * FROM et_tienda";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
-		return $sth->fetchAll();
+		$sth = $this->dbh->query($sql);
+		return $sth->fetch(PDO::FETCH_OBJ);
 	}
 
 	public function guardar_usuario(){
@@ -73,14 +62,6 @@ class Usuario extends ipsi{
 		}
 		return $x;
 	}
-
-	public function lista_acceso(){
-    self::set_names();
-		$sql="select *  from usuariosreg left outer join usuarios on usuarios.idusuario=usuariosreg.idpersonal order by fecha desc limit 1000";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
-		return $sth->fetchAll();
-  }
 	public function password(){
 		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
 		if (isset($_REQUEST['pass1'])){$pass1=$_REQUEST['pass1'];}

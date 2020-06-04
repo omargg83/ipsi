@@ -4,7 +4,7 @@
 	echo "<div class='container' style='background-color:".$_SESSION['cfondo']."; '>";
 ?>
 
-	<table id='x_user' class='dataTable compact hover row-border' style='font-size:10pt;'>
+	<table id='x_user' class='table table-striped table-bordered compact' style='font-size:10pt;'>
 	<thead>
 	<th>Numero</th>
 	<th>Nombre</th>
@@ -15,20 +15,20 @@
 	</thead>
 	<tbody>
 		<?php
-			for($i=0;$i<count($pd);$i++){
-				echo '<tr id="'.$pd[$i]['idusuario'].'" class="edit-t">';
+			foreach($pd as $key){
+				echo '<tr id="'.$key->idusuario.'" class="edit-t">';
 					echo "<td>";
 					echo "<div class='btn-group'>";
-					echo "<button class='btn btn-outline-primary btn-sm' id='edit_persona' title='Editar' data-lugar='a_usuarios/editar'><i class='fas fa-pencil-alt'></i></button>";
+					echo "<button class='btn btn-sm' id='edit_persona' title='Editar' data-lugar='a_usuarios/editar'><i class='fas fa-pencil-alt'></i></button>";
 					echo "</div>";
 					echo "</td>";
-				echo '<td>'.$pd[$i]['nombre'].'</td>';
-				echo '<td>'.$pd[$i]['user'].'</td>';
-				echo '<td>'.$pd[$i]['nivel'].'</td>';
-				echo '<td>'.$pd[$i]['tienda'].'</td>';
+				echo '<td>'.$key->nombre.'</td>';
+				echo '<td>'.$key->usuario.'</td>';
+				echo '<td>'.$key->nivel.'</td>';
+				echo '<td>'.$key->correo.'</td>';
 				echo '<td>';
-				if ($pd[$i]['activo']==0) { echo "Inactivo"; }
-				if ($pd[$i]['activo']==1) { echo "Activo"; }
+				if ($key->autoriza==0) { echo "Inactivo"; }
+				if ($key->autoriza==1) { echo "Activo"; }
 				echo '</td>';
 				echo '</tr>';
 			}
