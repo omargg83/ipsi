@@ -54,6 +54,7 @@
 					$_SESSION['nivel'] = $CLAVE->nivel;
 					$_SESSION['pagnivel']=40;
 					$_SESSION['idusuario']=$CLAVE->idusuario;
+					$_SESSION['cfondo']="#fff";
 					$arr=array();
 					$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idusuario']);
 					return json_encode($arr);
@@ -75,6 +76,7 @@
 						$_SESSION['nivel'] = $CLAVE->nivel;
 						$_SESSION['pagnivel']=40;
 						$_SESSION['idusuario']=$CLAVE->idusuario;
+						$_SESSION['cfondo']="#fff";
 						$arr=array();
 						$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idusuario']);
 						return json_encode($arr);

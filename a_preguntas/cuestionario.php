@@ -5,7 +5,7 @@
   $pd=$db->preguntas($idcuest);
 ?>
   <div class='container'>
-    <table id='x_cliente' class='dataTable compact hover row-border' style='font-size:10pt;'>
+    <table id='x_cliente' class='table table-striped table-bordered' style='font-size:10pt;'>
   	<thead>
   	<th>Orden</th>
   	<th>Nombre</th>

@@ -5,12 +5,11 @@
 	echo "<br>";
 ?>
 
-	<table id='x_cliente' class='dataTable compact hover row-border' style='font-size:10pt;'>
+	<table id='x_cliente' class='table table-striped table-bordered' style='font-size:10pt;'>
 	<thead>
 	<th>#</th>
 	<th>Nombre</th>
 	<th>Correo</th>
-	<th>Telefono</th>
 	</thead>
 	<tbody>
 		<?php
@@ -18,8 +17,8 @@
 				echo "<tr id='".$key->idcuestionario."'' class='edit-t'>";
 					echo "<td>";
 					echo "<div class='btn-group'>";
-					echo "<button class='btn btn-outline-primary btn-sm' id='edit_persona' title='Editar' data-lugar='a_preguntas/cuestionario'><i class='fas fa-pencil-alt'></i></button>";
-					echo "</div>";
+						echo "<button class='btn btn-outline-primary btn-sm' id='edit_persona' title='Editar' data-lugar='a_preguntas/cuestionario'><i class='fas fa-pencil-alt'></i></button>";
+						echo "</div>";
 					echo "</td>";
 					echo "<td>".$key->idcuestionario."</td>";
 					echo "<td>".$key->nombre."</td>";
