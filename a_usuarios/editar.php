@@ -3,7 +3,8 @@
 
 	$id=$_REQUEST['id'];
 
-	$user="";
+	$nombre="";
+
 	$usuario="";
 	$autoriza="";
 	$nivel="";
@@ -11,7 +12,7 @@
 
 	if($id>0){
 		$pd = $db->usuario_editar($id);
-		$user=$pd->nombre;
+		$nombre=$pd->nombre;
 		$usuario=$pd->usuario;
 		$autoriza=$pd->autoriza;
 		$nivel=$pd->nivel;
@@ -29,21 +30,32 @@
 			<div class='row'>
 				<div class="col-2">
 					<label for="">Numero:</label>
-					<input type="text" class="form-control form-control-sm" name="id" id="id" value="<?php echo $id ;?>" placeholder="Tienda" readonly>
+					<input type="text" class="form-control form-control-sm" name="id" id="id" value="<?php echo $id ;?>" placeholder="No" readonly>
+				</div>
+
+				<div class="col-4">
+					<label for="">Nombre:</label>
+					<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre ;?>" placeholder="Nombre" required>
+				</div>
+
+				<div class="col-4">
+					<label for="">Usuario:</label>
+					<input type="text" class="form-control form-control-sm" name="usuario" id="usuario" value="<?php echo $usuario ;?>" placeholder="Usuario" required>
+				</div>
+
+				<div class="col-4">
+					<label for="">Correo:</label>
+					<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo ;?>" placeholder="Usuario" required>
+				</div>
+
+				<div class="col-4">
+					<label for="">Nivel:</label>
+					<select class="form-control form-control-sm" name="nivel" id="nivel">
+					  <option value="1"<?php if($nivel=="1") echo "selected"; ?> >1</option>
+					  <option value="2"<?php if($nivel=="2") echo "selected"; ?> >2</option>
+					</select>
 				</div>
 			</div>
-
-
-			 <div class="form-group row">
-			 <label class="control-label col-sm-2" for="">Nivel:</label>
-			  <div class="col-sm-10">
-				<select class="form-control form-control-sm" name="nivel" id="nivel">
-				  <option value="1"<?php if($nivel=="1") echo "selected"; ?> >1</option>
-				  <option value="2"<?php if($nivel=="2") echo "selected"; ?> >2</option>
-				</select>
-			  </div>
-			</div>
-
 		</div>
 
 		<div class='card-footer'>

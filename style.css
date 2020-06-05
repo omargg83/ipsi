@@ -10,10 +10,8 @@
   --color-fuente:#fff;
 }
 body {
-
 	height: 100%;
 	overflow: hidden;
-
   font-family: 'Rubik', sans-serif;
   background: #f4f6fa;
 }

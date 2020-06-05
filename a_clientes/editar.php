@@ -7,22 +7,20 @@
 	$apellidom="";
 	$telefono="";
 	$correo="";
-	$profesion="";
 
 	if($id>0){
-		$pd = $db->cliente($id);
+		$pd = $db->cliente_editar($id);
 		$nombre=$pd->nombre;
 		$apellidop=$pd->apellidop;
 		$apellidom=$pd->apellidom;
 		$telefono=$pd->telefono;
 		$correo=$pd->correo;
-		$profesion=$pd->profesion;
 	}
 
 ?>
 
 <div class="container">
-	<form action="" id="form_cliente" data-lugar="a_cliente/db_" data-funcion="guardar_cliente" data-destino='a_cliente/editar'>
+	<form action="" id="form_cliente" data-lugar="a_clientes/db_" data-funcion="guardar_cliente" data-destino='a_clientes/editar'>
 		<input type="hidden" name="id" id="id" value="<?php echo $id;?>">
 		<div class='card'>
 			<div class='card-header'>
@@ -30,22 +28,22 @@
 			</div>
 			<div class='card-body'>
 				<div class='row'>
-					<div class="col-3">
-						<label>Profesión:</label>
-							<input type="text" class="form-control form-control-sm" name="profesion" id="profesion" value="<?php echo $profesion;?>" placeholder="Profesión" required>
-					</div>
+
 					<div class="col-3">
 						<label>Nombre:</label>
 							<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" required>
 					</div>
+
 					<div class="col-3">
 						<label>Apellido Paterno:</label>
 							<input type="text" class="form-control form-control-sm" name="apellidop" id="apellidop" value="<?php echo $apellidop;?>" placeholder="Apellido Paterno" required>
 					</div>
+
 					<div class="col-3">
 						<label>Apellido materno:</label>
 							<input type="text" class="form-control form-control-sm" name="apellidom" id="apellidom" value="<?php echo $apellidom;?>" placeholder="Apellido materno" required>
 					</div>
+
 				</div>
 				<div class='row'>
 					<div class="col-3">
@@ -63,7 +61,12 @@
 					<div class="col-sm-12">
 						<div class="btn-group">
 						<button class="btn btn-outline-primary btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
-						<button class='btn btn-outline-primary btn-sm' id='lista_penarea' data-lugar='a_cliente/lista' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
+						<?php
+							if($id>0){
+								echo "<button type='button' class='btn btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</button>";
+							}
+						?>
+						<button class='btn btn-outline-primary btn-sm' id='lista_penarea' data-lugar='a_clientes/lista' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
 						</div>
 					</div>
 				</div>

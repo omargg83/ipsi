@@ -230,21 +230,23 @@
 				return false;
 		}
 	}
+
+	//////////////////////
 	$(document).on('submit','#acceso',function(e){
 		e.preventDefault();
 		var userAcceso=document.getElementById("userAcceso").value;
 		var passAcceso=$.md5(document.getElementById("passAcceso").value);
 
 		$.ajax({
-		  url: "control_db.php",
+			url: "control_db.php",
 			type: "POST",
-		  data: {
+			data: {
 				"ctrl":"control",
 				"function":"acceso",
 				"userAcceso":userAcceso,
 				"passAcceso":passAcceso
-		  },
-		  success: function( response ) {
+			},
+			success: function( response ) {
 				console.log(response);
 				var data = JSON.parse(response);
 				if (data.acceso==1){
@@ -254,135 +256,15 @@
 				}
 				else{
 					Swal.fire({
-						  type: 'error',
-						  title: 'Usuario o contraseña incorrecta',
-						  showConfirmButton: false,
-						  timer: 1000
+							type: 'error',
+							title: 'Usuario o contraseña incorrecta',
+							showConfirmButton: false,
+							timer: 1000
 					})
 				}
-		  }
-		});
-	});
-	//////////////////////subir archivos
-	$(document).on("click","[id^='fileup_']",function(e){
-		e.preventDefault();
-		var id = $(this).data('id');
-		var ruta = $(this).data('ruta');
-		var tipo = $(this).data('tipo');
-		var ext = $(this).data('ext');
-		var tabla = $(this).data('tabla');
-		var campo = $(this).data('campo');
-		var keyt = $(this).data('keyt');
-		var destino = $(this).data('destino');
-		var iddest = $(this).data('iddest');
-		var proceso="";
-		if ( $(this).data('proceso') ) {
-			proceso=$(this).data('proceso');
-		}
-		$("#modal_form").load("archivo.php?id="+id+"&ruta="+ruta+"&ext="+ext+"&tipo="+tipo+"&tabla="+tabla+"&campo="+campo+"&keyt="+keyt+"&destino="+destino+"&iddest="+iddest+"&proceso="+proceso);
-	});
-	$(document).on('change',"#prefile",function(e){
-		e.preventDefault();
-		var control=$(this).attr('id');
-		var accept=$(this).attr('accept');
-
-		var fileSelect = document.getElementById(control);
-		var files = fileSelect.files;
-		var formData = new FormData();
-		for (var i = 0; i < files.length; i++) {
-		   var file = files[i];
-		   formData.append('photos'+i, file, file.name);
-		}
-		var tam=(fileSelect.files[0].size/1024)/1024;
-		if (tam<30){
-			var xhr = new XMLHttpRequest();
-			xhr.open('POST','control_db.php?function=subir_file&ctrl=control');
-			xhr.onload = function() {
-			};
-			xhr.upload.onprogress = function (event) {
-				var complete = Math.round(event.loaded / event.total * 100);
-				if (event.lengthComputable) {
-					btnfile.style.display="none";
-					progress_file.style.display="block";
-					progress_file.value = progress_file.innerHTML = complete;
-					// conteo.innerHTML = "Cargando: "+ nombre +" ( "+complete+" %)";
-				}
-			};
-			xhr.onreadystatechange = function(){
-				if(xhr.readyState === 4 && xhr.status === 200){
-					progress_file.style.display="none";
-					btnfile.style.display="block";
-					try {
-						var data = JSON.parse(xhr.response);
-						for (i = 0; i < data.length; i++) {
-							$("#contenedor_file").html("<div style='border:0;float:left;margin:10px;'>"+
-							"<input type='hidden' id='direccion' name='direccion' value='"+data[i].archivo+"'>"+
-							"<img src='historial/"+data[i].archivo+"' width='300px'></div>");
-						}
-					}
-					catch (err) {
-					   alert(xhr.response);
-					}
-				}
-			}
-			xhr.send(formData);
-		}
-		else{
-			alert("Archivo muy grande");
-		}
-	});
-	$(document).on('submit','#upload_File',function(e){
-		e.preventDefault();
-		var funcion="guardar_file";
-		var destino = $("#destino").val();
-		var iddest = $("#iddest").val();
-		var proceso="control_db.php";
-
-		if ( $("#direccion").length ) {
-			var dataString = $(this).serialize()+"&function="+funcion+"&ctrl=control";
-			$.ajax({
-				data:  dataString,
-				url: proceso,
-				type: "post",
-				success:  function (response) {
-					if (!isNaN(response)){
-						lugar=destino+".php?id="+iddest;
-						$("#trabajo").load(lugar);
-						$('#myModal').modal('hide');
-						Swal.fire({
-						  type: 'success',
-						  title: "Se cargó correctamente",
-						  showConfirmButton: false,
-						  timer: 1000
-						});
-					}
-					else{
-						$.alert(response);
-					}
-				}
-			});
-		}
-		else{
-			$.alert('Debe seleccionar un archivo');
-		}
-	});
-	$(document).on("click","#fondocambia",function(e){
-		e.preventDefault();
-		var imagen=$("img", this).attr("src");
-		$.ajax({
-			data:  {
-				"imagen":imagen,
-				"ctrl":"control",
-				"function":"fondo"
-			},
-			url:   'control_db.php',
-			type:  'post',
-			success:  function () {
-				$("body").css("background-image","url('"+imagen+"')");
 			}
 		});
 	});
-
 	$(document).on('click','#sidebarCollapse', function () {
 		$('#sidebar').toggleClass('active');
   });
@@ -830,3 +712,107 @@
 				$( "#telefono" ).val("");
 			}
 		});
+
+	//////////////////////subir archivos
+	$(document).on("click","[id^='fileup_']",function(e){
+		e.preventDefault();
+		var id = $(this).data('id');
+		var ruta = $(this).data('ruta');
+		var tipo = $(this).data('tipo');
+		var ext = $(this).data('ext');
+		var tabla = $(this).data('tabla');
+		var campo = $(this).data('campo');
+		var keyt = $(this).data('keyt');
+		var destino = $(this).data('destino');
+		var iddest = $(this).data('iddest');
+		var proceso="";
+		if ( $(this).data('proceso') ) {
+			proceso=$(this).data('proceso');
+		}
+		$("#modal_form").load("archivo.php?id="+id+"&ruta="+ruta+"&ext="+ext+"&tipo="+tipo+"&tabla="+tabla+"&campo="+campo+"&keyt="+keyt+"&destino="+destino+"&iddest="+iddest+"&proceso="+proceso);
+	});
+	$(document).on('change',"#prefile",function(e){
+		e.preventDefault();
+		var control=$(this).attr('id');
+		var accept=$(this).attr('accept');
+
+		var fileSelect = document.getElementById(control);
+		var files = fileSelect.files;
+		var formData = new FormData();
+		for (var i = 0; i < files.length; i++) {
+		   var file = files[i];
+		   formData.append('photos'+i, file, file.name);
+		}
+		var tam=(fileSelect.files[0].size/1024)/1024;
+		if (tam<30){
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST','control_db.php?function=subir_file&ctrl=control');
+			xhr.onload = function() {
+			};
+			xhr.upload.onprogress = function (event) {
+				var complete = Math.round(event.loaded / event.total * 100);
+				if (event.lengthComputable) {
+					btnfile.style.display="none";
+					progress_file.style.display="block";
+					progress_file.value = progress_file.innerHTML = complete;
+					// conteo.innerHTML = "Cargando: "+ nombre +" ( "+complete+" %)";
+				}
+			};
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState === 4 && xhr.status === 200){
+					progress_file.style.display="none";
+					btnfile.style.display="block";
+					try {
+						var data = JSON.parse(xhr.response);
+						for (i = 0; i < data.length; i++) {
+							$("#contenedor_file").html("<div style='border:0;float:left;margin:10px;'>"+
+							"<input type='hidden' id='direccion' name='direccion' value='"+data[i].archivo+"'>"+
+							"<img src='historial/"+data[i].archivo+"' width='300px'></div>");
+						}
+					}
+					catch (err) {
+					   alert(xhr.response);
+					}
+				}
+			}
+			xhr.send(formData);
+		}
+		else{
+			alert("Archivo muy grande");
+		}
+	});
+	$(document).on('submit','#upload_File',function(e){
+		e.preventDefault();
+		var funcion="guardar_file";
+		var destino = $("#destino").val();
+		var iddest = $("#iddest").val();
+		var proceso="control_db.php";
+
+		if ( $("#direccion").length ) {
+			var dataString = $(this).serialize()+"&function="+funcion+"&ctrl=control";
+			$.ajax({
+				data:  dataString,
+				url: proceso,
+				type: "post",
+				success:  function (response) {
+					if (!isNaN(response)){
+						lugar=destino+".php?id="+iddest;
+						$("#trabajo").load(lugar);
+						$('#myModal').modal('hide');
+						Swal.fire({
+						  type: 'success',
+						  title: "Se cargó correctamente",
+						  showConfirmButton: false,
+						  timer: 1000
+						});
+					}
+					else{
+						$.alert(response);
+					}
+				}
+			});
+		}
+		else{
+			$.alert('Debe seleccionar un archivo');
+		}
+	});

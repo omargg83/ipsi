@@ -31,34 +31,29 @@ class Usuario extends ipsi{
 		$sth = $this->dbh->query($sql);
 		return $sth->fetch(PDO::FETCH_OBJ);
 	}
-
 	public function guardar_usuario(){
 		$x="";
 		parent::set_names();
 		$arreglo =array();
-		if (isset($_POST['id'])){$id=$_POST['id'];}
+		$id=$_REQUEST['id'];
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}
-		if (isset($_REQUEST['idtienda'])){
-			$arreglo+=array('idtienda'=>$_REQUEST['idtienda']);
+		if (isset($_REQUEST['usuario'])){
+			$arreglo+=array('usuario'=>$_REQUEST['usuario']);
 		}
-		if (isset($_REQUEST['estado'])){
-			$arreglo+=array('activo'=>$_REQUEST['estado']);
-		}
-		if (isset($_REQUEST['user'])){
-			$arreglo+=array('user'=>$_REQUEST['user']);
+		if (isset($_REQUEST['correo'])){
+			$arreglo+=array('correo'=>$_REQUEST['correo']);
 		}
 		if (isset($_REQUEST['nivel'])){
 			$arreglo+=array('nivel'=>$_REQUEST['nivel']);
 		}
 
 		if($id==0){
-
-			$x.=$this->insert('usuarios', $arreglo);
+			$x=$this->insert('usuarios', $arreglo);
 		}
 		else{
-			$x.=$this->update('usuarios',array('idusuario'=>$id), $arreglo);
+			$x=$this->update('usuarios',array('idusuario'=>$id), $arreglo);
 		}
 		return $x;
 	}

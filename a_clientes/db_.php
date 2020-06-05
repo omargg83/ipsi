@@ -21,18 +21,17 @@ class Cliente extends ipsi{
 		try{
 			self::set_names();
 			$sql="SELECT * FROM clientes";
-			$sth = $this->dbh->prepare($sql);
-			$sth->execute();
+			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
-	public function cliente($id){
+	public function cliente_editar($id){
 		try{
 		  self::set_names();
-		  $sql="select * from clientes where idcliente=:id";
+		  $sql="select * from clientes where id=:id";
 		  $sth = $this->dbh->prepare($sql);
 		  $sth->bindValue(":id",$id);
 		  $sth->execute();
@@ -42,15 +41,12 @@ class Cliente extends ipsi{
 		  return "Database access FAILED!".$e->getMessage();
 		}
 	}
+
 	public function guardar_cliente(){
 		$x="";
 		parent::set_names();
 		$arreglo =array();
-
 		$id=$_REQUEST['id'];
-		if (isset($_REQUEST['profesion'])){
-			$arreglo+=array('profesion'=>$_REQUEST['profesion']);
-		}
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}
@@ -60,6 +56,7 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['apellidom'])){
 			$arreglo+=array('apellidom'=>$_REQUEST['apellidom']);
 		}
+
 		if (isset($_REQUEST['telefono'])){
 			$arreglo+=array('telefono'=>$_REQUEST['telefono']);
 		}
@@ -71,9 +68,24 @@ class Cliente extends ipsi{
 			$x=$this->insert('clientes', $arreglo);
 		}
 		else{
-			$x=$this->update('clientes',array('idcliente'=>$id), $arreglo);
+			$x=$this->update('clientes',array('id'=>$id), $arreglo);
 		}
 		return $x;
+	}
+	public function password(){
+		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
+		if (isset($_REQUEST['pass1'])){$pass1=$_REQUEST['pass1'];}
+		if (isset($_REQUEST['pass2'])){$pass2=$_REQUEST['pass2'];}
+		if(trim($pass1)==($pass2)){
+			$arreglo=array();
+			$passPOST=md5(trim($pass1));
+			$arreglo=array('pass'=>$passPOST);
+			$x=$this->update('clientes',array('id'=>$id), $arreglo);
+			return $x;
+		}
+		else{
+			return "La contraseña no coincide";
+		}
 	}
 }
 

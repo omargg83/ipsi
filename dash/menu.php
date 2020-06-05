@@ -19,7 +19,7 @@
         </ul>
     </li>
     <li>
-        <a href="#">Expediente</a>
+        <a href='#a_preguntas/index' title='Actividades'><i class="far fa-file-alt"></i>Actividades</a>
     </li>
     <li>
         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>

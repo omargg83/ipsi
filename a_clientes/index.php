@@ -8,10 +8,10 @@
 	  </button>
 		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
 			<ul class='navbar-nav mr-auto'>";
-			echo"<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision' data-lugar='a_cliente/lista'><i class='fas fa-list-ul'></i><span>Lista</span></a></li>";
 
+			echo"<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision' data-lugar='a_clientes/lista'><i class='fas fa-list-ul'></i><span>Lista</span></a></li>";
 
-			echo"<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal' data-lugar='a_cliente/editar'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>";
+			echo"<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal' data-lugar='a_clientes/editar'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>";
 
 			echo "</ul>";
 		echo "

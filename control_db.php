@@ -37,38 +37,53 @@
 			try{
 				$userPOST = htmlspecialchars($_REQUEST["userAcceso"]);
 				$passPOST=$_REQUEST["passAcceso"];
+
 				$sql="SELECT* FROM usuarios where (usuario=:usuario) and (UPPER(pass)=UPPER(:pass)) and autoriza=1";
 				$sth = $this->dbh->prepare($sql);
 				$sth->bindValue(":usuario",$userPOST);
 				$sth->bindValue(":pass",$passPOST);
 				$sth->execute();
 
-				 if ($sth->rowCount()>0){
+				if ($sth->rowCount()>0){
 					$suma=1;
-					$CLAVE=$sth->fetch();
+					$CLAVE=$sth->fetch(PDO::FETCH_OBJ);
 					$_SESSION['autoriza']=1;
-					$_SESSION['nombre']=$CLAVE['nombre'];
-					$_SESSION['usuario'] = $CLAVE['usuario'];
-					$_SESSION['pass'] = $CLAVE['pass'];
-					$_SESSION['nivel'] = $CLAVE['nivel'];
+					$_SESSION['admin']=1;
+					$_SESSION['nombre']=$CLAVE->nombre;
+					$_SESSION['usuario'] = $CLAVE->usuario;
+					$_SESSION['nivel'] = $CLAVE->nivel;
 					$_SESSION['pagnivel']=40;
-					$_SESSION['idusuario']=$CLAVE['idusuario'];
-					$_SESSION['remoto']=0;
-
-					$_SESSION['anio']=date("Y");
-					$_SESSION['mes']=date("m");
-					$_SESSION['dia']=date("d");
-					$_SESSION['hasta']=2016;
-					$_SESSION['foco']=mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"));
-					$_SESSION['cfondo']="white";
+					$_SESSION['idusuario']=$CLAVE->idusuario;
 					$arr=array();
 					$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idusuario']);
 					return json_encode($arr);
 				}
 				else {
-					$arr=array();
-					$arr=array('acceso'=>0,'idpersona'=>0);
-					return json_encode($arr);
+					$sql="SELECT * FROM clientes where (correo=:usuario) and (UPPER(pass)=UPPER(:pass)) and autoriza=1";
+					$sth = $this->dbh->prepare($sql);
+					$sth->bindValue(":usuario",$userPOST);
+					$sth->bindValue(":pass",$passPOST);
+					$sth->execute();
+
+					if ($sth->rowCount()>0){
+						$suma=1;
+						$CLAVE=$sth->fetch(PDO::FETCH_OBJ);
+						$_SESSION['autoriza']=1;
+						$_SESSION['admin']=0;
+						$_SESSION['nombre']=$CLAVE->nombre;
+						$_SESSION['usuario'] = $CLAVE->usuario;
+						$_SESSION['nivel'] = $CLAVE->nivel;
+						$_SESSION['pagnivel']=40;
+						$_SESSION['idusuario']=$CLAVE->idusuario;
+						$arr=array();
+						$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idusuario']);
+						return json_encode($arr);
+					}
+					else{
+						$arr=array();
+						$arr=array('acceso'=>0,'idpersona'=>0);
+						return json_encode($arr);
+					}
 				}
 				return $obj;
 			}
@@ -82,74 +97,11 @@
 				$_SESSION['idfondo']="";
 			}
 			if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
-				///////////////////////////sesion abierta
-				$valor=$_SESSION['idfondo'];
-				$x="";
-				$x.="<nav class='navbar navbar-expand-sm navbar-dark fixed-top bg-dark' style='opacity:1;'>";
-					$x.="<button class='btn btn-outline-secondary' type='button' id='sidebarCollapse'>";
-						$x.="<span class='navbar-toggler-icon'></span>";
-					$x.="</button>";
-
-					$x.="<a class='navbar-brand' href='#escritorio/dashboard' style='font-size:10px'>Tic Shop ASASD</a>";
-
-					$x.="<button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#principal' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>";
-						$x.="<i class='fab fa-rocketchat'></i>";
-					$x.="</button>";
-
-					$x.="<div class='collapse navbar-collapse' id='principal'>";
-						$x.="<ul class='navbar-nav mr-auto'>";
-							$x.="<li class='nav-item dropdown'>";
-								$x.="<a class='nav-link navbar-brand' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'></a>";
-							$x.="</li>";
-						$x.="</ul>";
-						$x.="<ul class='nav navbar-nav navbar-right' id='notificaciones'></ul>";
-
-						$x.="<ul class='nav navbar-nav navbar-right' id='fondo'></ul>";
-						$x.="<ul class='nav navbar-nav navbar-right'>";
-							$x.="<li class='nav-item dropdown'>";
-								$x.="<a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>";
-									$x.="<i class='fas fa-user-check'></i>";
-									$x.=$_SESSION['nombre'];
-								$x.="</a>";
-
-								$x.="<div class='dropdown-menu' aria-labelledby='navbarDropdown'>";
-									$x.="<a class='dropdown-item' id='winmodal_pass' data-id='".$_SESSION['idusuario']."' data-lugar='a_usuarios/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</a>";
-								$x.="</div>";
-							$x.="</li>";
-						$x.="</ul>";
-						$x.="<ul class='nav navbar-nav navbar-right'>";
-							$x.="<li class='nav-item'>";
-								$x.="<a class='nav-link pull-left' onclick='salir()'>";
-									$x.="<i class='fas fa-door-open' style='color:red;'></i>Salir";
-								$x.="</a>";
-							$x.="</li>";
-						$x.="</ul>";
-					$x.="</div>";
-				$x.="</nav>";
-
-				$y="";
-				/////////////fin del header
-				$y.="<div class='wrapper'>";
-					$y.="<div class='content navbar-default'>";
-						$y.="<div class='container-fluid'>";
-							$y.="<div class='sidebar sidenav' id='navx'>";
-								$y.="<a href='#escritorio/dashboard' class='activeside'><i class='fas fa-home'></i> <span>Inicio</span></a>";
-								$y.="<a href='#a_productos/index' title='Productos'><i class='fas fa-users '></i> <span>Productos</span></a>";				/////////////// listo
-							$y.="</div>";
-						$y.="</div>";
-						$y.="<div class='fijaproceso main' id='contenido'>";
-						$y.="</div>";
-					$y.="</div>";
-				$y.="</div>";
-
-				$admin=0;
-				$arreglo=array('sess'=>"abierta", 'fondo'=>$valor, 'header'=>$x, 'cuerpo'=>$y, 'admin'=>$admin);
+				$arreglo=array('sess'=>"abierta");
 				///////////////////////////fin sesion abierta
 			}
 			else {
-				///////////////////////////login
-				$valor=$_SESSION['idfondo'];
-				$arreglo=array('sess'=>"cerrada", 'fondo'=>$valor);
+				$arreglo=array('sess'=>"cerrada");
 				//////////////////////////fin login
 			}
 			return json_encode($arreglo);

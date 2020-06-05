@@ -8,7 +8,6 @@
 	<table id='x_cliente' class='table table-striped table-bordered' style='font-size:10pt;'>
 	<thead>
 	<th>#</th>
-	<th>Prof.</th>
 	<th>Nombre</th>
 	<th>Correo</th>
 	<th>Telefono</th>
@@ -18,11 +17,10 @@
 			foreach($pd as $key){
 				echo "<tr id='".$key->id."'' class='edit-t'>";
 					echo "<td>";
-					echo "<div class='btn-group'>";
-					echo "<button class='btn btn-outline-primary btn-sm' id='edit_persona' title='Editar' data-lugar='a_cliente/editar'><i class='fas fa-pencil-alt'></i></button>";
-					echo "</div>";
+						echo "<div class='btn-group'>";
+							echo "<button class='btn btn-outline-primary btn-sm' id='edit_persona' title='Editar' data-lugar='a_clientes/editar'><i class='fas fa-pencil-alt'></i></button>";
+						echo "</div>";
 					echo "</td>";
-					echo "<td>".$key->profesion."</td>";
 					echo "<td>".$key->nombre." ".$key->apellidop." ".$key->apellidom."</td>";
 					echo "<td>".$key->correo."</td>";
 					echo "<td>".$key->telefono."</td>";
