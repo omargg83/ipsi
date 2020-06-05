@@ -2,6 +2,16 @@
 require_once("../control_db.php");
 if (isset($_REQUEST['function'])){$function=$_REQUEST['function'];}	else{ $function="";}
 
+$_SESSION['des']=1;
+if($_SESSION['des']==1 and strlen($function)==0)
+{
+	echo "<div class='alert alert-primary' role='alert'> ARCHIVO:";
+	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
+	echo array_pop($arrayx);
+	echo " : ".$_SERVER['REQUEST_METHOD'];
+	echo "</div>";
+}
+
 class Cuest extends ipsi{
 	public function __construct(){
 		parent::__construct();

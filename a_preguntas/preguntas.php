@@ -3,8 +3,15 @@
     require_once("db_.php");
     $id=$_REQUEST['id'];
     $idcuest=$_REQUEST['idcuest'];
-
-    $row=$db->pregunta_edit($id);
+    $orden="";
+    $pregunta="";
+    $tipo="";
+    if($id>0){
+      $row=$db->pregunta_edit($id);
+      $orden=$row->orden;
+      $pregunta=$row->pregunta;
+      $tipo=$row->tipo;
+    }
   ?>
 
     <div class='container'>
@@ -19,20 +26,20 @@
               <div class='row'>
                 <div class='col-2'>
                   <label>Orden</label>
-                  <input type='text' class='form-control' id='orden' name='orden' placeholder='Orden' value='<?php echo $row->orden; ?>' required>
+                  <input type='text' class='form-control' id='orden' name='orden' placeholder='Orden' value='<?php echo $orden; ?>' required>
                 </div>
 
                 <div class='col-6'>
                   <label>Pregunta</label>
-                  <input type='text' class='form-control' id='pregunta' name='pregunta' placeholder='Texto de la pregunta' value='<?php echo $row->pregunta; ?>' required>
+                  <input type='text' class='form-control' id='pregunta' name='pregunta' placeholder='Texto de la pregunta' value='<?php echo $pregunta; ?>' required>
                 </div>
 
                 <div class='col-4'>
                   <label>Pregunta</label>
                   <select class='form-control' id='tipo' name='tipo' onchange='pregunta_tipo()' required>
-                  <option value='radio'>Opcion unica</option>
-                  <option value='caja'>Opcion multiple</option>
-                  <option value='respuesta'>Respuesta abierta</option>
+                  <option value='radio' <?php if($tipo=="radio"){ echo " selected"; } ?>>Opcion unica</option>
+                  <option value='caja' <?php if($tipo=="caja"){ echo " selected"; } ?>>Opcion multiple</option>
+                  <option value='respuesta' <?php if($tipo=="respuesta"){ echo " selected"; } ?>>Respuesta abierta</option>
                   </select>
                 </div>
               </div>

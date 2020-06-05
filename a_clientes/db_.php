@@ -7,7 +7,7 @@ class Cliente extends ipsi{
 	public $nivel_captura;
 	public function __construct(){
 		parent::__construct();
-		$this->doc="a_clientes/papeles/";
+		$this->doc="a_archivos/clientes/";
 
 		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
 

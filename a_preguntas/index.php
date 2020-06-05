@@ -24,6 +24,41 @@
 ?>
 
 <script>
+	function cuestionario(id){
+		$.ajax({
+			data:{
+				"id":id
+			},
+			url: "a_preguntas/cuestionario.php",
+			type: "POST",
+			timeout:1000,
+			beforeSend: function () {
+				$("#cargando").addClass("is-active");
+			},
+			success:function(response){
+				$('#trabajo').html(response);
+			}
+		});
+		$("#cargando").removeClass("is-active");
+	}
+	function preguntas(id,idcuest){
+		$.ajax({
+			data:{
+				"id":id,
+				"idcuest":idcuest,
+			},
+			url: "a_preguntas/preguntas.php",
+			type: "POST",
+			timeout:1000,
+			beforeSend: function () {
+				$("#cargando").addClass("is-active");
+			},
+			success:function(response){
+				$('#actividad').html(response);
+			}
+		});
+		$("#cargando").removeClass("is-active");
+	}
 	function pregunta_tipo(){
 	 var tipo=$('#tipo').val();
 		$.ajax({
@@ -41,38 +76,8 @@
 				$('#pregunta').html(response);
 			}
 		});
-	}
-	function cuestionario(id){
-	 	$.ajax({
-			data:{
-				"id":id
-			},
-			url: "a_preguntas/cuestionario.php",
-			type: "POST",
-			timeout:1000,
-			beforeSend: function () {
 
-			},
-			success:function(response){
-				$('#trabajo').html(response);
-			}
-		});
 	}
-	function preguntas(id,idcuest){
-	 	$.ajax({
-			data:{
-				"id":id,
-				"idcuest":idcuest,
-			},
-			url: "a_preguntas/preguntas.php",
-			type: "POST",
-			timeout:1000,
-			beforeSend: function () {
 
-			},
-			success:function(response){
-				$('#trabajo').html(response);
-			}
-		});
-	}
+
 	</script>

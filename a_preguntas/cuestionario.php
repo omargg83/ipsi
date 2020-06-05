@@ -11,7 +11,7 @@
   $pd=$db->preguntas($idcuest);
 ?>
   <div class='container'>
-		<form id='form_cuestionario' action='' data-lugar='a_preguntas/db_'  data-funcion='guarda_cuestionario'>
+		<form id='form_cuestionario' action='' data-lugar='a_preguntas/db_'  data-funcion='guarda_cuestionario' data-destino='a_preguntas/cuestionario'>
 			<input class='form-control' type='hidden' id='id' NAME='id' value='<?php echo $idcuest; ?>' >
 			<div class='card'>
 				<div class='card-header'>
@@ -38,44 +38,44 @@
 				<div class='card-footer'>
 					<div class='btn-group'>
 						<button type='submit' class='btn btn-outline-secondary btn-sm'><i class='far fa-save'></i> Guardar</button>
+						<button type='button' class='btn btn-outline-secondary btn-sm' onclick='preguntas(0,<?php echo $idcuest; ?>)'><i class="fas fa-plus"></i> Pregunta</button>
 						<button type='button' class='btn btn-outline-secondary btn-sm' id='lista_reg1' data-lugar='a_preguntas/lista'><i class='fas fa-undo-alt'></i> Regresar</button>
 					</div>
 				</div>
 			</div>
 		</form>
+		<div id='actividad'>
+			<h5>Lista de preguntas</h5>
+	    <table id='x_pregunta' class='table table-striped table-bordered' style='font-size:10pt;'>
+	  	<thead>
+	  	<th>-</th>
+			<th>Orden</th>
+	  	<th>Pregunta</th>
+	  	<th>Tipo</th>
+	  	</thead>
+	  	<tbody>
+	  		<?php
+	  			foreach($pd as $key){
+	  				echo "<tr id='".$key->id."''  class='edit-t'>";
 
+							echo "<td>";
+								echo "<div class='btn-group'>";
+								echo "<button class='btn btn-outline-primary btn-sm' onclick='preguntas($key->id,$idcuest)'><i class='fas fa-pencil-alt'></i></button>";
+								echo "</div>";
+							echo "</td>";
 
+							echo "<td>";
+								echo $key->orden;
+							echo "</td>";
 
-		<h5>Lista de preguntas</h5>
-    <table id='x_pregunta' class='table table-striped table-bordered' style='font-size:10pt;'>
-  	<thead>
-  	<th>-</th>
-		<th>Orden</th>
-  	<th>Pregunta</th>
-  	<th>Tipo</th>
-  	</thead>
-  	<tbody>
-  		<?php
-  			foreach($pd as $key){
-  				echo "<tr id='".$key->id."''  class='edit-t'>";
+	  					echo "<td>".$key->pregunta."</td>";
+	  					echo "<td>".$key->tipo."</td>";
 
-						echo "<td>";
-							echo "<div class='btn-group'>";
-							echo "<button class='btn btn-outline-primary btn-sm' onclick='preguntas($key->id,$idcuest)'><i class='fas fa-pencil-alt'></i></button>";
-							echo "</div>";
-						echo "</td>";
-
-						echo "<td>";
-							echo $key->orden;
-						echo "</td>";
-
-  					echo "<td>".$key->pregunta."</td>";
-  					echo "<td>".$key->tipo."</td>";
-
-  				echo "</tr>";
-  			}
-  		?>
-  	</div>
-  	</tbody>
-  	</table>
+	  				echo "</tr>";
+	  			}
+	  		?>
+	  	</div>
+	  	</tbody>
+	  	</table>
+		</div>
   </div>

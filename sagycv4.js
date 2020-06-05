@@ -795,7 +795,8 @@
 				url: proceso,
 				type: "post",
 				success:  function (response) {
-					if (!isNaN(response)){
+					var datos = JSON.parse(response);
+					if (datos.error==0){
 						lugar=destino+".php?id="+iddest;
 						$("#trabajo").load(lugar);
 						$('#myModal').modal('hide');
@@ -807,7 +808,12 @@
 						});
 					}
 					else{
-						$.alert(response);
+						Swal.fire({
+							type: 'info',
+							title: datos.terror,
+							showConfirmButton: false,
+							timer: 1000
+						});
 					}
 				}
 			});
