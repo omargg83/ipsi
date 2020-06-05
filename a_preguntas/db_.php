@@ -6,6 +6,7 @@ class Cuest extends ipsi{
 	public function __construct(){
 		parent::__construct();
 	}
+
 	public function cuestionario_lista(){
 		try{
 			self::set_names();
@@ -17,6 +18,44 @@ class Cuest extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+	public function cuestionario_editar($id){
+		try{
+			self::set_names();
+			$sql="select * from cuestionario where idcuestionario=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function guarda_cuestionario(){
+		try{
+			$arreglo=array();
+			$x="";
+			$id=$_REQUEST['id'];
+
+			if (isset($_REQUEST['nombre'])){
+				$arreglo+=array('nombre'=>$_REQUEST['nombre']);
+			}
+			if (isset($_REQUEST['observaciones'])){
+				$arreglo+=array('observaciones'=>$_REQUEST['observaciones']);
+			}
+			if($id==0){
+				$x=$this->insert('cuestionario', $arreglo);
+			}
+			else{
+				$x=$this->update('cuestionario',array('idcuestionario'=>$id), $arreglo);
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
 	public function preguntas($id){
 		try{
 			self::set_names();
