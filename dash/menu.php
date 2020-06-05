@@ -28,10 +28,3 @@
         <a onclick='salir()' href='#' class="btn btn-sm"><i class="fas fa-sign-out-alt"></i>Salir</a>
     </li>
 </ul>
-
-<!--
-
-        <a href='#dash/index' class='activeside'><i class='fas fa-home'></i><span>Inicio</span></a>
-        <a href='#a_preguntas/index' title='Crear cuestionario'><i class='fas fa-user-tag'></i><span>Cuestionario</span></a>
-
--->
