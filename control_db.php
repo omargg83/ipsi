@@ -19,10 +19,10 @@
 		public function __construct(){
 			date_default_timezone_set("America/Mexico_City");
 			try{
-				$_SESSION['mysqluser']="sagyccom_esponda";
-				$_SESSION['mysqlpass']="esponda123$";
-				$_SESSION['servidor'] ="sagyc.com.mx";
-				$_SESSION['bdd']="sagycrmr_txpika";
+				$_SESSION['mysqluser']="wwipsi_wwipsi";
+				$_SESSION['mysqlpass']="wwipsi123$";
+				$_SESSION['servidor'] ="ipsiapp.com";
+				$_SESSION['bdd']="wwipsi_actividades";
 				$this->dbh = new PDO("mysql:host=".$_SESSION['servidor'].";dbname=".$_SESSION['bdd']."", $_SESSION['mysqluser'], $_SESSION['mysqlpass']);
 				self::set_names();
 			}

@@ -1,2 +1,5 @@
+.well-know/
+cgi-bin/
+*error_log
 historial/
 *error_log

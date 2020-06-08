@@ -21,17 +21,22 @@
 				var datos = JSON.parse(response);
 				if (datos.sess=="cerrada"){
 					$("#sidebar").html("");
+					$("#content").html("");
+					$('#sidebar').addClass('active');
 					$("#modal_dispo").removeClass("modal-lg");
 					$("#modal_form").load("dash/login.php");
+
 					$('#myModal').modal({backdrop: 'static', keyboard: false})
 					$('#myModal').modal('show');
 				}
 				if (datos.sess=="abierta"){
-					$("#cargando").addClass("is-active");
-					$("#modal_dispo").addClass("modal-lg");
+					$("#content").load("dash/index.php");
 					$("#sidebar").load("dash/menu.php");
-					loadContent(location.hash.slice(1));
+
+					$("#modal_dispo").addClass("modal-lg");
+					$('#sidebar').removeClass('active');
 					$("#cargando").removeClass("is-active");
+					loadContent(location.hash.slice(1));
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -105,16 +110,15 @@
 	var hash=url.substring(url.indexOf("#")+1);
 
 	if(hash===url || hash===''){
-		hash='dash/index';
+		hash='dash/dashboard';
 	}
 	function loadContent(hash){
 		$("#cargando").addClass("is-active");
 		var id=$(this).attr('id');
-		if(hash===''){
-			hash= 'dash/index';
+		if(hash==''){
+			hash= 'dash/dashboard';
 		}
 		$('html, body').animate({strollTop:0},'600','swing');
-
 		var destino=hash + '.php';
 		$.ajax({
 			url: destino,
@@ -193,8 +197,14 @@
 			url:   'control_db.php',
 			type:  'post',
 			success:  function (response) {
-				window.location.hash="dash/index";
-				login();
+				$("#sidebar").html("");
+				$("#content").html("");
+				$('#sidebar').addClass('active');
+				$("#modal_dispo").removeClass("modal-lg");
+				$("#modal_form").load("dash/login.php");
+
+				$('#myModal').modal({backdrop: 'static', keyboard: false})
+				$('#myModal').modal('show');
 			}
 		});
 	}
