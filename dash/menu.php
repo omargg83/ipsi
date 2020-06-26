@@ -13,12 +13,15 @@
                 <a href='#a_usuarios/index' title='Usuarios'><i class='fas fa-users'></i>Usuarios</a>
             </li>
             <li>
-                <a href='#a_clientes/index' title='Clientes'><i class='fas fa-user-tag'></i>Clientes</a>
+                <a href='#a_clientes/index' title='Pacientes'><i class='fas fa-user-tag'></i>Pacientes</a>
+            </li>
+            <li>
+                <a href='#a_psicologos/index' title='Clientes'><i class='fas fa-user-tag'></i>Psicólogos</a>
             </li>
         </ul>
     </li>
     <li>
-        <a href='#a_preguntas/index' title='Actividades'><i class="far fa-file-alt"></i>Actividades</a>
+        <a href='#a_actividades/index' title='Actividades'><i class="far fa-file-alt"></i>Actividades</a>
     </li>
 
 </ul>

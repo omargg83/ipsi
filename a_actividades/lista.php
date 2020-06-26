@@ -5,6 +5,8 @@
 	echo "<br>";
 ?>
 	<h5>Lista de actividades</h5>
+
+
 	<table id='x_cliente' class='table table-striped table-bordered' style='font-size:10pt;'>
 	<thead>
 	<th>#</th>
@@ -17,7 +19,7 @@
 				echo "<tr id='".$key->idcuestionario."'' class='edit-t'>";
 					echo "<td>";
 					echo "<div class='btn-group'>";
-						echo "<button class='btn btn-outline-primary btn-sm' onclick='cuestionario($key->idcuestionario)'><i class='fas fa-pencil-alt'></i></button>";
+						echo "<button class='btn btn-outline-primary btn-sm' onclick='actividad($key->idcuestionario)'><i class='fas fa-pencil-alt'></i></button>";
 						echo "</div>";
 					echo "</td>";
 					echo "<td>".$key->idcuestionario."</td>";

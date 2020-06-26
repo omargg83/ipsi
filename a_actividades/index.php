@@ -9,10 +9,10 @@
 		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
 			<ul class='navbar-nav mr-auto'>";
 
-			echo"<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision' data-lugar='a_preguntas/lista'><i class='fas fa-list-ul'></i><span>Lista</span></a></li>";
+			echo"<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision' data-lugar='a_actividades/lista'><i class='fas fa-list-ul'></i><span>Lista</span></a></li>";
 
 
-			echo"<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal' data-lugar='a_preguntas/cuestionario'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>";
+			echo"<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal' data-lugar='a_actividades/cuestionario'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>";
 
 			echo "</ul>";
 		echo "
@@ -24,12 +24,12 @@
 ?>
 
 <script>
-	function cuestionario(id){
+	function actividad(id){
 		$.ajax({
 			data:{
 				"id":id
 			},
-			url: "a_preguntas/cuestionario.php",
+			url: "a_actividades/cuestionario.php",
 			type: "POST",
 			timeout:1000,
 			beforeSend: function () {
@@ -47,7 +47,7 @@
 				"id":id,
 				"idcuest":idcuest,
 			},
-			url: "a_preguntas/preguntas.php",
+			url: "a_actividades/preguntas.php",
 			type: "POST",
 			timeout:1000,
 			beforeSend: function () {

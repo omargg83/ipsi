@@ -15,7 +15,7 @@
   ?>
 
     <div class='container'>
-      <form id='form_comision' action='' data-lugar='a_preguntas/db_'  data-funcion='guarda_pregunta'>
+      <form id='form_comision' action='' data-lugar='a_actividades/db_'  data-funcion='guarda_pregunta'>
         <input class='form-control' type='hidden' id='id' NAME='id' value='<?php echo $id; ?>' >
         <input class='form-control' type='hidden' id='id2' NAME='id2' value='<?php echo $idcuest; ?>' >
         <div class='card'>
@@ -57,7 +57,7 @@
         </div>
       </form>
       <hr>
-      <form id='form_pregunta' action='' data-lugar='a_preguntas/db_'  data-funcion='guarda_respuesta'>
+      <form id='form_pregunta' action='' data-lugar='a_actividades/db_'  data-funcion='guarda_respuesta'>
         <input class='form-control' type='hidden' id='id' NAME='id' value='<?php echo $id; ?>' >
         <input class='form-control' type='hidden' id='id2' NAME='id2' value='<?php echo $idcuest; ?>' >
 

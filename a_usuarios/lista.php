@@ -8,7 +8,6 @@
 	<thead>
 	<th>Numero</th>
 	<th>Nombre</th>
-	<th>Usuario</th>
 	<th>Nivel</th>
 	<th>Tienda</th>
 	<th>Activo</th>
@@ -23,7 +22,6 @@
 					echo "</div>";
 					echo "</td>";
 				echo '<td>'.$key->nombre.'</td>';
-				echo '<td>'.$key->usuario.'</td>';
 				echo '<td>'.$key->nivel.'</td>';
 				echo '<td>'.$key->correo.'</td>';
 				echo '<td>';
