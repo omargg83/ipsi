@@ -3,6 +3,13 @@
 	$pd = $db->cuestionario_lista();
 	echo "<div class='container' style='background-color:".$_SESSION['cfondo']."; '>";
 	echo "<br>";
+
+	echo "<nav aria-label='breadcrumb'>";
+		echo "<ol class='breadcrumb'>";
+			echo "<li class='breadcrumb-item active' aria-current='page'>Actividades</li>";
+		echo "</ol>";
+	echo "</nav>";
+
 ?>
 	<h5>Lista de actividades</h5>
 

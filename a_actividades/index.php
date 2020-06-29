@@ -9,8 +9,7 @@
 		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
 			<ul class='navbar-nav mr-auto'>";
 
-			echo"<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision' data-lugar='a_actividades/lista'><i class='fas fa-list-ul'></i><span>Lista</span></a></li>";
-
+			echo"<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision' data-lugar='a_actividades/lista'><i class='fas fa-list-ul'></i><span>Actividades</span></a></li>";
 
 			echo"<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal' data-lugar='a_actividades/cuestionario'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>";
 
@@ -24,12 +23,12 @@
 ?>
 
 <script>
-	function actividad(id){
+	function actividad(idactividad){
 		$.ajax({
 			data:{
-				"id":id
+				"idactividad":idactividad
 			},
-			url: "a_actividades/cuestionario.php",
+			url: "a_actividades/actividad.php",
 			type: "POST",
 			timeout:1000,
 			beforeSend: function () {
@@ -41,11 +40,11 @@
 		});
 		$("#cargando").removeClass("is-active");
 	}
-	function preguntas(id,idcuest){
+	function preguntas(idactividad,idpregunta){
 		$.ajax({
 			data:{
-				"id":id,
-				"idcuest":idcuest,
+				"idactividad":idactividad,
+				"idpregunta":idpregunta,
 			},
 			url: "a_actividades/preguntas.php",
 			type: "POST",
@@ -54,7 +53,26 @@
 				$("#cargando").addClass("is-active");
 			},
 			success:function(response){
-				$('#actividad').html(response);
+				$('#trabajo').html(response);
+			}
+		});
+		$("#cargando").removeClass("is-active");
+	}
+	function respuestas(idactividad,idpregunta,idrespuesta){
+		$.ajax({
+			data:{
+				"idactividad":idactividad,
+				"idpregunta":idpregunta,
+				"idrespuesta":idrespuesta
+			},
+			url: "a_actividades/respuestas.php",
+			type: "POST",
+			timeout:1000,
+			beforeSend: function () {
+				$("#cargando").addClass("is-active");
+			},
+			success:function(response){
+				$('#trabajo').html(response);
 			}
 		});
 		$("#cargando").removeClass("is-active");

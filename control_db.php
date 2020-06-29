@@ -1,7 +1,7 @@
 <?php
 	if (!isset($_SESSION)) { session_start(); }
-	if (isset($_REQUEST['function'])){$function=$_REQUEST['function'];}	else{ $function="";}
-	if (isset($_REQUEST['ctrl'])){$ctrl=$_REQUEST['ctrl'];}	else{ $ctrl="";}
+	if (isset($_REQUEST['function'])){$function=clean_var($_REQUEST['function']);}	else{ $function="";}
+	if (isset($_REQUEST['ctrl'])){$ctrl=clean_var($_REQUEST['ctrl']);}	else{ $ctrl="";}
 
 	error_reporting(E_ALL);
 	ini_set('display_errors', '1');
@@ -38,19 +38,17 @@
 				$userPOST = htmlspecialchars($_REQUEST["userAcceso"]);
 				$passPOST=$_REQUEST["passAcceso"];
 
-				$sql="SELECT* FROM usuarios where (usuario=:usuario) and (UPPER(pass)=UPPER(:pass)) and autoriza=1";
+				$sql="SELECT * FROM usuarios where correo=:usuario and pass=:pass and autoriza=1";
 				$sth = $this->dbh->prepare($sql);
 				$sth->bindValue(":usuario",$userPOST);
 				$sth->bindValue(":pass",$passPOST);
 				$sth->execute();
-
 				if ($sth->rowCount()>0){
 					$suma=1;
 					$CLAVE=$sth->fetch(PDO::FETCH_OBJ);
 					$_SESSION['autoriza']=1;
 					$_SESSION['admin']=1;
 					$_SESSION['nombre']=$CLAVE->nombre;
-					$_SESSION['usuario'] = $CLAVE->usuario;
 					$_SESSION['nivel'] = $CLAVE->nivel;
 					$_SESSION['pagnivel']=40;
 					$_SESSION['idusuario']=$CLAVE->idusuario;
@@ -450,6 +448,11 @@
 			}
 		}
 }
+	function clean_var($val){
+		$val=htmlspecialchars(strip_tags(trim($val)));
+		return $val;
+	}
+
 	if(strlen($ctrl)>0){
 		$db = new ipsi();
 		if(strlen($function)>0){

@@ -1,8 +1,8 @@
 <?php
 require_once("../control_db.php");
-if (isset($_REQUEST['function'])){$function=$_REQUEST['function'];}	else{ $function="";}
+if (isset($_REQUEST['function'])){$function=clean_var($_REQUEST['function']);}	else{ $function="";}
 
-$_SESSION['des']=1;
+$_SESSION['des']=0;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
 	echo "<div class='alert alert-primary' role='alert'> ARCHIVO:";
@@ -28,7 +28,7 @@ class Cuest extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
-	public function cuestionario_editar($id){
+	public function actividad_editar($id){
 		try{
 			self::set_names();
 			$sql="select * from cuestionario where idcuestionario=:id";
@@ -138,6 +138,63 @@ class Cuest extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+
+	public function respuestas($idpregunta){
+		try{
+			self::set_names();
+			$sql="select * from cuest_respuesta where idpregunta=:idpregunta order by orden";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":idpregunta",$idpregunta);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+
+	}
+	public function respuesta_edit($idrespuesta){
+		try{
+			self::set_names();
+			$sql="select * from cuest_respuesta where id=:idpregunta";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":idpregunta",$idrespuesta);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+
+	}
+	public function guarda_respuesta(){
+		try{
+			$arreglo=array();
+			$x="";
+			$id=$_REQUEST['id'];
+			$idpregunta=$_REQUEST['id2'];
+
+			$respuesta=$_REQUEST['respuesta'];
+			$valor=$_REQUEST['valor'];
+			$orden=$_REQUEST['orden'];
+			$arreglo+=array('respuesta'=>$respuesta);
+			$arreglo+=array('valor'=>$valor);
+			$arreglo+=array('orden'=>$orden);
+
+			if($id==0){
+				$arreglo+=array('idpregunta'=>$idpregunta);
+				$x=$this->insert('cuest_respuesta', $arreglo);
+			}
+			else{
+				$x=$this->update('cuest_respuesta',array('id'=>$id), $arreglo);
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
 }
 
 $db = new Cuest();
