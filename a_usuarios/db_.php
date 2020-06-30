@@ -1,6 +1,6 @@
 <?php
 require_once("../control_db.php");
-if (isset($_REQUEST['function'])){$function=$_REQUEST['function'];}	else{ $function="";}
+
 
 class Usuario extends ipsi{
 
@@ -21,7 +21,12 @@ class Usuario extends ipsi{
 	}
 	public function usuario_lista(){
 		self::set_names();
-		$sql="select * from usuarios";
+		if($_SESSION['nivel']==1){
+			$sql="select * from usuarios";
+		}
+		else{
+			$sql="select * from usuarios where idusuario=".$_SESSION['idusuario']."";
+		}
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
@@ -39,8 +44,11 @@ class Usuario extends ipsi{
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}
-		if (isset($_REQUEST['usuario'])){
-			$arreglo+=array('usuario'=>$_REQUEST['usuario']);
+		if (isset($_REQUEST['apellidop'])){
+			$arreglo+=array('apellidop'=>$_REQUEST['apellidop']);
+		}
+		if (isset($_REQUEST['apellidom'])){
+			$arreglo+=array('apellidom'=>$_REQUEST['apellidom']);
 		}
 		if (isset($_REQUEST['correo'])){
 			$arreglo+=array('correo'=>$_REQUEST['correo']);

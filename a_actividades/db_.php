@@ -1,6 +1,5 @@
 <?php
 require_once("../control_db.php");
-if (isset($_REQUEST['function'])){$function=clean_var($_REQUEST['function']);}	else{ $function="";}
 
 $_SESSION['des']=0;
 if($_SESSION['des']==1 and strlen($function)==0)

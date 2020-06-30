@@ -16,13 +16,15 @@
 		$observaciones=$cuest->observaciones;
 		$tipo=$cuest->tipo;
 	}
-	echo "<div class='container'>";
-		echo "<nav aria-label='breadcrumb'>";
-			echo "<ol class='breadcrumb'>";
-				echo "<li class='breadcrumb-item'>Actividades</li>";
-				echo "<li class='breadcrumb-item active' aria-current='page'>Actividad</li>";
-			echo "</ol>";
-		echo "</nav>";
+
+	echo "<nav aria-label='breadcrumb'>";
+		echo "<ol class='breadcrumb'>";
+			echo "<li class='breadcrumb-item' id='lista_act' data-lugar='a_actividades/lista'>Actividades</li>";
+			echo "<li class='breadcrumb-item active' aria-current='page'>Actividad</li>";
+		echo "</ol>";
+	echo "</nav>";
+
+		echo "<div class='container'>";
 ?>
 		<form id='form_cuestionario' action='' data-lugar='a_actividades/db_'  data-funcion='guarda_cuestionario'>
 			<div class='card'>
@@ -57,8 +59,7 @@
 					<div class='btn-group'>
 						<?php
 							echo "<button type='submit' class='btn btn-outline-secondary btn-sm'><i class='far fa-save'></i> Guardar</button>";
-							echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='preguntas(document.getElementById(\"id\").value,0)'><i class='fas fa-plus'></i> Pregunta</button>";
-							echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='pacientes(document.getElementById(\"id\").value)'><i class='fas fa-user-edit'></i> Pacientes</button>";
+							echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='preguntas(document.getElementById(\"id\").value,0)'><i class='fas fa-plus'></i> Subactividad</button>";
 							echo "<button type='button' class='btn btn-outline-secondary btn-sm' id='lista_reg1' data-lugar='a_actividades/lista'><i class='fas fa-undo-alt'></i> Regresar</button>";
 						?>
 					</div>

@@ -19,10 +19,13 @@
         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-shield"></i> Administrador</a>
         <ul class="collapse list-unstyled" id="homeSubmenu">
           <li>
-              <a href='#a_usuarios/index' title='Usuarios'><i class='fas fa-users'></i>Usuarios</a>
+              <a href='#a_usuarios/index' title='Usuarios'><i class='fas fa-users'></i>Cuentas</a>
           </li>
           <li>
               <a href='#a_clientes/index' title='Pacientes'><i class='fas fa-user-tag'></i>Pacientes</a>
+          </li>
+					<li>
+              <a href='#a_citas/index' title='Pacientes'><i class='fas fa-user-tag'></i>Citas</a>
           </li>
         </ul>
     </li>

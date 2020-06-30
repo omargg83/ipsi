@@ -10,9 +10,9 @@
 			<ul class='navbar-nav mr-auto'>";
 			echo"<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision' data-lugar='a_usuarios/lista'><i class='fas fa-list-ul'></i><span>Lista</span></a></li>";
 
-
-			echo"<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal' data-lugar='a_usuarios/editar'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>";
-
+			if($_SESSION['nivel']==1){
+				echo "<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal' data-lugar='a_usuarios/	editar'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>";
+			}
 			echo "</ul>";
 		echo "
 	  </div>

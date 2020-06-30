@@ -1,6 +1,6 @@
 <?php
 	require_once("db_.php");
-	if (isset($_POST['id'])){$id=$_POST['id'];} else{ $id=0;}
+	if (isset($_POST['id'])){$id=$_REQUEST['id'];} else{ $id=0;}
 
 	$nombre="";
 	$apellidop="";
@@ -9,6 +9,8 @@
 	$correo="";
 	$foto="";
 	$observaciones="";
+	$idusuario="";
+	$per = $db->personal();
 
 	if($id>0){
 		$pd = $db->cliente_editar($id);
@@ -19,7 +21,16 @@
 		$correo=$pd->correo;
 		$foto=$pd->foto;
 		$observaciones=$pd->observaciones;
+		$idusuario=$pd->idusuario;
 	}
+
+	echo "<nav aria-label='breadcrumb'>";
+		echo "<ol class='breadcrumb'>";
+			echo "<li class='breadcrumb-item' id='lista_pacientes' data-lugar='a_clientes/lista'>Mis pacientes</li>";
+			echo "<li class='breadcrumb-item active' aria-current='page'>".$nombre." ".$apellidop." ".$apellidom."</li>";
+			echo "<li class='breadcrumb-item active' aria-current='page'>Ficha de registro</li>";
+		echo "</ol>";
+	echo "</nav>";
 
 ?>
 
@@ -64,6 +75,24 @@
 							<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo;?>" placeholder="Correo" required>
 					</div>
 				</div>
+
+				<div class='row'>
+					<div class='col-sm-4'>
+						<label for='nombre'>Nombre del Psicólogo</label>
+						<select name='idusuario' id='idusuario' class='form-control form-control-sm'>
+						<?php
+							foreach($per as $key){
+								echo  "<option value=".$key->idusuario;
+								if ($key->idusuario==$idusuario){
+									echo  " selected ";
+								}
+								echo  ">".$key->nombre."</option>";
+							}
+						?>
+						</select>
+					</div>
+				</div>
+
 
 				<div class='row'>
 					<div class="col-12">

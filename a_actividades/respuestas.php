@@ -14,16 +14,16 @@
     $valor=$row->valor;
   }
 
-  echo "<div class='container'>";
-    echo "<nav aria-label='breadcrumb'>";
-      echo "<ol class='breadcrumb'>";
-        echo "<li class='breadcrumb-item' >Actividades</li>";
-        echo "<li class='breadcrumb-item' onclick='actividad($idactividad)'>Actividad</li>";
-        echo "<li class='breadcrumb-item' onclick='preguntas($idactividad,$idpregunta)'>Subactividad</li>";
-        echo "<li class='breadcrumb-item active' aria-current='page'>Respuestas</li>";
-      echo "</ol>";
-    echo "</nav>";
+  echo "<nav aria-label='breadcrumb'>";
+    echo "<ol class='breadcrumb'>";
+      echo "<li class='breadcrumb-item' id='lista_act' data-lugar='a_actividades/lista'>Actividades</li>";
+      echo "<li class='breadcrumb-item' onclick='actividad($idactividad)'>Actividad</li>";
+      echo "<li class='breadcrumb-item' onclick='preguntas($idactividad,$idpregunta)'>Subactividad</li>";
+      echo "<li class='breadcrumb-item active' aria-current='page'>Respuestas</li>";
+    echo "</ol>";
+  echo "</nav>";
 
+    echo "<div class='container'>";
     $cuest=$db->actividad_editar($idactividad);
     echo "<div class='card'>";
       echo "<div class='card-header'>";

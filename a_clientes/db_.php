@@ -1,6 +1,5 @@
 <?php
 require_once("../control_db.php");
-if (isset($_REQUEST['function'])){$function=$_REQUEST['function'];}	else{ $function="";}
 
 class Cliente extends ipsi{
 	public $nivel_personal;
@@ -17,20 +16,42 @@ class Cliente extends ipsi{
 			die();
 		}
 	}
+	public function personal(){
+		try{
+			parent::set_names();
+			if($_SESSION['nivel']==1){
+				$sql="select * from usuarios";
+			}
+			else{
+				$sql="select * from usuarios where idusuario='".$_SESSION['idusuario']."'";
+			}
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
 	public function clientes_lista(){
 		try{
 			self::set_names();
-			$sql="SELECT * FROM clientes";
+			if($_SESSION['nivel']==1){
+				$sql="SELECT * FROM clientes";
+			}
+			else{
+				$sql="SELECT * FROM clientes where idusuario='".$_SESSION['idusuario']."'";
+			}
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
-			return "Database access FAILED!".$e->getMessage();
+			return "Database access FAILED!";
 		}
 	}
 	public function cliente_editar($id){
 		try{
-		  self::set_names();
+
 		  $sql="select * from clientes where id=:id";
 		  $sth = $this->dbh->prepare($sql);
 		  $sth->bindValue(":id",$id);
@@ -56,12 +77,14 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['apellidom'])){
 			$arreglo+=array('apellidom'=>$_REQUEST['apellidom']);
 		}
-
 		if (isset($_REQUEST['telefono'])){
 			$arreglo+=array('telefono'=>$_REQUEST['telefono']);
 		}
 		if (isset($_REQUEST['correo'])){
 			$arreglo+=array('correo'=>$_REQUEST['correo']);
+		}
+		if (isset($_REQUEST['idusuario'])){
+			$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
 		}
 		if (isset($_REQUEST['observaciones'])){
 			$arreglo+=array('observaciones'=>$_REQUEST['observaciones']);
@@ -88,6 +111,37 @@ class Cliente extends ipsi{
 		}
 		else{
 			return "La contraseña no coincide";
+		}
+	}
+
+	public function buscar_actividad(){
+		try{
+			$b_actividad=$_REQUEST['b_actividad'];
+			$id=$_REQUEST['id'];
+			$sql="select * from cuestionario where nombre like :nombre and tipo!='inicial'";
+			$sth = $this->dbh->prepare($sql);
+		  $sth->bindValue(":nombre","%".$b_actividad."%");
+		  $sth->execute();
+			$resp=$sth->fetchAll(PDO::FETCH_OBJ);
+			$x="";
+
+			foreach($resp as $key){
+				$x.="<div class='row'>";
+				$x.="<div class='col-2'>";
+					$x.="<div class='btn-group'>";
+					$x.="<button type='button' onclick='actividad_addv(".$key->idcuestionario.",$id)' class='btn btn-outline-secondary btn-sm' title='Seleccionar Actividad'><i class='fas fa-plus'></i></button>";
+					$x.= "</div>";
+				$x.="</div>";
+				$x.="<div class='col-8'>";
+				$x.=$key->nombre;
+				$x.="</div>";
+				$x.="</div>";
+			}
+
+		  return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
 		}
 	}
 }

@@ -4,7 +4,8 @@
 	$id=$_REQUEST['id'];
 
 	$nombre="";
-	$usuario="";
+	$apellidop="";
+	$apellidom="";
 	$autoriza="";
 	$nivel="";
 	$correo="";
@@ -12,7 +13,8 @@
 	if($id>0){
 		$pd = $db->usuario_editar($id);
 		$nombre=$pd->nombre;
-
+		$apellidop=$pd->apellidop;
+		$apellidom=$pd->apellidom;
 		$autoriza=$pd->autoriza;
 		$nivel=$pd->nivel;
 		$correo=$pd->correo;
@@ -44,20 +46,29 @@
 					<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre ;?>" placeholder="Nombre" required>
 				</div>
 
-				<div class="col-4">
-					<label for="">Usuario:</label>
-					<input type="text" class="form-control form-control-sm" name="usuario" id="usuario" value="<?php echo $usuario ;?>" placeholder="Usuario" required>
+				<div class="col-3">
+					<label for="">Apellido Paterno:</label>
+					<input type="text" class="form-control form-control-sm" name="apellidop" id="apellidop" value="<?php echo $apellidop ;?>" placeholder="Apellido Paterno" required>
+				</div>
+
+				<div class="col-3">
+					<label for="">Apellido Materno:</label>
+					<input type="text" class="form-control form-control-sm" name="apellidom" id="apellidom" value="<?php echo $apellidom;?>" placeholder="Apellido Materno" required>
 				</div>
 
 				<div class="col-4">
 					<label for="">Correo:</label>
-					<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo ;?>" placeholder="Usuario" required>
+					<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo ;?>" placeholder="Usuario" required readonly>
 				</div>
 
 				<div class="col-4">
 					<label for="">Nivel:</label>
 					<select class="form-control form-control-sm" name="nivel" id="nivel">
-					  <option value="1"<?php if($nivel=="1") echo "selected"; ?> >1 Administrador</option>
+						<?php
+							if($_SESSION['nivel']==1){
+								echo "<option value='1'"; if($nivel=="1") echo "selected"; echo ">1 Administrador</option>";
+							}
+						 ?>
 					  <option value="2"<?php if($nivel=="2") echo "selected"; ?> >2 Terapeuta</option>
 					</select>
 				</div>
