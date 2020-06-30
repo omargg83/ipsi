@@ -4,19 +4,19 @@
 	$id=$_REQUEST['id'];
 
 	$nombre="";
-
 	$usuario="";
 	$autoriza="";
 	$nivel="";
 	$correo="";
-
+	$foto="";
 	if($id>0){
 		$pd = $db->usuario_editar($id);
 		$nombre=$pd->nombre;
-		$usuario=$pd->usuario;
+
 		$autoriza=$pd->autoriza;
 		$nivel=$pd->nivel;
 		$correo=$pd->correo;
+		$foto=$pd->foto;
 	}
 ?>
 
@@ -27,6 +27,12 @@
 			Usuarios
 		</div>
 		<div class='card-body'>
+			<?php
+				echo "<div class='form-group' id='imagen_div'>";
+					echo "<img src='".$db->doc.trim($foto)."' class='img-thumbnail' width='100px'>";
+				echo "</div>";
+			?>
+
 			<div class='row'>
 				<div class="col-2">
 					<label for="">Numero:</label>
@@ -51,8 +57,8 @@
 				<div class="col-4">
 					<label for="">Nivel:</label>
 					<select class="form-control form-control-sm" name="nivel" id="nivel">
-					  <option value="1"<?php if($nivel=="1") echo "selected"; ?> >1</option>
-					  <option value="2"<?php if($nivel=="2") echo "selected"; ?> >2</option>
+					  <option value="1"<?php if($nivel=="1") echo "selected"; ?> >1 Administrador</option>
+					  <option value="2"<?php if($nivel=="2") echo "selected"; ?> >2 Terapeuta</option>
 					</select>
 				</div>
 			</div>
@@ -65,6 +71,8 @@
 					<button class="btn btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
 					<?php
 						if($id>0){
+							echo "<button type='button' class='btn btn-sm' data-toggle='modal' data-target='#myModal' id='fileup_foto' data-ruta='$db->doc' data-tabla='usuarios' data-campo='foto' data-tipo='1' data-id='$id' data-keyt='idusuario' data-destino='a_clientes/editar' data-iddest='$id' data-ext='.jpg,.png' title='Subir foto'><i class='fas fa-cloud-upload-alt'></i>Foto</button>";
+
 							echo "<button type='button' class='btn btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_usuarios/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</button>";
 						}
 					?>

@@ -24,3 +24,22 @@
 		include 'lista.php';
 	?>
 </div>
+
+<script>
+	function ficha(id){
+		$.ajax({
+			data:{
+				"id":id
+			},
+			url: "a_clientes/editar.php",
+			type: "POST",
+			timeout:1000,
+			beforeSend: function () {
+				$("#cargando").addClass("is-active");
+			},
+			success:function(response){
+				$('#trabajo').html(response);
+			}
+		});
+		$("#cargando").removeClass("is-active");
+	}

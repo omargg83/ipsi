@@ -11,7 +11,7 @@
 
 			echo"<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision' data-lugar='a_actividades/lista'><i class='fas fa-list-ul'></i><span>Actividades</span></a></li>";
 
-			echo"<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal' data-lugar='a_actividades/cuestionario'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>";
+			echo"<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal' data-lugar='a_actividades/actividad'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>";
 
 			echo "</ul>";
 		echo "
@@ -97,5 +97,52 @@
 
 	}
 
+	function pacientes(idactividad){
+		$.ajax({
+			data:{
+				"idactividad":idactividad
+			},
+			url: "a_actividades/pacientes.php",
+			type: "POST",
+			timeout:1000,
+			beforeSend: function () {
+				$("#cargando").addClass("is-active");
+			},
+			success:function(response){
+				$('#trabajo').html(response);
+			}
+		});
+		$("#cargando").removeClass("is-active");
+	}
+
+	function eliminar_act(idactividad){
+		$.confirm({
+			title: 'Eliminar',
+			content: '¿Desea borrar la actividad seleccionada?',
+			buttons: {
+				Aceptar: function () {
+					var parametros={
+						"idactividad":idactividad,
+						"function":"actividad_del"
+					};
+					$.ajax({
+						data:  "a_actividades/db_.php",
+						url: lugar,
+						type:  'post',
+						timeout:10000,
+						success:  function (response) {
+							console.log(response);
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+
+						}
+					});
+				},
+				Cancelar: function () {
+
+				}
+			}
+		});
+	}
 
 	</script>

@@ -8,6 +8,7 @@
 	$telefono="";
 	$correo="";
 	$foto="";
+	$observaciones="";
 
 	if($id>0){
 		$pd = $db->cliente_editar($id);
@@ -17,6 +18,7 @@
 		$telefono=$pd->telefono;
 		$correo=$pd->correo;
 		$foto=$pd->foto;
+		$observaciones=$pd->observaciones;
 	}
 
 ?>
@@ -31,7 +33,7 @@
 			<div class='card-body'>
 				<?php
 					echo "<div class='form-group' id='imagen_div'>";
-						echo "<img src='".$db->doc.trim($foto)."' class='img-thumbnail' width='100%'>";
+						echo "<img src='".$db->doc.trim($foto)."' class='img-thumbnail' width='100px'>";
 					echo "</div>";
 				?>
 
@@ -60,6 +62,13 @@
 					<div class="col-3">
 						<label>Correo:</label>
 							<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo;?>" placeholder="Correo" required>
+					</div>
+				</div>
+
+				<div class='row'>
+					<div class="col-12">
+						<label>Información personal:</label>
+							<textarea class="form-control form-control-sm" name="observaciones" id="observaciones" placeholder="información personal" rows=5><?php echo $observaciones;?></textarea>
 					</div>
 				</div>
 			</div>

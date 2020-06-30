@@ -5,7 +5,7 @@
 	<h5 class='modal-title'>Cambiar contraseña</h5>
 </div>
   <div class='modal-body' >
-	<form id='form_personal' data-lugar='a_psicologos/db_' data-funcion='password'>
+	<form id='form_personal' data-lugar='a_clientes/db_' data-funcion='password'>
 	<?php
 		echo "<input  type='hidden' id='id' NAME='id' value='$id'>";
 	?>

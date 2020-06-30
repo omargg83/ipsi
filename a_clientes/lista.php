@@ -4,35 +4,30 @@
 	echo "<div class='container' style='background-color:".$_SESSION['cfondo']."; '>";
 	echo "<br>";
 ?>
-
-	<table id='x_cliente' class='table table-striped table-bordered' style='font-size:10pt;'>
-	<thead>
-	<th>#</th>
-	<th>Nombre</th>
-	<th>Correo</th>
-	<th>Telefono</th>
-	</thead>
-	<tbody>
+	<div class='row'>
 		<?php
 			foreach($pd as $key){
-				echo "<tr id='".$key->id."'' class='edit-t'>";
-					echo "<td>";
-						echo "<div class='btn-group'>";
-							echo "<button class='btn btn-sm' id='edit_persona' title='Editar' data-lugar='a_clientes/editar'><i class='fas fa-pencil-alt'></i></button>";
+				echo "<div id='".$key->id."'' class='col-4 edit-t'>";
+					echo "<div class='card'>";
+					echo "<div class='card-body'>";
+							echo "<div class='text-center'><img src='".$db->doc.$key->foto."' class='img-fluid img-thumbnail' alt='foto' width='100px'></div>";
+							echo "<div class='text-center'>".$key->nombre." ".$key->apellidop." ".$key->apellidom."</div>";
+							echo "<div class='text-center'>Paciente</div>";
+
+							echo "<div class='row'>";
+								echo "<div class='col-12  text-center'>";
+									echo "<div class='btn-group'>";
+										echo "<button class='btn btn-sm' id='edit_persona' title='Editar' data-lugar='a_clientes/paciente'><i class='fas fa-pencil-alt'></i>Ver perfil</button>";
+									echo "</div>";
+								echo "</div>";
+							echo "</div>";
 						echo "</div>";
-					echo "</td>";
-					echo "<td>".$key->nombre." ".$key->apellidop." ".$key->apellidom."</td>";
-					echo "<td>".$key->correo."</td>";
-					echo "<td>".$key->telefono."</td>";
-				echo "</tr>";
+					echo "</div>";
+				echo "</div>";
 			}
 		?>
-
-
-
 	</div>
-	</tbody>
-	</table>
+
 </div>
 <script>
 	$(document).ready( function () {

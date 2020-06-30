@@ -1,5 +1,14 @@
+<?php
+	session_start();
+?>
 <div class="sidebar-header" id='menu'>
-    <h3>Bootstrap Sidebar</h3>
+    <?php
+      echo "<div class='form-group' id='imagen_div'>";
+        echo "<img src='".$_SESSION['foto']."' class='img-thumbnail' width='100px'>";
+        echo $_SESSION['nombre'];
+        echo $_SESSION['tipo_user'];
+      echo "</div>";
+    ?>
 </div>
 
 <ul class="list-unstyled components">
@@ -9,15 +18,12 @@
     <li >
         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-shield"></i> Administrador</a>
         <ul class="collapse list-unstyled" id="homeSubmenu">
-            <li>
-                <a href='#a_usuarios/index' title='Usuarios'><i class='fas fa-users'></i>Usuarios</a>
-            </li>
-            <li>
-                <a href='#a_clientes/index' title='Pacientes'><i class='fas fa-user-tag'></i>Pacientes</a>
-            </li>
-            <li>
-                <a href='#a_psicologos/index' title='Clientes'><i class='fas fa-user-tag'></i>Psicólogos</a>
-            </li>
+          <li>
+              <a href='#a_usuarios/index' title='Usuarios'><i class='fas fa-users'></i>Usuarios</a>
+          </li>
+          <li>
+              <a href='#a_clientes/index' title='Pacientes'><i class='fas fa-user-tag'></i>Pacientes</a>
+          </li>
         </ul>
     </li>
     <li>

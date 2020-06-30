@@ -1,13 +1,20 @@
 <?php
 	require_once("db_.php");
-  $idactividad=$_REQUEST['idactividad'];
-	$cuest=$db->actividad_editar($idactividad);
+	if(isset($_REQUEST['idactividad'])){
+		$idactividad=$_REQUEST['idactividad'];
+	}
+	else{
+		$idactividad=0;
+	}
+
 	$nombre="";
 	$observaciones="";
-
+	$tipo="";
 	if($idactividad>0){
+		$cuest=$db->actividad_editar($idactividad);
 		$nombre=$cuest->nombre;
 		$observaciones=$cuest->observaciones;
+		$tipo=$cuest->tipo;
 	}
 	echo "<div class='container'>";
 		echo "<nav aria-label='breadcrumb'>";
@@ -17,18 +24,26 @@
 			echo "</ol>";
 		echo "</nav>";
 ?>
-		<form id='form_cuestionario' action='' data-lugar='a_actividades/db_'  data-funcion='guarda_cuestionario' data-destino='a_actividades/cuestionario'>
-			<input class='form-control' type='hidden' id='id' NAME='id' value='<?php echo $idactividad; ?>' >
+		<form id='form_cuestionario' action='' data-lugar='a_actividades/db_'  data-funcion='guarda_cuestionario'>
 			<div class='card'>
 				<div class='card-body'>
 					<div class='row'>
 						<div class='col-2'>
 							<label>Numero</label>
-							<input type='text' class='form-control' id='numero' name='numero' placeholder='Nombre' value='<?php echo $idactividad; ?>' readonly>
+							<input type='text' class='form-control' id='id' name='id' placeholder='Nombre' value='<?php echo $idactividad; ?>' readonly>
 						</div>
-						<div class='col-4'>
+						<div class='col-10'>
 							<label>Nombre</label>
 							<input type='text' class='form-control' id='nombre' name='nombre' placeholder='Nombre' value='<?php echo $nombre; ?>' required>
+						</div>
+						<div class="col-3">
+							<label>Tipo de terapia:</label>
+								<select class='form-control' id='tipo' name='tipo'>
+									<option value='inicial' <?php if($tipo=="inicial"){ echo " selected";} ?>>Inicial</option>
+									<option value='individual' <?php if($tipo=="individual"){ echo " selected";} ?>>Individual</option>
+									<option value='pareja' <?php if($tipo=="pareja"){ echo " selected";} ?>>Pareja</option>
+									<option value='infantil' <?php if($tipo=="infantil"){ echo " selected";} ?>>Infantil</option>
+								</select>
 						</div>
 					</div>
 					<div class='row'>
@@ -42,7 +57,8 @@
 					<div class='btn-group'>
 						<?php
 							echo "<button type='submit' class='btn btn-outline-secondary btn-sm'><i class='far fa-save'></i> Guardar</button>";
-							echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='preguntas($idactividad,0)'><i class='fas fa-plus'></i> Pregunta</button>";
+							echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='preguntas(document.getElementById(\"id\").value,0)'><i class='fas fa-plus'></i> Pregunta</button>";
+							echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='pacientes(document.getElementById(\"id\").value)'><i class='fas fa-user-edit'></i> Pacientes</button>";
 							echo "<button type='button' class='btn btn-outline-secondary btn-sm' id='lista_reg1' data-lugar='a_actividades/lista'><i class='fas fa-undo-alt'></i> Regresar</button>";
 						?>
 					</div>

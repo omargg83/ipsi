@@ -16,7 +16,7 @@
       echo "<nav aria-label='breadcrumb'>";
         echo "<ol class='breadcrumb'>";
           echo "<li class='breadcrumb-item' >Actividades</li>";
-          echo "<li class='breadcrumb-item' >Actividad</li>";
+          echo "<li class='breadcrumb-item' onclick='actividad($idactividad)'>Actividad</li>";
           echo "<li class='breadcrumb-item active' aria-current='page'>Subactividad</li>";
         echo "</ol>";
       echo "</nav>";
@@ -75,7 +75,7 @@
                 <div class='btn-group'>
                   <?php
                     echo "<button type='submit' class='btn btn-outline-secondary btn-sm'><i class='far fa-save'></i> Guardar</button>";
-                    echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='respuestas($idactividad,$idpregunta,0)'><i class='fas fa-plus'></i> Respuesta</button>";
+                    echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='respuestas($idactividad,document.getElementById(\"id\").value,0)'><i class='fas fa-plus'></i> Respuesta</button>";
                     echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='actividad($idactividad)'><i class='fas fa-undo-alt'></i> Regresar</button>";
                   ?>
                 </div>

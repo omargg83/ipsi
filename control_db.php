@@ -19,11 +19,11 @@
 		public function __construct(){
 			date_default_timezone_set("America/Mexico_City");
 			try{
-				$_SESSION['mysqluser']="wwipsi_wwipsi";
-				$_SESSION['mysqlpass']="wwipsi123$";
-				$_SESSION['servidor'] ="ipsiapp.com";
-				$_SESSION['bdd']="wwipsi_actividades";
-				$this->dbh = new PDO("mysql:host=".$_SESSION['servidor'].";dbname=".$_SESSION['bdd']."", $_SESSION['mysqluser'], $_SESSION['mysqlpass']);
+				$mysqluser="root";
+				$mysqlpass="root";
+				$servidor="localhost";
+				$bdd="wwipsi_actividades";
+				$this->dbh = new PDO("mysql:host=$servidor;dbname=$bdd", $mysqluser, $mysqlpass);
 				self::set_names();
 			}
 			catch(PDOException $e){
@@ -50,9 +50,11 @@
 					$_SESSION['admin']=1;
 					$_SESSION['nombre']=$CLAVE->nombre;
 					$_SESSION['nivel'] = $CLAVE->nivel;
+					$_SESSION['tipo_user'] = "Psicólogo";
 					$_SESSION['pagnivel']=40;
 					$_SESSION['idusuario']=$CLAVE->idusuario;
 					$_SESSION['cfondo']="#fff";
+					$_SESSION['foto']="a_archivos/terapeuta/".$CLAVE->foto;
 					$arr=array();
 					$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idusuario']);
 					return json_encode($arr);
@@ -70,11 +72,12 @@
 						$_SESSION['autoriza']=1;
 						$_SESSION['admin']=0;
 						$_SESSION['nombre']=$CLAVE->nombre;
-						$_SESSION['usuario'] = $CLAVE->usuario;
 						$_SESSION['nivel'] = $CLAVE->nivel;
+						$_SESSION['tipo_user'] = "Paciente";
 						$_SESSION['pagnivel']=40;
 						$_SESSION['idusuario']=$CLAVE->idusuario;
 						$_SESSION['cfondo']="#fff";
+						$_SESSION['foto']=$CLAVE->foto;
 						$arr=array();
 						$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idusuario']);
 						return json_encode($arr);

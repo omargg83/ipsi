@@ -53,7 +53,11 @@ class Cuest extends ipsi{
 			if (isset($_REQUEST['observaciones'])){
 				$arreglo+=array('observaciones'=>$_REQUEST['observaciones']);
 			}
+			if (isset($_REQUEST['tipo'])){
+				$arreglo+=array('tipo'=>$_REQUEST['tipo']);
+			}
 			if($id==0){
+				$arreglo+=array('idcreado'=>$_SESSION['idusuario']);
 				$x=$this->insert('cuestionario', $arreglo);
 			}
 			else{

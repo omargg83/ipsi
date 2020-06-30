@@ -63,6 +63,9 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['correo'])){
 			$arreglo+=array('correo'=>$_REQUEST['correo']);
 		}
+		if (isset($_REQUEST['observaciones'])){
+			$arreglo+=array('observaciones'=>$_REQUEST['observaciones']);
+		}
 
 		if($id==0){
 			$x=$this->insert('clientes', $arreglo);
