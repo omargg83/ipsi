@@ -14,7 +14,7 @@
 	<div class='row'>
 	<?php
 		foreach($pd as $key){
-			echo "<div id='".$key->idcuestionario."'' class='col-4 p-3'>";
+			echo "<div id='".$key->idcuestionario."'' class='col-4 p-3 w-50'>";
 				echo "<div class='card'>";
 					echo "<div class='card-body'>";
 						echo "<div class='row'>";

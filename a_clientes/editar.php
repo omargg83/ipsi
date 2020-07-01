@@ -27,7 +27,7 @@
 	echo "<nav aria-label='breadcrumb'>";
 		echo "<ol class='breadcrumb'>";
 			echo "<li class='breadcrumb-item' id='lista_pacientes' data-lugar='a_clientes/lista'>Mis pacientes</li>";
-			echo "<li class='breadcrumb-item active' aria-current='page'>".$nombre." ".$apellidop." ".$apellidom."</li>";
+			echo "<li class='breadcrumb-item active' aria-current='page' onclick='paciente($id)'>".$nombre." ".$apellidop." ".$apellidom."</li>";
 			echo "<li class='breadcrumb-item active' aria-current='page'>Ficha de registro</li>";
 		echo "</ol>";
 	echo "</nav>";
@@ -112,8 +112,8 @@
 
 								echo "<button type='button' class='btn btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</button>";
 							}
+							echo "<button class='btn btn-sm' type='button' onclick='paciente($id)' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>";
 						?>
-						<button class='btn btn-sm' id='lista_penarea' data-lugar='a_clientes/lista' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
 						</div>
 					</div>
 				</div>
