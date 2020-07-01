@@ -72,7 +72,7 @@
 						$_SESSION['autoriza']=1;
 						$_SESSION['admin']=0;
 						$_SESSION['nombre']=$CLAVE->nombre;
-						$_SESSION['nivel'] = $CLAVE->nivel;
+						$_SESSION['nivel'] = 666;
 						$_SESSION['tipo_user'] = "Paciente";
 						$_SESSION['pagnivel']=40;
 						$_SESSION['idusuario']=$CLAVE->idusuario;

@@ -21,7 +21,7 @@
 
 <div class="container">
 	<div class='row'>
-		<div class='col-4'>
+		<div class='col-5'>
 			<div class='row p-3'>
 				<div class='card col-12'>
 					<div class='card-body'>
@@ -43,6 +43,44 @@
 						<h5>TERAPIAS</h5>
 					</div>
 					<div class='card-body'>
+						<div class='row'>
+							<div class='col-4'>
+								<h5>Individual</h5>
+							</div>
+							<div class='col-4'>
+								<h5>Pareja</h5>
+							</div>
+							<div class='col-4'>
+								<h5>Infantil</h5>
+							</div>
+						</div>
+						<div class='row'>
+							<div class='col-4'>
+							<?php
+								$resp=$db->individual($id,'individual','enojo');
+								$num=count($resp);
+								if($num>0){
+										echo "<button type='button' class='btn btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' >Enojo</button>";
+								}
+
+								$resp=$db->individual($id,'individual','ansiedad');
+								$num=count($resp);
+								if($num>0){
+										echo "<button type='button' class='btn btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' >Ansiedad</button>";
+								}
+
+							?>
+
+							</div>
+							<div class='col-4'>
+
+							</div>
+							<div class='col-4'>
+
+							</div>
+						</div>
+					</div>
+					<div class='card-body'>
 						<div class='col-12'>
 							<?php
 								echo "<button type='button' class='btn btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' title='Agregar actividad' >Agregar terapia</button>";
@@ -52,7 +90,7 @@
 				</div>
 			</div>
 		</div>
-		<div class='col-8'>
+		<div class='col-7'>
 			<div class='row p-3'>
 				<div class='card col-12'>
 					<div class='card-body'>

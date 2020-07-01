@@ -83,6 +83,20 @@
 
 	}
 	function actividad_addv(actividad,id){
-		console.log(actividad);
+		$.ajax({
+			data:  {
+				"actividad":actividad,
+				"id":id,
+				"function":"agrega_actividad"
+			},
+			url:   "a_clientes/db_.php",
+			type:  'post',
+			beforeSend: function () {
+				$("#resultadosx").html("buscando...");
+			},
+			success:  function (response) {
+				console.log(response);
+			}
+		});
 	}
 </script>

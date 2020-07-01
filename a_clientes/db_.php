@@ -51,7 +51,6 @@ class Cliente extends ipsi{
 	}
 	public function cliente_editar($id){
 		try{
-
 		  $sql="select * from clientes where id=:id";
 		  $sth = $this->dbh->prepare($sql);
 		  $sth->bindValue(":id",$id);
@@ -65,7 +64,6 @@ class Cliente extends ipsi{
 
 	public function guardar_cliente(){
 		$x="";
-		parent::set_names();
 		$arreglo =array();
 		$id=$_REQUEST['id'];
 		if (isset($_REQUEST['nombre'])){
@@ -139,6 +137,35 @@ class Cliente extends ipsi{
 			}
 
 		  return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function agrega_actividad(){
+		try{
+			$arreglo=array();
+			$idactividad=$_REQUEST['actividad'];
+			$idcliente=$_REQUEST['id'];
+			$arreglo+=array('idcliente'=>$idcliente);
+			$arreglo+=array('idcuestionario'=>$idactividad);
+			$x=$this->insert('cliente_cuestionario', $arreglo);
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
+	public function individual($id,$tipo,$terapia){
+		try{
+			$sql="select * from cliente_cuestionario left outer join cuestionario on cuestionario.idcuestionario=cliente_cuestionario.idcuestionario where cuestionario.tipo=:tipo and cuestionario.terapia=:terapia and cliente_cuestionario.idcliente=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":tipo",$tipo);
+			$sth->bindValue(":terapia",$terapia);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!".$e->getMessage();

@@ -45,6 +45,60 @@
 					echo "</li>";
 				}
 			}
+			else{
+				echo "<li>";
+						echo "<a href='#a_terapias/index' title='Pacientes'><i class='fas fa-user-tag'></i>Actividades</a>";
+				echo "</li>";
+
+				echo "<li >";
+						echo "<a href='#individual' data-toggle='collapse' aria-expanded='false' class='dropdown-toggle'><i class='fas fa-user-shield'></i> T.INDIVIDUAL</a>";
+						echo "<ul class='collapse list-unstyled' id='individual'>";
+							echo "<li>";
+									echo "<a href='#a_usuarios/index' title='Usuarios'><i class='fas fa-users'></i>Cuentas</a>";
+							echo "</li>";
+							echo "<li>";
+									echo "<a href='#a_clientes/index' title='Pacientes'><i class='fas fa-user-tag'></i>Pacientes</a>";
+							echo "</li>";
+							echo "<li>";
+									echo "<a href='#a_citas/index' title='Pacientes'><i class='fas fa-user-tag'></i>Citas</a>";
+							echo "</li>";
+						echo "</ul>";
+				echo "</li>";
+
+				echo "<li >";
+						echo "<a href='#pareja' data-toggle='collapse' aria-expanded='false' class='dropdown-toggle'><i class='fas fa-user-shield'></i> T.PAREJA</a>";
+						echo "<ul class='collapse list-unstyled' id='pareja'>";
+							echo "<li>";
+									echo "<a href='#a_usuarios/index' title='Usuarios'><i class='fas fa-users'></i>Cuentas</a>";
+							echo "</li>";
+							echo "<li>";
+									echo "<a href='#a_clientes/index' title='Pacientes'><i class='fas fa-user-tag'></i>Pacientes</a>";
+							echo "</li>";
+							echo "<li>";
+									echo "<a href='#a_citas/index' title='Pacientes'><i class='fas fa-user-tag'></i>Citas</a>";
+							echo "</li>";
+						echo "</ul>";
+				echo "</li>";
+
+				echo "<li >";
+						echo "<a href='#infantil' data-toggle='collapse' aria-expanded='false' class='dropdown-toggle'><i class='fas fa-user-shield'></i> T.INFANTIL</a>";
+						echo "<ul class='collapse list-unstyled' id='infantil'>";
+							echo "<li>";
+									echo "<a href='#a_usuarios/index' title='Usuarios'><i class='fas fa-users'></i>Cuentas</a>";
+							echo "</li>";
+							echo "<li>";
+									echo "<a href='#a_clientes/index' title='Pacientes'><i class='fas fa-user-tag'></i>Pacientes</a>";
+							echo "</li>";
+							echo "<li>";
+									echo "<a href='#a_citas/index' title='Pacientes'><i class='fas fa-user-tag'></i>Citas</a>";
+							echo "</li>";
+						echo "</ul>";
+				echo "</li>";
+
+				echo "<li>";
+						echo "<a href='#a_clientes/index' title='Pacientes'><i class='fas fa-user-tag'></i>Mi cuenta</a>";
+				echo "</li>";
+			}
 		?>
 
 </ul>

@@ -10,11 +10,13 @@
 	$nombre="";
 	$observaciones="";
 	$tipo="";
+	$terapia="";
 	if($idactividad>0){
 		$cuest=$db->actividad_editar($idactividad);
 		$nombre=$cuest->nombre;
 		$observaciones=$cuest->observaciones;
 		$tipo=$cuest->tipo;
+		$terapia=$cuest->terapia;
 	}
 
 	echo "<nav aria-label='breadcrumb'>";
@@ -45,6 +47,13 @@
 									<option value='individual' <?php if($tipo=="individual"){ echo " selected";} ?>>Individual</option>
 									<option value='pareja' <?php if($tipo=="pareja"){ echo " selected";} ?>>Pareja</option>
 									<option value='infantil' <?php if($tipo=="infantil"){ echo " selected";} ?>>Infantil</option>
+								</select>
+						</div>
+						<div class="col-3">
+							<label>Terapia:</label>
+								<select class='form-control' id='terapia' name='terapia'>
+									<option value='enojo' <?php if($tipo=="enojo"){ echo " selected";} ?>>Enojo</option>
+									<option value='ansiedad' <?php if($tipo=="ansiedad"){ echo " selected";} ?>>Ansiedad</option>
 								</select>
 						</div>
 					</div>
