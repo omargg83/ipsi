@@ -18,7 +18,7 @@ class Cliente extends ipsi{
 	}
 	public function personal(){
 		try{
-			parent::set_names();
+
 			if($_SESSION['nivel']==1){
 				$sql="select * from usuarios";
 			}
@@ -35,7 +35,7 @@ class Cliente extends ipsi{
 	}
 	public function clientes_lista(){
 		try{
-			self::set_names();
+
 			if($_SESSION['nivel']==1){
 				$sql="SELECT * FROM clientes";
 			}

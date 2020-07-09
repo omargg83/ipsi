@@ -20,7 +20,7 @@ class Usuario extends ipsi{
 		}
 	}
 	public function usuario_lista(){
-		self::set_names();
+
 		if($_SESSION['nivel']==1){
 			$sql="select * from usuarios";
 		}
@@ -31,14 +31,14 @@ class Usuario extends ipsi{
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
 	public function usuario_editar($id){
-		self::set_names();
+
 		$sql="select * from usuarios where idusuario='$id'";
 		$sth = $this->dbh->query($sql);
 		return $sth->fetch(PDO::FETCH_OBJ);
 	}
 	public function guardar_usuario(){
 		$x="";
-		parent::set_names();
+
 		$arreglo =array();
 		$id=$_REQUEST['id'];
 		if (isset($_REQUEST['nombre'])){

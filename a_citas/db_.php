@@ -11,7 +11,7 @@ class Cuest extends ipsi{
 	}
 	public function busca_cliente(){
 		try{
-			parent::set_names();
+			
 			$texto=$_REQUEST['texto'];
 			$idcliente=$_REQUEST['idcliente'];
 			$idcita=$_REQUEST['idcita'];
@@ -50,7 +50,7 @@ class Cuest extends ipsi{
 	}
 	public function agrega_cliente(){
 		try{
-			parent::set_names();
+
 			$x="";
 			$idcliente=$_REQUEST['idcliente'];
 			$sql="select * from clientes where idcliente=:id";
@@ -65,7 +65,7 @@ class Cuest extends ipsi{
 	}
 	public function citas_lista(){
 		try{
-			parent::set_names();
+
 			if (isset($_REQUEST['buscar']) and strlen(trim($_REQUEST['buscar']))>0){
 				$texto=trim(htmlspecialchars($_REQUEST['buscar']));
 				$sql="SELECT * from pedidos
@@ -85,7 +85,7 @@ class Cuest extends ipsi{
 	}
 	public function guardar_cita(){
 		try{
-			parent::set_names();
+
 			$id=$_REQUEST['id'];
 			$arreglo =array();
 			$hora=$_REQUEST['hora'];
@@ -158,7 +158,7 @@ class Cuest extends ipsi{
 	}
 	public function editar_cita($id){
 		try{
-			parent::set_names();
+
 			$sql="SELECT * from citas where idcitas=:id";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(':id', "$id");
@@ -188,7 +188,7 @@ class Cuest extends ipsi{
 
 	public function info($id){
 		try{
-			parent::set_names();
+
 			$sql="SELECT * from citas where idcitas=:id";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(':id', "$id");
@@ -265,7 +265,7 @@ class Cuest extends ipsi{
 	}
 	public function citas_calendario($inicio,$fin){
 		try{
-			parent::set_names();
+
 			$inicio=$inicio." 00:00:00";
 			$fin=$fin." 23:59:59";
 			$sql="SELECT * from citas left outer join clientes on clientes.idcliente=citas.idcliente

@@ -18,7 +18,7 @@ class Cuest extends ipsi{
 
 	public function cuestionario_lista(){
 		try{
-			self::set_names();
+
 			$sql="select * from cuestionario";
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -29,7 +29,7 @@ class Cuest extends ipsi{
 	}
 	public function actividad_editar($id){
 		try{
-			self::set_names();
+
 			$sql="select * from cuestionario where idcuestionario=:id";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
@@ -74,7 +74,7 @@ class Cuest extends ipsi{
 
 	public function preguntas($id){
 		try{
-			self::set_names();
+
 			$sql="select * from cuest_pregunta where idcuestionario=:cuest order by orden";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":cuest",$id);
@@ -87,7 +87,7 @@ class Cuest extends ipsi{
 	}
 	public function pregunta_edit($id){
 		try{
-			self::set_names();
+
 			$sql="select * from cuest_pregunta where id=:id";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
@@ -147,7 +147,7 @@ class Cuest extends ipsi{
 
 	public function respuestas($idpregunta){
 		try{
-			self::set_names();
+
 			$sql="select * from cuest_respuesta where idpregunta=:idpregunta order by orden";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":idpregunta",$idpregunta);
@@ -161,7 +161,7 @@ class Cuest extends ipsi{
 	}
 	public function respuesta_edit($idrespuesta){
 		try{
-			self::set_names();
+
 			$sql="select * from cuest_respuesta where id=:idpregunta";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":idpregunta",$idrespuesta);

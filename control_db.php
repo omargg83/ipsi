@@ -20,25 +20,23 @@
 		public function __construct(){
 			date_default_timezone_set("America/Mexico_City");
 			try{
-				/*
+
 				$mysqluser="root";
 				$mysqlpass="root";
 				$servidor="localhost";
 				$bdd="wwipsi_actividades";
-				*/
-				$mysqluser="wwipsi_wwipsi";
+
+				/*$mysqluser="wwipsi_wwipsi";
 				$mysqlpass="wwipsi123$";
 				$servidor="ipsiapp.com";
 				$bdd="wwipsi_actividades";
+				*/
 				$this->dbh = new PDO("mysql:host=$servidor;dbname=$bdd", $mysqluser, $mysqlpass);
-				self::set_names();
+				$this->dbh->query("SET NAMES 'utf8'");
 			}
 			catch(PDOException $e){
 				return "Database access FAILED!".$e->getMessage();
 			}
-		}
-		public function set_names(){
-			return $this->dbh->query("SET NAMES 'utf8'");
 		}
 		public function acceso(){
 			try{
@@ -136,7 +134,6 @@
 		public function insert($DbTableName, $values = array()){
 			$arreglo=array();
 			try{
-				self::set_names();
 				$this->dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 
 				foreach ($values as $field => $v)
@@ -169,7 +166,7 @@
 		public function update($DbTableName, $id = array(), $values = array()){
 			$arreglo=array();
 			try{
-				self::set_names();
+
 				$this->dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 				$x="";
 				$idx="";
@@ -214,7 +211,7 @@
 		public function borrar($DbTableName, $key, $id){
 			$arreglo=array();
 			try{
-				self::set_names();
+
 				$sql="delete from $DbTableName where $key=$id";
 				$sth = $this->dbh->prepare($sql);
 				$a=$sth->execute();
@@ -246,7 +243,7 @@
 		}
 		public function general($sql,$key=""){
 			try{
-				self::set_names();
+
 				$sth = $this->dbh->prepare($sql);
 				$sth->execute();
 				if(strlen($key)==0){
