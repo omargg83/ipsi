@@ -19,7 +19,12 @@ class Cliente extends ipsi{
 
 	public function track_lista(){
 		try{
-			$sql="SELECT * FROM track";
+			if($_SESSION['nivel']==1){
+				$sql="select * from track";
+			}
+			else{
+				$sql="SELECT * FROM track where idusuario='".$_SESSION['idusuario']."'";
+			}
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
@@ -49,8 +54,11 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['video'])){
 			$arreglo+=array('video'=>$_REQUEST['video']);
 		}
+		if (isset($_REQUEST['terapia'])){
+			$arreglo+=array('terapia'=>$_REQUEST['terapia']);
+		}
 		if($id==0){
-			$arreglo+=array('idpersona'=>$_SESSION['idusuario']);
+			$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
 			$x=$this->insert('track', $arreglo);
 		}
 		else{
@@ -61,6 +69,17 @@ class Cliente extends ipsi{
 	public function borrar_track(){
 		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
 		return $this->borrar('track',"id",$id);
+	}
+
+	public function terapias_lista(){
+		try{
+			$sql="select * from terapias ";
+			$sth = $this->dbh->query($sql);
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
 	}
 
 }

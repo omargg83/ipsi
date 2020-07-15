@@ -18,7 +18,6 @@ class Cuest extends ipsi{
 
 	public function cuestionario_lista(){
 		try{
-
 			$sql="select * from cuestionario";
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);

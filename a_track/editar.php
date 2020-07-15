@@ -3,10 +3,14 @@
 	if (isset($_POST['id'])){$id=clean_var($_REQUEST['id']);} else{ $id=0;}
   $nombre="Track nuevo";
 	$video="";
+	$terapia="";
+	$terapia_list=$db->terapias_lista();
+
   if($id>0){
 		$pd = $db->track_editar($id);
     $nombre=$pd->nombre;
     $video=$pd->video;
+    $terapia=$pd->terapia;
   }
 ?>
 
@@ -30,6 +34,20 @@
 					<div class="col-6">
 						<label>Nombre:</label>
 							<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" maxlength="100" required >
+					</div>
+					<div class="col-6">
+						<label>Terapia:</label>
+						<select name='terapia' id='terapia' class='form-control form-control-sm'>
+						<?php
+							foreach($terapia_list as $key){
+								echo  "<option value=".$key->nombre;
+								if ($key->nombre==$terapia){
+									echo  " selected ";
+								}
+								echo  ">".$key->nombre."</option>";
+							}
+						?>
+						</select>
 					</div>
 			  </div>
 				<div class='row'>

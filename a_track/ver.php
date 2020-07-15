@@ -5,6 +5,7 @@
 	$pd = $db->track_editar($id);
   $nombre=$pd->nombre;
   $video=$pd->video;
+  $terapia=$pd->terapia;
 
 ?>
 
@@ -21,7 +22,7 @@
     <input type="hidden" name="id" id="id" value="<?php echo $id;?>">
     <div class='card'>
 			<div class='card-header'>
-				<?php echo $nombre;?>
+				<?php echo "Terapia ".$terapia."/".$nombre;?>
 			</div>
 			<div class='card-body'>
 				<div class='row'>

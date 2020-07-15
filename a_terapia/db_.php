@@ -19,7 +19,7 @@ class Cliente extends ipsi{
 
 	public function terapias_lista(){
 		try{
-			$sql="SELECT * FROM terapias";
+			$sql="select * from terapias";
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
