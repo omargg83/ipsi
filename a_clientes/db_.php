@@ -67,25 +67,46 @@ class Cliente extends ipsi{
 		$arreglo =array();
 		$id=$_REQUEST['id'];
 		if (isset($_REQUEST['nombre'])){
-			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
+			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
 		if (isset($_REQUEST['apellidop'])){
-			$arreglo+=array('apellidop'=>$_REQUEST['apellidop']);
+			$arreglo+=array('apellidop'=>clean_var($_REQUEST['apellidop']));
 		}
 		if (isset($_REQUEST['apellidom'])){
-			$arreglo+=array('apellidom'=>$_REQUEST['apellidom']);
+			$arreglo+=array('apellidom'=>clean_var($_REQUEST['apellidom']));
 		}
 		if (isset($_REQUEST['telefono'])){
-			$arreglo+=array('telefono'=>$_REQUEST['telefono']);
+			$arreglo+=array('telefono'=>clean_var($_REQUEST['telefono']));
 		}
 		if (isset($_REQUEST['correo'])){
-			$arreglo+=array('correo'=>$_REQUEST['correo']);
+			$arreglo+=array('correo'=>clean_var($_REQUEST['correo']));
 		}
 		if (isset($_REQUEST['idusuario'])){
-			$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
+			$arreglo+=array('idusuario'=>clean_var($_REQUEST['idusuario']));
 		}
 		if (isset($_REQUEST['observaciones'])){
-			$arreglo+=array('observaciones'=>$_REQUEST['observaciones']);
+			$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
+		}
+		if (isset($_REQUEST['edad'])){
+			$arreglo+=array('edad'=>clean_var($_REQUEST['edad']));
+		}
+		if (isset($_REQUEST['sexo'])){
+			$arreglo+=array('sexo'=>clean_var($_REQUEST['sexo']));
+		}
+		if (isset($_REQUEST['peso'])){
+			$arreglo+=array('peso'=>clean_var($_REQUEST['peso']));
+		}
+		if (isset($_REQUEST['altura'])){
+			$arreglo+=array('altura'=>clean_var($_REQUEST['altura']));
+		}
+		if (isset($_REQUEST['direccion'])){
+			$arreglo+=array('direccion'=>clean_var($_REQUEST['direccion']));
+		}
+		if (isset($_REQUEST['enfermedades'])){
+			$arreglo+=array('enfermedades'=>clean_var($_REQUEST['enfermedades']));
+		}
+		if (isset($_REQUEST['medicamentos'])){
+			$arreglo+=array('medicamentos'=>clean_var($_REQUEST['medicamentos']));
 		}
 
 		if($id==0){
