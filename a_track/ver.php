@@ -1,13 +1,11 @@
 <?php
 	require_once("db_.php");
 	if (isset($_POST['id'])){$id=clean_var($_REQUEST['id']);} else{ $id=0;}
-  $nombre="Track nuevo";
-	$video="";
-  if($id>0){
-		$pd = $db->track_editar($id);
-    $nombre=$pd->nombre;
-    $video=$pd->video;
-  }
+
+	$pd = $db->track_editar($id);
+  $nombre=$pd->nombre;
+  $video=$pd->video;
+
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -23,19 +21,12 @@
     <input type="hidden" name="id" id="id" value="<?php echo $id;?>">
     <div class='card'>
 			<div class='card-header'>
-				Editar Track
+				<?php echo $nombre;?>
 			</div>
 			<div class='card-body'>
 				<div class='row'>
-					<div class="col-6">
-						<label>Nombre:</label>
-							<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" maxlength="100" required >
-					</div>
-			  </div>
-				<div class='row'>
-					<div class="col-12">
-						<label>Video:</label>
-						<textarea rows="5" name='video' id='video' class="form-control form-control-sm"><?php echo $video; ?></textarea>
+					<div class="col-12 text-center">
+						<?php echo $video; ?>
 					</div>
 			  </div>
 			</div>
@@ -43,8 +34,7 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="btn-group">
-						<button class="btn btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
-            <button class='btn btn-sm' id='lista_penarea' data-lugar='a_track/lista' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
+            	<button class='btn btn-sm' id='lista_penarea' data-lugar='a_track/lista' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
 						</div>
 					</div>
 				</div>

@@ -46,7 +46,11 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
+		if (isset($_REQUEST['video'])){
+			$arreglo+=array('video'=>$_REQUEST['video']);
+		}
 		if($id==0){
+			$arreglo+=array('idpersona'=>$_SESSION['idusuario']);
 			$x=$this->insert('track', $arreglo);
 		}
 		else{
