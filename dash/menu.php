@@ -25,12 +25,23 @@
 				echo "<li>";
 						echo "<a href='#a_clientes/index' title='Pacientes'><i class='fas fa-user-tag'></i>Mis Pacientes</a>";
 				echo "</li>";
+
 				echo "<li>";
-						echo "<a href='#a_actividades/index' title='Actividades'><i class='far fa-file-alt'></i>Actividades</a>";
+						echo "<a href='#a_terapia/index' title='Terapias'><i class='far fa-file-alt'></i>Terapias</a>";
 				echo "</li>";
+				
 				echo "<li>";
 						echo "<a href='#a_track/index' title='Track'><i class='far fa-file-alt'></i>Tracks</a>";
 				echo "</li>";
+
+
+				echo "<li>";
+						echo "<a href='#a_actividades/index' title='Actividades'><i class='far fa-file-alt'></i>Actividades</a>";
+				echo "</li>";
+
+
+
+
 				if($_SESSION['nivel']==1){
 					echo "<li >";
 							echo "<a href='#homeSubmenu' data-toggle='collapse' aria-expanded='false' class='dropdown-toggle'><i class='fas fa-user-shield'></i> Administrador</a>";

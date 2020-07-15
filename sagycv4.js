@@ -334,7 +334,6 @@
 						$("#container").html("<div class='container' style='background-color:white; width:300px'><center><img src='img/giphy.gif' width='300px'></center></div><br><center><div class='alert alert-danger' role='alert'>Ocurrio un error intente de nuevo en unos minutos, vuelva a entrar o presione ctrl + F5, para reintentar</div></center> ");
 					}
 				}
-
 			});
 			$("#cargando").removeClass("is-active");
 		});
@@ -420,7 +419,7 @@
 		$.confirm({
     title: 'Procesar',
     content: '¿Desea procesar los cambios realizados?',
-		type: 'orange',
+		type: 'blue',
     buttons: {
         Aceptar: function () {
 					$.ajax({
@@ -532,10 +531,11 @@
 			div="trabajo";
 		}
 		$.confirm({
-			title: 'Guardar',
-			content: '¿Desea borrar el registro seleccionado?',
+			title: 'Eliminar',
+			content: '¿Desea eliminar el registro seleccionado?',
+			type: 'red',
 			buttons: {
-				Aceptar: function () {
+				Eliminar: function () {
 					var parametros={
 						"id":id,
 						"id2":id2,
@@ -549,18 +549,18 @@
 						type:  'post',
 						timeout:10000,
 						success:  function (response) {
-							if (!isNaN(response)){
-								if (destino != undefined) {
-									$("#"+div).html("");
-									$.ajax({
-										data:  {"id":iddest},
-										url:   destino,
-										type:  'post',
-										success:  function (response) {
-											$("#"+div).html(response);
-										}
-									});
-								}
+							var datos = JSON.parse(response);
+							if (datos.error==0){
+								$.ajax({
+									data:  {
+										"id":iddest
+									},
+									url:   destino,
+									type:  'post',
+									success:  function (response) {
+										$("#"+div).html(response);
+									}
+								});
 								Swal.fire({
 								  type: 'success',
 								  title: "Se eliminó correctamente",
