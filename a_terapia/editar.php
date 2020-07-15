@@ -15,7 +15,6 @@
   </ol>
 </nav>
 
-
 <div class="container">
 	<form action="" id="form_terapia" data-lugar="a_terapia/db_" data-funcion="guardar_terapia" data-destino='a_terapia/editar'>
     <input type="hidden" name="id" id="id" value="<?php echo $id;?>">
