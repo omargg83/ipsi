@@ -1,7 +1,8 @@
 <?php
-	session_start();
 	require_once("control_db.php");
-
+	if(!isset($_SESSION['idusuario']) and strlen($_SESSION['idusuario'])==0){
+		header("location: login/");
+	}
 ?>
 <!DOCTYPE HTML>
 <html lang="es">
@@ -16,19 +17,34 @@
 	<meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
 	<meta http-equiv="Pragma" content="no-cache">
 
-	<link rel="stylesheet" type="text/css" href="style.css"/>
 	<link rel="stylesheet" href="librerias15/load/css-loader.css">
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+	<link rel="stylesheet" href="librerias15/swal/dist/sweetalert2.min.css">
 </head>
 
 	<body>
 
 		<div class="wrapper" id='escritorio'>
-      <!-- Sidebar  -->
-      <nav id="sidebar">
-      </nav>
-      <!-- Page Content  -->
-      <div id="content">
 
+      <nav id="sidebar">
+				<?php
+
+					include ("dash/menu.php");
+
+				 ?>
+      </nav>
+
+      <div id="content">
+				<?php
+
+					include ("dash/header.php");
+
+				 ?>
+				 <div id='contenido'>
+
+				 </div>
       </div>
 		</div>
 
@@ -48,7 +64,6 @@
 
 	<!--   url   -->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
 
 	<!-- Animation library for notifications   -->
   <link href="librerias15/animate.css" rel="stylesheet"/>
@@ -60,7 +75,7 @@
 
 	<!--   Alertas   -->
 	<script src="librerias15/swal/dist/sweetalert2.min.js"></script>
-	<link rel="stylesheet" href="librerias15/swal/dist/sweetalert2.min.css">
+
 
 	<!--   para imprimir   -->
 	<script src="librerias15/VentanaCentrada.js" type="text/javascript"></script>
@@ -92,7 +107,7 @@
 	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/buttons.html5.min.js"></script>
 	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/buttons.print.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css"/>
+
 
 	<!--   Propios   -->
 	<script src="sagycv4.js"></script>

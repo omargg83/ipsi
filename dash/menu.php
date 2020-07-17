@@ -1,6 +1,4 @@
-<?php
-	session_start();
-?>
+
 <div class="sidebar-header" id='menu'>
     <?php
 			echo "<div class='row'>";
@@ -29,7 +27,7 @@
 				echo "<li>";
 						echo "<a href='#a_terapia/index' title='Terapias'><i class='far fa-file-alt'></i>Terapias</a>";
 				echo "</li>";
-				
+
 				echo "<li>";
 						echo "<a href='#a_track/index' title='Track'><i class='far fa-file-alt'></i>Tracks</a>";
 				echo "</li>";

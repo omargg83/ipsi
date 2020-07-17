@@ -1,7 +1,7 @@
-<?php
-	if (!isset($_SESSION)) { session_start(); }
+<?php @session_start();
 	if (isset($_REQUEST['function'])){$function=clean_var($_REQUEST['function']);}	else{ $function="";}
 	if (isset($_REQUEST['ctrl'])){$ctrl=clean_var($_REQUEST['ctrl']);}	else{ $ctrl="";}
+
 
 	error_reporting(E_ALL);
 	ini_set('display_errors', '1');
@@ -21,10 +21,10 @@
 			date_default_timezone_set("America/Mexico_City");
 			try{
 				/*
-				$mysqluser="root";
-				$mysqlpass="root";
-				$servidor="localhost";
-				$bdd="wwipsi_actividades";
+					$mysqluser="root";
+					$mysqlpass="root";
+					$servidor="localhost";
+					$bdd="wwipsi_actividades";
 				*/
 				$mysqluser="wwipsi_wwipsi";
 				$mysqlpass="wwipsi123$";
@@ -38,85 +38,12 @@
 				return "Database access FAILED!".$e->getMessage();
 			}
 		}
-		public function acceso(){
-			try{
-				$userPOST = htmlspecialchars($_REQUEST["userAcceso"]);
-				$passPOST=$_REQUEST["passAcceso"];
-
-				$sql="SELECT * FROM usuarios where correo=:usuario and pass=:pass and autoriza=1";
-				$sth = $this->dbh->prepare($sql);
-				$sth->bindValue(":usuario",$userPOST);
-				$sth->bindValue(":pass",$passPOST);
-				$sth->execute();
-				if ($sth->rowCount()>0){
-					$suma=1;
-					$CLAVE=$sth->fetch(PDO::FETCH_OBJ);
-					$_SESSION['autoriza']=1;
-					$_SESSION['admin']=1;
-					$_SESSION['nombre']=$CLAVE->nombre;
-					$_SESSION['nivel'] = $CLAVE->nivel;
-					$_SESSION['tipo_user'] = "Psicólogo";
-					$_SESSION['pagnivel']=40;
-					$_SESSION['idusuario']=$CLAVE->idusuario;
-					$_SESSION['cfondo']="#fff";
-					$_SESSION['foto']="a_archivos/terapeuta/".$CLAVE->foto;
-					$arr=array();
-					$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idusuario']);
-					return json_encode($arr);
-				}
-				else {
-					$sql="SELECT * FROM clientes where (correo=:usuario) and (UPPER(pass)=UPPER(:pass)) and autoriza=1";
-					$sth = $this->dbh->prepare($sql);
-					$sth->bindValue(":usuario",$userPOST);
-					$sth->bindValue(":pass",$passPOST);
-					$sth->execute();
-
-					if ($sth->rowCount()>0){
-						$suma=1;
-						$CLAVE=$sth->fetch(PDO::FETCH_OBJ);
-						$_SESSION['autoriza']=1;
-						$_SESSION['admin']=0;
-						$_SESSION['nombre']=$CLAVE->nombre;
-						$_SESSION['nivel'] = 666;
-						$_SESSION['tipo_user'] = "Paciente";
-						$_SESSION['pagnivel']=40;
-						$_SESSION['idusuario']=$CLAVE->idusuario;
-						$_SESSION['cfondo']="#fff";
-						$_SESSION['foto']=$CLAVE->foto;
-						$arr=array();
-						$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idusuario']);
-						return json_encode($arr);
-					}
-					else{
-						$arr=array();
-						$arr=array('acceso'=>0,'idpersona'=>0);
-						return json_encode($arr);
-					}
-				}
-				return $obj;
-			}
-			catch(PDOException $e){
-				return "Database access FAILED!".$e->getMessage();
-			}
-		}
-		public function login(){
-			$arreglo=array();
-			if(!isset($_SESSION['idfondo'])){
-				$_SESSION['idfondo']="";
-			}
-			if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
-				$arreglo=array('sess'=>"abierta");
-				///////////////////////////fin sesion abierta
-			}
-			else {
-				$arreglo=array('sess'=>"cerrada");
-				//////////////////////////fin login
-			}
-			return json_encode($arreglo);
-		}
 		public function salir(){
 			$_SESSION['autoriza'] = 0;
 			$_SESSION['idusuario']="";
+			$_SESSION = array();
+			session_unset();
+			session_destroy();
 		}
 		public function ses(){
 			if(isset($_SESSION['autoriza']) and isset($_SESSION['idusuario']) and ($_SESSION['autoriza']==1 and strlen($_SESSION['idusuario'])>0)){

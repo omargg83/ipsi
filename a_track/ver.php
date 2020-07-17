@@ -6,7 +6,6 @@
   $nombre=$pd->nombre;
   $video=$pd->video;
   $terapia=$pd->terapia;
-
 ?>
 
 <nav aria-label='breadcrumb'>
