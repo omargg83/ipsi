@@ -12,31 +12,43 @@
 ?>
 
 	<div class='row'>
+		<div id='' class='col-4 p-3 w-50'>
+			<div class="card" style='height:250px;'>
+				<div class='card-body'>
+					<button class='btn btn-outline-primary btn-sm ' onclick='actividad(0)'><i class='fas fa-pencil-alt'></i>Nueva actividad</button>
+				</div>
+			</div>
+		</div>
+
 	<?php
 		foreach($pd as $key){
-			echo "<div id='".$key->idcuestionario."'' class='col-4 p-3 w-50'>";
-				echo "<div class='card'>";
-					echo "<div class='card-body'>";
-						echo "<div class='row'>";
-							echo "<div class='col-12'>";
-								echo "<div>".$key->nombre."</div>";
-								echo "<div>".$key->observaciones."</div>";
-							echo "</div>";
-						echo "</div>";
-					echo "</div>";
-					echo "<div class='card-body'>";
-						echo "<div class='row'>";
-							echo "<div class='col-12'>";
-								echo "<div class='btn-group'>";
-									echo "<button class='btn btn-outline-primary btn-sm ' onclick='actividad($key->idcuestionario)'><i class='fas fa-pencil-alt'></i>Editar</button>";
-									echo "<button class='btn btn-outline-primary btn-sm ' onclick='eliminar_act($key->idcuestionario)'><i class='far fa-trash-alt'></i>Eliminar</button>";
-								echo "</div>";
-							echo "</div>";
-						echo "</div>";
-					echo "</div>";
-				echo "</div>";
-			echo "</div>";
-		}
 	?>
+			<div id='<?php echo $key->idcuestionario; ?>' class='col-4 p-3 w-50'>
+				<div class='card' style='height:250px;'>
+					<div class='card-body'>
+						<div class='row'>
+							<div class='col-12'>
+								<div><?php echo $key->nombre; ?></div>
+								<div><?php echo $key->observaciones; ?></div>
+							</div>
+						</div>
+					</div>
+					<div class='card-body'>
+						<div class='row'>
+							<div class='col-12'>
+								<div class='btn-group'>
+									<button class='btn btn-outline-primary btn-sm ' onclick='actividad(<?php echo $key->idcuestionario; ?>)'><i class='fas fa-pencil-alt'></i>Editar</button>
+									<button class='btn btn-outline-primary btn-sm ' onclick='eliminar_act(<?php echo $key->idcuestionario; ?>)'><i class='far fa-trash-alt'></i>Eliminar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php
+		}
+		?>
+
+
 	</div>
 </div>

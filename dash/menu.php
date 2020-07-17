@@ -32,13 +32,9 @@
 						echo "<a href='#a_track/index' title='Track'><i class='far fa-file-alt'></i>Tracks</a>";
 				echo "</li>";
 
-
 				echo "<li>";
 						echo "<a href='#a_actividades/index' title='Actividades'><i class='far fa-file-alt'></i>Actividades</a>";
 				echo "</li>";
-
-
-
 
 				if($_SESSION['nivel']==1){
 					echo "<li >";
