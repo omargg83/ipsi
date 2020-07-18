@@ -113,6 +113,6 @@
 
 <ul class="list-unstyled CTAs">
     <li>
-        <a onclick='salir()' href='#' class="btn btn-sm"><i class="fas fa-sign-out-alt"></i>Salir</a>
+        <a onclick='salir()' href='#' class="btn btn-warning btn-sm"><i class="fas fa-sign-out-alt"></i>Salir</a>
     </li>
 </ul>

@@ -14,7 +14,7 @@ echo "<input  type='hidden' id='idpedido' NAME='idpedido' value='$id2'>";
         <div class="input-group mb-3">
         <input type="text" class="form-control" name="prod_venta" id='prod_venta' placeholder='buscar cliente' aria-label="buscar cliente" aria-describedby="basic-addon2" onkeyup='Javascript: if (event.keyCode==13) buscar_cliente()'>
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary btn-sm" type="button" onclick='buscar_cliente()'><i class='fas fa-search'></i>Buscar</button>
+          <button class="btn btn-warning " type="button" onclick='buscar_cliente()'><i class='fas fa-search'></i>Buscar</button>
         </div>
       </div>
     </div>
@@ -23,5 +23,5 @@ echo "<input  type='hidden' id='idpedido' NAME='idpedido' value='$id2'>";
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i>Cerrar</button>
+    <button type="button" class="btn btn-warning " data-dismiss="modal"><i class="fas fa-sign-out-alt"></i>Cerrar</button>
   </div>

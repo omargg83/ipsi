@@ -90,8 +90,8 @@
           <div class='col-12'>
             <div class='btn-group'>
             <?php
-              echo "<button type='submit' class='btn btn-outline-secondary btn-sm'><i class='far fa-save'></i> Guardar</button>";
-              echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='preguntas($idactividad,$idpregunta)'><i class='fas fa-undo-alt'></i> Regresar</button>";
+              echo "<button type='submit' class='btn btn-warning '><i class='far fa-save'></i> Guardar</button>";
+              echo "<button type='button' class='btn btn-warning ' onclick='preguntas($idactividad,$idpregunta)'><i class='fas fa-undo-alt'></i> Regresar</button>";
             ?>
             </div>
           </div>

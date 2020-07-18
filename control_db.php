@@ -10,6 +10,7 @@
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\SMTP;
 
+	require_once("init.php");
 	class ipsi{
 		public $nivel_personal;
 		public $nivel_captura;
@@ -20,18 +21,7 @@
 		public function __construct(){
 			date_default_timezone_set("America/Mexico_City");
 			try{
-				/*
-					$mysqluser="root";
-					$mysqlpass="root";
-					$servidor="localhost";
-					$bdd="wwipsi_actividades";
-				*/
-				$mysqluser="wwipsi_wwipsi";
-				$mysqlpass="wwipsi123$";
-				$servidor="ipsiapp.com";
-				$bdd="wwipsi_actividades";
-
-				$this->dbh = new PDO("mysql:host=$servidor;dbname=$bdd", $mysqluser, $mysqlpass);
+				$this->dbh = new PDO("mysql:host=".SERVIDOR.";dbname=".BDD, MYSQLUSER, MYSQLPASS);
 				$this->dbh->query("SET NAMES 'utf8'");
 			}
 			catch(PDOException $e){

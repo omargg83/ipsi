@@ -13,9 +13,9 @@
 
 	<div class='row'>
 		<div id='' class='col-4 p-3 w-50'>
-			<div class="card" style='height:250px;'>
+			<div class="card" style='height:200px;'>
 				<div class='card-body'>
-					<button class='btn btn-outline-primary btn-sm ' onclick='actividad(0)'><i class='fas fa-pencil-alt'></i>Nueva actividad</button>
+					<button class='btn btn-warning  ' onclick='actividad_editar(0)'><i class='fas fa-pencil-alt'></i>Nueva actividad</button>
 				</div>
 			</div>
 		</div>
@@ -24,7 +24,7 @@
 		foreach($pd as $key){
 	?>
 			<div id='<?php echo $key->idcuestionario; ?>' class='col-4 p-3 w-50'>
-				<div class='card' style='height:250px;'>
+				<div class='card' style='height:200px;'>
 					<div class='card-body'>
 						<div class='row'>
 							<div class='col-12'>
@@ -36,10 +36,7 @@
 					<div class='card-body'>
 						<div class='row'>
 							<div class='col-12'>
-								<div class='btn-group'>
-									<button class='btn btn-outline-primary btn-sm ' onclick='actividad(<?php echo $key->idcuestionario; ?>)'><i class='fas fa-pencil-alt'></i>Editar</button>
-									<button class='btn btn-outline-primary btn-sm ' onclick='eliminar_act(<?php echo $key->idcuestionario; ?>)'><i class='far fa-trash-alt'></i>Eliminar</button>
-								</div>
+								<button class='btn btn-warning btn-block' onclick='actividad_ver(<?php echo $key->idcuestionario; ?>)'><i class="fas fa-marker"></i>Ver</button>
 							</div>
 						</div>
 					</div>

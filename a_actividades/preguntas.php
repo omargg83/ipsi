@@ -75,9 +75,9 @@
               <div class='col-12'>
                 <div class='btn-group'>
                   <?php
-                    echo "<button type='submit' class='btn btn-outline-secondary btn-sm'><i class='far fa-save'></i> Guardar</button>";
-                    echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='respuestas($idactividad,document.getElementById(\"id\").value,0)'><i class='fas fa-plus'></i> Respuesta</button>";
-                    echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='actividad($idactividad)'><i class='fas fa-undo-alt'></i> Regresar</button>";
+                    echo "<button type='submit' class='btn btn-warning '><i class='far fa-save'></i> Guardar</button>";
+                    echo "<button type='button' class='btn btn-warning ' onclick='respuestas($idactividad,document.getElementById(\"id\").value,0)'><i class='fas fa-plus'></i> Respuesta</button>";
+                    echo "<button type='button' class='btn btn-warning ' onclick='actividad($idactividad)'><i class='fas fa-undo-alt'></i> Regresar</button>";
                   ?>
                 </div>
               </div>
@@ -102,7 +102,7 @@
 
               echo "<div class='col-1'>";
                 echo "<div class='btn-group'>";
-                echo "<button class='btn btn-outline-primary btn-sm' onclick='respuestas($idactividad,$idpregunta,$key->id)'><i class='fas fa-pencil-alt'></i></button>";
+                echo "<button class='btn btn-warning ' onclick='respuestas($idactividad,$idpregunta,$key->id)'><i class='fas fa-pencil-alt'></i></button>";
                 echo "</div>";
               echo "</div>";
 

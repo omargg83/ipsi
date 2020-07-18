@@ -17,18 +17,23 @@ body {
 }
 
 i{
-	color: var(--color-panel);
+	/*color: var(--color-panel);
 	width: 21px;
+  */
 }
 i:hover{
 	color:#8f9d80;
 }
 .btn{
-  background-color: var(--color-button) !important;
-  color:var(--color-fuente) !important;
+
 }
 .btn i{
 	color:black;
+	width: 21px;
+}
+
+#icon_menu{
+  color: var(--color-panel);
 	width: 21px;
 }
 

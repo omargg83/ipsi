@@ -7,12 +7,12 @@
 ?>
 
 <script>
-	function actividad(idactividad){
+	function actividad_editar(idactividad){
 		$.ajax({
 			data:{
 				"idactividad":idactividad
 			},
-			url: "a_actividades/actividad.php",
+			url: "a_actividades/actividad_editar.php",
 			type: "POST",
 			timeout:1000,
 			beforeSend: function () {
@@ -24,6 +24,44 @@
 		});
 		$("#cargando").removeClass("is-active");
 	}
+	function actividad_ver(idactividad){
+		$.ajax({
+			data:{
+				"idactividad":idactividad
+			},
+			url: "a_actividades/actividad_ver.php",
+			type: "POST",
+			timeout:1000,
+			beforeSend: function () {
+				$("#cargando").addClass("is-active");
+			},
+			success:function(response){
+				$('#trabajo').html(response);
+			}
+		});
+		$("#cargando").removeClass("is-active");
+	}
+	function subactividad_editar(id,idactividad,tipo){
+		$.ajax({
+			data:{
+				"id":id,
+				"idactividad":idactividad,
+				"tipo":tipo
+			},
+			url: "a_actividades/subactividad_editar.php",
+			type: "POST",
+			timeout:1000,
+			beforeSend: function () {
+				$("#cargando").addClass("is-active");
+			},
+			success:function(response){
+				$('#subactividad').html(response);
+			}
+		});
+		$("#cargando").removeClass("is-active");
+	}
+
+
 	function preguntas(idactividad,idpregunta){
 		$.ajax({
 			data:{

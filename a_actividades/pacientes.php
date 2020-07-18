@@ -31,9 +31,9 @@
           echo "<div class='col-12'>";
             echo "<div class='btn-group'>";
 
-            	echo "<button type='button' class='btn btn-outline-secondary btn-sm' placeholder='Click para agregar Cliente' id='winmodal_cliente' name='winmodal_cliente' data-id='0' data-id2='$idactividad' data-lugar='a_actividades/form_cliente' title='Click para agregar Cliente'><i class='fas fa-user-edit'></i>Asignar a paciente</button>";
-              echo "<button type='button' class='btn btn-outline-secondary btn-sm' onclick='actividad($idactividad)'><i class='fas fa-undo-alt'></i> Regresar</button>";
-              
+            	echo "<button type='button' class='btn btn-warning ' placeholder='Click para agregar Cliente' id='winmodal_cliente' name='winmodal_cliente' data-id='0' data-id2='$idactividad' data-lugar='a_actividades/form_cliente' title='Click para agregar Cliente'><i class='fas fa-user-edit'></i>Asignar a paciente</button>";
+              echo "<button type='button' class='btn btn-warning ' onclick='actividad($idactividad)'><i class='fas fa-undo-alt'></i> Regresar</button>";
+
             echo "</div>";
           echo "</div>";
         echo "</div>";
