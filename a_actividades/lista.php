@@ -1,6 +1,6 @@
 <?php
 	require_once("db_.php");
-	$pd = $db->cuestionario_lista();
+	$pd = $db->actividad_lista();
 
 	echo "<nav aria-label='breadcrumb'>";
 		echo "<ol class='breadcrumb'>";
@@ -23,7 +23,7 @@
 	<?php
 		foreach($pd as $key){
 	?>
-			<div id='<?php echo $key->idcuestionario; ?>' class='col-4 p-3 w-50'>
+			<div id='<?php echo $key->idactividad; ?>' class='col-4 p-3 w-50'>
 				<div class='card' style='height:200px;'>
 					<div class='card-body'>
 						<div class='row'>
@@ -36,7 +36,7 @@
 					<div class='card-body'>
 						<div class='row'>
 							<div class='col-12'>
-								<button class='btn btn-warning btn-block' onclick='actividad_ver(<?php echo $key->idcuestionario; ?>)'><i class="fas fa-marker"></i>Ver</button>
+								<button class='btn btn-warning btn-block' onclick='actividad_ver(<?php echo $key->idactividad; ?>)'><i class="fas fa-marker"></i>Ver</button>
 							</div>
 						</div>
 					</div>

@@ -331,7 +331,7 @@
 						data:  dataString,
 						url: lugar,
 						type: "post",
-						timeout:30000,
+						timeout:10000,
 						success:  function (response) {
 							console.log(response);
 							var datos = JSON.parse(response);
@@ -368,7 +368,6 @@
 								});
 							}
 							else{
-								$("#cargando").removeClass("is-active");
 								Swal.fire({
 									type: 'info',
 									title: datos.terror,
@@ -376,9 +375,12 @@
 									timer: 1000
 								});
 							}
+							$("#cargando").removeClass("is-active");
 						},
 						error: function(jqXHR, textStatus, errorThrown) {
+							$("#cargando").removeClass("is-active");
 							if(textStatus==="timeout") {
+								console.log(response);
 								$.alert("<div class='container' style='background-color:white; width:300px'><center><img src='img/giphy.gif' width='300px'></center></div><br><center><div class='alert alert-danger' role='alert'>Ocurrio un error intente de nuevo en unos minutos, vuelva a entrar o presione ctrl + F5, para reintentar</div></center> ");
 							}
 						}

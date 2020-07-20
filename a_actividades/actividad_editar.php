@@ -30,7 +30,7 @@
 
 	<div class='container'>
 
-		<form id='form_cuestionario' action='' data-lugar='a_actividades/db_'  data-funcion='guarda_cuestionario'>
+		<form id='form_actividad' action='' data-lugar='a_actividades/db_'  data-funcion='guarda_actividad'>
 			<input type='hidden' class='form-control' id='id' name='id' placeholder='Nombre' value='<?php echo $idactividad; ?>' readonly>
 			<div class='card'>
 				<div class="card-header">
@@ -73,9 +73,9 @@
 				<div class='card-footer'>
 					<div class='btn-group'>
 						<?php
-							echo "<button type='submit' class='btn btn-warning '><i class='far fa-save'></i> Guardar</button>";
-							echo "<button type='button' class='btn btn-warning ' onclick='preguntas(document.getElementById(\"id\").value,0)'><i class='fas fa-plus'></i> Subactividad</button>";
-							echo "<button type='button' class='btn btn-warning ' id='lista_reg1' data-lugar='a_actividades/lista'><i class='fas fa-undo-alt'></i> Regresar</button>";
+							echo "<button type='submit' class='btn btn-warning'><i class='far fa-save'></i> Guardar</button>";
+							echo "<button type='button' class='btn btn-warning' id='subact' onclick='preguntas(document.getElementById(\"id\").value,0)'><i class='fas fa-plus'></i> Subactividad</button>";
+							echo "<button type='button' class='btn btn-warning' id='regresar' onclick='actividad_ver(document.getElementById(\"id\").value)'><i class='fas fa-undo-alt'></i> Regresar</button>";
 						?>
 					</div>
 				</div>
