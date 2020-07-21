@@ -41,6 +41,36 @@
 		});
 		$("#cargando").removeClass("is-active");
 	}
+	function eliminar_act(idactividad){
+		$.confirm({
+			title: 'Eliminar',
+			content: '¿Desea borrar la actividad seleccionada?',
+			buttons: {
+				Aceptar: function () {
+					var parametros={
+						"idactividad":idactividad,
+						"function":"actividad_del"
+					};
+					$.ajax({
+						data:  parametros,
+						url: "a_actividades/db_.php",
+						type:  'post',
+						timeout:10000,
+						success:  function (response) {
+							$('#trabajo').load("a_actividades/lista.php");
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+
+						}
+					});
+				},
+				Cancelar: function () {
+
+				}
+			}
+		});
+	}
+
 	function subactividad_editar(id,idactividad,tipo){
 		$.ajax({
 			data:{
@@ -60,6 +90,39 @@
 		});
 		$("#cargando").removeClass("is-active");
 	}
+	function eliminar_subact(id){
+		$.confirm({
+			title: 'Eliminar',
+			content: '¿Desea borrar la actividad seleccionada?',
+			buttons: {
+				Aceptar: function () {
+					var parametros={
+						"id":id,
+						"function":"subactividad_del"
+					};
+					$.ajax({
+						data:  parametros,
+						url: "a_actividades/db_.php",
+						type:  'post',
+						timeout:10000,
+						success:  function (response) {
+							$('#trabajo').load("a_actividades/lista.php");
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+
+						}
+					});
+				},
+				Cancelar: function () {
+
+				}
+			}
+		});
+	}
+
+
+
+
 
 
 	function preguntas(idactividad,idpregunta){
@@ -135,34 +198,6 @@
 		});
 		$("#cargando").removeClass("is-active");
 	}
-	function eliminar_act(idactividad){
-		$.confirm({
-			title: 'Eliminar',
-			content: '¿Desea borrar la actividad seleccionada?',
-			buttons: {
-				Aceptar: function () {
-					var parametros={
-						"idactividad":idactividad,
-						"function":"actividad_del"
-					};
-					$.ajax({
-						data:  "a_actividades/db_.php",
-						url: lugar,
-						type:  'post',
-						timeout:10000,
-						success:  function (response) {
-							console.log(response);
-						},
-						error: function(jqXHR, textStatus, errorThrown) {
 
-						}
-					});
-				},
-				Cancelar: function () {
-
-				}
-			}
-		});
-	}
 
 	</script>

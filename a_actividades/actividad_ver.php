@@ -5,6 +5,7 @@
   $actividad=$db->actividad_editar($idactividad);
 	$subactividad=$db->subactividad_ver($idactividad);
 	$nombre=$actividad->nombre;
+	$observaciones=$actividad->observaciones;
 ?>
 <nav aria-label='breadcrumb'>
   <ol class='breadcrumb'>
@@ -30,6 +31,7 @@
 							<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'imagen')"><i class="fas fa-arrows-alt"></i>Imagen</button>
 							<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'video')"><i class="far fa-trash-alt"></i>Video</button>
 							<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'archivo')"><i class="far fa-copy"></i>Archivo</button>
+							<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'pregunta')"><i class="fas fa-question"></i>Pregunta</button>
 						</div>
 					</div>
 
@@ -39,6 +41,9 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class='card-body'>
+		<?php echo $observaciones; ?>
 	</div>
 </div>
 
@@ -58,11 +63,11 @@
 								<i class="fas fa-plus"></i> <span class="sr-only">Toggle Dropleft</span>
 							</button>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="#"><i class='fas fa-pencil-alt'></i>Editar</a>
-								<a class="dropdown-item" href="#"><i class="fas fa-arrows-alt"></i>Mover</a>
-								<a class="dropdown-item" href="#"><i class="far fa-trash-alt"></i>Eliminar</a>
-								<a class="dropdown-item" href="#"><i class="far fa-copy"></i>Duplicar</a>
-								<a class="dropdown-item" href="#"><i class="fas fa-project-diagram"></i>Condicional</a>
+								<button class="dropdown-item"  onclick="subactividad_editar(<?php echo $key->idsubactividad; ?>,0,0)"><i class='fas fa-pencil-alt'></i>Editar</button>
+								<button class="dropdown-item" ><i class="fas fa-arrows-alt"></i>Mover</button>
+								<button class="dropdown-item" onclick='eliminar_subact(<?php echo $key->idsubactividad; ?>)' ><i class="far fa-trash-alt"></i>Eliminar</button>
+								<button class="dropdown-item" ><i class="far fa-copy"></i>Duplicar</button>
+								<button class="dropdown-item" ><i class="fas fa-project-diagram"></i>Condicional</button>
 							</div>
 						</div>
 					</div>

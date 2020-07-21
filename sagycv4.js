@@ -1,11 +1,11 @@
 	var intval="";
 
 	$(function(){
-		$("#cargando").removeClass("is-active");
-
+		loadContent(location.hash.slice(1));
 		if(intval==""){
 			intval=setInterval(function(){ sesion_ver(); }, 180000);
 		}
+		$("#cargando").removeClass("is-active");
 	});
 
 	$(document).on('submit','#recuperarx',function(e){
@@ -54,6 +54,7 @@
 	$(window).on('hashchange',function(){
 		loadContent(location.hash.slice(1));
 	});
+
 	var url=window.location.href;
 	var hash=url.substring(url.indexOf("#")+1);
 

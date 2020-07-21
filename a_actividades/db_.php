@@ -1,14 +1,13 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=0;
+$_SESSION['des']=1;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
-	echo "<div class='alert alert-primary' role='alert'> ARCHIVO:";
+	echo "ARCHIVO:";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo array_pop($arrayx);
 	echo " : ".$_SERVER['REQUEST_METHOD'];
-	echo "</div>";
 }
 
 class Cuest extends ipsi{
@@ -72,6 +71,15 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+	public function actividad_del(){
+		try{
+			if (isset($_REQUEST['idactividad'])){$idactividad=$_REQUEST['idactividad'];}
+			return $this->borrar('actividad',"idactividad",$idactividad);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
 
 	public function subactividad_ver($id){
 		try{
@@ -100,6 +108,28 @@ class Cuest extends ipsi{
 			if($tipo=="video"){
 				$arreglo+=array('texto'=>$_REQUEST['video']);
 			}
+			if($tipo=="pregunta"){
+				$arreglo+=array('texto'=>clean_var($_REQUEST['pregunta']));
+				$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
+				if(isset($_REQUEST['incisos'])){
+					$arreglo+=array('incisos'=>1);
+				}
+				else{
+					$arreglo+=array('incisos'=>null);
+				}
+				if(isset($_REQUEST['personalizado'])){
+					$arreglo+=array('personalizado'=>1);
+				}
+				else{
+					$arreglo+=array('personalizado'=>null);
+				}
+				if(isset($_REQUEST['usuario'])){
+					$arreglo+=array('usuario'=>1);
+				}
+				else{
+					$arreglo+=array('personalizado'=>null);
+				}
+			}
 
 			if($id==0){
 				$arreglo+=array('idactividad'=>clean_var($_REQUEST['idactividad']));
@@ -115,15 +145,33 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-
-
-
-	public function preguntas($id){
+	public function subactividad_editar($id){
 		try{
-
-			$sql="select * from cuest_pregunta where idactividad=:cuest order by orden";
+			$sql="select * from subactividad where idsubactividad=:id";
 			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":cuest",$id);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function subactividad_del(){
+		try{
+			if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
+			return $this->borrar('subactividad',"idsubactividad",$id);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+
+	public function repuestas($id){
+		try{
+			$sql="select * from respuestas where idsubactividad=:id order by orden";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
@@ -131,6 +179,17 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+
+
+	/////////////////////////////
+
+
+
+
+
+
+
+
 	public function pregunta_edit($id){
 		try{
 

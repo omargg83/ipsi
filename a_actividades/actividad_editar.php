@@ -45,6 +45,13 @@
 						<div class="col-3">
 							<label>Tipo de terapia:</label>
 								<select class='form-control' id='tipo' name='tipo'>
+									<option value='normal' <?php if($tipo=="normal"){ echo " selected";} ?>>Normal</option>
+									<option value='evaluacion' <?php if($tipo=="evaluacion"){ echo " selected";} ?>>Evaluacion</option>
+								</select>
+						</div>
+						<div class="col-3">
+							<label>Tipo de terapia:</label>
+								<select class='form-control' id='track' name='track'>
 									<option value='inicial' <?php if($tipo=="inicial"){ echo " selected";} ?>>Inicial</option>
 									<option value='individual' <?php if($tipo=="individual"){ echo " selected";} ?>>Individual</option>
 									<option value='pareja' <?php if($tipo=="pareja"){ echo " selected";} ?>>Pareja</option>
@@ -71,36 +78,13 @@
 					</div>
 				</div>
 				<div class='card-footer'>
-					<div class='btn-group'>
-						<?php
-							echo "<button type='submit' class='btn btn-warning'><i class='far fa-save'></i> Guardar</button>";
-							echo "<button type='button' class='btn btn-warning' id='subact' onclick='preguntas(document.getElementById(\"id\").value,0)'><i class='fas fa-plus'></i> Subactividad</button>";
-							echo "<button type='button' class='btn btn-warning' id='regresar' onclick='actividad_ver(document.getElementById(\"id\").value)'><i class='fas fa-undo-alt'></i> Regresar</button>";
-						?>
-					</div>
+					<?php
+						echo "<button type='submit' class='btn btn-warning'><i class='far fa-save'></i> Guardar</button>";
+						echo "<button type='button' class='btn btn-warning' id='regresar' onclick='actividad_ver(document.getElementById(\"id\").value)'><i class='fas fa-undo-alt'></i> Regresar</button>";
+					?>
 				</div>
 			</div>
 		</form>
 		<br>
-		<div id='actividad'>
-			<div class='card'>
-				<div class='card-body'>
-					<?php
-					  $pd=$db->preguntas($idactividad);
-						foreach($pd as $key){
-							echo "<div id='".$key->id."''  class='row edit-t'>";
 
-								echo "<div class='col-1'>";
-									echo "<div class='btn-group'>";
-									echo "<button class='btn btn-warning ' onclick='preguntas($idactividad,$key->id)'><i class='fas fa-pencil-alt'></i></button>";
-									echo "</div>";
-								echo "</div>";
-
-								echo "<div class='col-10'>".$key->orden.".-".$key->pregunta."</div>";
-							echo "</div>";
-						}
-					?>
-				</div>
-			</div>
-		</div>
   </div>
