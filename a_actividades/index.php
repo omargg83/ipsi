@@ -109,9 +109,6 @@
 		});
 		$("#cargando").removeClass("is-active");
 	}
-
-
-
 	function eliminar_subact(id){
 		$.confirm({
 			title: 'Eliminar',
@@ -142,12 +139,10 @@
 		});
 	}
 
-
-
-	function respuestas_editar(idrespuesta,idactividad,idsubactividad){
+	function respuestas_editar(id,idactividad,idsubactividad){
 		$.ajax({
 			data:{
-				"idrespuesta":idrespuesta,
+				"id":id,
 				"idactividad":idactividad,
 				"idsubactividad":idsubactividad
 			},

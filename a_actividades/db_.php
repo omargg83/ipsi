@@ -180,20 +180,33 @@ class Cuest extends ipsi{
 		}
 	}
 
-
-	/////////////////////////////
-
-
-
-
-
-
-
-
-	public function pregunta_edit($id){
+	public function guarda_respuesta(){
 		try{
+			$arreglo=array();
+			$x="";
+			$id=clean_var($_REQUEST['id']);
+			$respuesta=clean_var($_REQUEST['respuesta']);
+			$idsubactividad=clean_var($_REQUEST['idsubactividad']);
+			$orden=clean_var($_REQUEST['orden']);
+			$arreglo+=array('respuesta'=>$respuesta);
+			$arreglo+=array('orden'=>$orden);
 
-			$sql="select * from cuest_pregunta where id=:id";
+			if($id==0){
+				$arreglo+=array('idsubactividad'=>$idsubactividad);
+				$x=$this->insert('respuestas', $arreglo);
+			}
+			else{
+				$x=$this->update('respuestas',array('id'=>$id), $arreglo);
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function respuestas_editar($id){
+		try{
+			$sql="select * from respuestas where id=:id";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
@@ -203,108 +216,7 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-	public function pregunta_tipo(){
-		try{
-			$tipo=$_REQUEST['tipo'];
-			$texto="a";
-			if($tipo=="radio"){
-				$texto="<input type='radio' id='customRadio1' name='customRadio'>";
-			}
-			else if($tipo=="caja"){
-				$texto="<input type='checkbox' id='customRadio1' name='customRadio'>";
-			}
-			else{
 
-			}
-			return $texto;
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-  }
-	public function guarda_pregunta(){
-		try{
-			$arreglo=array();
-			$x="";
-			$id=$_REQUEST['id'];
-			$idactividad=$_REQUEST['id2'];
-			$tipo=$_REQUEST['tipo'];
-			$orden=$_REQUEST['orden'];
-			$pregunta=$_REQUEST['pregunta'];
-
-			$arreglo+=array('orden'=>$orden);
-			$arreglo+=array('pregunta'=>$pregunta);
-			$arreglo+=array('tipo'=>$tipo);
-
-			if($id==0){
-				$arreglo+=array('idactividad'=>$idactividad);
-				$x=$this->insert('cuest_pregunta', $arreglo);
-			}
-			else{
-				$x=$this->update('cuest_pregunta',array('id'=>$id), $arreglo);
-			}
-			return $x;
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-	}
-
-	public function respuestas($idpregunta){
-		try{
-
-			$sql="select * from cuest_respuesta where idpregunta=:idpregunta order by orden";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":idpregunta",$idpregunta);
-			$sth->execute();
-			return $sth->fetchAll(PDO::FETCH_OBJ);
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-
-	}
-	public function respuesta_edit($idrespuesta){
-		try{
-
-			$sql="select * from cuest_respuesta where id=:idpregunta";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":idpregunta",$idrespuesta);
-			$sth->execute();
-			return $sth->fetch(PDO::FETCH_OBJ);
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-
-	}
-	public function guarda_respuesta(){
-		try{
-			$arreglo=array();
-			$x="";
-			$id=$_REQUEST['id'];
-			$idpregunta=$_REQUEST['id2'];
-
-			$respuesta=$_REQUEST['respuesta'];
-			$valor=$_REQUEST['valor'];
-			$orden=$_REQUEST['orden'];
-			$arreglo+=array('respuesta'=>$respuesta);
-			$arreglo+=array('valor'=>$valor);
-			$arreglo+=array('orden'=>$orden);
-
-			if($id==0){
-				$arreglo+=array('idpregunta'=>$idpregunta);
-				$x=$this->insert('cuest_respuesta', $arreglo);
-			}
-			else{
-				$x=$this->update('cuest_respuesta',array('id'=>$id), $arreglo);
-			}
-			return $x;
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-	}
 
 
 
