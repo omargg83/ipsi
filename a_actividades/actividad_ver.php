@@ -6,6 +6,7 @@
 	$subactividad=$db->subactividad_ver($idactividad);
 	$nombre=$actividad->nombre;
 	$observaciones=$actividad->observaciones;
+	$indicaciones=$actividad->indicaciones;
 ?>
 <nav aria-label='breadcrumb'>
   <ol class='breadcrumb'>
@@ -43,6 +44,10 @@
 		</div>
 	</div>
 	<div class='card-body'>
+		<p>Indicaciones</p>
+		<?php echo $indicaciones; ?>
+
+		<p>Observaciones</p>
 		<?php echo $observaciones; ?>
 	</div>
 </div>
@@ -63,6 +68,7 @@
 								<i class="fas fa-plus"></i> <span class="sr-only">Toggle Dropleft</span>
 							</button>
 							<div class="dropdown-menu">
+								<button class="dropdown-item"  onclick="subactividad_ver(<?php echo $key->idsubactividad; ?>,0,0)"><i class="far fa-eye"></i>Ver</button>
 								<button class="dropdown-item"  onclick="subactividad_editar(<?php echo $key->idsubactividad; ?>,0,0)"><i class='fas fa-pencil-alt'></i>Editar</button>
 								<button class="dropdown-item" ><i class="fas fa-arrows-alt"></i>Mover</button>
 								<button class="dropdown-item" onclick='eliminar_subact(<?php echo $key->idsubactividad; ?>)' ><i class="far fa-trash-alt"></i>Eliminar</button>

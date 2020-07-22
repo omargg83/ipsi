@@ -1,7 +1,7 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=1;
+$_SESSION['des']=0;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
 	echo "ARCHIVO:";

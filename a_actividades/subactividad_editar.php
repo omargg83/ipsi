@@ -96,40 +96,10 @@
 	  </div>
 	  <div class="card-footer">
 	    <button type='submit' class='btn btn-warning '><i class='far fa-save'></i> Guardar</button>
-			<?php
-			if($tipo=="pregunta"){
-				?>
-				<button type='button' class='btn btn-warning' onclick='respuestas_ver(<?php echo $idactividad; ?>)'><i class="fas fa-plus"></i>Respuestas</button>
-			<?php
-			}
-			?>
 			<button type='button' class='btn btn-warning' onclick='actividad_ver(<?php echo $idactividad; ?>)'><i class="fas fa-undo-alt"></i>Regresar</button>
 	  </div>
 	</div>
 </form>
-
-<div class='card mb-3'>
-	<div class='card-header'>
-		Respuestas
-	</div>
-	<div class='card-body'>
-		<?php
-			$pd=$db->repuestas($id);
-			foreach($pd as $key){
-				echo "<div id='".$key->id."''  class='row edit-t'>";
-
-					echo "<div class='col-1'>";
-						echo "<div class='btn-group'>";
-						echo "<button class='btn btn-warning ' onclick='preguntas($idactividad,$key->id)'><i class='fas fa-pencil-alt'></i></button>";
-						echo "</div>";
-					echo "</div>";
-
-					echo "<div class='col-10'>".$key->orden.".-".$key->respuesta."</div>";
-				echo "</div>";
-			}
-		?>
-	</div>
-</div>
 
 
 <script type="text/javascript">

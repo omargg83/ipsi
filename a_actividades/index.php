@@ -90,6 +90,28 @@
 		});
 		$("#cargando").removeClass("is-active");
 	}
+	function subactividad_ver(id,idactividad,tipo){
+		$.ajax({
+			data:{
+				"id":id,
+				"idactividad":idactividad,
+				"tipo":tipo
+			},
+			url: "a_actividades/subactividad_ver.php",
+			type: "POST",
+			timeout:1000,
+			beforeSend: function () {
+				$("#cargando").addClass("is-active");
+			},
+			success:function(response){
+				$('#subactividad').html(response);
+			}
+		});
+		$("#cargando").removeClass("is-active");
+	}
+
+
+
 	function eliminar_subact(id){
 		$.confirm({
 			title: 'Eliminar',
@@ -122,42 +144,21 @@
 
 
 
-
-
-
-	function preguntas(idactividad,idpregunta){
+	function respuestas_editar(idrespuesta,idactividad,idsubactividad){
 		$.ajax({
 			data:{
+				"idrespuesta":idrespuesta,
 				"idactividad":idactividad,
-				"idpregunta":idpregunta,
+				"idsubactividad":idsubactividad
 			},
-			url: "a_actividades/preguntas.php",
+			url: "a_actividades/respuesta_editar.php",
 			type: "POST",
 			timeout:1000,
 			beforeSend: function () {
 				$("#cargando").addClass("is-active");
 			},
 			success:function(response){
-				$('#trabajo').html(response);
-			}
-		});
-		$("#cargando").removeClass("is-active");
-	}
-	function respuestas(idactividad,idpregunta,idrespuesta){
-		$.ajax({
-			data:{
-				"idactividad":idactividad,
-				"idpregunta":idpregunta,
-				"idrespuesta":idrespuesta
-			},
-			url: "a_actividades/respuestas.php",
-			type: "POST",
-			timeout:1000,
-			beforeSend: function () {
-				$("#cargando").addClass("is-active");
-			},
-			success:function(response){
-				$('#trabajo').html(response);
+				$('#respuestas').html(response);
 			}
 		});
 		$("#cargando").removeClass("is-active");
@@ -181,23 +182,5 @@
 		});
 
 	}
-	function pacientes(idactividad){
-		$.ajax({
-			data:{
-				"idactividad":idactividad
-			},
-			url: "a_actividades/pacientes.php",
-			type: "POST",
-			timeout:1000,
-			beforeSend: function () {
-				$("#cargando").addClass("is-active");
-			},
-			success:function(response){
-				$('#trabajo').html(response);
-			}
-		});
-		$("#cargando").removeClass("is-active");
-	}
-
 
 	</script>
