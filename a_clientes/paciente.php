@@ -60,13 +60,13 @@
 								$resp=$db->individual($id,'individual','enojo');
 								$num=count($resp);
 								if($num>0){
-										echo "<button type='button' class='btn btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' >Enojo</button>";
+										echo "<button type='button' class='btn btn-warning btn-block' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' >Enojo</button>";
 								}
 
 								$resp=$db->individual($id,'individual','ansiedad');
 								$num=count($resp);
 								if($num>0){
-										echo "<button type='button' class='btn btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' >Ansiedad</button>";
+										echo "<button type='button' class='btn btn-warning btn-block' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' >Ansiedad</button>";
 								}
 
 							?>
@@ -83,7 +83,7 @@
 					<div class='card-body'>
 						<div class='col-12'>
 							<?php
-								echo "<button type='button' class='btn btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' title='Agregar actividad' >Agregar terapia</button>";
+								echo "<button type='button' class='btn btn-warning btn-block' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' title='Agregar actividad' >Agregar terapia</button>";
 							?>
 						</div>
 					</div>
@@ -102,13 +102,13 @@
 						</div>
 						<div class='row'>
 							<div class='col-4'>
-								<button class='btn btn-sm btn-block' onclick='ficha(<?php echo $id;?>)'>Ficha de registro</button>
+								<button class='btn btn-warning btn-block btn-block' onclick='ficha(<?php echo $id;?>)'>Ficha de registro</button>
 							</div>
 							<div class='col-4'>
-								<button class='btn btn-sm btn-block' onclick='ficha(<?php echo $id;?>)'>Pruebas iniciales</button>
+								<button class='btn btn-warning btn-block btn-block' onclick='ficha(<?php echo $id;?>)'>Pruebas iniciales</button>
 							</div>
 							<div class='col-4'>
-								<button class='btn btn-sm btn-block' onclick='ficha(<?php echo $id;?>)'>Agenda</button>
+								<button class='btn btn-warning btn-block btn-block' onclick='ficha(<?php echo $id;?>)'>Agenda</button>
 							</div>
 						</div>
 					</div>

@@ -17,19 +17,21 @@
   <input type="hidden" name="idactividad" id="idactividad" value="<?php echo $idactividad; ?>">
   <input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php echo $idsubactividad; ?>">
  <div class="row">
+   <div class="col-2">
+     <label>Orden</label>
+     <input type="text" name="orden" id="orden" value="<?php echo $orden; ?>" class="form-control">
+   </div>
+
    <div class="col-4">
      <label>Inciso</label>
      <input type="text" name="respuesta" id="respuesta" value="<?php echo $respuesta; ?>" class="form-control">
    </div>
-   <div class="col-4">
-     <label>Orden</label>
-     <input type="text" name="orden" id="orden" value="<?php echo $orden; ?>" class="form-control">
-   </div>
+
    <div class="col-4">
      <label>Imagen</label>
+     <input type="file" name="imagen" id="imagen" value="" >
      <div class="custom-file">
        <label class="custom-file-label" for="customFile">Imagen</label>
-       <input type="file" name="imagen" id="imagen" value="" class="custom-file-input">
      </div>
    </div>
  </div>

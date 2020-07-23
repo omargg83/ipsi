@@ -19,7 +19,6 @@
 
 	<link rel="stylesheet" href="librerias15/load/css-loader.css">
 	<link rel="stylesheet" type="text/css" href="style.css"/>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css"/>
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
 	<link rel="stylesheet" href="librerias15/swal/dist/sweetalert2.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/css/uikit.min.css" />
@@ -49,7 +48,7 @@
       </div>
 		</div>
 
-		<div class="loader loader-default is-active" id='cargando' data-text="Cargando"></div>
+		<div class="loader loader-default is-active" id='cargando_div' data-text="Cargando"></div>
 
 		<div class="modal animated fadeInDown" tabindex="-1" role="dialog" id="myModal">
 			<div class="modal-dialog" role="document" id='modal_dispo'>
@@ -59,7 +58,7 @@
 			</div>
 		</div>
 
-</body>
+
 	<!--   Core JS Files   -->
 	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
@@ -94,25 +93,12 @@
 	<link rel="stylesheet" href="librerias15/css/bootstrap.min.css">
 	<script src="librerias15/js/bootstrap.js"></script>
 
-	<!--   Pass   -->
-	<script src="librerias15/jQuery-MD5-master/jquery.md5.js"></script>
-
-	<!--   Tablas  -->
-	<script type="text/javascript" src="librerias15/DataTables/datatables.js"></script>
-	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.min.js"></script>
-	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/dataTables.buttons.min.js"></script>
-	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/buttons.flash.min.js"></script>
-	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/jszip.min.js"></script>
-	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/pdfmake.min.js"></script>
-	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/vfs_fonts.js"></script>
-	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/buttons.html5.min.js"></script>
-	<script type="text/javascript" src="librerias15/DataTables/DataTables-1.10.18/js/buttons.print.min.js"></script>
-
 	<!--   Propios   -->
 	<script src="sagycv4.js"></script>
+	<script src="ipsi.js" type="module"></script>
 	<link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2&display=swap" rel="stylesheet">
 
 	<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/js/uikit.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/js/uikit-icons.min.js"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/js/uikit-icons.min.js"></script>
+</body>
 </html>

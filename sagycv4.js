@@ -1,13 +1,139 @@
-	var intval="";
+	let intval="";
 
-	$(function(){
+	onload = function() {
 		loadContent(location.hash.slice(1));
 		if(intval==""){
 			intval=setInterval(function(){ sesion_ver(); }, 180000);
 		}
-		$("#cargando").removeClass("is-active");
+		cargando(false);
+	};
+
+	function cargando(valor) {
+	  let element = document.getElementById("cargando_div");
+		if(valor){
+			element.classList.add("is-active");
+		}
+		else{
+			element.classList.remove("is-active");
+		}
+	}
+	addEventListener('submit',(e)=> {
+		e.preventDefault();
+
+		let id=e.target.attributes.id.nodeValue;
+		let elemento = document.getElementById(id);
+
+		let lugar=elemento.dataset.lugar;
+		let funcion=elemento.dataset.funcion;
+		let destino=elemento.dataset.destino;
+		let div=elemento.dataset.div;
+		let cmodal=elemento.dataset.cmodal;
+		let cerrar=0;
+		if(div){
+			div="trabajo";
+		}
+		if(lugar){
+			lugar+=".php";
+		}
+		if(cmodal){
+			cerrar=cmodal;
+		}
+
+		var formData = new FormData(elemento);
+		formData.append("function", funcion);
+
+		Swal.fire({
+			title: '¿Desea procesar los cambios realizados?',
+			text: "ya no se podrá deshacer",
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Guardar'
+		}).then((result) => {
+			if (result.value) {
+				cargando(true);
+				let xhr = new XMLHttpRequest();
+				console.log(xhr);
+				xhr.open('POST',lugar);
+				xhr.addEventListener('load',(data)=>{
+					console.log(data.target.response);
+					var datos = JSON.parse(data.target.response);
+					if (datos.error==0){
+						document.getElementById("id").value=datos.id;
+						if (destino != undefined) {
+							lugar=destino+".php";
+							$.ajax({
+								data:  {
+									"id":datos.id,
+									"param1":datos.param1,
+									"param2":datos.param2,
+									"param3":datos.param3,
+								},
+								url:   lugar,
+								type:  'post',
+								beforeSend: function () {
+
+								},
+								success:  function (response) {
+									$("#"+div).html(response);
+								}
+							});
+						}
+						if(cerrar==0){
+							$('#myModal').modal('hide');
+						}
+						cargando(false);
+						Swal.fire({
+							type: 'success',
+							title: "Se guardó correctamente #" + datos.id,
+							showConfirmButton: false,
+							timer: 1000
+						});
+					}
+					else{
+						Swal.fire({
+							type: 'info',
+							title: datos.terror,
+							showConfirmButton: false,
+							timer: 1000
+						});
+					}
+				});
+				xhr.send(formData);
+				cargando(false);
+			}
+		});
 	});
 
+	let url=window.location.href;
+	let hash=url.substring(url.indexOf("#")+1);
+
+	if(hash===url || hash===''){
+		hash='dash/dashboard';
+	}
+	function loadContent(hash){
+		cargando(true);
+		if(hash==''){
+			hash= 'dash/dashboard';
+		}
+		let destino=hash + '.php';
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',destino);
+		xhr.addEventListener('load',(data)=>{
+			document.getElementById("contenido").innerHTML =data.target.response;
+		});
+		xhr.send();
+
+		cargando(false);
+	}
+
+	addEventListener("hashchange", (e)=>{
+		loadContent(location.hash.slice(1));
+	}, false);
+
+
+
+/////////////////////hasta aca
 	$(document).on('submit','#recuperarx',function(e){
 		e.preventDefault();
 		var telefono=$('#telefono').val();
@@ -24,7 +150,7 @@
 				data: parametros,
 				timeout:10000,
 				beforeSend: function () {
-					$("#cargando").addClass("is-active");
+					cargando(true);
 				},
 				success:function(response){
 					if (response !== "") {
@@ -49,44 +175,8 @@
 			$( "#telefono" ).focus();
 			$( "#telefono" ).val("");
 		}
-		$("#cargando").removeClass("is-active");
+		cargando(false);
 	});
-	$(window).on('hashchange',function(){
-		loadContent(location.hash.slice(1));
-	});
-
-	var url=window.location.href;
-	var hash=url.substring(url.indexOf("#")+1);
-
-	if(hash===url || hash===''){
-		hash='dash/dashboard';
-	}
-	function loadContent(hash){
-		$("#cargando").addClass("is-active");
-		var id=$(this).attr('id');
-		if(hash==''){
-			hash= 'dash/dashboard';
-		}
-		$('html, body').animate({strollTop:0},'600','swing');
-		var destino=hash + '.php';
-		$.ajax({
-			url: destino,
-			type: "POST",
-			timeout:30000,
-			beforeSend: function () {
-				$("#contenido").html("<div class='container' style='background-color:white; width:300px'><center><img src='img/carga.gif' width='100px'></center></div>");
-			},
-			success:  function (response) {
-				$("#contenido").html(response);
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-				if(textStatus==="timeout") {
-					$("#contenido").html("<div class='container' style='background-color:white; width:300px'><center><img src='img/giphy.gif' width='300px'></center></div><br><center><div class='alert alert-danger' role='alert'>Ocurrio un error intente de nuevo en unos minutos, vuelva a entrar o presione ctrl + F5, para reintentar</div></center> ");
-				}
-			}
-		});
-		$("#cargando").removeClass("is-active");
-	}
 	function lista(id) {
 		$('#'+id).DataTable({
 			dom: 'Bfrtip',
@@ -198,7 +288,7 @@
 			var xyId=0;
 			var valor="";
 			padre=id.split("_")[0]
-			$("#cargando").addClass("is-active");
+			cargando(true);
 
 			if ( $(this).data('valor')!=undefined ) {
 				valor=$("#"+$(this).data('valor')).val();
@@ -241,7 +331,7 @@
 					}
 				}
 			});
-			$("#cargando").removeClass("is-active");
+			cargando(false);
 		});
 	$(document).on("click","[id^='select_']",function(e){								//////////// para consulta con combo
 		var combo=$(this).data('combo');
@@ -298,101 +388,7 @@
 		var tipo = $("#"+id).data('tipo');
 		VentanaCentrada(lugar+'?id='+xyId+'&tipo='+tipo+'&valor='+valor,'Impresion','','1024','768','true');
 	});
-	$(document).on('submit',"[id^='form_']",function(e){
-		e.preventDefault();
-		$("#cargando").addClass("is-active");
-		var id=$(this).attr('id');
-		var lugar = $(this).data('lugar')+".php";
-		var destino = $(this).data('destino');
-		var div;
-		var funcion="";
-		var cerrar=0;
 
-		if ( $(this).data('funcion') ) {
-			var funcion = $(this).data('funcion');
-		}
-		if ( $(this).data('div') ) {
-			div = $(this).data('div');
-		}
-		else{
-			div="trabajo";
-		}
-		if ( $(this).data('cmodal') ) {
-			cerrar=$(this).data('cmodal');
-		}
-		var dataString = $(this).serialize()+"&function="+funcion;
-
-		$.confirm({
-    title: 'Procesar',
-    content: '¿Desea procesar los cambios realizados?',
-		type: 'blue',
-    buttons: {
-        Aceptar: function () {
-					$.ajax({
-						data:  dataString,
-						url: lugar,
-						type: "post",
-						timeout:10000,
-						success:  function (response) {
-							console.log(response);
-							var datos = JSON.parse(response);
-							if (datos.error==0){
-								document.getElementById("id").value=datos.id;
-								if (destino != undefined) {
-									lugar=destino+".php";
-									$.ajax({
-										data:  {
-											"id":datos.id,
-											"param1":datos.param1,
-											"param2":datos.param2,
-											"param3":datos.param3,
-										},
-										url:   lugar,
-										type:  'post',
-										beforeSend: function () {
-
-										},
-										success:  function (response) {
-											$("#"+div).html(response);
-										}
-									});
-								}
-								if(cerrar==0){
-									$('#myModal').modal('hide');
-								}
-								$("#cargando").removeClass("is-active");
-								Swal.fire({
-									type: 'success',
-									title: "Se guardó correctamente #" + datos.id,
-									showConfirmButton: false,
-									timer: 1000
-								});
-							}
-							else{
-								Swal.fire({
-									type: 'info',
-									title: datos.terror,
-									showConfirmButton: false,
-									timer: 1000
-								});
-							}
-							$("#cargando").removeClass("is-active");
-						},
-						error: function(jqXHR, textStatus, errorThrown) {
-							$("#cargando").removeClass("is-active");
-							if(textStatus==="timeout") {
-								console.log(response);
-								$.alert("<div class='container' style='background-color:white; width:300px'><center><img src='img/giphy.gif' width='300px'></center></div><br><center><div class='alert alert-danger' role='alert'>Ocurrio un error intente de nuevo en unos minutos, vuelva a entrar o presione ctrl + F5, para reintentar</div></center> ");
-							}
-						}
-					});
-        },
-        Cancelar: function () {
-					$("#cargando").removeClass("is-active");
-        }
-    }
-		});
-	});
 	$(document).on('submit',"[id^='consulta_']",function(e){
 		e.preventDefault();
 		var dataString = $(this).serialize();

@@ -160,14 +160,14 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="btn-group">
-						<button class="btn btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
+						<button class="btn btn-warning btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
 						<?php
 							if($id>0){
-								echo "<button type='button' class='btn btn-sm' data-toggle='modal' data-target='#myModal' id='fileup_foto' data-ruta='$db->doc' data-tabla='clientes' data-campo='foto' data-tipo='1' data-id='$id' data-keyt='id' data-destino='a_clientes/editar' data-iddest='$id' data-ext='.jpg,.png' title='Subir foto'><i class='fas fa-cloud-upload-alt'></i>Foto</button>";
+								echo "<button type='button' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#myModal' id='fileup_foto' data-ruta='$db->doc' data-tabla='clientes' data-campo='foto' data-tipo='1' data-id='$id' data-keyt='id' data-destino='a_clientes/editar' data-iddest='$id' data-ext='.jpg,.png' title='Subir foto'><i class='fas fa-cloud-upload-alt'></i>Foto</button>";
 
-								echo "<button type='button' class='btn btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</button>";
+								echo "<button type='button' class='btn btn-warning btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</button>";
 							}
-							echo "<button class='btn btn-sm' type='button' onclick='paciente($id)' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' onclick='paciente($id)' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>";
 						?>
 						</div>
 					</div>

@@ -7,7 +7,7 @@
 		echo "</ol>";
 	echo "</nav>";
 
-	
+
 	echo "<div class='container' style='background-color:".$_SESSION['cfondo']."; '>";
 
 ?>
@@ -24,7 +24,7 @@
 							echo "<div class='row'>";
 								echo "<div class='col-12  text-center'>";
 									echo "<div class='btn-group'>";
-										echo "<button class='btn btn-sm' id='edit_persona' title='Editar' data-lugar='a_clientes/paciente'><i class='fas fa-pencil-alt'></i>Ver perfil</button>";
+										echo "<button class='btn btn-warning btn-block' id='edit_persona' title='Editar' data-lugar='a_clientes/paciente'><i class='fas fa-pencil-alt'></i>Ver perfil</button>";
 									echo "</div>";
 								echo "</div>";
 							echo "</div>";
@@ -36,8 +36,3 @@
 	</div>
 
 </div>
-<script>
-	$(document).ready( function () {
-		lista("x_cliente");
-	});
-</script>

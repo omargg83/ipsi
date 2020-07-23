@@ -188,6 +188,9 @@ class Cuest extends ipsi{
 			$respuesta=clean_var($_REQUEST['respuesta']);
 			$idsubactividad=clean_var($_REQUEST['idsubactividad']);
 			$orden=clean_var($_REQUEST['orden']);
+			$archivo = $_FILES['imagen']['tmp_name'];
+			
+
 			$arreglo+=array('respuesta'=>$respuesta);
 			$arreglo+=array('orden'=>$orden);
 

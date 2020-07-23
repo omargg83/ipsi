@@ -94,7 +94,6 @@
 	</div>
 </form>
 
-
 <div class='card mb-3'>
 	<div class='card-header'>
 		Respuestas
@@ -105,19 +104,24 @@
 				$pd=$db->repuestas($id);
 				foreach($pd as $key){
 					echo "<div id='".$key->id."''  class='edit-t col-3 mb-3'>";
-
-						echo "<div class='col-1'>";
+						echo "<div class='row'>";
+						echo "<div class='col-3'>";
 							echo "<div class='btn-group'>";
 							echo "<button class='btn btn-warning ' onclick='respuestas_editar($key->id,$idactividad,$key->idsubactividad)'><i class='fas fa-pencil-alt'></i></button>";
 							echo "</div>";
 						echo "</div>";
 
-						echo "<div class='col-10'>".$key->orden.".-".$key->respuesta."</div>";
+						echo "<div class='col-9'>".$key->orden.".-".$key->respuesta."</div>";
+						echo "</div>";
 					echo "</div>";
 				}
-
+		echo "</div>";
 				if($tipo=="pregunta"){
-					echo "<button type='button' class='btn btn-warning' onclick='respuestas_editar(0,$idactividad,$id)'><i class='fas fa-plus'></i>Inciso</button>";
+					echo "<div class='row'>";
+						echo "<div class='col-12'>";
+							echo "<button type='button' class='btn btn-warning' onclick='respuestas_editar(0,$idactividad,$id)'><i class='fas fa-plus'></i>Inciso</button>";
+						echo "</div>";
+					echo "</div>";
 				}
 			?>
 		</div>
