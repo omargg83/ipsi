@@ -100,24 +100,26 @@
 		Respuestas
 	</div>
 	<div class='card-body' id='respuestas'>
-		<?php
-			$pd=$db->repuestas($id);
-			foreach($pd as $key){
-				echo "<div id='".$key->id."''  class='row edit-t'>";
+		<div class="row">
+			<?php
+				$pd=$db->repuestas($id);
+				foreach($pd as $key){
+					echo "<div id='".$key->id."''  class='edit-t col-3 mb-3'>";
 
-					echo "<div class='col-1'>";
-						echo "<div class='btn-group'>";
-						echo "<button class='btn btn-warning ' onclick='respuestas_editar($key->id,$idactividad,$key->idsubactividad)'><i class='fas fa-pencil-alt'></i></button>";
+						echo "<div class='col-1'>";
+							echo "<div class='btn-group'>";
+							echo "<button class='btn btn-warning ' onclick='respuestas_editar($key->id,$idactividad,$key->idsubactividad)'><i class='fas fa-pencil-alt'></i></button>";
+							echo "</div>";
 						echo "</div>";
+
+						echo "<div class='col-10'>".$key->orden.".-".$key->respuesta."</div>";
 					echo "</div>";
+				}
 
-					echo "<div class='col-10'>".$key->orden.".-".$key->respuesta."</div>";
-				echo "</div>";
-			}
-
-			if($tipo=="pregunta"){
-				echo "<button type='button' class='btn btn-warning' onclick='respuestas_editar(0,$idactividad,$id)'><i class='fas fa-plus'></i>Inciso</button>";
-			}
-		?>
+				if($tipo=="pregunta"){
+					echo "<button type='button' class='btn btn-warning' onclick='respuestas_editar(0,$idactividad,$id)'><i class='fas fa-plus'></i>Inciso</button>";
+				}
+			?>
+		</div>
 	</div>
 </div>
