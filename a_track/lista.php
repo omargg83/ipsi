@@ -22,10 +22,10 @@
 								<div class='row'>
 									<div class='col-12'>
 										<div class='btn-group'>
-											<button class='btn btn-sm' id='edit_persona' title='Editar' data-lugar='a_track/editar'><i class='fas fa-pencil-alt'></i>Editar</button>
-											<button class='btn btn-sm' id='edit_ver' title='Ver' data-lugar='a_track/ver'><i class="far fa-eye"></i>Ver</button>
+											<button class='btn btn-warning btn-sm' id='edit_persona' title='Editar' data-lugar='a_track/editar'><i class='fas fa-pencil-alt'></i>Editar</button>
+											<button class='btn btn-warning btn-sm' id='edit_ver' title='Ver' data-lugar='a_track/ver'><i class="far fa-eye"></i>Ver</button>
 
-											<button class='btn btn-sm' id='eliminar_terapia' data-lugar='a_track/db_' data-destino='a_track/lista' data-id='<?php echo $key->id; ?>' data-funcion='borrar_track' data-div='trabajo'><i class='far fa-trash-alt'></i>Eliminar</button>
+											<button class='btn btn-warning btn-sm' id='eliminar_terapia' data-lugar='a_track/db_' data-destino='a_track/lista' data-id='<?php echo $key->id; ?>' data-funcion='borrar_track' data-div='trabajo'><i class='far fa-trash-alt'></i>Eliminar</button>
 
 										</div>
 									</div>

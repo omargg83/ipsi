@@ -13,6 +13,8 @@ if($_SESSION['des']==1 and strlen($function)==0)
 class Cuest extends ipsi{
 	public function __construct(){
 		parent::__construct();
+		$this->doc="a_archivos/respuestas/";
+
 	}
 
 	public function actividad_lista(){
@@ -188,8 +190,27 @@ class Cuest extends ipsi{
 			$respuesta=clean_var($_REQUEST['respuesta']);
 			$idsubactividad=clean_var($_REQUEST['idsubactividad']);
 			$orden=clean_var($_REQUEST['orden']);
-			$archivo = $_FILES['imagen']['tmp_name'];
-			
+
+			$extension = '';
+		  $ruta = '../a_archivos/respuestas/';
+		  $archivo = $_FILES['imagen']['tmp_name'];
+		  $nombrearchivo = $_FILES['imagen']['name'];
+			$tmp=$_FILES['imagen']['tmp_name'];
+		  $info = pathinfo($nombrearchivo);
+		  if($archivo!=""){
+		    $extension = $info['extension'];
+		    if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+		      $nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
+		      move_uploaded_file($tmp,$ruta.$nombreFile);
+		      $ruta=$ruta."/".$nombreFile;
+					$arreglo+=array('imagen'=>$nombreFile);
+		    }
+		    else{
+		      echo "fail";
+		      exit;
+		    }
+		  }
+
 
 			$arreglo+=array('respuesta'=>$respuesta);
 			$arreglo+=array('orden'=>$orden);
@@ -219,9 +240,6 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-
-
-
 
 }
 

@@ -29,9 +29,9 @@
 
    <div class="col-4">
      <label>Imagen</label>
-     <input type="file" name="imagen" id="imagen" value="" >
      <div class="custom-file">
-       <label class="custom-file-label" for="customFile">Imagen</label>
+       <input type="file" name="imagen" id="imagen" value="" class="custom-file-input">
+       <label class="custom-file-label" for="imagen">Imagen</label>
      </div>
    </div>
  </div>

@@ -95,7 +95,7 @@
 
 	<!--   Propios   -->
 	<script src="sagycv4.js"></script>
-	<script src="ipsi.js" type="module"></script>
+	<script src="ipsi.js"></script>
 	<link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2&display=swap" rel="stylesheet">
 
 	<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/js/uikit.min.js"></script>

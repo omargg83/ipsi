@@ -50,15 +50,13 @@
 	    ?>
 				<div class='row'>
 					<div class="col-12">
-						<label>Pregunta:</label><br>
-							<input type="text" name="pregunta" id="pregunta" value="<?php echo $texto; ?>" class='form-control' readonly>
+						<label><?php echo $texto; ?></label>
 					</div>
 				</div>
 				<hr>
 				<div class='row'>
 					<div class="col-12">
-						<label>Agregue texto descriptivo a la respuesta:</label>
-						<input type="text" name="descripcion" id="descripcion" value="<?php echo $descripcion; ?>" class='form-control' readonly>
+						<label><?php echo $descripcion; ?></label>
 					</div>
 					<div class="col-4">
 						<div class="form-check">
@@ -111,7 +109,12 @@
 							echo "</div>";
 						echo "</div>";
 
-						echo "<div class='col-9'>".$key->orden.".-".$key->respuesta."</div>";
+						echo "<div class='col-3'>";
+						if(strlen($key->imagen)>0){
+							echo "<img src='".$db->doc.$key->imagen."' width='200px'>";
+						}
+						echo "</div>";
+						echo "<div class='col-6'>".$key->orden.".-".$key->respuesta."</div>";
 						echo "</div>";
 					echo "</div>";
 				}
