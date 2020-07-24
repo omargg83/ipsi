@@ -108,7 +108,6 @@
 			document.getElementById("contenido").innerHTML =data.target.response;
 		});
 		xhr.send();
-
 		cargando(false);
 	}
 	function cargando(valor) {
