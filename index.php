@@ -19,6 +19,7 @@
 
 	<link rel="stylesheet" href="librerias15/load/css-loader.css">
 	<link rel="stylesheet" type="text/css" href="style.css"/>
+	<link rel="stylesheet" href="librerias15/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
 	<link rel="stylesheet" href="librerias15/swal/dist/sweetalert2.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/css/uikit.min.css" />
@@ -65,6 +66,12 @@
 	<!--   url   -->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
 
+	<script src="librerias15/js/bootstrap.js"></script>
+
+	<!--   Cuadros de confirmación y dialogo   -->
+	<link rel="stylesheet" href="librerias15/jqueryconfirm/css/jquery-confirm.css">
+	<script src="librerias15/jqueryconfirm/js/jquery-confirm.js"></script>
+
 	<!-- Animation library for notifications   -->
   <link href="librerias15/animate.css" rel="stylesheet"/>
 
@@ -76,13 +83,10 @@
 	<!--   Alertas   -->
 	<script src="librerias15/swal/dist/sweetalert2.min.js"></script>
 
-
 	<!--   para imprimir   -->
 	<script src="librerias15/VentanaCentrada.js" type="text/javascript"></script>
 
-	<!--   Cuadros de confirmación y dialogo   -->
-	<link rel="stylesheet" href="librerias15/jqueryconfirm/css/jquery-confirm.css">
-	<script src="librerias15/jqueryconfirm/js/jquery-confirm.js"></script>
+
 
 	<!--   iconos   -->
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
@@ -90,8 +94,8 @@
 	<script src="librerias15/tooltip.js"></script>
 
 	<!--   Boostrap   -->
-	<link rel="stylesheet" href="librerias15/css/bootstrap.min.css">
-	<script src="librerias15/js/bootstrap.js"></script>
+
+
 
 	<!--   Propios   -->
 	<script src="sagycv4.js"></script>

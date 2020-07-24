@@ -1,35 +1,35 @@
 	let intval="";
 
-	onload = function() {
+	onload = ()=> {
 		loadContent(location.hash.slice(1));
 		if(intval==""){
-			intval=setInterval(function(){ sesion_ver(); }, 180000);
+			intval=setInterval(function(){ sesion_ver(); }, 10000);
 		}
 		cargando(false);
 	};
-
-	function cargando(valor) {
-	  let element = document.getElementById("cargando_div");
-		if(valor){
-			element.classList.add("is-active");
-		}
-		else{
-			element.classList.remove("is-active");
-		}
+	let url=window.location.href;
+	let hash=url.substring(url.indexOf("#")+1);
+	if(hash===url || hash===''){
+		hash='dash/dashboard';
 	}
-	addEventListener('submit',(e)=> {
+
+	window.addEventListener("hashchange", (e)=>{
+		loadContent(location.hash.slice(1));
+	},false);	///////////////////para el hash
+	window.addEventListener('submit',(e)=> {
 		e.preventDefault();
 
 		let id=e.target.attributes.id.nodeValue;
 		let elemento = document.getElementById(id);
-
 		let lugar=elemento.dataset.lugar;
 		let funcion=elemento.dataset.funcion;
 		let destino=elemento.dataset.destino;
 		let div=elemento.dataset.div;
 		let cmodal=elemento.dataset.cmodal;
 		let cerrar=0;
-		if(div){
+		let redirige=0;
+
+		if(!div){
 			div="trabajo";
 		}
 		if(lugar){
@@ -38,7 +38,6 @@
 		if(cmodal){
 			cerrar=cmodal;
 		}
-
 		var formData = new FormData(elemento);
 		formData.append("function", funcion);
 
@@ -53,31 +52,13 @@
 			if (result.value) {
 				cargando(true);
 				let xhr = new XMLHttpRequest();
-				console.log(xhr);
 				xhr.open('POST',lugar);
 				xhr.addEventListener('load',(data)=>{
-					console.log(data.target.response);
 					var datos = JSON.parse(data.target.response);
 					if (datos.error==0){
 						document.getElementById("id").value=datos.id;
 						if (destino != undefined) {
-							lugar=destino+".php";
-							$.ajax({
-								data:  {
-									"id":datos.id,
-									"param1":datos.param1,
-									"param2":datos.param2,
-									"param3":datos.param3,
-								},
-								url:   lugar,
-								type:  'post',
-								beforeSend: function () {
-
-								},
-								success:  function (response) {
-									$("#"+div).html(response);
-								}
-							});
+							redirige_div(destino,datos,div);
 						}
 						if(cerrar==0){
 							$('#myModal').modal('hide');
@@ -99,18 +80,22 @@
 						});
 					}
 				});
+				xhr.onerror =  ()=>{
+					console.log("error");
+				};
 				xhr.send(formData);
 				cargando(false);
 			}
 		});
-	});
+	},false); 	///////////para todos los submit
+	window.addEventListener('click', (e)=>{
+		if(e.target.classList.contains('sagyc')){
+			let id = e.target.attributes.id.nodeValue;
+			let elemento = document.getElementById(id);
+			let lugar = elemento.attributes.lugar.nodeValue;
+		}
+	}, false); //////////////////para controlar el flujo de
 
-	let url=window.location.href;
-	let hash=url.substring(url.indexOf("#")+1);
-
-	if(hash===url || hash===''){
-		hash='dash/dashboard';
-	}
 	function loadContent(hash){
 		cargando(true);
 		if(hash==''){
@@ -126,12 +111,63 @@
 
 		cargando(false);
 	}
+	function cargando(valor) {
+		let element = document.getElementById("cargando_div");
+		if(valor){
+			element.classList.add("is-active");
+		}
+		else{
+			element.classList.remove("is-active");
+		}
+	}
+	function redirige_div(lugar,datos,div){
+		lugar+=".php";
+		var formData = new FormData();
+		formData.append("id", datos.id);
+		cargando(true);
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',lugar);
+		xhr.addEventListener('load',(data)=>{
+			document.getElementById(div).innerHTML =data.target.response;
+		});
+		xhr.onerror = (e)=>{
+			console.log(e);
+		};
+		xhr.send(formData);
+		cargando(false);
+	}
+	function salir(){
+		var formData = new FormData();
+		formData.append("function", "salir");
+		formData.append("ctrl", "control");
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',"control_db.php");
+		xhr.addEventListener('load',(data)=>{
+			location.href ="login/";
+		});
+		xhr.onerror = (e)=>{
+			console.log(e);
+		};
+		xhr.send(formData);
+	}
+	function sesion_ver(){
+		var formData = new FormData();
+		formData.append("function", "ses");
+		formData.append("ctrl", "control");
 
-	addEventListener("hashchange", (e)=>{
-		loadContent(location.hash.slice(1));
-	}, false);
-
-
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',"control_db.php");
+		xhr.addEventListener('load',(data)=>{
+			var datos = JSON.parse(data.target.response);
+			if (datos.sess=="cerrada"){
+				location.href ="login/";
+			}
+		});
+		xhr.onerror = (e)=>{
+			console.log(e);
+		};
+		xhr.send(formData);
+	}
 
 /////////////////////hasta aca
 	$(document).on('submit','#recuperarx',function(e){
@@ -227,35 +263,6 @@
 		$.datepicker.setDefaults($.datepicker.regional['es']);
 		$(".fechaclass").datepicker();
 	};
-	function salir(){
-		$.ajax({
-			data:  {
-				"ctrl":"control",
-				"function":"salir"
-			},
-			url:   'control_db.php',
-			type:  'post',
-			success:  function (response) {
-				$(location).attr('href','login/');
-			}
-		});
-	}
-	function sesion_ver(){
-		$.ajax({
-			data:  {
-				"ctrl":"control",
-				"function":"ses"
-			},
-			url: "control_db.php",
-			type: "post",
-			success:  function (response) {
-				var datos = JSON.parse(response);
-				if (datos.sess=="cerrada"){
-					$(location).attr('href','login/');
-				}
-			}
-		});
-	}
 	function recuperar(){
 		$.ajax({
 			data:  {

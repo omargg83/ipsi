@@ -161,6 +161,7 @@
 					<div class="col-sm-12">
 						<div class="btn-group">
 						<button class="btn btn-warning btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
+						<button class="btn btn-warning btn-sm sagyc" type="button" id="btn_flujo" lugar="lugar.php"><i class='far fa-save'></i>demo</button>
 						<?php
 							if($id>0){
 								echo "<button type='button' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#myModal' id='fileup_foto' data-ruta='$db->doc' data-tabla='clientes' data-campo='foto' data-tipo='1' data-id='$id' data-keyt='id' data-destino='a_clientes/editar' data-iddest='$id' data-ext='.jpg,.png' title='Subir foto'><i class='fas fa-cloud-upload-alt'></i>Foto</button>";
