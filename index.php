@@ -60,15 +60,11 @@
 		</div>
 
 
-	<!--   Core JS Files   -->
+
 	<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-
-	<!--   url   -->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-
 	<script src="librerias15/js/bootstrap.js"></script>
 
-	<!--   Cuadros de confirmación y dialogo   -->
 	<link rel="stylesheet" href="librerias15/jqueryconfirm/css/jquery-confirm.css">
 	<script src="librerias15/jqueryconfirm/js/jquery-confirm.js"></script>
 

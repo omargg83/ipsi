@@ -16,86 +16,142 @@
 	window.addEventListener("hashchange", (e)=>{
 		loadContent(location.hash.slice(1));
 	},false);	///////////////////para el hash
-	window.addEventListener('submit',(e)=> {
-		e.preventDefault();
 
-		let id=e.target.attributes.id.nodeValue;
-		let elemento = document.getElementById(id);
-		let lugar=elemento.dataset.lugar;
-		let funcion=elemento.dataset.funcion;
-		let destino=elemento.dataset.destino;
-		let div=elemento.dataset.div;
-		let cmodal=elemento.dataset.cmodal;
-		let cerrar=0;
-		let redirige=0;
+	class ConfirmLink extends HTMLAnchorElement {
+	  connectedCallback() {
+	    this.addEventListener('click', (e) => {
+	      let lugar=e.target.attributes.lug.nodeValue;
+				let destino=e.target.attributes.des.nodeValue;
+				let datos = new Object();
+				datos.id=0;
+				datos.id2=0;
+				datos.id3=0;
+				if(e.target.attributes.id){
+					datos.id=e.target.attributes.id.nodeValue;
+				}
+				if(e.target.attributes.id2){
+					datos.id=e.target.attributes.id2.nodeValue;
+				}
+				if(e.target.attributes.id3){
+					datos.id=e.target.attributes.id3.nodeValue;
+				}
+				redirige_div(lugar,destino,datos);
+	    });
+	  }
+	}
+	customElements.define("a-link", ConfirmLink, { extends: "a" });
 
-		if(!div){
-			div="trabajo";
-		}
-		if(lugar){
-			lugar+=".php";
-		}
-		if(cmodal){
-			cerrar=cmodal;
-		}
-		var formData = new FormData(elemento);
-		formData.append("function", funcion);
+	class Buttonlink extends HTMLButtonElement  {
+	  connectedCallback() {
+	    this.addEventListener('click', (e) => {
+	      let lugar=e.target.attributes.lug.nodeValue;
+				let destino=e.target.attributes.des.nodeValue;
+				let datos = new Object();
+				datos.id=0;
+				datos.id2=0;
+				datos.id3=0;
+				if(e.target.attributes.id){
+					datos.id=e.target.attributes.id.nodeValue;
+				}
+				if(e.target.attributes.id2){
+					datos.id=e.target.attributes.id2.nodeValue;
+				}
+				if(e.target.attributes.id3){
+					datos.id=e.target.attributes.id3.nodeValue;
+				}
+				redirige_div(lugar,destino,datos);
+	    });
+	  }
+	}
+	customElements.define("b-link", Buttonlink, { extends: "button" });
 
-		Swal.fire({
-			title: '¿Desea procesar los cambios realizados?',
-			text: "ya no se podrá deshacer",
-			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			confirmButtonText: 'Guardar'
-		}).then((result) => {
-			if (result.value) {
-				cargando(true);
-				let xhr = new XMLHttpRequest();
-				xhr.open('POST',lugar);
-				xhr.addEventListener('load',(data)=>{
-					var datos = JSON.parse(data.target.response);
-					if (datos.error==0){
-						document.getElementById("id").value=datos.id;
-						if (destino != undefined) {
-							redirige_div(destino,datos,div);
-						}
-						if(cerrar==0){
-							$('#myModal').modal('hide');
-						}
-						cargando(false);
-						Swal.fire({
-							type: 'success',
-							title: "Se guardó correctamente #" + datos.id,
-							showConfirmButton: false,
-							timer: 1000
-						});
-					}
-					else{
-						Swal.fire({
-							type: 'info',
-							title: datos.terror,
-							showConfirmButton: false,
-							timer: 1000
-						});
-					}
-				});
-				xhr.onerror =  ()=>{
-					console.log("error");
-				};
-				xhr.send(formData);
-				cargando(false);
-			}
-		});
-	},false); 	///////////para todos los submit
-	window.addEventListener('click', (e)=>{
-		if(e.target.classList.contains('sagyc')){
-			let id = e.target.attributes.id.nodeValue;
-			let elemento = document.getElementById(id);
-			let lugar = elemento.attributes.lugar.nodeValue;
-		}
-	}, false); //////////////////para controlar el flujo de
+	class Formsubmit extends HTMLFormElement {
+		 connectedCallback() {
+			 this.addEventListener('submit', (e) => {
+				 	e.preventDefault();
 
+			 		let id=e.target.attributes.id.nodeValue;
+			 		let elemento = document.getElementById(id);
+			 		let lug=elemento.attributes.lug.nodeValue;
+			 		let funcion=elemento.attributes.fun.nodeValue;
+			 		let destino=elemento.attributes.des.nodeValue;
+					let div;
+
+					if(elemento.attributes.dix !== undefined)
+						div=elemento.attributes.dix.nodeValue;
+
+			 		let cmodal=elemento.dataset.cmodal;
+			 		let cerrar=0;
+			 		let redirige=0;
+
+			 		if(!div){
+			 			div="trabajo";
+			 		}
+			 		if(lug){
+			 			lug+=".php";
+			 		}
+			 		if(cmodal){
+			 			cerrar=cmodal;
+			 		}
+			 		var formData = new FormData(elemento);
+			 		formData.append("function", funcion);
+
+			 		Swal.fire({
+			 			title: '¿Desea procesar los cambios realizados?',
+			 			text: "ya no se podrá deshacer",
+			 			showCancelButton: true,
+			 			confirmButtonColor: '#3085d6',
+			 			cancelButtonColor: '#d33',
+			 			confirmButtonText: 'Guardar'
+			 		}).then((result) => {
+			 			if (result.value) {
+			 				cargando(true);
+			 				let xhr = new XMLHttpRequest();
+			 				xhr.open('POST',lug);
+			 				xhr.addEventListener('load',(data)=>{
+								console.log(data.target.response);
+			 					var datos = JSON.parse(data.target.response);
+			 					if (datos.error==0){
+			 						document.getElementById("id").value=datos.id;
+			 						if (destino != undefined) {
+			 							redirige_div(destino,div,datos);
+			 						}
+			 						if(cerrar==0){
+			 							$('#myModal').modal('hide');
+			 						}
+			 						cargando(false);
+			 						Swal.fire({
+			 							type: 'success',
+			 							title: "Se guardó correctamente ",
+			 							showConfirmButton: false,
+			 							timer: 1000
+			 						});
+			 					}
+			 					else{
+			 						Swal.fire({
+			 							type: 'info',
+			 							title: datos.terror,
+			 							showConfirmButton: false,
+			 							timer: 1000
+			 						});
+			 					}
+			 				});
+			 				xhr.onerror =  ()=>{
+			 					console.log("error");
+			 				};
+			 				xhr.send(formData);
+			 				cargando(false);
+			 			}
+			 		});
+			 })
+		 }
+	}
+	customElements.define("f-submit", Formsubmit, { extends: "form" });
+
+	function flujo(object){
+		let elemento=document.getElementById(object.id);
+		console.log(elemento.dataset.lugar);
+	}
 	function loadContent(hash){
 		cargando(true);
 		if(hash==''){
@@ -119,7 +175,9 @@
 			element.classList.remove("is-active");
 		}
 	}
-	function redirige_div(lugar,datos,div){
+
+	function redirige_div(lugar,div,datos){
+		console.log("redirige");
 		lugar+=".php";
 		var formData = new FormData();
 		formData.append("id", datos.id);
@@ -167,6 +225,19 @@
 		};
 		xhr.send(formData);
 	}
+
+	class HolaMundo extends HTMLElement {
+	  constructor() {
+	    super();
+			this.addEventListener('click',(e)=>{
+				alert(e.target.attributes.lugar.nodeValue);
+			});
+	  }
+	};
+	customElements.define('hola-mundo', HolaMundo);
+
+
+
 
 /////////////////////hasta aca
 	$(document).on('submit','#recuperarx',function(e){

@@ -8,12 +8,16 @@
 	  </button>
 		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
 			<ul class='navbar-nav mr-auto'>
-			<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_comision' data-lugar='a_terapia/lista'><i class='fas fa-list-ul'></i><span>Lista</span></a></li>
-			<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal' data-lugar='a_terapia/editar'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>
+
+			<li class='nav-item active'>
+				<a class='nav-link barranav' is="a-link" lug='a_terapia/lista' des='trabajo'> <i class='fas fa-plus'></i>Lista </a>
+			</li>
+			<li>
+				<a class='nav-link barranav' is="a-link" lug='a_terapia/editar' des='trabajo'> <i class='fas fa-plus'></i>Nuevo</a>
+			</li>
 			</ul>
 	  </div>
 	</nav>
-
 
 <div id='trabajo'>
 	<?php

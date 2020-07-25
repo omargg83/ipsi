@@ -16,7 +16,7 @@
 </nav>
 
 <div class="container">
-	<form action="" id="form_terapia" data-lugar="a_terapia/db_" data-funcion="guardar_terapia" data-destino='a_terapia/editar'>
+	<form is="f-submit" id="form_terapia" lug="a_terapia/db_" fun="guardar_terapia" des='a_terapia/editar'>
     <input type="hidden" name="id" id="id" value="<?php echo $id;?>">
     <div class='card'>
 			<div class='card-header'>
@@ -34,10 +34,12 @@
 			<div class='card-footer'>
 				<div class="row">
 					<div class="col-sm-12">
-						<div class="btn-group">
-						<button class="btn btn-warning btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
-            <button class='btn btn-warning btn-sm' id='lista_penarea' data-lugar='a_terapia/lista' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
-						</div>
+
+						<button class="btn btn-warning" type="submit">Guardar</button>
+						<button class="btn btn-warning" type="button" is="b-link" lug='a_terapia/lista' des='trabajo' id="<?php echo $key->id; ?>" >Regresar</button>
+
+
+
 					</div>
 				</div>
 			</div>

@@ -21,12 +21,10 @@
 							<div class='card-footer'>
 								<div class='row'>
 									<div class='col-12'>
-										<div class='btn-group'>
-											<button class='btn btn-warning btn-sm' id='edit_persona' title='Editar' data-lugar='a_terapia/editar'><i class='fas fa-pencil-alt'></i>Editar</button>
+										<button class='btn btn-warning' type="button" is="b-link" lug='a_terapia/editar' des='trabajo' id='<?php echo $key->id; ?>' title='editar'>Editar</button>
+										<button class='btn btn-warning' type="button" id='eliminar_terapia' data-lugar='a_terapia/db_' data-destino='a_terapia/lista' data-id='<?php echo $key->id; ?>' data-funcion='borrar_terapia' data-div='trabajo'>Eliminar</button>
 
-											<button class='btn btn-warning btn-sm' id='eliminar_terapia' data-lugar='a_terapia/db_' data-destino='a_terapia/lista' data-id='<?php echo $key->id; ?>' data-funcion='borrar_terapia' data-div='trabajo'><i class='far fa-trash-alt'></i>Eliminar</button>
 
-										</div>
 									</div>
 								</div>
 							</div>
