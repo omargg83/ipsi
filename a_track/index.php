@@ -8,8 +8,12 @@
 	  </button>
 		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
 			<ul class='navbar-nav mr-auto'>
-			<li class='nav-item active'><a class='nav-link barranav' title='Mostrar todo' id='lista_track' data-lugar='a_track/lista'><i class='fas fa-list-ul'></i><span>Lista</span></a></li>
-			<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal' data-lugar='a_track/editar'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>
+			<li class='nav-item active'>
+				<a class='nav-link barranav' is="a-link" des='a_track/lista' dix='trabajo' tp="router"> <i class='fas fa-plus'></i>Lista</a>
+			</li>
+			<li class='nav-item active'>
+				<a class='nav-link barranav' is="a-link" des='a_track/editar' dix='trabajo' tp="router"> <i class='fas fa-plus'></i>Nuevo</a>				
+			</li>
 			</ul>
 	  </div>
 	</nav>

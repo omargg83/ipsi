@@ -128,7 +128,6 @@
 		public function borrar($DbTableName, $key, $id){
 			$arreglo=array();
 			try{
-
 				$sql="delete from $DbTableName where $key=$id";
 				$sth = $this->dbh->prepare($sql);
 				$a=$sth->execute();
@@ -144,7 +143,8 @@
 				else{
 					$arreglo+=array('id'=>$id);
 					$arreglo+=array('error'=>1);
-					$arreglo+=array('terror'=>$sql.$sth->errorInfo());
+					$b=$sth->errorInfo();
+					$arreglo+=array('terror'=>$b[2]);
 					$arreglo+=array('param1'=>'');
 					$arreglo+=array('param2'=>'');
 					$arreglo+=array('param3'=>'');
@@ -371,7 +371,7 @@
 				return json_encode($arreglo);
 			}
 		}
-}
+	}
 	function clean_var($val){
 		$val=htmlspecialchars(strip_tags(trim($val)));
 		return $val;

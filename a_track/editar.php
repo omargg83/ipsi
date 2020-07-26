@@ -1,13 +1,13 @@
 <?php
 	require_once("db_.php");
-	if (isset($_POST['id'])){$id=clean_var($_REQUEST['id']);} else{ $id=0;}
+	if (isset($_POST['id1'])){$id1=clean_var($_REQUEST['id1']);} else{ $id1=0;}
   $nombre="Track nuevo";
 	$video="";
 	$terapia="";
 	$terapia_list=$db->terapias_lista();
 
-  if($id>0){
-		$pd = $db->track_editar($id);
+  if($id1>0){
+		$pd = $db->track_editar($id1);
     $nombre=$pd->nombre;
     $video=$pd->video;
     $terapia=$pd->terapia;
@@ -21,10 +21,9 @@
   </ol>
 </nav>
 
-
 <div class="container">
-	<form action="" id="form_terapia" data-lugar="a_track/db_" data-funcion="guardar_track" data-destino='a_track/editar'>
-    <input type="hidden" name="id" id="id" value="<?php echo $id;?>">
+	<form is="f-submit" id="form_track" db="a_track/db_" fun="guardar_track" lug='a_track/editar'>
+    <input type="hidden" name="id1" id="id1" value="<?php echo $id1;?>">
     <div class='card'>
 			<div class='card-header'>
 				Editar Track
@@ -61,8 +60,8 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="btn-group">
-						<button class="btn btn-warning btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
-            <button class='btn btn-warning btn-sm' id='lista_penarea' data-lugar='a_track/lista' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
+						<button class="btn btn-warning" type="submit">Guardar</button>
+						<button class="btn btn-warning" type="button" is="b-link" des='a_track/lista' dix='trabajo'>Regresar</button>
 						</div>
 					</div>
 				</div>

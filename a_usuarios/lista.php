@@ -15,28 +15,24 @@
 	<tbody>
 		<?php
 			foreach($pd as $key){
-				echo '<tr id="'.$key->idusuario.'" class="edit-t">';
-					echo "<td>";
-					echo "<div class='btn-group'>";
-					echo "<button class='btn btn-sm' id='edit_persona' title='Editar' data-lugar='a_usuarios/editar'><i class='fas fa-pencil-alt'></i></button>";
-					echo "</div>";
-					echo "</td>";
-				echo '<td>'.$key->nombre.'</td>';
-				echo '<td>'.$key->nivel.'</td>';
-				echo '<td>'.$key->correo.'</td>';
-				echo '<td>';
-				if ($key->autoriza==0) { echo "Inactivo"; }
-				if ($key->autoriza==1) { echo "Activo"; }
-				echo '</td>';
-				echo '</tr>';
+		?>
+				<tr>
+					<td>
+					<button class='btn btn-warning' type="button" is="b-link" des='a_usuarios/editar' dix='trabajo' tp="edit" id1='<?php echo $key->id; ?>' title='editar'>Editar</button>
+					</td>
+				<td><?php echo $key->nombre; ?></td>
+				<td><?php echo $key->nivel; ?></td>
+				<td><?php echo $key->correo; ?></td>
+				<td>
+				<?php
+					if ($key->autoriza==0) { echo "Inactivo"; }
+					if ($key->autoriza==1) { echo "Activo"; }
+				?>
+				</td>
+				</tr>
+		<?php
 			}
 		?>
 	</tbody>
 	</table>
 </div>
-
-<script>
-	$(document).ready( function () {
-		lista("x_user");
-	});
-</script>

@@ -8,13 +8,12 @@
 	  </button>
 		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
 			<ul class='navbar-nav mr-auto'>
-
-			<li class='nav-item active'>
-				<a class='nav-link barranav' is="a-link" lug='a_terapia/lista' des='trabajo'> <i class='fas fa-plus'></i>Lista </a>
-			</li>
-			<li>
-				<a class='nav-link barranav' is="a-link" lug='a_terapia/editar' des='trabajo'> <i class='fas fa-plus'></i>Nuevo</a>
-			</li>
+				<li class='nav-item active'>
+					<a class='nav-link barranav' is="a-link" des='a_terapia/lista' dix='trabajo' tp="router"> <i class='fas fa-plus'></i>Lista</a>
+				</li>
+				<li>
+					<a class='nav-link barranav' is="a-link" des='a_terapia/editar' dix='trabajo' tp="router"> <i class='fas fa-plus'></i>Nuevo</a>
+				</li>
 			</ul>
 	  </div>
 	</nav>

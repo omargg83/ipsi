@@ -42,21 +42,21 @@ class Cliente extends ipsi{
 	public function guardar_terapia(){
 		$x="";
 		$arreglo =array();
-		$id=clean_var($_REQUEST['id']);
+		$id1=clean_var($_REQUEST['id1']);
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
-		if($id==0){
+		if($id1==0){
 			$x=$this->insert('terapias', $arreglo);
 		}
 		else{
-			$x=$this->update('terapias',array('id'=>$id), $arreglo);
+			$x=$this->update('terapias',array('id'=>$id1), $arreglo);
 		}
 		return $x;
 	}
 	public function borrar_terapia(){
-		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
-		return $this->borrar('terapias',"id",$id);
+		if (isset($_REQUEST['id1'])){$id1=$_REQUEST['id1'];}
+		return $this->borrar('terapias',"id",$id1);
 	}
 
 }

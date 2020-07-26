@@ -13,7 +13,6 @@
     ?>
 </div>
 
-
 <ul class="list-unstyled components p-3">
     <li class='active'>
         <a href="#"><i class="fas fa-home"></i> Inicio</a>
@@ -33,7 +32,7 @@
 				echo "</li>";
 
 				echo "<li>";
-						echo "<a href='#a_actividades/index' title='Actividades'><i class='far fa-file-alt'></i>Actividades</a>";
+						echo "<a href='#a_actividades/index' is='menu-link' title='Actividades'><i class='far fa-file-alt'></i>Actividades</a>";
 				echo "</li>";
 
 				if($_SESSION['nivel']==1){

@@ -47,7 +47,7 @@ class Cliente extends ipsi{
 	public function guardar_track(){
 		$x="";
 		$arreglo =array();
-		$id=clean_var($_REQUEST['id']);
+		$id1=clean_var($_REQUEST['id1']);
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
@@ -57,18 +57,18 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['terapia'])){
 			$arreglo+=array('terapia'=>$_REQUEST['terapia']);
 		}
-		if($id==0){
+		if($id1==0){
 			$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
 			$x=$this->insert('track', $arreglo);
 		}
 		else{
-			$x=$this->update('track',array('id'=>$id), $arreglo);
+			$x=$this->update('track',array('id'=>$id1), $arreglo);
 		}
 		return $x;
 	}
 	public function borrar_track(){
-		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
-		return $this->borrar('track',"id",$id);
+		if (isset($_REQUEST['id1'])){$id1=$_REQUEST['id1'];}
+		return $this->borrar('track',"id",$id1);
 	}
 
 	public function terapias_lista(){

@@ -8,30 +8,29 @@
 		</ol>
 	</nav>
 
-	<div class='container'>
-		<div class='row'>
-			<?php
-				foreach($pd as $key){
-			?>
-					<div id='<?php echo $key->id; ?>' class='col-4 edit-t p-3'>
-						<div class='card '>
-							<div class='card-body'>
-								<div class='text-center'><?php echo $key->nombre; ?></div>
-							</div>
-							<div class='card-footer'>
-								<div class='row'>
-									<div class='col-12'>
-										<button class='btn btn-warning' type="button" is="b-link" lug='a_terapia/editar' des='trabajo' id='<?php echo $key->id; ?>' title='editar'>Editar</button>
-										<button class='btn btn-warning' type="button" id='eliminar_terapia' data-lugar='a_terapia/db_' data-destino='a_terapia/lista' data-id='<?php echo $key->id; ?>' data-funcion='borrar_terapia' data-div='trabajo'>Eliminar</button>
+	<div class='row'>
+		<?php
+			foreach($pd as $key){
+		?>
+				<div id='<?php echo $key->id; ?>' class='col-4 edit-t p-3'>
+					<div class='card '>
+						<div class='card-body'>
+							<div class='text-center'><?php echo $key->nombre; ?></div>
+						</div>
+						<div class='card-footer'>
+							<div class='row'>
+								<div class='col-12'>
 
+									<button class='btn btn-warning' type="button" is="b-link" des='a_terapia/editar' dix='trabajo' tp="edit" id1='<?php echo $key->id; ?>' title='editar'>Editar</button>
 
-									</div>
+									<button class='btn btn-warning' type="button" is="b-link" des='a_terapia/lista'  dix='trabajo' tp="delete" id1='<?php echo $key->id; ?>' db="a_terapia/db_" fun='borrar_terapia' title='editar'>Eliminar</button>
 								</div>
 							</div>
 						</div>
 					</div>
-			<?php
-				}
-			?>
-		</div>
+				</div>
+		<?php
+			}
+		?>
+	</div>
 </div>

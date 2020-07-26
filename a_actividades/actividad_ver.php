@@ -1,7 +1,8 @@
 <?php
 	require_once("db_.php");
 
-	$idactividad=clean_var($_REQUEST['idactividad']);
+	$idactividad=clean_var($_REQUEST['id1']);
+
   $actividad=$db->actividad_editar($idactividad);
 	$subactividad=$db->subactividad_ver($idactividad);
 	$nombre=$actividad->nombre;
@@ -18,23 +19,18 @@
 <div class="card mb-3">
 	<div class="card-header">
 		<div class='row'>
-			<div class="col-8 text-center">
+			<div class="col-2 text-center">
 				<?php echo $nombre; ?>
 			</div>
-			<div class="col-4 text-right">
+			<div class="col-10">
 				<div class="btn-group">
 					<div class="btn-group dropleft" role="group">
 						<button type="button" class="btn btn-warning btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Agregar subactividad
 						</button>
-						<div class="dropdown-menu">
-							<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'texto')"><i class='fas fa-pencil-alt'></i>Texto</button>
-							<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'imagen')"><i class="fas fa-arrows-alt"></i>Imagen</button>
-							<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'video')"><i class="far fa-trash-alt"></i>Video</button>
-							<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'archivo')"><i class="far fa-copy"></i>Archivo</button>
-							<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'pregunta')"><i class="fas fa-question"></i>Pregunta</button>
-						</div>
 					</div>
+
+
 
 					<button type="button" class='btn btn-warning btn-sm' title="Editar Actividad" onclick='actividad_editar(<?php echo $idactividad; ?>)'><i class='fas fa-pencil-alt'></i></button>
 					<button type="button" class='btn btn-warning btn-sm' title="Eliminar actividad" onclick='eliminar_act(<?php echo $idactividad; ?>)'><i class='far fa-trash-alt'></i></button>
@@ -52,38 +48,86 @@
 	</div>
 </div>
 
-<div class="container-fluid" id='subactividad'>
-	<?php
-		foreach($subactividad as $key){
-	?>
-		<div class="card mb-3">
-			<div class="card-header">
-				<div class='row'>
-					<div class="col-8 text-center">
-						Actividad
-					</div>
-					<div class="col-4 text-right">
-						<div class="btn-group dropleft" role="group">
-							<button type="button" class="btn btn-warning btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="fas fa-plus"></i> <span class="sr-only">Toggle Dropleft</span>
-							</button>
-							<div class="dropdown-menu">
-								<button class="dropdown-item" onclick="subactividad_ver(<?php echo $key->idsubactividad; ?>,0,0)"><i class="far fa-eye"></i>Ver</button>
-								<button class="dropdown-item" onclick="subactividad_editar(<?php echo $key->idsubactividad; ?>,0,0)"><i class='fas fa-pencil-alt'></i>Editar</button>
-								<button class="dropdown-item" ><i class="fas fa-arrows-alt"></i>Mover</button>
-								<button class="dropdown-item" onclick='eliminar_subact(<?php echo $key->idsubactividad; ?>)' ><i class="far fa-trash-alt"></i>Eliminar</button>
-								<button class="dropdown-item" ><i class="far fa-copy"></i>Duplicar</button>
-								<button class="dropdown-item" ><i class="fas fa-project-diagram"></i>Condicional</button>
+<div class="container-fluid mb-3 text-center" id='nueva_sub'>
+
+
+	<button class='btn btn-warning' type="button" is="b-link" des='a_actividades/subactividad_editar' dix='nueva_sub' tp="edit" id1='<?php echo $idactividad; ?>' title='editar'>Nueva Subactividad</button>
+
+</div>
+
+
+<div class="card">
+	<div class="card-header">
+		subactividad
+
+
+									<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'texto')"><i class='fas fa-pencil-alt'></i>Texto</button>
+									<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'imagen')"><i class="fas fa-arrows-alt"></i>Imagen</button>
+									<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'video')"><i class="far fa-trash-alt"></i>Video</button>
+									<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'archivo')"><i class="far fa-copy"></i>Archivo</button>
+									<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'pregunta')"><i class="fas fa-question"></i>Pregunta</button>
+	</div>
+	<div class="container-fluid" id='subactividad'>
+		<?php
+			foreach($subactividad as $key){
+		?>
+			<div class="card mb-3">
+				<div class="card-header">
+					<div class='row'>
+						<div class="col-2 text-center">
+							Actividad
+						</div>
+						<div class="col-10">
+							<div class="btn-group dropleft" role="group">
+								<button type="button" class="btn btn-warning btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="fas fa-plus"></i> <span class="sr-only">Toggle Dropleft</span>
+								</button>
+
+									<button class="dropdown-item" onclick="subactividad_ver(<?php echo $key->idsubactividad; ?>,0,0)"><i class="far fa-eye"></i>Ver</button>
+									<button class="dropdown-item" onclick="subactividad_editar(<?php echo $key->idsubactividad; ?>,0,0)"><i class='fas fa-pencil-alt'></i>Editar</button>
+									<button class="dropdown-item" ><i class="fas fa-arrows-alt"></i>Mover</button>
+									<button class="dropdown-item" onclick='eliminar_subact(<?php echo $key->idsubactividad; ?>)' ><i class="far fa-trash-alt"></i>Eliminar</button>
+									<button class="dropdown-item" ><i class="far fa-copy"></i>Duplicar</button>
+									<button class="dropdown-item" ><i class="fas fa-project-diagram"></i>Condicional</button>
 							</div>
 						</div>
 					</div>
 				</div>
+				<div class="card-body">
+
+					<?php	echo $key->texto; ?>
+					<hr>
+					<div class="card">
+						<div class="card-header">
+							respuesta
+						</div>
+						<div class="card-body">
+							<input type="radio" name="" value="">1
+							<input type="radio" name="" value="">2
+							<input type="radio" name="" value="">3
+
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="card-body">
-				<?php	echo $key->texto; ?>
-			</div>
-		</div>
-	<?php
-		}
-	 ?>
+		<?php
+			}
+		 ?>
+	</div>
+
+</div>
+
+<div class="card">
+	<div class="card-header">
+		subactividad
+
+		<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'texto')"><i class='fas fa-pencil-alt'></i>Texto</button>
+		<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'imagen')"><i class="fas fa-arrows-alt"></i>Imagen</button>
+		<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'video')"><i class="far fa-trash-alt"></i>Video</button>
+		<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'archivo')"><i class="far fa-copy"></i>Archivo</button>
+		<button class="dropdown-item" onclick="subactividad_editar(0,<?php echo $idactividad; ?>,'pregunta')"><i class="fas fa-question"></i>Pregunta</button>
+	</div>
+	<div class="card-body">
+		agregar bloques texto context, bla
+	</div>
 </div>

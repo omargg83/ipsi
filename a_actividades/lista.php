@@ -36,7 +36,11 @@
 					<div class='card-body'>
 						<div class='row'>
 							<div class='col-12'>
+								<button class='btn btn-warning btn-block' type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' tp="edit" id1='<?php echo $key->idactividad; ?>' title='editar'>Editar</button>
+
+								<!--
 								<button class='btn btn-warning btn-block' onclick='actividad_ver(<?php echo $key->idactividad; ?>)'><i class="fas fa-marker"></i>Ver</button>
+							-->
 							</div>
 						</div>
 					</div>

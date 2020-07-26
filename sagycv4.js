@@ -17,134 +17,115 @@
 		loadContent(location.hash.slice(1));
 	},false);	///////////////////para el hash
 
+	class MenuLink extends HTMLAnchorElement {
+		connectedCallback() {
+			this.addEventListener('click', (e) => {
+				loadContent(e.target.hash.slice(1));
+			});
+		}
+	}
+	customElements.define("menu-link", MenuLink, { extends: "a" });
+
+
 	class ConfirmLink extends HTMLAnchorElement {
 	  connectedCallback() {
 	    this.addEventListener('click', (e) => {
-	      let lugar=e.target.attributes.lug.nodeValue;
-				let destino=e.target.attributes.des.nodeValue;
-				let datos = new Object();
-				datos.id=0;
-				datos.id2=0;
-				datos.id3=0;
-				if(e.target.attributes.id){
-					datos.id=e.target.attributes.id.nodeValue;
-				}
-				if(e.target.attributes.id2){
-					datos.id=e.target.attributes.id2.nodeValue;
-				}
-				if(e.target.attributes.id3){
-					datos.id=e.target.attributes.id3.nodeValue;
-				}
-				redirige_div(lugar,destino,datos);
+	      proceso_db(e);
 	    });
 	  }
 	}
 	customElements.define("a-link", ConfirmLink, { extends: "a" });
 
 	class Buttonlink extends HTMLButtonElement  {
-	  connectedCallback() {
-	    this.addEventListener('click', (e) => {
-	      let lugar=e.target.attributes.lug.nodeValue;
-				let destino=e.target.attributes.des.nodeValue;
-				let datos = new Object();
-				datos.id=0;
-				datos.id2=0;
-				datos.id3=0;
-				if(e.target.attributes.id){
-					datos.id=e.target.attributes.id.nodeValue;
-				}
-				if(e.target.attributes.id2){
-					datos.id=e.target.attributes.id2.nodeValue;
-				}
-				if(e.target.attributes.id3){
-					datos.id=e.target.attributes.id3.nodeValue;
-				}
-				redirige_div(lugar,destino,datos);
-	    });
-	  }
+		connectedCallback() {
+			this.addEventListener('click', (e) => {
+				proceso_db(e);
+			});
+		}
 	}
 	customElements.define("b-link", Buttonlink, { extends: "button" });
 
 	class Formsubmit extends HTMLFormElement {
-		 connectedCallback() {
-			 this.addEventListener('submit', (e) => {
-				 	e.preventDefault();
+		connectedCallback() {
+		 this.addEventListener('submit', (e) => {
+			 	e.preventDefault();
 
-			 		let id=e.target.attributes.id.nodeValue;
-			 		let elemento = document.getElementById(id);
-			 		let lug=elemento.attributes.lug.nodeValue;
-			 		let funcion=elemento.attributes.fun.nodeValue;
-			 		let destino=elemento.attributes.des.nodeValue;
-					let div;
+		 		let id=e.target.attributes.id.nodeValue;
+		 		let elemento = document.getElementById(id);
+		 		let db=elemento.attributes.db.nodeValue;
+		 		let funcion=elemento.attributes.fun.nodeValue;
+		 		let lug=elemento.attributes.lug.nodeValue;
+				let div;
 
-					if(elemento.attributes.dix !== undefined)
-						div=elemento.attributes.dix.nodeValue;
+				if(elemento.attributes.dix !== undefined)
+					div=elemento.attributes.dix.nodeValue;
 
-			 		let cmodal=elemento.dataset.cmodal;
-			 		let cerrar=0;
-			 		let redirige=0;
+		 		let cmodal=elemento.dataset.cmodal;
+		 		let cerrar=0;
+		 		let redirige=0;
 
-			 		if(!div){
-			 			div="trabajo";
-			 		}
-			 		if(lug){
-			 			lug+=".php";
-			 		}
-			 		if(cmodal){
-			 			cerrar=cmodal;
-			 		}
-			 		var formData = new FormData(elemento);
-			 		formData.append("function", funcion);
+		 		if(!div){
+		 			div="trabajo";
+		 		}
+		 		if(db){
+		 			db+=".php";
+		 		}
+		 		if(cmodal){
+		 			cerrar=cmodal;
+		 		}
+		 		var formData = new FormData(elemento);
+		 		formData.append("function", funcion);
 
-			 		Swal.fire({
-			 			title: '¿Desea procesar los cambios realizados?',
-			 			text: "ya no se podrá deshacer",
-			 			showCancelButton: true,
-			 			confirmButtonColor: '#3085d6',
-			 			cancelButtonColor: '#d33',
-			 			confirmButtonText: 'Guardar'
-			 		}).then((result) => {
-			 			if (result.value) {
-			 				cargando(true);
-			 				let xhr = new XMLHttpRequest();
-			 				xhr.open('POST',lug);
-			 				xhr.addEventListener('load',(data)=>{
-								console.log(data.target.response);
-			 					var datos = JSON.parse(data.target.response);
-			 					if (datos.error==0){
-			 						document.getElementById("id").value=datos.id;
-			 						if (destino != undefined) {
-			 							redirige_div(destino,div,datos);
-			 						}
-			 						if(cerrar==0){
-			 							$('#myModal').modal('hide');
-			 						}
-			 						cargando(false);
-			 						Swal.fire({
-			 							type: 'success',
-			 							title: "Se guardó correctamente ",
-			 							showConfirmButton: false,
-			 							timer: 1000
-			 						});
-			 					}
-			 					else{
-			 						Swal.fire({
-			 							type: 'info',
-			 							title: datos.terror,
-			 							showConfirmButton: false,
-			 							timer: 1000
-			 						});
-			 					}
-			 				});
-			 				xhr.onerror =  ()=>{
-			 					console.log("error");
-			 				};
-			 				xhr.send(formData);
-			 				cargando(false);
-			 			}
-			 		});
-			 })
-		 }
+		 		Swal.fire({
+		 			title: '¿Desea procesar los cambios realizados?',
+		 			text: "ya no se podrá deshacer",
+		 			showCancelButton: true,
+		 			confirmButtonColor: '#3085d6',
+		 			cancelButtonColor: '#d33',
+		 			confirmButtonText: 'Guardar'
+		 		}).then((result) => {
+		 			if (result.value) {
+		 				cargando(true);
+		 				let xhr = new XMLHttpRequest();
+		 				xhr.open('POST',db);
+		 				xhr.addEventListener('load',(data)=>{
+		 					var datos = JSON.parse(data.target.response);
+		 					if (datos.error==0){
+		 						document.getElementById("id1").value=datos.id;
+								//////////////quitar esta linea al acompletar todo el cambio
+								datos.id1=datos.id;
+		 						if (lug !== undefined) {
+		 							redirige_div(lug,div,datos);
+		 						}
+		 						if(cerrar==0){
+		 							$('#myModal').modal('hide');
+		 						}
+		 						cargando(false);
+		 						Swal.fire({
+		 							type: 'success',
+		 							title: "Se guardó correctamente ",
+		 							showConfirmButton: false,
+		 							timer: 1000
+		 						});
+		 					}
+		 					else{
+		 						Swal.fire({
+		 							type: 'info',
+		 							title: datos.terror,
+		 							showConfirmButton: false,
+		 							timer: 1000
+		 						});
+		 					}
+		 				});
+		 				xhr.onerror =  ()=>{
+		 					console.log("error");
+		 				};
+		 				xhr.send(formData);
+		 				cargando(false);
+		 			}
+		 		});
+		 })
+		}
 	}
 	customElements.define("f-submit", Formsubmit, { extends: "form" });
 
@@ -176,11 +157,92 @@
 		}
 	}
 
+	function proceso_db(e){
+		let des;	/////////////el destino
+		e.target.attributes.des!==undefined ? des=e.target.attributes.des.nodeValue : des="";
+
+		let dix; 	/////////////	el div donde se pone el destino
+		e.target.attributes.dix!==undefined ? dix=e.target.attributes.dix.nodeValue : dix="";
+
+		let db;		/////////////en caso de base de datos
+		e.target.attributes.db!==undefined ? db=e.target.attributes.db.nodeValue : db="";
+
+		let fun;	///////////// la funcion a ejecutar
+		e.target.attributes.fun!==undefined ? fun=e.target.attributes.fun.nodeValue : fun="";
+
+		let tp;	///////////// el tipo de proceso del boton
+		e.target.attributes.tp!==undefined ? tp=e.target.attributes.tp.nodeValue : tp="";
+
+		let datos = new Object();
+		e.target.attributes.id1!==undefined ? datos.id1=e.target.attributes.id1.nodeValue : datos.id1=0;
+		e.target.attributes.id2!==undefined ? datos.id2=e.target.attributes.id2.nodeValue : datos.id2=0;
+		e.target.attributes.id3!==undefined ? datos.id3=e.target.attributes.id3.nodeValue : datos.id3=0;
+		console.log("id1:"+datos.id1);
+		//////////////poner aqui proceso en caso de existir funcion
+		if(tp==="delete"){
+			db += ".php";
+
+			var formData = new FormData();
+			formData.append("function", fun);
+			formData.append("id1",datos.id1);
+			formData.append("id2",datos.id2);
+			formData.append("id3",datos.id3);
+
+			console.log("fun:"+fun);
+			console.log("id1:"+datos.id1);
+			console.log("id2:"+datos.id2);
+			console.log("id2:"+datos.id2);
+			console.log("db:"+db);
+
+			let xhr = new XMLHttpRequest();
+			xhr.open('POST',db);
+			xhr.addEventListener('load',(data)=>{
+				console.log(data.target.response);
+				var datos = JSON.parse(data.target.response);
+				if (datos.error==0){
+					Swal.fire({
+						type: 'success',
+						title: "Se eliminó correctamente ",
+						showConfirmButton: false,
+						timer: 1000
+					});
+					redirige_div(des,dix,datos);
+				}
+				else{
+					Swal.fire({
+						type: 'info',
+						title: datos.terror,
+						showConfirmButton: false,
+						timer: 1000
+					});
+				}
+			});
+			xhr.onerror = (e)=>{
+			};
+			xhr.send(formData);
+		}
+		if(tp==="edit"){
+			console.log("editar");
+		}
+		if(tp!=="delete"){
+			redirige_div(des,dix,datos);
+		}
+
+		/////////////termina
+		// console.log("db:"+db);
+		// console.log("des:"+des);
+		// console.log("dix:"+dix);
+		// console.log("fun:"+fun);
+		// console.log("tp:"+tp);
+		// console.log("datos.id:"+datos.id);
+		// console.log("datos.id2:"+datos.id2);
+		// console.log("datos.id3:"+datos.id3);
+
+	}
 	function redirige_div(lugar,div,datos){
-		console.log("redirige");
 		lugar+=".php";
 		var formData = new FormData();
-		formData.append("id", datos.id);
+		formData.append("id1", datos.id1);
 		cargando(true);
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',lugar);
@@ -235,9 +297,6 @@
 	  }
 	};
 	customElements.define('hola-mundo', HolaMundo);
-
-
-
 
 /////////////////////hasta aca
 	$(document).on('submit','#recuperarx',function(e){
