@@ -59,36 +59,45 @@
 		 this.addEventListener('submit', (e) => {
 			 	e.preventDefault();
 
-		 		let id=e.target.attributes.id.nodeValue;				//////////id del formulario
-		 		let elemento = document.getElementById(id);			/////////objeto
-		 		let db=elemento.attributes.db.nodeValue;				/////////API que procesa el form
-		 		let funcion=elemento.attributes.fun.nodeValue;	/////////funcion del api que procesa el form
-		 		let lug=elemento.attributes.lug.nodeValue;			/////////destino despues de guardar
-				let div;																				/////////Div de destino despues de guardar
-				let iddes;																			/////////Id del destino
-				let cerrar=0;
-		 		let redirige=0;
-				let cmodal=elemento.dataset.cmodal;
+				//////////id del formulario
+		 		let id=e.target.attributes.id.nodeValue;
+		 		let elemento = document.getElementById(id);
 
-				alert(iddes);
+				/////////API que procesa el form
+		 		let db;
+				(elemento.attributes.db !== undefined) ? db=elemento.attributes.db.nodeValue+".php" : db="";
 
-				if(elemento.attributes.iddes !== undefined)
-					iddes=elemento.attributes.iddes.nodeValue;
+				/////////funcion del api que procesa el form
+		 		let fun;
+				(elemento.attributes.fun !== undefined) ? fun=elemento.attributes.fun.nodeValue : fun="";
 
-				if(elemento.attributes.dix !== undefined)
-					div=elemento.attributes.dix.nodeValue;
+				/////////Id del destino
+				let iddest;
+				(elemento.attributes.iddest !== undefined) ?	iddest=elemento.attributes.iddest.nodeValue : iddest="";
 
-		 		if(!div){
-		 			div="trabajo";
-		 		}
-		 		if(db){
-		 			db+=".php";
-		 		}
-		 		if(cmodal){
-		 			cerrar=cmodal;
-		 		}
+				/////////Div de destino despues de guardar
+				let dix;
+				(elemento.attributes.dix !== undefined) ? dix=elemento.attributes.dix.nodeValue : dix="trabajo";
+
+				/////////destino despues de guardar
+		 		let lug;
+				(elemento.attributes.lug !== undefined) ? lug=elemento.attributes.lug.nodeValue : lug="";
+
+				////////FORM pertenece a ventanamodal
+		 		let cmodal;
+				(elemento.attributes.cmodal !== undefined) ? cmodal=elemento.attributes.cmodal.nodeValue : cmodal="";
+
+				if(db.length==0){
+					alert("falta DB");
+					return 0;
+				}
+
+			 	if(iddest!==""){
+					alert(iddest);
+				}
+
 		 		var formData = new FormData(elemento);
-		 		formData.append("function", funcion);
+		 		formData.append("function", fun);
 
 		 		Swal.fire({
 		 			title: '¿Desea procesar los cambios realizados?',
@@ -115,13 +124,13 @@
 							}
 		 					var datos = JSON.parse(data.target.response);
 		 					if (datos.error==0){
-		 						document.getElementById("id1").value=datos.id;
+		 						document.getElementById("id1").value=datos.id1;
 								//////////////quitar esta linea al acompletar todo el cambio
-								datos.id1=datos.id;
+								if()
 		 						if (lug !== undefined) {
-		 							redirige_div(lug,div,datos);
+		 							redirige_div(lug,dix,datos);
 		 						}
-		 						if(cerrar==0){
+		 						if(cmodal==0){
 		 							$('#myModal').modal('hide');
 		 						}
 		 						cargando(false);

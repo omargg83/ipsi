@@ -64,17 +64,16 @@
 					$sth->bindValue(':' . $f, $v);
 				}
 				if ($sth->execute()){
-					$arreglo+=array('id'=>$this->lastId = $this->dbh->lastInsertId());
+					$arreglo+=array('id1'=>$this->lastId = $this->dbh->lastInsertId());
 					$arreglo+=array('error'=>0);
 					$arreglo+=array('terror'=>'');
-					$arreglo+=array('param1'=>'');
-					$arreglo+=array('param2'=>'');
-					$arreglo+=array('param3'=>'');
+					$arreglo+=array('id2'=>'');
+					$arreglo+=array('id3'=>'');
 					return json_encode($arreglo);
 				}
 			}
 			catch(PDOException $e){
-				$arreglo+=array('id'=>0);
+				$arreglo+=array('id1'=>0);
 				$arreglo+=array('error'=>1);
 				$arreglo+=array('terror'=>$e->getMessage());
 				return json_encode($arreglo);
@@ -108,17 +107,16 @@
 					$sth->bindValue(':' . $f."_c", $v);
 				}
 				if($sth->execute()){
-					$arreglo+=array('id'=>$idx);
+					$arreglo+=array('id1'=>$idx);
 					$arreglo+=array('error'=>0);
 					$arreglo+=array('terror'=>'');
-					$arreglo+=array('param1'=>'');
-					$arreglo+=array('param2'=>'');
-					$arreglo+=array('param3'=>'');
+					$arreglo+=array('id2'=>'');
+					$arreglo+=array('id3'=>'');
 					return json_encode($arreglo);
 				}
 			}
 			catch(PDOException $e){
-				$arreglo+=array('id'=>0);
+				$arreglo+=array('id1'=>0);
 				$arreglo+=array('error'=>1);
 				$arreglo+=array('terror'=>$e->getMessage());
 				return json_encode($arreglo);
@@ -132,27 +130,25 @@
 				$sth = $this->dbh->prepare($sql);
 				$a=$sth->execute();
 				if($a){
-					$arreglo+=array('id'=>$id);
+					$arreglo+=array('id1'=>$id);
 					$arreglo+=array('error'=>0);
 					$arreglo+=array('terror'=>'');
-					$arreglo+=array('param1'=>'');
-					$arreglo+=array('param2'=>'');
-					$arreglo+=array('param3'=>'');
+					$arreglo+=array('id2'=>'');
+					$arreglo+=array('id3'=>'');
 					return json_encode($arreglo);
 				}
 				else{
-					$arreglo+=array('id'=>$id);
+					$arreglo+=array('id1'=>$id);
 					$arreglo+=array('error'=>1);
 					$b=$sth->errorInfo();
 					$arreglo+=array('terror'=>$b[2]);
-					$arreglo+=array('param1'=>'');
-					$arreglo+=array('param2'=>'');
-					$arreglo+=array('param3'=>'');
+					$arreglo+=array('id2'=>'');
+					$arreglo+=array('id3'=>'');
 					return json_encode($arreglo);
 				}
 			}
 			catch(PDOException $e){
-				$arreglo+=array('id'=>0);
+				$arreglo+=array('id1'=>0);
 				$arreglo+=array('error'=>1);
 				$arreglo+=array('terror'=>$e->getMessage());
 				return json_encode($arreglo);
@@ -311,7 +307,7 @@
 					return $this->correo($res[0]['correo'], $texto, $asunto);
 				}
 				else{
-					$arreglo+=array('id'=>0);
+					$arreglo+=array('id1'=>0);
 					$arreglo+=array('error'=>0);
 					$arreglo+=array('terror'=>"no tiene correo registrado en la plantilla");
 					return json_encode($arreglo);
@@ -354,20 +350,18 @@
 			$arreglo=array();
 			//send the message, check for errors
 			if (!$mail->send()) {
-				$arreglo+=array('id'=>0);
+				$arreglo+=array('id1'=>0);
 				$arreglo+=array('error'=>1);
 				$arreglo+=array('terror'=>$mail->ErrorInfo);
-				$arreglo+=array('param1'=>'');
-				$arreglo+=array('param2'=>'');
-				$arreglo+=array('param3'=>'');
+				$arreglo+=array('id2'=>'');
+				$arreglo+=array('id3'=>'');
 				return json_encode($arreglo);
 			} else {
-				$arreglo+=array('id'=>0);
+				$arreglo+=array('id1'=>0);
 				$arreglo+=array('error'=>0);
 				$arreglo+=array('terror'=>'');
-				$arreglo+=array('param1'=>'');
-				$arreglo+=array('param2'=>'');
-				$arreglo+=array('param3'=>'');
+				$arreglo+=array('id2'=>'');
+				$arreglo+=array('id3'=>'');
 				return json_encode($arreglo);
 			}
 		}

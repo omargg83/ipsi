@@ -14,7 +14,7 @@
 	}
 ?>
 
-<form is="f-submit" id="form_sub" db="a_actividades/db_" fun="subactividad_guardar" lug="a_actividades/editar" iddes="this">
+<form is="f-submit" id="form_sub" db="a_actividades/db_" fun="subactividad_guardar" lug="a_actividades/editar" iddes="$idactividad">
   <input type="hidden" name="id1" id="id1" value="<?php  echo $id1; ?>">
   <input type="hidden" name="id2" id="id2" value="<?php  echo $idactividad; ?>">
 	<div class="card">
