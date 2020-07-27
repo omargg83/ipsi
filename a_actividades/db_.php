@@ -100,13 +100,15 @@ class Cuest extends ipsi{
 			$arreglo=array();
 			$x="";
 			$id=clean_var($_REQUEST['id1']);
+			$idactividad=clean_var($_REQUEST['id2']);
 
-			$tipo=clean_var($_REQUEST['tipo']);
-			$arreglo+=array('tipo'=>$tipo);
-
+			$nombre=clean_var($_REQUEST['nombre']);
+			$orden=clean_var($_REQUEST['orden']);
+			$arreglo+=array('nombre'=>$nombre);
+			$arreglo+=array('orden'=>$orden);
 
 			if($id==0){
-				$arreglo+=array('idactividad'=>clean_var($_REQUEST['idactividad']));
+				$arreglo+=array('idactividad'=>$idactividad);
 				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
 				$x=$this->insert('subactividad', $arreglo);
 			}

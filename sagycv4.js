@@ -59,19 +59,24 @@
 		 this.addEventListener('submit', (e) => {
 			 	e.preventDefault();
 
-		 		let id=e.target.attributes.id.nodeValue;
-		 		let elemento = document.getElementById(id);
-		 		let db=elemento.attributes.db.nodeValue;
-		 		let funcion=elemento.attributes.fun.nodeValue;
-		 		let lug=elemento.attributes.lug.nodeValue;
-				let div;
+		 		let id=e.target.attributes.id.nodeValue;				//////////id del formulario
+		 		let elemento = document.getElementById(id);			/////////objeto
+		 		let db=elemento.attributes.db.nodeValue;				/////////API que procesa el form
+		 		let funcion=elemento.attributes.fun.nodeValue;	/////////funcion del api que procesa el form
+		 		let lug=elemento.attributes.lug.nodeValue;			/////////destino despues de guardar
+				let div;																				/////////Div de destino despues de guardar
+				let iddes;																			/////////Id del destino
+				let cerrar=0;
+		 		let redirige=0;
+				let cmodal=elemento.dataset.cmodal;
+
+				alert(iddes);
+
+				if(elemento.attributes.iddes !== undefined)
+					iddes=elemento.attributes.iddes.nodeValue;
 
 				if(elemento.attributes.dix !== undefined)
 					div=elemento.attributes.dix.nodeValue;
-
-		 		let cmodal=elemento.dataset.cmodal;
-		 		let cerrar=0;
-		 		let redirige=0;
 
 		 		if(!div){
 		 			div="trabajo";
@@ -98,6 +103,16 @@
 		 				let xhr = new XMLHttpRequest();
 		 				xhr.open('POST',db);
 		 				xhr.addEventListener('load',(data)=>{
+							if (!isJSON(data.target.response)){
+								console.log(data.target.response);
+								Swal.fire({
+		 							type: 'error',
+		 							title: "Error favor de verificar",
+		 							showConfirmButton: false,
+		 							timer: 1000
+		 						});
+								return;
+							}
 		 					var datos = JSON.parse(data.target.response);
 		 					if (datos.error==0){
 		 						document.getElementById("id1").value=datos.id;
@@ -225,7 +240,7 @@
 			xhr.send(formData);
 		}
 		if(tp==="edit"){
-		
+
 		}
 		if(tp!=="delete"){
 			redirige_div(des,dix,datos);
@@ -291,6 +306,17 @@
 			console.log(e);
 		};
 		xhr.send(formData);
+	}
+	function isJSON (something) {
+		if (typeof something != 'string')
+				something = JSON.stringify(something);
+
+		try {
+				JSON.parse(something);
+				return true;
+		} catch (e) {
+				return false;
+		}
 	}
 
 	class HolaMundo extends HTMLElement {

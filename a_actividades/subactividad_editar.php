@@ -14,8 +14,7 @@
 	}
 ?>
 
-
-<form is="f-submit" id="form_sub" db="a_actividades/db_" fun="subactividad_guardar" lug="a_actividades/editar">
+<form is="f-submit" id="form_sub" db="a_actividades/db_" fun="subactividad_guardar" lug="a_actividades/editar" iddes="this">
   <input type="hidden" name="id1" id="id1" value="<?php  echo $id1; ?>">
   <input type="hidden" name="id2" id="id2" value="<?php  echo $idactividad; ?>">
 	<div class="card">
@@ -34,7 +33,7 @@
 	      </div>
 	      <div class="col-4">
 	        <label for="">Pagina</label>
-	        <input type="text" id="nombre" name="nombre" value="<?php echo $pagina; ?>" class="form-control">
+	        <input type="text" id="pagina" name="pagina" value="<?php echo $pagina; ?>" class="form-control">
 	      </div>
 	    </div>
 	  </div>
