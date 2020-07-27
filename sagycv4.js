@@ -26,7 +26,6 @@
 	}
 	customElements.define("menu-link", MenuLink, { extends: "a" });
 
-
 	class ConfirmLink extends HTMLAnchorElement {
 	  connectedCallback() {
 	    this.addEventListener('click', (e) => {
@@ -79,7 +78,7 @@
 				let dix;
 				(elemento.attributes.dix !== undefined) ? dix=elemento.attributes.dix.nodeValue : dix="trabajo";
 
-				/////////destino despues de guardar
+				/////////div destino despues de guardar
 		 		let lug;
 				(elemento.attributes.lug !== undefined) ? lug=elemento.attributes.lug.nodeValue : lug="";
 
@@ -90,10 +89,6 @@
 				if(db.length==0){
 					alert("falta DB");
 					return 0;
-				}
-
-			 	if(iddest!==""){
-					alert(iddest);
 				}
 
 		 		var formData = new FormData(elemento);
@@ -113,7 +108,7 @@
 		 				xhr.open('POST',db);
 		 				xhr.addEventListener('load',(data)=>{
 							if (!isJSON(data.target.response)){
-								console.log(data.target.response);
+
 								Swal.fire({
 		 							type: 'error',
 		 							title: "Error favor de verificar",
@@ -126,8 +121,11 @@
 		 					if (datos.error==0){
 		 						document.getElementById("id1").value=datos.id1;
 								//////////////quitar esta linea al acompletar todo el cambio
-								if()
+								if(iddest!==""){
+									datos.id1=iddest;
+								}
 		 						if (lug !== undefined) {
+
 		 							redirige_div(lug,dix,datos);
 		 						}
 		 						if(cmodal==0){
@@ -189,7 +187,19 @@
 			element.classList.remove("is-active");
 		}
 	}
+	function isJSON (something) {
+		if (typeof something != 'string')
+				something = JSON.stringify(something);
 
+		try {
+				JSON.parse(something);
+				return true;
+		} catch (e) {
+				return false;
+		}
+	}
+
+	//////////////////////////Solo para un proceso antes del flujo ejem. al borrar que primero borre y luego redirive_div
 	function proceso_db(e){
 		let des;	/////////////el destino
 		e.target.attributes.des!==undefined ? des=e.target.attributes.des.nodeValue : des="";
@@ -266,6 +276,8 @@
 		// console.log("datos.id3:"+datos.id3);
 
 	}
+
+	//////////////////////////redirige si es necesario
 	function redirige_div(lugar,div,datos){
 		lugar+=".php";
 		var formData = new FormData();
@@ -315,17 +327,6 @@
 			console.log(e);
 		};
 		xhr.send(formData);
-	}
-	function isJSON (something) {
-		if (typeof something != 'string')
-				something = JSON.stringify(something);
-
-		try {
-				JSON.parse(something);
-				return true;
-		} catch (e) {
-				return false;
-		}
 	}
 
 	class HolaMundo extends HTMLElement {

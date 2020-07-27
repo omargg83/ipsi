@@ -43,7 +43,7 @@
 					include ("dash/header.php");
 
 				 ?>
-				 <div id='contenido'>
+				 <div id='contenido' >
 
 				 </div>
       </div>

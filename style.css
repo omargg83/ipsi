@@ -85,6 +85,11 @@ p {
     background: #00417c;
     color: #fff;
     transition: all 0.3s;
+
+    bottom: 0px;
+    position: absolute;
+    top: 0px;
+
 }
 
 #sidebar.active {
@@ -172,10 +177,27 @@ a.article:hover {
 ----------------------------------------------------- */
 
 #content {
-    width: 100%;
-    padding: 20px;
     min-height: 100vh;
     transition: all 0.3s;
+
+    margin-left: 1px; /* Same as the width of the sidenav */
+    padding: 10px;
+    padding-top:0px;
+    overflow:none;
+    position: fixed;
+    z-index: 1;
+    top: 0px;
+    bottom: 0px;
+    left: 300px;
+    right: 0px;
+    transition: 0.5s all;
+
+    background-repeat: no-repeat;
+      background-attachment: fixed ;
+      background-position: top ;
+    -webkit-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
 }
 
 /* ---------------------------------------------------
@@ -192,4 +214,27 @@ a.article:hover {
     #sidebarCollapse span {
         display: none;
     }
+}
+
+#contenido{
+    min-height: 100vh;
+    transition: all 0.3s;
+    margin-left: 1px;
+    padding: 0px;
+    padding-top: 0px;
+    overflow: auto;
+    position: fixed;
+    z-index: 1;
+    top: 93px;
+    bottom: 49px;
+    left: 312px;
+    right: 0px;
+    transition: 0.5s all;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    border: 1px solid black;
 }
