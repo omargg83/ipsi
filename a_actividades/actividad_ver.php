@@ -11,7 +11,7 @@
 ?>
 <nav aria-label='breadcrumb'>
   <ol class='breadcrumb'>
-    <li class='breadcrumb-item' id='lista_act' data-lugar='a_actividades/lista'>Actividades</li>
+		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/lista" dix="trabajo" id1="">Actividades</lis>
     <li class='breadcrumb-item active' aria-current='page'>Actividad</li>
   </ol>
 </nav>
@@ -19,20 +19,14 @@
 <div class="card mb-3">
 	<div class="card-header">
 		<div class='row'>
-			<div class="col-2 text-center">
+			<div class="col-8 text-center">
 				<?php echo $nombre; ?>
 			</div>
-			<div class="col-10">
+			<div class="col-4">
 				<div class="btn-group">
-					<div class="btn-group dropleft" role="group">
-						<button type="button" class="btn btn-warning btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Agregar subactividad
-						</button>
-					</div>
+					<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/actividad_editar" dix="trabajo" id1="<?php echo $idactividad; ?>">Editar</button>
+					<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/lista" dix="trabajo" id1="">Regresar</button>
 
-
-
-					<button type="button" class='btn btn-warning btn-sm' title="Editar Actividad" onclick='actividad_editar(<?php echo $idactividad; ?>)'><i class='fas fa-pencil-alt'></i></button>
 					<button type="button" class='btn btn-warning btn-sm' title="Eliminar actividad" onclick='eliminar_act(<?php echo $idactividad; ?>)'><i class='far fa-trash-alt'></i></button>
 
 				</div>
@@ -51,7 +45,7 @@
 <div class="container-fluid mb-3 text-center" id='nueva_sub'>
 
 
-	<button class='btn btn-warning' type="button" is="b-link" des='a_actividades/subactividad_editar' dix='nueva_sub' tp="edit" id1='<?php echo $idactividad; ?>' title='editar'>Nueva Subactividad</button>
+	<button class='btn btn-warning' type="button" is="b-link" des='a_actividades/subactividad_editar' dix='nueva_sub' tp="edit" id1="0" id2='<?php echo $idactividad; ?>' title='editar'>Nueva Subactividad</button>
 
 </div>
 

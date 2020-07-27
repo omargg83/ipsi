@@ -36,6 +36,15 @@
 	}
 	customElements.define("a-link", ConfirmLink, { extends: "a" });
 
+	class CiLink extends HTMLLIElement {
+	  connectedCallback() {
+	    this.addEventListener('click', (e) => {
+	      proceso_db(e);
+	    });
+	  }
+	}
+	customElements.define("li-link", CiLink, { extends: "li" });
+
 	class Buttonlink extends HTMLButtonElement  {
 		connectedCallback() {
 			this.addEventListener('click', (e) => {
@@ -177,8 +186,9 @@
 		e.target.attributes.id1!==undefined ? datos.id1=e.target.attributes.id1.nodeValue : datos.id1=0;
 		e.target.attributes.id2!==undefined ? datos.id2=e.target.attributes.id2.nodeValue : datos.id2=0;
 		e.target.attributes.id3!==undefined ? datos.id3=e.target.attributes.id3.nodeValue : datos.id3=0;
-		console.log("id1:"+datos.id1);
+
 		//////////////poner aqui proceso en caso de existir funcion
+
 		if(tp==="delete"){
 			db += ".php";
 
@@ -188,16 +198,9 @@
 			formData.append("id2",datos.id2);
 			formData.append("id3",datos.id3);
 
-			console.log("fun:"+fun);
-			console.log("id1:"+datos.id1);
-			console.log("id2:"+datos.id2);
-			console.log("id2:"+datos.id2);
-			console.log("db:"+db);
-
 			let xhr = new XMLHttpRequest();
 			xhr.open('POST',db);
 			xhr.addEventListener('load',(data)=>{
-				console.log(data.target.response);
 				var datos = JSON.parse(data.target.response);
 				if (datos.error==0){
 					Swal.fire({
@@ -222,7 +225,7 @@
 			xhr.send(formData);
 		}
 		if(tp==="edit"){
-			console.log("editar");
+		
 		}
 		if(tp!=="delete"){
 			redirige_div(des,dix,datos);
@@ -243,6 +246,8 @@
 		lugar+=".php";
 		var formData = new FormData();
 		formData.append("id1", datos.id1);
+		formData.append("id2", datos.id2);
+		formData.append("id3", datos.id3);
 		cargando(true);
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',lugar);

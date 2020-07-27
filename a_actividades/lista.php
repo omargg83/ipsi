@@ -1,21 +1,21 @@
 <?php
 	require_once("db_.php");
 	$pd = $db->actividad_lista();
-
-	echo "<nav aria-label='breadcrumb'>";
-		echo "<ol class='breadcrumb'>";
-			echo "<li class='breadcrumb-item active' aria-current='page'>Actividades</li>";
-		echo "</ol>";
-	echo "</nav>";
-
-	echo "<div class='container' style='background-color:".$_SESSION['cfondo']."; '>";
 ?>
+	<nav aria-label='breadcrumb'>
+		<ol class='breadcrumb'>
+			<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/lista" dix="trabajo" id1="">Actividades</lis>
+		</ol>
+	</nav>
+
+	<div class='container'>
+
 
 	<div class='row'>
 		<div id='' class='col-4 p-3 w-50'>
 			<div class="card" style='height:200px;'>
-				<div class='card-body'>
-					<button class='btn btn-warning  ' onclick='actividad_editar(0)'><i class='fas fa-pencil-alt'></i>Nueva actividad</button>
+				<div class='card-body text-center'>
+					<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades/actividad_editar" dix="trabajo" id1="0">Nueva actividad</button>
 				</div>
 			</div>
 		</div>
@@ -36,11 +36,7 @@
 					<div class='card-body'>
 						<div class='row'>
 							<div class='col-12'>
-								<button class='btn btn-warning btn-block' type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' tp="edit" id1='<?php echo $key->idactividad; ?>' title='editar'>Editar</button>
-
-								<!--
-								<button class='btn btn-warning btn-block' onclick='actividad_ver(<?php echo $key->idactividad; ?>)'><i class="fas fa-marker"></i>Ver</button>
-							-->
+								<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" id1="<?php echo $key->idactividad; ?>">Ver</button>
 							</div>
 						</div>
 					</div>

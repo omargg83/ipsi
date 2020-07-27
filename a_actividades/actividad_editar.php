@@ -1,11 +1,13 @@
 <?php
 	require_once("db_.php");
-	if(isset($_REQUEST['idactividad'])){
-		$idactividad=$_REQUEST['idactividad'];
+	if(isset($_REQUEST['id1'])){
+		$id1=$_REQUEST['id1'];
 	}
 	else{
-		$idactividad=0;
+		$id1=0;
 	}
+
+	$idactividad=$id1;
 
 	$nombre="";
 	$observaciones="";
@@ -29,9 +31,8 @@
 	</nav>
 
 	<div class='container'>
-
-		<form id='form_actividad' action='' data-lugar='a_actividades/db_'  data-funcion='guarda_actividad'>
-			<input type='hidden' class='form-control' id='id' name='id' placeholder='Nombre' value='<?php echo $idactividad; ?>' readonly>
+		<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_actividad" lug="a_actividades/actividad_editar">
+			<input type='hidden' class='form-control' id='id1' name='id1' placeholder='Nombre' value='<?php echo $idactividad; ?>' readonly>
 			<div class='card'>
 				<div class="card-header">
 					Editar actividad
@@ -79,8 +80,12 @@
 				</div>
 				<div class='card-footer'>
 					<?php
-						echo "<button type='submit' class='btn btn-warning'><i class='far fa-save'></i> Guardar</button>";
-						echo "<button type='button' class='btn btn-warning' id='regresar' onclick='actividad_ver(document.getElementById(\"id\").value)'><i class='fas fa-undo-alt'></i> Regresar</button>";
+						echo "<button type='submit' class='btn btn-warning'>Guardar</button>";
+						if($idactividad==0)
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/lista' dix='trabajo'>Regresar</button>";
+						else
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' id1='$idactividad'>Regresar</button>";
+
 					?>
 				</div>
 			</div>

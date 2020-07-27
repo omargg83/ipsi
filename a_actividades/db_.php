@@ -1,7 +1,7 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=0;
+$_SESSION['des']=1;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
 	echo "ARCHIVO:";
@@ -43,7 +43,7 @@ class Cuest extends ipsi{
 		try{
 			$arreglo=array();
 			$x="";
-			$id=$_REQUEST['id'];
+			$id1=$_REQUEST['id1'];
 
 			if (isset($_REQUEST['nombre'])){
 				$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
@@ -60,12 +60,12 @@ class Cuest extends ipsi{
 			if (isset($_REQUEST['terapia'])){
 				$arreglo+=array('terapia'=>clean_var($_REQUEST['terapia']));
 			}
-			if($id==0){
+			if($id1==0){
 				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
 				$x=$this->insert('actividad', $arreglo);
 			}
 			else{
-				$x=$this->update('actividad',array('idactividad'=>$id), $arreglo);
+				$x=$this->update('actividad',array('idactividad'=>$id1), $arreglo);
 			}
 			return $x;
 		}
@@ -95,43 +95,15 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-	public function guarda_subactividad(){
+	public function subactividad_guardar(){
 		try{
 			$arreglo=array();
 			$x="";
-			$id=clean_var($_REQUEST['id']);
+			$id=clean_var($_REQUEST['id1']);
 
 			$tipo=clean_var($_REQUEST['tipo']);
 			$arreglo+=array('tipo'=>$tipo);
 
-			if($tipo=="texto"){
-				$arreglo+=array('texto'=>$_REQUEST['tipo']);
-			}
-			if($tipo=="video"){
-				$arreglo+=array('texto'=>$_REQUEST['video']);
-			}
-			if($tipo=="pregunta"){
-				$arreglo+=array('texto'=>clean_var($_REQUEST['pregunta']));
-				$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
-				if(isset($_REQUEST['incisos'])){
-					$arreglo+=array('incisos'=>1);
-				}
-				else{
-					$arreglo+=array('incisos'=>null);
-				}
-				if(isset($_REQUEST['personalizado'])){
-					$arreglo+=array('personalizado'=>1);
-				}
-				else{
-					$arreglo+=array('personalizado'=>null);
-				}
-				if(isset($_REQUEST['usuario'])){
-					$arreglo+=array('usuario'=>1);
-				}
-				else{
-					$arreglo+=array('personalizado'=>null);
-				}
-			}
 
 			if($id==0){
 				$arreglo+=array('idactividad'=>clean_var($_REQUEST['idactividad']));
@@ -241,6 +213,59 @@ class Cuest extends ipsi{
 		}
 	}
 
+
+	public function guarda_bloque(){
+		try{
+			$arreglo=array();
+			$x="";
+			$id=clean_var($_REQUEST['id']);
+
+			$tipo=clean_var($_REQUEST['tipo']);
+			$arreglo+=array('tipo'=>$tipo);
+
+			if($tipo=="texto"){
+				$arreglo+=array('texto'=>$_REQUEST['tipo']);
+			}
+			if($tipo=="video"){
+				$arreglo+=array('texto'=>$_REQUEST['video']);
+			}
+			if($tipo=="pregunta"){
+				$arreglo+=array('texto'=>clean_var($_REQUEST['pregunta']));
+				$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
+				if(isset($_REQUEST['incisos'])){
+					$arreglo+=array('incisos'=>1);
+				}
+				else{
+					$arreglo+=array('incisos'=>null);
+				}
+				if(isset($_REQUEST['personalizado'])){
+					$arreglo+=array('personalizado'=>1);
+				}
+				else{
+					$arreglo+=array('personalizado'=>null);
+				}
+				if(isset($_REQUEST['usuario'])){
+					$arreglo+=array('usuario'=>1);
+				}
+				else{
+					$arreglo+=array('personalizado'=>null);
+				}
+			}
+
+			if($id==0){
+				$arreglo+=array('idactividad'=>clean_var($_REQUEST['idactividad']));
+				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
+				$x=$this->insert('subactividad', $arreglo);
+			}
+			else{
+				$x=$this->update('subactividad',array('idsubactividad'=>$id), $arreglo);
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
 }
 
 $db = new Cuest();
