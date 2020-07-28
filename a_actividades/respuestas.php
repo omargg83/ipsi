@@ -1,8 +1,9 @@
 <?php
   require_once("db_.php");
-  $idactividad=$_REQUEST['idactividad'];
-  $idpregunta=$_REQUEST['idpregunta'];
-  $idrespuesta=$_REQUEST['idrespuesta'];
+
+  $idpregunta=$_REQUEST['id1'];
+  $idactividad=$_REQUEST['id2'];
+  $idrespuesta=$_REQUEST['id3'];
   $orden="";
   $respuesta="";
   $valor="";
@@ -13,16 +14,6 @@
     $respuesta=$row->respuesta;
     $valor=$row->valor;
   }
-
-  echo "<nav aria-label='breadcrumb'>";
-    echo "<ol class='breadcrumb'>";
-      echo "<li class='breadcrumb-item' id='lista_act' data-lugar='a_actividades/lista'>Actividades</li>";
-      echo "<li class='breadcrumb-item' onclick='actividad($idactividad)'>Actividad</li>";
-      echo "<li class='breadcrumb-item' onclick='preguntas($idactividad,$idpregunta)'>Subactividad</li>";
-      echo "<li class='breadcrumb-item active' aria-current='page'>Respuestas</li>";
-    echo "</ol>";
-  echo "</nav>";
-
     echo "<div class='container'>";
     $cuest=$db->actividad_editar($idactividad);
     echo "<div class='card'>";

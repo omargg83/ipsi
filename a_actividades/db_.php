@@ -85,7 +85,7 @@ class Cuest extends ipsi{
 
 	public function subactividad_ver($id){
 		try{
-			$sql="select * from subactividad where idactividad=:id";
+			$sql="select * from subactividad where idactividad=:id order by orden asc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
@@ -104,8 +104,11 @@ class Cuest extends ipsi{
 
 			$nombre=clean_var($_REQUEST['nombre']);
 			$orden=clean_var($_REQUEST['orden']);
+			$pagina=clean_var($_REQUEST['pagina']);
+
 			$arreglo+=array('nombre'=>$nombre);
 			$arreglo+=array('orden'=>$orden);
+			$arreglo+=array('pagina'=>$pagina);
 
 			if($id==0){
 				$arreglo+=array('idactividad'=>$idactividad);
@@ -216,13 +219,25 @@ class Cuest extends ipsi{
 
 
 
-	public function contexto_editar($id){
+	public function contexto_ver($id){
 		try{
 			$sql="select * from contexto where idsubactividad=:id";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function contexto_editar($id){
+		try{
+			$sql="select * from contexto where id=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!";
@@ -236,6 +251,7 @@ class Cuest extends ipsi{
 			$tipo=clean_var($_REQUEST['tipo']);
 			$arreglo+=array('tipo'=>$tipo);
 
+			$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
 			if($tipo=="texto"){
 				$arreglo+=array('texto'=>$_REQUEST['texto']);
 			}

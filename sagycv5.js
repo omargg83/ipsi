@@ -127,7 +127,7 @@
 		 						if (lug !== undefined) {
 		 							redirige_div(lug,dix,datos,"");
 		 						}
-		 						if(cmodal==0){
+		 						if(cmodal==1){
 		 							$('#myModal').modal('hide');
 		 						}
 		 						cargando(false);
@@ -217,18 +217,33 @@
 		let iddest;
 		e.target.attributes.iddest!==undefined ? iddest=e.target.attributes.iddest.nodeValue : iddest="";
 
+		let omodal;
+		e.target.attributes.omodal!==undefined ? omodal=e.target.attributes.omodal.nodeValue : omodal="";
+
+		let cmodal;
+		(e.target.attributes.cmodal !== undefined) ? cmodal=e.target.attributes.cmodal.nodeValue : cmodal="";
+
 		let params="";
 		var formData = new FormData();
+		let datos = new Object();
+
+
 		if(e.target.attributes.params!==undefined){
 			params=e.target.attributes.params.nodeValue;
 		}
-		let datos = new Object();
 		e.target.attributes.id1!==undefined ? datos.id1=e.target.attributes.id1.nodeValue : datos.id1=0;
 		e.target.attributes.id2!==undefined ? datos.id2=e.target.attributes.id2.nodeValue : datos.id2=0;
 		e.target.attributes.id3!==undefined ? datos.id3=e.target.attributes.id3.nodeValue : datos.id3=0;
 
+		datos.omodal=omodal;
+
 		if(iddest!==""){
 			datos.id1=iddest;
+		}
+
+		if(cmodal==1){
+			$('#myModal').modal('hide');
+			return;
 		}
 
 		//////////////poner aqui proceso en caso de existir funcion
@@ -281,6 +296,7 @@
 		formData.append("id1", datos.id1);
 		formData.append("id2", datos.id2);
 		formData.append("id3", datos.id3);
+
 		let arrayDeCadenas = parametros.split(",");
 		for (var i=0; i < arrayDeCadenas.length; i++) {
 			let final=arrayDeCadenas[i].split("-");
@@ -289,12 +305,16 @@
 			}
 		}
 		cargando(true);
+
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',lugar);
 		xhr.addEventListener('load',(data)=>{
+			if(datos.omodal==1){
+				$('#myModal').modal('show');
+				div="modal_form";
+			}
 			document.getElementById(div).innerHTML = data.target.response;
 			var scripts = document.getElementById(div).getElementsByTagName("script");
-
 			for (var i = 0; i < scripts.length; i++) {
 		    eval(scripts[i].innerText);
 			}
@@ -457,9 +477,6 @@
 	}
 
 	//////////////////////
-	$(document).on('click','#sidebarCollapse', function () {
-		$('#sidebar').toggleClass('active');
-  });
 	$(document).on("click","[id^='edit_'], [id^='lista_'], [id^='new_']",function(e){	//////////// para ir a alguna opcion
 			e.preventDefault();
 			var param1=0;

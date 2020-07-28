@@ -2,26 +2,28 @@
 	require_once("db_.php");
 
   $id1=clean_var($_REQUEST['id1']);
-	$idactividad=clean_var($_REQUEST['id2']);
-	$idsubactividad=clean_var($_REQUEST['id3']);
-  $tipo=clean_var($_REQUEST['tipo']);
-
+	$observaciones="";
 	$texto="";
-	$descripcion="";
 	if($id1==0){
-
+		$idactividad=clean_var($_REQUEST['id2']);
+		$idsubactividad=clean_var($_REQUEST['id3']);
+	  $tipo=clean_var($_REQUEST['tipo']);
 	}
 	else{
-		$sub=$db->subactividad_editar($id);
-		$idactividad=$sub->idactividad;
-		$tipo=$sub->tipo;
-		$texto=$sub->texto;
-		$descripcion=$sub->descripcion;
+		$con=$db->contexto_editar($id1);
+		$idsubactividad=$con->idsubactividad;
+		$tipo=$con->tipo;
+		$texto=$con->texto;
+		$descripcion=$con->descripcion;
+		$observaciones=$con->observaciones;
+
 	}
+
+	$sub=$db->subactividad_editar($idsubactividad);
+	$idactividad=$sub->idactividad;
 ?>
 
-
-<form is="f-submit" id="form-contexto" db="a_actividades/db_" fun="guarda_contexto" lug="a_actividades/contexto_editar">
+<form is="f-submit" id="form-contexto" db="a_actividades/db_" fun="guarda_contexto" lug="a_actividades/actividad_ver" iddest="<?php echo $idactividad; ?>" cmodal="1">
 	<input type="hidden" name="id1" id="id1" value="<?php echo $id1; ?>">
 	<input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php echo $idsubactividad; ?>">
 	<input type="hidden" name="tipo" id="tipo" value="<?php echo $tipo; ?>">
@@ -31,11 +33,14 @@
 	    Subactividad
 	  </div>
 	  <div class="card-body">
+			<label>Observaciones:</label>
+			<textarea id='observaciones' name='observaciones' class="form-control"><?php echo $observaciones; ?></textarea>
+
 	    <?php
 	    if($tipo=="texto"){
 	    ?>
 				<label>Texto:</label>
-		    <textarea id='texto' name='texto'><?php echo $texto; ?></textarea>
+		    <textarea id='texto' name='texto' rows=10><?php echo $texto; ?></textarea>
 	    <?php
 	    }
 	    else if($tipo=="imagen"){
@@ -99,7 +104,8 @@
 	  </div>
 	  <div class="card-footer">
 	    <button type='submit' class='btn btn-warning '> Guardar</button>
-			<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" iddest="<?php echo $idactividad; ?>">Regresar</button>
+			<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
+
 	  </div>
 	</div>
 </form>
@@ -111,7 +117,7 @@
 			lang: 'es-ES',
 			placeholder: 'Texto',
 			tabsize: 5,
-			height: 150
+			height: 350
 		});
 	});
 </script>

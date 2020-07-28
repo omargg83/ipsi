@@ -8,7 +8,6 @@
 	}
 
 	$idactividad=$id1;
-
 	$nombre="";
 	$observaciones="";
 	$indicaciones="";
@@ -31,7 +30,7 @@
 	</nav>
 
 	<div class='container'>
-		<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_actividad" lug="a_actividades/actividad_editar">
+		<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_actividad" lug="a_actividades/actividad_editar" cmodal="0">
 			<input type='hidden' class='form-control' id='id1' name='id1' placeholder='Nombre' value='<?php echo $idactividad; ?>' readonly>
 			<div class='card'>
 				<div class="card-header">
