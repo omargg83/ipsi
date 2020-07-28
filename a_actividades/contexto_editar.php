@@ -1,12 +1,15 @@
 <?php
 	require_once("db_.php");
 
-  $id=clean_var($_REQUEST['id']);
+  $id1=clean_var($_REQUEST['id1']);
+	$idactividad=clean_var($_REQUEST['id2']);
+	$idsubactividad=clean_var($_REQUEST['id3']);
+  $tipo=clean_var($_REQUEST['tipo']);
+
 	$texto="";
 	$descripcion="";
-	if($id==0){
-		$idactividad=clean_var($_REQUEST['idactividad']);
-		$tipo=clean_var($_REQUEST['tipo']);
+	if($id1==0){
+
 	}
 	else{
 		$sub=$db->subactividad_editar($id);
@@ -16,9 +19,11 @@
 		$descripcion=$sub->descripcion;
 	}
 ?>
-<form id='form_subact' action='' data-lugar='a_actividades/db_'  data-funcion='guarda_subactividad'>
-	<input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
-	<input type="hidden" name="idactividad" id="idactividad" value="<?php echo $idactividad; ?>">
+
+
+<form is="f-submit" id="form-contexto" db="a_actividades/db_" fun="guarda_contexto" lug="a_actividades/contexto_editar">
+	<input type="hidden" name="id1" id="id1" value="<?php echo $id1; ?>">
+	<input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php echo $idsubactividad; ?>">
 	<input type="hidden" name="tipo" id="tipo" value="<?php echo $tipo; ?>">
 
 	<div class="card mb-3">
@@ -83,8 +88,6 @@
 							<label class="form-check-label" for="usuario">Texto de usuario despues de insiso</label>
 						</div>
 					</div>
-
-
 				</div>
 
 	    <?php
@@ -95,8 +98,8 @@
 	    ?>
 	  </div>
 	  <div class="card-footer">
-	    <button type='submit' class='btn btn-warning '><i class='far fa-save'></i> Guardar</button>
-			<button type='button' class='btn btn-warning' onclick='actividad_ver(<?php echo $idactividad; ?>)'><i class="fas fa-undo-alt"></i>Regresar</button>
+	    <button type='submit' class='btn btn-warning '> Guardar</button>
+			<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" iddest="<?php echo $idactividad; ?>">Regresar</button>
 	  </div>
 	</div>
 </form>

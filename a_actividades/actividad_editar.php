@@ -80,7 +80,7 @@
 				</div>
 				<div class='card-footer'>
 					<?php
-						echo "<button type='submit' class='btn btn-warning'>Guardar</button>";
+						echo "<button class='btn btn-warning'  type='submit'>Guardar</button>";
 						if($idactividad==0)
 							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/lista' dix='trabajo'>Regresar</button>";
 						else

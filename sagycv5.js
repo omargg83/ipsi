@@ -108,7 +108,7 @@
 		 				xhr.open('POST',db);
 		 				xhr.addEventListener('load',(data)=>{
 							if (!isJSON(data.target.response)){
-
+								console.log(data.target.response);
 								Swal.fire({
 		 							type: 'error',
 		 							title: "Error favor de verificar",
@@ -125,8 +125,7 @@
 									datos.id1=iddest;
 								}
 		 						if (lug !== undefined) {
-
-		 							redirige_div(lug,dix,datos);
+		 							redirige_div(lug,dix,datos,"");
 		 						}
 		 						if(cmodal==0){
 		 							$('#myModal').modal('hide');
@@ -190,7 +189,6 @@
 	function isJSON (something) {
 		if (typeof something != 'string')
 				something = JSON.stringify(something);
-
 		try {
 				JSON.parse(something);
 				return true;
@@ -216,21 +214,31 @@
 		let tp;	///////////// el tipo de proceso del boton
 		e.target.attributes.tp!==undefined ? tp=e.target.attributes.tp.nodeValue : tp="";
 
+		let iddest;
+		e.target.attributes.iddest!==undefined ? iddest=e.target.attributes.iddest.nodeValue : iddest="";
+
+		let params="";
+		var formData = new FormData();
+		if(e.target.attributes.params!==undefined){
+			params=e.target.attributes.params.nodeValue;
+		}
 		let datos = new Object();
 		e.target.attributes.id1!==undefined ? datos.id1=e.target.attributes.id1.nodeValue : datos.id1=0;
 		e.target.attributes.id2!==undefined ? datos.id2=e.target.attributes.id2.nodeValue : datos.id2=0;
 		e.target.attributes.id3!==undefined ? datos.id3=e.target.attributes.id3.nodeValue : datos.id3=0;
 
-		//////////////poner aqui proceso en caso de existir funcion
+		if(iddest!==""){
+			datos.id1=iddest;
+		}
 
+		//////////////poner aqui proceso en caso de existir funcion
 		if(tp==="delete"){
 			db += ".php";
-
-			var formData = new FormData();
 			formData.append("function", fun);
 			formData.append("id1",datos.id1);
 			formData.append("id2",datos.id2);
 			formData.append("id3",datos.id3);
+			formData.append("params",params);
 
 			let xhr = new XMLHttpRequest();
 			xhr.open('POST',db);
@@ -243,7 +251,7 @@
 						showConfirmButton: false,
 						timer: 1000
 					});
-					redirige_div(des,dix,datos);
+					redirige_div(des,dix,datos,params);
 				}
 				else{
 					Swal.fire({
@@ -262,33 +270,34 @@
 
 		}
 		if(tp!=="delete"){
-			redirige_div(des,dix,datos);
+			redirige_div(des,dix,datos,params);
 		}
-
-		/////////////termina
-		// console.log("db:"+db);
-		// console.log("des:"+des);
-		// console.log("dix:"+dix);
-		// console.log("fun:"+fun);
-		// console.log("tp:"+tp);
-		// console.log("datos.id:"+datos.id);
-		// console.log("datos.id2:"+datos.id2);
-		// console.log("datos.id3:"+datos.id3);
-
 	}
 
 	//////////////////////////redirige si es necesario
-	function redirige_div(lugar,div,datos){
+	function redirige_div(lugar,div,datos,parametros){
 		lugar+=".php";
 		var formData = new FormData();
 		formData.append("id1", datos.id1);
 		formData.append("id2", datos.id2);
 		formData.append("id3", datos.id3);
+		let arrayDeCadenas = parametros.split(",");
+		for (var i=0; i < arrayDeCadenas.length; i++) {
+			let final=arrayDeCadenas[i].split("-");
+			for (var j=0; j < final.length; j=j+2) {
+				formData.append(final[0], final[1]);
+			}
+		}
 		cargando(true);
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',lugar);
 		xhr.addEventListener('load',(data)=>{
-			document.getElementById(div).innerHTML =data.target.response;
+			document.getElementById(div).innerHTML = data.target.response;
+			var scripts = document.getElementById(div).getElementsByTagName("script");
+
+			for (var i = 0; i < scripts.length; i++) {
+		    eval(scripts[i].innerText);
+			}
 		});
 		xhr.onerror = (e)=>{
 			console.log(e);
@@ -908,3 +917,28 @@
 			$.alert('Debe seleccionar un archivo');
 		}
 	});
+
+
+
+	/*!
+	    * Start Bootstrap - SB Admin v6.0.1 (https://startbootstrap.com/templates/sb-admin)
+	    * Copyright 2013-2020 Start Bootstrap
+	    * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
+	    */
+	    (function($) {
+	    "use strict";
+
+	    // Add active state to sidbar nav links
+	    var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
+	        $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function() {
+	            if (this.href === path) {
+	                $(this).addClass("active");
+	            }
+	        });
+
+	    // Toggle the side navigation
+	    $("#sidebarToggle").on("click", function(e) {
+	        e.preventDefault();
+	        $("body").toggleClass("sb-sidenav-toggled");
+	    });
+	})(jQuery);

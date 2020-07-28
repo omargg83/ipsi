@@ -1,7 +1,7 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=1;
+$_SESSION['des']=0;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
 	echo "ARCHIVO:";
@@ -155,7 +155,6 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-
 	public function guarda_respuesta(){
 		try{
 			$arreglo=array();
@@ -216,17 +215,29 @@ class Cuest extends ipsi{
 	}
 
 
-	public function guarda_bloque(){
+
+	public function contexto_editar($id){
+		try{
+			$sql="select * from contexto where idsubactividad=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function guarda_contexto(){
 		try{
 			$arreglo=array();
 			$x="";
-			$id=clean_var($_REQUEST['id']);
-
+			$id1=clean_var($_REQUEST['id1']);
 			$tipo=clean_var($_REQUEST['tipo']);
 			$arreglo+=array('tipo'=>$tipo);
 
 			if($tipo=="texto"){
-				$arreglo+=array('texto'=>$_REQUEST['tipo']);
+				$arreglo+=array('texto'=>$_REQUEST['texto']);
 			}
 			if($tipo=="video"){
 				$arreglo+=array('texto'=>$_REQUEST['video']);
@@ -254,13 +265,13 @@ class Cuest extends ipsi{
 				}
 			}
 
-			if($id==0){
-				$arreglo+=array('idactividad'=>clean_var($_REQUEST['idactividad']));
+			if($id1==0){
+				$arreglo+=array('idsubactividad'=>clean_var($_REQUEST['idsubactividad']));
 				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
-				$x=$this->insert('subactividad', $arreglo);
+				$x=$this->insert('contexto', $arreglo);
 			}
 			else{
-				$x=$this->update('subactividad',array('idsubactividad'=>$id), $arreglo);
+				$x=$this->update('contexto',array('id'=>$id1), $arreglo);
 			}
 			return $x;
 		}
