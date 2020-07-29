@@ -1,9 +1,6 @@
 <?php
-	require_once("db_.php");
-
   $idactividad=$_REQUEST['id1'];
   $idsubactividad=$_REQUEST['id2'];
-
 ?>
 <div class="container text-center">
 

@@ -28,6 +28,24 @@
           <label for="">Agregue texto descriptivo a la respuesta <small>(Deje en blanco en caso de no requerir)</small></label>
           <input type="text" id="pregunta" name="pregunta" value="" class="form-control">
         </div>
+				<div class="col-4">
+					<div class="form-check form-check-inline">
+					  <input class="form-check-input" type="checkbox" id="varios" name="varios" value="varios">
+					  <label class="form-check-label" for="varios">Selección de varios incisos</label>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="form-check form-check-inline">
+					  <input class="form-check-input" type="checkbox" id="personalizado" name="personalizado" value="personalizado">
+					  <label class="form-check-label" for="personalizado">Permitir agregar incisos personalizados</label>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="form-check form-check-inline">
+					  <input class="form-check-input" type="checkbox" id="texto" name="texto" value="option3">
+					  <label class="form-check-label" for="texto">Texto de usuario despues de insiso</label>
+					</div>
+				</div>
       </div>
     </div>
     <div class="card-footer">

@@ -233,6 +233,17 @@ class Cuest extends ipsi{
 			$arreglo+=array('tipo'=>clean_var($_REQUEST['tipo']));
 			$arreglo+=array('pregunta'=>clean_var($_REQUEST['pregunta']));
 
+			if(isset($_REQUEST['varios']))
+				$arreglo+=array('varios'=>clean_var($_REQUEST['varios']));
+			else
+			 $arreglo+=array('varios'=>NULL);
+
+			if(isset($_REQUEST['personalizada']))
+			$arreglo+=array('personalizada'=>clean_var($_REQUEST['personalizada']));
+
+			if(isset($_REQUEST['texto']))
+			$arreglo+=array('texto'=>clean_var($_REQUEST['texto']));
+
 			if($id1==0){
 				$arreglo+=array('idsubactividad'=>clean_var($_REQUEST['idsubactividad']));
 				$x=$this->insert('inciso', $arreglo);
