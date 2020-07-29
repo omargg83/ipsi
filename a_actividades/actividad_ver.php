@@ -71,6 +71,7 @@
 								Contexto
 							</div>
 							<div class="col-6">
+
 								<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/contexto_editar" dix="sub_<?php echo $key->idsubactividad; ?>" id1="<?php echo $row->id; ?>" omodal="1">Editar</button>
 
 								<button class="btn btn-warning btn-sm" ><i class="fas fa-arrows-alt"></i>Mover</button>
@@ -88,10 +89,19 @@
 							<?php	echo $row->texto; ?>
 						</div>
 
-						<hr>
 						<div class="container-fluid mb-3 text-center">
-							<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/bloque_r" id1="" id2="<?php echo $row->id; ?>" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Bloque de respuesta</button>
+							<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/bloque_r" id1="<?php echo $idactividad; ?>" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Bloque de respuesta</button>
 						</div>
+
+
+						<?php
+							$rx=$db->inciso_ver($row->id);
+							foreach ($rx as $rrex) {
+						?>
+							<br>Pregunta <?php echo $rrex->pregunta;  ?>
+						<?php
+							}
+						?>
 
 						<div class="card-header">
 								respuesta

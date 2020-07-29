@@ -146,79 +146,6 @@ class Cuest extends ipsi{
 		}
 	}
 
-	public function repuestas($id){
-		try{
-			$sql="select * from respuestas where idsubactividad=:id order by orden";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":id",$id);
-			$sth->execute();
-			return $sth->fetchAll(PDO::FETCH_OBJ);
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-	}
-	public function guarda_respuesta(){
-		try{
-			$arreglo=array();
-			$x="";
-			$id=clean_var($_REQUEST['id']);
-			$respuesta=clean_var($_REQUEST['respuesta']);
-			$idsubactividad=clean_var($_REQUEST['idsubactividad']);
-			$orden=clean_var($_REQUEST['orden']);
-
-			$extension = '';
-		  $ruta = '../a_archivos/respuestas/';
-		  $archivo = $_FILES['imagen']['tmp_name'];
-		  $nombrearchivo = $_FILES['imagen']['name'];
-			$tmp=$_FILES['imagen']['tmp_name'];
-		  $info = pathinfo($nombrearchivo);
-		  if($archivo!=""){
-		    $extension = $info['extension'];
-		    if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
-		      $nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
-		      move_uploaded_file($tmp,$ruta.$nombreFile);
-		      $ruta=$ruta."/".$nombreFile;
-					$arreglo+=array('imagen'=>$nombreFile);
-		    }
-		    else{
-		      echo "fail";
-		      exit;
-		    }
-		  }
-
-
-			$arreglo+=array('respuesta'=>$respuesta);
-			$arreglo+=array('orden'=>$orden);
-
-			if($id==0){
-				$arreglo+=array('idsubactividad'=>$idsubactividad);
-				$x=$this->insert('respuestas', $arreglo);
-			}
-			else{
-				$x=$this->update('respuestas',array('id'=>$id), $arreglo);
-			}
-			return $x;
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-	}
-	public function respuestas_editar($id){
-		try{
-			$sql="select * from respuestas where id=:id";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":id",$id);
-			$sth->execute();
-			return $sth->fetch(PDO::FETCH_OBJ);
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-	}
-
-
-
 	public function contexto_ver($id){
 		try{
 			$sql="select * from contexto where idsubactividad=:id";
@@ -295,6 +222,115 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+
+	public function guarda_inciso(){
+		try {
+			$arreglo=array();
+			$x="";
+			$id1=clean_var($_REQUEST['id1']);
+
+
+			$arreglo+=array('tipo'=>clean_var($_REQUEST['tipo']));
+			$arreglo+=array('pregunta'=>clean_var($_REQUEST['pregunta']));
+
+			if($id1==0){
+				$arreglo+=array('idsubactividad'=>clean_var($_REQUEST['idsubactividad']));
+				$x=$this->insert('inciso', $arreglo);
+			}
+			else{
+				$x=$this->update('inciso',array('id'=>$id1), $arreglo);
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function inciso_ver($id){
+		try{
+			$sql="select * from inciso where idsubactividad=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+
+	public function repuestas($id){
+		try{
+			$sql="select * from respuestas where idsubactividad=:id order by orden";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function guarda_respuesta(){
+		try{
+			$arreglo=array();
+			$x="";
+			$id=clean_var($_REQUEST['id']);
+			$respuesta=clean_var($_REQUEST['respuesta']);
+			$idsubactividad=clean_var($_REQUEST['idsubactividad']);
+			$orden=clean_var($_REQUEST['orden']);
+
+			$extension = '';
+		  $ruta = '../a_archivos/respuestas/';
+		  $archivo = $_FILES['imagen']['tmp_name'];
+		  $nombrearchivo = $_FILES['imagen']['name'];
+			$tmp=$_FILES['imagen']['tmp_name'];
+		  $info = pathinfo($nombrearchivo);
+		  if($archivo!=""){
+		    $extension = $info['extension'];
+		    if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+		      $nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
+		      move_uploaded_file($tmp,$ruta.$nombreFile);
+		      $ruta=$ruta."/".$nombreFile;
+					$arreglo+=array('imagen'=>$nombreFile);
+		    }
+		    else{
+		      echo "fail";
+		      exit;
+		    }
+		  }
+
+
+			$arreglo+=array('respuesta'=>$respuesta);
+			$arreglo+=array('orden'=>$orden);
+
+			if($id==0){
+				$arreglo+=array('idsubactividad'=>$idsubactividad);
+				$x=$this->insert('respuestas', $arreglo);
+			}
+			else{
+				$x=$this->update('respuestas',array('id'=>$id), $arreglo);
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function respuestas_editar($id){
+		try{
+			$sql="select * from respuestas where id=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+
+
 }
 
 $db = new Cuest();
