@@ -125,6 +125,7 @@
 									datos.id1=iddest;
 								}
 		 						if (lug !== undefined) {
+									alert(lug);
 		 							redirige_div(lug,dix,datos,"");
 		 						}
 		 						if(cmodal==1){

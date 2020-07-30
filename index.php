@@ -1,4 +1,9 @@
-
+<?php
+	require_once("control_db.php");
+	if(!isset($_SESSION['idusuario']) and strlen($_SESSION['idusuario'])==0){
+		header("location: login/");
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>

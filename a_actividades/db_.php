@@ -270,23 +270,11 @@ class Cuest extends ipsi{
 		}
 	}
 
-	public function repuestas($id){
-		try{
-			$sql="select * from respuestas where idsubactividad=:id order by orden";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":id",$id);
-			$sth->execute();
-			return $sth->fetchAll(PDO::FETCH_OBJ);
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-	}
 	public function guarda_respuesta(){
 		try{
 			$arreglo=array();
 			$x="";
-			$id=clean_var($_REQUEST['id']);
+			$id=clean_var($_REQUEST['id1']);
 			$respuesta=clean_var($_REQUEST['respuesta']);
 			$idsubactividad=clean_var($_REQUEST['idsubactividad']);
 			$orden=clean_var($_REQUEST['orden']);
@@ -323,6 +311,24 @@ class Cuest extends ipsi{
 				$x=$this->update('respuestas',array('id'=>$id), $arreglo);
 			}
 			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+
+
+
+
+
+
+	public function repuestas($id){
+		try{
+			$sql="select * from respuestas where idsubactividad=:id order by orden";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!";

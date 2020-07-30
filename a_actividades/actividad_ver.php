@@ -127,7 +127,7 @@
 									</div>
 									<div class="card-body">
 
-										<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/inciso_resp" id1="<?php echo $idactividad; ?>" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
+										<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/inciso_resp" id1="0" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
 
 									</div>
 								</div>
