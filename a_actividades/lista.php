@@ -1,5 +1,6 @@
 <?php
 	require_once("db_.php");
+
 	$pd = $db->actividad_lista();
 ?>
 	<nav aria-label='breadcrumb'>
@@ -30,6 +31,8 @@
 							<div class='col-12'>
 								<div><?php echo $key->nombre; ?></div>
 								<div><?php echo $key->observaciones; ?></div>
+								<div>#<?php echo $key->terapia; ?></div>
+								<div>#<?php echo $key->track; ?></div>
 							</div>
 						</div>
 					</div>

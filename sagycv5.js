@@ -124,8 +124,7 @@
 								if(iddest!==""){
 									datos.id1=iddest;
 								}
-		 						if (lug !== undefined) {
-									alert(lug);
+		 						if (lug !== undefined && lug.length>0) {
 		 							redirige_div(lug,dix,datos,"");
 		 						}
 		 						if(cmodal==1){

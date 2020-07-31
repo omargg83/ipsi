@@ -41,7 +41,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 		<div class="card-footer">
 			<button type='submit' class='btn btn-warning'> Guardar</button>

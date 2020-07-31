@@ -60,6 +60,9 @@ class Cuest extends ipsi{
 			if (isset($_REQUEST['terapia'])){
 				$arreglo+=array('terapia'=>clean_var($_REQUEST['terapia']));
 			}
+			if (isset($_REQUEST['track'])){
+				$arreglo+=array('track'=>clean_var($_REQUEST['track']));
+			}
 			if($id1==0){
 				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
 				$x=$this->insert('actividad', $arreglo);
@@ -223,6 +226,18 @@ class Cuest extends ipsi{
 		}
 	}
 
+	public function inciso_editar($id){
+		try{
+			$sql="select * from inciso where id=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
 	public function guarda_inciso(){
 		try {
 			$arreglo=array();
@@ -237,6 +252,9 @@ class Cuest extends ipsi{
 				$arreglo+=array('varios'=>clean_var($_REQUEST['varios']));
 			else
 			 $arreglo+=array('varios'=>NULL);
+
+			 if(isset($_REQUEST['orden']))
+			 $arreglo+=array('orden'=>clean_var($_REQUEST['orden']));
 
 			if(isset($_REQUEST['personalizada']))
 			$arreglo+=array('personalizada'=>clean_var($_REQUEST['personalizada']));
@@ -259,7 +277,7 @@ class Cuest extends ipsi{
 	}
 	public function inciso_ver($id){
 		try{
-			$sql="select * from inciso where idsubactividad=:id";
+			$sql="select * from inciso where idsubactividad=:id order by orden asc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();

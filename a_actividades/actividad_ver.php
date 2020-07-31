@@ -7,12 +7,17 @@
 	$nombre=$actividad->nombre;
 	$observaciones=$actividad->observaciones;
 	$indicaciones=$actividad->indicaciones;
+	$terapia=$actividad->terapia;
+	$track=$actividad->track;
 
 ?>
 <nav aria-label='breadcrumb'>
   <ol class='breadcrumb'>
 		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/lista" dix="trabajo" id1="">Actividades</lis>
-    <li class='breadcrumb-item active' aria-current='page'>Actividad</li>
+    <li class='breadcrumb-item' aria-current='page'>Actividad</li>
+		<li class='breadcrumb-item' aria-current='page'><?php echo $terapia; ?></li>
+		<li class='breadcrumb-item' aria-current='page'><?php echo $track; ?></li>
+		<li class='breadcrumb-item active' aria-current='page'><?php echo $nombre; ?></li>
   </ol>
 </nav>
 <!-- actividad  -->
@@ -121,14 +126,18 @@
 								?>
 								<div class="card mb-3">
 									<div class="card-body">
-										<br>Pregunta:
-										<br><?php echo $rrex->pregunta;  ?>
-										<hr>
+										<div class="row">
+											<div class="col-1">
+												<button class="btn btn-warning " type="button" is="b-link" des="a_actividades/inciso" id1="<?php echo $rrex->id; ?>" id2="<?php echo $idactividad; ?>" id3="<?php echo $idsubactividad; ?>" params='tipo-inciso' omodal="1" >Editar</button>
+											</div>
+											<div class="col-10">
+												<?php echo $rrex->pregunta;  ?>
+											</div>
+										</div>
 									</div>
+									<hr>
 									<div class="card-body">
-
-										<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/inciso_resp" id1="0" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
-
+										<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/inciso_respuesta" id1="0" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
 									</div>
 								</div>
 								<?php

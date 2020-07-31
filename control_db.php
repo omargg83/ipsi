@@ -171,6 +171,31 @@
 			}
 		}
 
+
+		public function terapias(){
+			try{
+				$sql="select * from terapias";
+				$sth = $this->dbh->prepare($sql);
+				$sth->execute();
+				return $sth->fetchAll(PDO::FETCH_OBJ);
+			}
+			catch(PDOException $e){
+				return "Database access FAILED!";
+			}
+		}
+
+		public function track(){
+			try{
+				$sql="select * from track";
+				$sth = $this->dbh->prepare($sql);
+				$sth->execute();
+				return $sth->fetchAll(PDO::FETCH_OBJ);
+			}
+			catch(PDOException $e){
+				return "Database access FAILED!";
+			}
+		}
+
 		public function fondo(){
 			$_SESSION['idfondo']=$_REQUEST['imagen'];
 			$this->update('usuarios',array('idpersona'=>$_SESSION['idusuario']), array('idfondo'=>$_SESSION['idfondo']));
@@ -365,6 +390,9 @@
 				return json_encode($arreglo);
 			}
 		}
+
+
+
 	}
 	function clean_var($val){
 		$val=htmlspecialchars(strip_tags(trim($val)));

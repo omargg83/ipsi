@@ -59,14 +59,14 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-
-                            <a class="nav-link" is='menu-link' href='#a_terapia/index' title='Terapias'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div> Terapias</a>
-                            <a class="nav-link" is='menu-link' href='#a_track/index' title='Track'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Tracks</a>
-                            <a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Actividades</a>
-                            <a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Usuarios</a>
+														<a class="nav-link" is='menu-link' href='#a_clientes/index' title='Pacientes'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Pacientes</a>
+                            <a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Agenda</a>
 
                             <div class="sb-sidenav-menu-heading">Terapias</div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+														<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Todas</a>
+
+
+														<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 Terapias
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -77,6 +77,11 @@
                                     <a class="nav-link" href="layout-sidenav-light.html">x terapia</a>
                                 </nav>
                             </div>
+
+														<div class="sb-sidenav-menu-heading">Admin</div>
+														<a class="nav-link" is='menu-link' href='#a_terapia/index' title='Terapias'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Catalogo Terapias</a>
+														<a class="nav-link" is='menu-link' href='#a_track/index' title='Track'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Catalogo Tracks</a>
+														<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Usuarios</a>
 
                         </div>
                     </div>

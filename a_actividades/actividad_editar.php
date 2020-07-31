@@ -13,19 +13,24 @@
 	$indicaciones="";
 	$tipo="";
 	$terapia="";
+	$track="";
 	if($idactividad>0){
 		$cuest=$db->actividad_editar($idactividad);
 		$nombre=$cuest->nombre;
 		$observaciones=$cuest->observaciones;
+		$indicaciones=$cuest->indicaciones;
 		$tipo=$cuest->tipo;
 		$terapia=$cuest->terapia;
-		$indicaciones=$cuest->indicaciones;
+		$track=$cuest->track;
 	}
+
+	$terapias=$db->terapias();
+	$tracks=$db->track();
 ?>
 	<nav aria-label='breadcrumb'>
 		<ol class='breadcrumb'>
 			<li class='breadcrumb-item' id='lista_act' data-lugar='a_actividades/lista'>Actividades</li>
-			<li class='breadcrumb-item active' aria-current='page'>Actividad</li>
+			<li class='breadcrumb-item active' aria-current='page'>Editar</li>
 		</ol>
 	</nav>
 
@@ -42,6 +47,31 @@
 							<label>Nombre de la actividad</label>
 							<input type='text' class='form-control' id='nombre' name='nombre' placeholder='Nombre de la actividad' value='<?php echo $nombre; ?>' required>
 						</div>
+
+						<div class="col-3">
+							<label>Tipo de terapia:</label>
+								<select class='form-control' id='terapia' name='terapia'>
+									<?php
+										foreach($terapias as $key){
+											echo "<option value='$key->nombre'"; if($key->nombre==$terapia){ echo " selected";} echo ">$key->nombre</option>";
+										}
+									?>
+								</select>
+						</div>
+
+						<div class="col-3">
+							<label>Track:</label>
+								<select class='form-control' id='track' name='track'>
+									<?php
+										foreach($tracks as $key){
+											echo "<option value='$key->nombre'"; if($key->nombre==$track){ echo " selected";} echo ">$key->nombre</option>";
+										}
+									?>
+								</select>
+						</div>
+
+
+
 						<div class="col-3">
 							<label>Tipo de terapia:</label>
 								<select class='form-control' id='tipo' name='tipo'>
@@ -49,22 +79,7 @@
 									<option value='evaluacion' <?php if($tipo=="evaluacion"){ echo " selected";} ?>>Evaluacion</option>
 								</select>
 						</div>
-						<div class="col-3">
-							<label>Tipo de terapia:</label>
-								<select class='form-control' id='track' name='track'>
-									<option value='inicial' <?php if($tipo=="inicial"){ echo " selected";} ?>>Inicial</option>
-									<option value='individual' <?php if($tipo=="individual"){ echo " selected";} ?>>Individual</option>
-									<option value='pareja' <?php if($tipo=="pareja"){ echo " selected";} ?>>Pareja</option>
-									<option value='infantil' <?php if($tipo=="infantil"){ echo " selected";} ?>>Infantil</option>
-								</select>
-						</div>
-						<div class="col-3">
-							<label>Terapia:</label>
-								<select class='form-control' id='terapia' name='terapia'>
-									<option value='enojo' <?php if($tipo=="enojo"){ echo " selected";} ?>>Enojo</option>
-									<option value='ansiedad' <?php if($tipo=="ansiedad"){ echo " selected";} ?>>Ansiedad</option>
-								</select>
-						</div>
+
 					</div>
 					<div class='row'>
 						<div class='col-12'>
@@ -78,14 +93,17 @@
 					</div>
 				</div>
 				<div class='card-footer'>
-					<?php
-						echo "<button class='btn btn-warning'  type='submit'>Guardar</button>";
-						if($idactividad==0)
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/lista' dix='trabajo'>Regresar</button>";
-						else
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' id1='$idactividad'>Regresar</button>";
-
-					?>
+					<div class='row'>
+						<div class='col-12'>
+							<?php
+								echo "<button class='btn btn-warning'  type='submit'>Guardar</button>";
+								if($idactividad==0)
+									echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/lista' dix='trabajo'>Regresar</button>";
+								else
+									echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' id1='$idactividad'>Regresar</button>";
+							?>
+						</div>
+					</div>
 				</div>
 			</div>
 		</form>
