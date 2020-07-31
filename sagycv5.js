@@ -199,6 +199,7 @@
 
 	//////////////////////////Solo para un proceso antes del flujo ejem. al borrar que primero borre y luego redirive_div
 	function proceso_db(e){
+		cargando(true);
 		let des;	/////////////el destino
 		e.target.attributes.des!==undefined ? des=e.target.attributes.des.nodeValue : des="";
 
@@ -287,10 +288,13 @@
 		if(tp!=="delete"){
 			redirige_div(des,dix,datos,params);
 		}
+		cargando(false);
 	}
 
 	//////////////////////////redirige si es necesario
 	function redirige_div(lugar,div,datos,parametros){
+
+
 		lugar+=".php";
 		var formData = new FormData();
 		formData.append("id1", datos.id1);
@@ -304,8 +308,6 @@
 				formData.append(final[0], final[1]);
 			}
 		}
-		cargando(true);
-
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',lugar);
 		xhr.addEventListener('load',(data)=>{
@@ -477,65 +479,6 @@
 	}
 
 	//////////////////////
-	$(document).on("click","[id^='edit_'], [id^='lista_'], [id^='new_']",function(e){	//////////// para ir a alguna opcion
-			e.preventDefault();
-			var param1=0;
-			var id=$(this).attr('id');
-			var funcion="";
-			if ( $(this).data('funcion') ) {
-				funcion = $(this).data('funcion');
-			}
-
-			var lugar="";
-			var contenido="#trabajo";
-			var xyId=0;
-			var valor="";
-			padre=id.split("_")[0]
-			cargando(true);
-
-			if ( $(this).data('valor')!=undefined ) {
-				valor=$("#"+$(this).data('valor')).val();
-			}
-
-			if ( $(this).data('div')!=undefined ) {
-				contenido="#"+$(this).data('div');
-			}
-
-			if ( $(this).data('param1') ) {
-				param1 = $(this).data('param1');
-			}
-
-			if(padre=="edit" || padre=="new" || padre=="lista"){
-				lugar = $("#"+id).data('lugar')+".php";
-				if(padre=="edit"){
-					lugar=$(this).attr("data-lugar")+".php";
-					if ( $(this).closest(".edit-t").attr("id")){
-						xyId = $(this).closest(".edit-t").attr("id");
-					}
-					else{
-						xyId = $("#"+id).data('id');
-					}
-				}
-			}
-			$.ajax({
-				data:  {"id":xyId,"param1":param1,"funcion":funcion,"valor":valor},
-				url:   lugar,
-				type:  'post',
-				timeout:30000,
-				beforeSend: function () {
-					$(contenido).html("<div class='container' style='background-color:white; width:300px'><center><img src='img/carga.gif' width='100px'></center></div>");
-				},
-				success:  function (response) {
-					$(contenido).html(response);
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					if(textStatus==="timeout") {
-						$("#container").html("<div class='container' style='background-color:white; width:300px'><center><img src='img/giphy.gif' width='300px'></center></div><br><center><div class='alert alert-danger' role='alert'>Ocurrio un error intente de nuevo en unos minutos, vuelva a entrar o presione ctrl + F5, para reintentar</div></center> ");
-					}
-				}
-			});
-			cargando(false);
-		});
 	$(document).on("click","[id^='select_']",function(e){								//////////// para consulta con combo
 		var combo=$(this).data('combo');
 		var combo2;
@@ -750,27 +693,6 @@
 			}
 		});
 	});
-	$(document).on("click","[id^='winmodal_']",function(e){
-		e.preventDefault();
-		var id = "0";
-		var id2 = "0";
-		var id3 = "0";
-		var lugar = $(this).data('lugar');
-
-		if ( $(this).data('id') ) {
-			id = $(this).data('id');
-		}
-		if ( $(this).data('id2') ) {
-			id2 = $(this).data('id2');
-		}
-		if ( $(this).data('id3') ) {
-			id3 = $(this).data('id3');
-		}
-
-		$("#modal_form").load(lugar+".php?id="+id+"&id2="+id2+"&id3="+id3);
-		$('#myModal').modal({backdrop: 'static', keyboard: false})
-		$('#myModal').modal('show');
-	});
 	$(document).on('submit','#recovery',function(e){
 			e.preventDefault();
 			var telefono=document.getElementById("userAcceso").value;
@@ -942,7 +864,7 @@
 	    * Copyright 2013-2020 Start Bootstrap
 	    * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
 	    */
-	    (function($) {
+    (function($) {
 	    "use strict";
 
 	    // Add active state to sidbar nav links

@@ -16,10 +16,12 @@
 
 <nav aria-label='breadcrumb'>
   <ol class='breadcrumb'>
-    <li class='breadcrumb-item' id='lista_pacientes' data-lugar='a_track/lista'>Track</li>
+		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_track/lista" dix="trabajo" id1="">Track</li>
     <li class='breadcrumb-item active' aria-current='page'><?php echo $nombre; ?></li>
   </ol>
 </nav>
+
+
 
 <div class="container">
 	<form is="f-submit" id="form_track" db="a_track/db_" fun="guardar_track" lug='a_track/editar'>
@@ -59,10 +61,8 @@
 			<div class='card-footer'>
 				<div class="row">
 					<div class="col-sm-12">
-						<div class="btn-group">
 						<button class="btn btn-warning" type="submit">Guardar</button>
 						<button class="btn btn-warning" type="button" is="b-link" des='a_track/lista' dix='trabajo'>Regresar</button>
-						</div>
 					</div>
 				</div>
 			</div>

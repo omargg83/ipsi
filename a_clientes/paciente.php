@@ -1,8 +1,8 @@
 <?php
 	require_once("db_.php");
-	if (isset($_POST['id'])){$id=$_REQUEST['id'];} else{ $id=0;}
+	if (isset($_REQUEST['id1'])){$id1=$_REQUEST['id1'];} else{ $id1=0;}
 
-	$pd = $db->cliente_editar($id);
+	$pd = $db->cliente_editar($id1);
 	$nombre=$pd->nombre;
 	$apellidop=$pd->apellidop;
 	$apellidom=$pd->apellidom;
@@ -10,14 +10,13 @@
 	$correo=$pd->correo;
 	$foto=$pd->foto;
 	$observaciones=$pd->observaciones;
-
-	echo "<nav aria-label='breadcrumb'>";
-		echo "<ol class='breadcrumb'>";
-			echo "<li class='breadcrumb-item' id='lista_pacientes' data-lugar='a_clientes/lista'>Mis pacientes</li>";
-			echo "<li class='breadcrumb-item active' aria-current='page'>".$nombre." ".$apellidop." ".$apellidom."</li>";
-		echo "</ol>";
-	echo "</nav>";
 ?>
+
+<nav aria-label='breadcrumb'>
+	<ol class='breadcrumb'>
+		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_clientes/lista" dix="trabajo">Pacientes</li>
+	</ol>
+</nav>
 
 <div class="container">
 	<div class='row'>
@@ -68,7 +67,6 @@
 								if($num>0){
 										echo "<button type='button' class='btn btn-warning btn-block' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' >Ansiedad</button>";
 								}
-
 							?>
 
 							</div>

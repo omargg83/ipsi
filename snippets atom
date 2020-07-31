@@ -1,5 +1,4 @@
 
-
 '.text.php':
   'Form largo HTML':
     'prefix': 'form-html'
@@ -39,4 +38,10 @@
     'prefix': 'btn-php'
     'body':"""
     echo "<button class='btn btn-warning' type='button' is='b-link' des='lugar/file' dix='trabajo' id1=''>Regresar</button>";
+    """
+
+  'Li para menu HTML':
+    'prefix': 'li-html'
+    'body':"""
+    <li class='' is='li-link' des='lugar/file' dix='trabajo' id1=''>Opcion</button>
     """

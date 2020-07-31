@@ -10,7 +10,7 @@
 
 <nav aria-label='breadcrumb'>
   <ol class='breadcrumb'>
-    <li class='breadcrumb-item' id='lista_pacientes' data-lugar='a_track/lista'>Track</li>
+    <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_track/lista" dix="trabajo" id1="">Track</li>
     <li class='breadcrumb-item active' aria-current='page'><?php echo $nombre; ?></li>
   </ol>
 </nav>

@@ -10,10 +10,11 @@
 
 <nav aria-label='breadcrumb'>
   <ol class='breadcrumb'>
-    <li class='breadcrumb-item' id='lista_pacientes' data-lugar='a_terapia/lista'>Terapias</li>
+    <li class='breadcrumb-item' id='lista_pacientes' is="li-link" des="a_terapia/lista" dix="trabajo" id1="">Terapias</li>
     <li class='breadcrumb-item active' aria-current='page'><?php echo $nombre; ?></li>
   </ol>
 </nav>
+
 
 <div class="container">
 	<form is="f-submit" id="form_terapia" db="a_terapia/db_" fun="guardar_terapia" lug='a_terapia/editar'>

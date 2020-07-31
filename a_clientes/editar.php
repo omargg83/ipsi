@@ -1,6 +1,6 @@
 <?php
 	require_once("db_.php");
-	if (isset($_POST['id'])){$id=clean_var($_REQUEST['id']);} else{ $id=0;}
+	if (isset($_REQUEST['id1'])){$id1=clean_var($_REQUEST['id1']);} else{ $id1=0;}
 
 	$nombre="";
 	$apellidop="";
@@ -20,7 +20,7 @@
 	$per = $db->personal();
 
 	if($id>0){
-		$pd = $db->cliente_editar($id);
+		$pd = $db->cliente_editar($id1);
 		$nombre=$pd->nombre;
 		$apellidop=$pd->apellidop;
 		$apellidom=$pd->apellidom;
@@ -38,15 +38,15 @@
 		$medicamentos=$pd->medicamentos;
 	}
 
-	echo "<nav aria-label='breadcrumb'>";
-		echo "<ol class='breadcrumb'>";
-			echo "<li class='breadcrumb-item' id='lista_pacientes' data-lugar='a_clientes/lista'>Mis pacientes</li>";
-			echo "<li class='breadcrumb-item active' aria-current='page' onclick='paciente($id)'>".$nombre." ".$apellidop." ".$apellidom."</li>";
-			echo "<li class='breadcrumb-item active' aria-current='page'>Ficha de registro</li>";
-		echo "</ol>";
-	echo "</nav>";
+	?>
+	<nav aria-label='breadcrumb'>
+		<ol class='breadcrumb'>
+			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_clientes/lista" dix="trabajo">Pacientes</li>
+			<li class='breadcrumb-item active' aria-current='page' onclick='paciente($id)'>".$nombre." ".$apellidop." ".$apellidom."</li>
+			<li class='breadcrumb-item active' aria-current='page'>Ficha de registro</li>
+		</ol>
+	</nav>
 
-?>
 
 <div class="container">
 	<form action="" id="form_cliente" data-lugar="a_clientes/db_" data-funcion="guardar_cliente" data-destino='a_clientes/editar'>
