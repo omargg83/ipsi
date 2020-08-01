@@ -174,7 +174,7 @@
 
 		public function terapias(){
 			try{
-				$sql="select * from terapias";
+				$sql="select * from terapias order by nombre asc";
 				$sth = $this->dbh->prepare($sql);
 				$sth->execute();
 				return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -390,9 +390,6 @@
 				return json_encode($arreglo);
 			}
 		}
-
-
-
 	}
 	function clean_var($val){
 		$val=htmlspecialchars(strip_tags(trim($val)));

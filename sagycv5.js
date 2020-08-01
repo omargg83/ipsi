@@ -20,7 +20,20 @@
 	class MenuLink extends HTMLAnchorElement {
 		connectedCallback() {
 			this.addEventListener('click', (e) => {
-				loadContent(e.target.hash.slice(1));
+				let datos = new Object();
+
+				e.target.attributes.id1!==undefined ? datos.id1=e.target.attributes.id1.nodeValue : datos.id1="";
+				e.target.attributes.id2!==undefined ? datos.id1=e.target.attributes.id2.nodeValue : datos.id2="";
+				e.target.attributes.id3!==undefined ? datos.id1=e.target.attributes.id3.nodeValue : datos.id3="";
+
+
+				let lug=e.target.hash.slice(1);
+				let dix="contenido";
+				var formData = new FormData();
+				formData.append("id1", datos.id1);
+				formData.append("id2", datos.id2);
+				formData.append("id3", datos.id3);
+				redirige_div(lug,dix,datos,"");
 			});
 		}
 	}
@@ -244,6 +257,7 @@
 
 		if(cmodal==1){
 			$('#myModal').modal('hide');
+			cargando(false);
 			return;
 		}
 
@@ -288,13 +302,12 @@
 		if(tp!=="delete"){
 			redirige_div(des,dix,datos,params);
 		}
+
 		cargando(false);
 	}
 
 	//////////////////////////redirige si es necesario
 	function redirige_div(lugar,div,datos,parametros){
-
-
 		lugar+=".php";
 		var formData = new FormData();
 		formData.append("id1", datos.id1);

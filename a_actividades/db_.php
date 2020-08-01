@@ -322,7 +322,7 @@ class Cuest extends ipsi{
 			$arreglo+=array('orden'=>$orden);
 
 			if($id==0){
-				$arreglo+=array('idsubactividad'=>$idsubactividad);
+				$arreglo+=array('idinciso'=>$idsubactividad);
 				$x=$this->insert('respuestas', $arreglo);
 			}
 			else{
@@ -334,15 +334,9 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-
-
-
-
-
-
-	public function repuestas($id){
+	public function respuestas_ver($id){
 		try{
-			$sql="select * from respuestas where idsubactividad=:id order by orden";
+			$sql="select * from respuestas where idinciso=:id order by orden";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();

@@ -121,23 +121,45 @@
 
 			<!-- Preguntas  -->
 							<?php
+
 							$rx=$db->inciso_ver($row->id);
-							foreach ($rx as $rrex) {
+							foreach ($rx as $inciso) {
 								?>
 								<div class="card mb-3">
 									<div class="card-body">
 										<div class="row">
 											<div class="col-1">
-												<button class="btn btn-warning " type="button" is="b-link" des="a_actividades/inciso" id1="<?php echo $rrex->id; ?>" id2="<?php echo $idactividad; ?>" id3="<?php echo $idsubactividad; ?>" params='tipo-inciso' omodal="1" >Editar</button>
+												<button class="btn btn-warning " type="button" is="b-link" des="a_actividades/inciso" id1="<?php echo $inciso->id; ?>" id2="<?php echo $idactividad; ?>" id3="<?php echo $idsubactividad; ?>" params='tipo-inciso' omodal="1" >Editar</button>
 											</div>
 											<div class="col-10">
-												<?php echo $rrex->pregunta;  ?>
+												<?php echo $inciso->pregunta;  ?>
 											</div>
 										</div>
 									</div>
-									<hr>
+
 									<div class="card-body">
-										<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/inciso_respuesta" id1="0" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
+										<div class="row">
+										<?php
+											$resp=$db->respuestas_ver($inciso->id);
+											foreach($resp as $respuestas){
+												echo "<div class='col-3 mb-3'>";
+													echo "<div class='row'>";
+														echo "<div class='col-3'>";
+															echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/inciso_respuesta' id1='$respuestas->id' id2='$inciso->id' id3='$idactividad' params='tipo-imagen' omodal='1' >Editar</button>";
+														echo "</div>";
+														echo "<div class='col-9'>";
+															echo "<label>inciso 1:</label><br>";
+															echo $respuestas->respuesta;
+														echo "</div>";
+													echo "</div>";
+
+												echo "</div>";
+											}
+										?>
+										<div class='col-3 mb-3'>
+											<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/inciso_respuesta" id1="0" id2="<?php echo $inciso->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
+											</div>
+										</div>
 									</div>
 								</div>
 								<?php

@@ -1,5 +1,5 @@
 <?php
-	require_once("control_db.php");
+	require_once("db_.php");
 	if(!isset($_SESSION['idusuario']) and strlen($_SESSION['idusuario'])==0){
 		header("location: login/");
 	}
@@ -23,8 +23,6 @@
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
         <link rel="stylesheet" href="librerias15/swal/dist/sweetalert2.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/css/uikit.min.css" />
-
-
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -73,8 +71,12 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-static.html">Infantil</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">x terapia</a>
+																	<?php
+																		foreach($db->terapias() as $terapias){
+																			echo "<a class='nav-link' is='menu-link' id1='$terapias->nombre' href='#a_actividades/index'>$terapias->nombre</a>";
+																		}
+																	?>
+
                                 </nav>
                             </div>
 
@@ -144,8 +146,5 @@
 
         <!--   Propios   -->
         <script src="sagycv5.js"></script>
-        <script src="ipsi.js"></script>
-
-
     </body>
 </html>
