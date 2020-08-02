@@ -1,5 +1,6 @@
-	let intval="";
+	let intval=""
 
+	console.log("enta");
 	onload = ()=> {
 		loadContent(location.hash.slice(1));
 		if(intval==""){

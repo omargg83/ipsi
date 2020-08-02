@@ -71,12 +71,7 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-																	<?php
-																		foreach($db->terapias() as $terapias){
-																			echo "<a class='nav-link' is='menu-link' id1='$terapias->nombre' href='#a_actividades/index'>$terapias->nombre</a>";
-																		}
-																	?>
-
+																	<a class='nav-link' is='menu-link' id1='$terapias->nombre' href='#a_actividades/index'>Terapia</a>
                                 </nav>
                             </div>
 
