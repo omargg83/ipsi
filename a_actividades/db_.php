@@ -17,6 +17,70 @@ class Cuest extends ipsi{
 
 	}
 
+	public function terapias(){
+		try{
+			$sql="select * from terapias order by nombre asc";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function terapia_editar($id){
+		try{
+			$sql="select * from terapias where id=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
+	public function track($id1){
+		try{
+			$sql="select * from track where idterapia=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id1);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function track_editar($id1){
+		try{
+			$sql="select * from track where id=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id1);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+
+
+
+	public function modulos($id){
+		try{
+			$sql="select * from modulo where idtrack=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
 	public function actividad_lista(){
 		try{
 			$sql="select * from actividad";

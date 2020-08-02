@@ -172,29 +172,7 @@
 		}
 
 
-		public function terapias(){
-			try{
-				$sql="select * from terapias order by nombre asc";
-				$sth = $this->dbh->prepare($sql);
-				$sth->execute();
-				return $sth->fetchAll(PDO::FETCH_OBJ);
-			}
-			catch(PDOException $e){
-				return "Database access FAILED!";
-			}
-		}
-
-		public function track(){
-			try{
-				$sql="select * from track";
-				$sth = $this->dbh->prepare($sql);
-				$sth->execute();
-				return $sth->fetchAll(PDO::FETCH_OBJ);
-			}
-			catch(PDOException $e){
-				return "Database access FAILED!";
-			}
-		}
+	
 
 		public function fondo(){
 			$_SESSION['idfondo']=$_REQUEST['imagen'];

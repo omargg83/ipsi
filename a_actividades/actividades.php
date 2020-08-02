@@ -1,9 +1,6 @@
 <?php
 	require_once("db_.php");
-	if(!isset($tipo_terapia)){
-		$tipo_terapia="";
-	}
-	$pd = $db->actividad_lista($tipo_terapia);
+	$pd = $db->actividad_lista();
 ?>
 	<nav aria-label='breadcrumb'>
 		<ol class='breadcrumb'>
