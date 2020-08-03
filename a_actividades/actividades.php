@@ -15,7 +15,7 @@
 		<div id='' class='col-4 p-3 w-50'>
 			<div class="card" style='height:200px;'>
 				<div class='card-body text-center'>
-					<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades/actividad_editar" dix="trabajo" id1="0">Nueva actividad</button>
+					<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades_editar/actividad_editar" dix="trabajo" id1="0">Nueva actividad</button>
 				</div>
 			</div>
 		</div>

@@ -10,15 +10,7 @@
 </nav>
 
 <div class="alert alert-warning text-center" role="alert">
-	<div class="row">
-		<div class="col-10">
-			Terapias
-		</div>
-		<div class="col-2">
-			<button class="btn btn-warning btn-sm" type="button" is="b-link" des="lugar/file" dix="trabajo" id1="">editar</button>
-			<button class="btn btn-warning btn-sm" type="button" is="b-link" des="lugar/file" dix="trabajo" id1="">Nuevo</button>
-		</div>
-	</div>
+	Terapias
 </div>
 
 <div class='container'>
@@ -28,15 +20,18 @@
   	?>
   		<div class='col-4 p-3 w-50'>
   			<div class='card' style='height:200px;'>
+					<div class="card-header">
+						<?php echo $key->nombre; ?>
+						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/terapias_editar" dix="trabajo" id1="<?php echo $key->id; ?>">Editar</button>
+					</div>
   				<div class='card-body'>
   					<div class='row'>
-  						<div class='col-12'>
-								<label>Terapia:</label>
-  							<div><?php echo $key->nombre; ?></div>
+							<div class='col-12'>
+									<?php echo $key->descripcion; ?>
   						</div>
   					</div>
   				</div>
-  				<div class='card-body'>
+  				<div class='card-footer'>
   					<div class='row'>
   						<div class='col-12'>
   							<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades/track" dix="trabajo" id1="<?php echo $key->id; ?>">Ver</button>

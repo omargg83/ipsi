@@ -28,6 +28,7 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+
 	public function terapia_editar($id){
 		try{
 			$sql="select * from terapias where id=:id";
@@ -39,6 +40,28 @@ class Cuest extends ipsi{
 		catch(PDOException $e){
 			return "Database access FAILED!".$e->getMessage();
 		}
+	}
+	public function guardar_terapia(){
+		$x="";
+		$arreglo =array();
+		$id1=clean_var($_REQUEST['id1']);
+		if (isset($_REQUEST['nombre'])){
+			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
+		}
+		if (isset($_REQUEST['descripcion'])){
+			$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
+		}
+		if($id1==0){
+			$x=$this->insert('terapias', $arreglo);
+		}
+		else{
+			$x=$this->update('terapias',array('id'=>$id1), $arreglo);
+		}
+		return $x;
+	}
+	public function borrar_terapia(){
+		if (isset($_REQUEST['id1'])){$id1=$_REQUEST['id1'];}
+		return $this->borrar('terapias',"id",$id1);
 	}
 
 	public function track($id1){
@@ -65,12 +88,45 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-
-
+	public function guardar_track(){
+		$x="";
+		$arreglo =array();
+		$id1=clean_var($_REQUEST['id1']);
+		if (isset($_REQUEST['nombre'])){
+			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
+		}
+		if (isset($_REQUEST['video'])){
+			$arreglo+=array('video'=>$_REQUEST['video']);
+		}
+		if (isset($_REQUEST['descripcion'])){
+			$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
+		}
+		if($id1==0){
+			$arreglo+=array('idterapia'=>clean_var($_REQUEST['idterapia']));
+			$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
+			$x=$this->insert('track', $arreglo);
+		}
+		else{
+			$x=$this->update('track',array('id'=>$id1), $arreglo);
+		}
+		return $x;
+	}
 
 	public function modulos($id){
 		try{
 			$sql="select * from modulo where idtrack=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function modulo_ediar($id){
+		try{
+			$sql="select * from modulo where id=:id";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
@@ -80,6 +136,29 @@ class Cuest extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+	public function guardar_modulo(){
+		$x="";
+		$arreglo =array();
+		$id1=clean_var($_REQUEST['id1']);
+
+		if (isset($_REQUEST['nombre'])){
+			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
+		}
+		if (isset($_REQUEST['descripcion'])){
+			$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
+		}
+
+		if($id1==0){
+			$arreglo+=array('idtrack'=>clean_var($_REQUEST['idtrack']));
+			$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
+			$x=$this->insert('modulo', $arreglo);
+		}
+		else{
+			$x=$this->update('modulo',array('id'=>$id1), $arreglo);
+		}
+		return $x;
+	}
+
 
 	public function actividad_lista(){
 		try{
