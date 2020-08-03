@@ -1,5 +1,5 @@
 <?php
-	require_once("db_.php");
+	require_once("../a_actividades/db_.php");
 	if(isset($_REQUEST['id1'])){
 		$id1=$_REQUEST['id1'];
 	}

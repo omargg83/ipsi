@@ -28,7 +28,6 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-
 	public function terapia_editar($id){
 		try{
 			$sql="select * from terapias where id=:id";
@@ -124,7 +123,7 @@ class Cuest extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
-	public function modulo_ediar($id){
+	public function modulo_editar($id){
 		try{
 			$sql="select * from modulo where id=:id";
 			$sth = $this->dbh->prepare($sql);
@@ -160,10 +159,14 @@ class Cuest extends ipsi{
 	}
 
 
-	public function actividad_lista(){
+
+
+	public function actividad_lista($id){
 		try{
-			$sql="select * from actividad";
-			$sth = $this->dbh->query($sql);
+			$sql="select * from actividad where idmodulo=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){

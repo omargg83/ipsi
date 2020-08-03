@@ -1,5 +1,5 @@
 <?php
-	require_once("db_.php");
+	require_once("../a_actividades/db_.php");
   $id1=clean_var($_REQUEST['id1']);
   $idactividad=clean_var($_REQUEST['id2']);
 

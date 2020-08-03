@@ -1,5 +1,5 @@
 <?php
-	require_once("db_.php");
+	require_once("../a_actividades/db_.php");
   $idmodulo=$_REQUEST['id1'];
   $idtrack=$_REQUEST['id2'];
 
@@ -11,7 +11,7 @@
   $nombre="Nuevo modulo";
 	$descripcion="";
 	if($idmodulo>0){
-		$modulo=$db->modulo_ediar($idmodulo);
+		$modulo=$db->modulo_editar($idmodulo);
 		$nombre=$modulo->nombre;
 		$descripcion=$modulo->descripcion;
 	}

@@ -1,5 +1,5 @@
 <?php
-	require_once("db_.php");
+	require_once("../a_actividades/db_.php");
 	if (isset($_POST['id1'])){$id1=clean_var($_REQUEST['id1']);} else{ $id1=0;}
   $nombre="Terapia nueva";
   $descripcion="";
@@ -18,7 +18,7 @@
 </nav>
 
 <div class="container">
-	<form is="f-submit" id="form_terapia" db="a_actividades/db_" fun="guardar_terapia" lug='a_actividades/terapias_editar'>
+	<form is="f-submit" id="form_terapia" db="a_actividades/db_" fun="guardar_terapia">
     <input type="hidden" name="id1" id="id1" value="<?php echo $id1;?>">
     <div class='card'>
 			<div class='card-header'>
