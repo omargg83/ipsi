@@ -1,8 +1,12 @@
 <?php
 	require_once("db_.php");
+
+
 	$idactividad=clean_var($_REQUEST['id1']);
-  $actividad=$db->actividad_editar($idactividad);
-	$subactividad=$db->subactividad_ver($idactividad);
+
+
+  $actividad = $db->actividad_editar($idactividad);
+	$subactividad = $db->subactividad_ver($idactividad);
 
 	$nombre=$actividad->nombre;
 	$observaciones=$actividad->observaciones;
@@ -10,16 +14,25 @@
 	$terapia=$actividad->terapia;
 	$track=$actividad->track;
 
+
+	$modulo = $db->modulo_editar($actividad->idmodulo);
+	$track=$db->track_editar($modulo->idtrack);
+	$terapia=$db->terapia_editar($track->idterapia);
+
 ?>
+
+
 <nav aria-label='breadcrumb'>
-  <ol class='breadcrumb'>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/lista" dix="trabajo" id1="">Actividades</lis>
-    <li class='breadcrumb-item' aria-current='page'>Actividad</li>
-		<li class='breadcrumb-item' aria-current='page'><?php echo $terapia; ?></li>
-		<li class='breadcrumb-item' aria-current='page'><?php echo $track; ?></li>
-		<li class='breadcrumb-item active' aria-current='page'><?php echo $nombre; ?></li>
-  </ol>
+	<ol class='breadcrumb'>
+		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="">Inicio</lis>
+		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" id1="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
+		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" id1="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
+		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/actividades" dix="trabajo" id1="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
+		<li class="breadcrumb-item active" type="button" is="li-link" des="a_actividades/actividad_ver" dix="trabajo" id1="<?php echo $actividad->idactividad; ?>" ><?php echo $actividad->nombre; ?></li>
+	</ol>
 </nav>
+
+
 <!-- actividad  -->
 <div id="accordion">
 	<div class="card mb-3">

@@ -10,12 +10,11 @@
 	$pd = $db->actividad_lista($idmodulo);
 ?>
 
-
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
 		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="">Inicio</lis>
 		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" id1="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
-		<li class="breadcrumb-item active" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" id1="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
+		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" id1="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
 		<li class="breadcrumb-item active" type="button" is="li-link" des="a_actividades/actividades" dix="trabajo" id1="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
 	</ol>
 </nav>
