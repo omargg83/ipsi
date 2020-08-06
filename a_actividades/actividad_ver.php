@@ -101,13 +101,12 @@
 					<div class="card-header">
 						<div class='row'>
 							<div class="col-2">
-
 								<!-- Editar Contexto --->
 								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/contexto_editar" dix="sub_<?php echo $key->idsubactividad; ?>" id1="<?php echo $row->id; ?>" omodal="1">Editar</button>
 							</div>
 							<div class="col-4 text-center">
 								<button class="btn btn-link" data-toggle="collapse" data-target="#collapsecon<?php echo $row->id; ?>" aria-expanded="true" aria-controls="collapsecon<?php echo $row->id; ?>">
-									Contexto
+									Contexto (<?php echo $row->tipo; ?>)
 								</button>
 							</div>
 							<div class="col-4">
@@ -134,6 +133,12 @@
 									echo $row->texto;
 								}
 								if($row->tipo=="video"){
+									echo $row->texto;
+								}
+								if($row->tipo=="archivo"){
+									echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
+								}
+								if($row->tipo=="pregunta"){
 									echo $row->texto;
 								}
 							?>

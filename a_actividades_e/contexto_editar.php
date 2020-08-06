@@ -5,7 +5,9 @@
 	$observaciones="";
 	$texto="";
 	$descripcion="";
-
+	$incisos="0";
+	$personalizado="0";
+	$usuario="0";
 	if($id1==0){
 		$idactividad=clean_var($_REQUEST['id2']);
 		$idsubactividad=clean_var($_REQUEST['id3']);
@@ -18,7 +20,9 @@
 		$texto=$con->texto;
 		$descripcion=$con->descripcion;
 		$observaciones=$con->observaciones;
-
+		$incisos=$con->incisos;
+		$personalizado=$con->personalizado;
+		$usuario=$con->usuario;
 	}
 
 	$sub=$db->subactividad_editar($idsubactividad);
@@ -32,7 +36,7 @@
 
 	<div class="card mb-3">
 	  <div class="card-header">
-	    Subactividad
+	    Editar contexto
 	  </div>
 	  <div class="card-body">
 			<label>Observaciones:</label>
@@ -61,23 +65,35 @@
 				<div class='row'>
 					<div class="col-12">
 						<label>Agregue texto descriptivo a la respuesta:</label> <small>(Deje en blanco en caso de no requerir)</small>
-						<input type="text" name="texto" id="texto" value="<?php echo $descripcion; ?>" class='form-control'>
+						<input type="text" name="texto" id="texto" value="<?php echo $texto; ?>" class='form-control'>
 					</div>
 					<div class="col-4">
 						<div class="form-check">
-							<input type="checkbox" class="form-check-input" name="incisos" id="incisos"  value="varios">
+							<input type="checkbox" class="form-check-input" name="incisos" id="incisos" value="varios"
+							<?php
+								if($incisos=="1"){ echo "checked"; }
+							 ?>
+						 >
 							<label class="form-check-label" for="incisos">Selección de varios incisos</label>
 						</div>
 					</div>
 					<div class="col-4">
 						<div class="form-check">
-							<input type="checkbox" class="form-check-input" name="personalizado" id="personalizado"  value="personalizado">
+							<input type="checkbox" class="form-check-input" name="personalizado" id="personalizado"  value="personalizado"
+							<?php
+								if($personalizado=="1"){ echo "checked"; }
+							?>
+							>
 							<label class="form-check-label" for="personalizado">Permitir agregar incisos personalizados</label>
 						</div>
 					</div>
 					<div class="col-4">
 						<div class="form-check">
-							<input type="checkbox" class="form-check-input" name="usuario" id="usuario"  value="usuario">
+							<input type="checkbox" class="form-check-input" name="usuario" id="usuario"  value="usuario"
+							<?php
+								if($usuario=="1"){ echo "checked"; }
+							?>
+							>
 							<label class="form-check-label" for="usuario">Texto de usuario despues de insiso</label>
 						</div>
 					</div>

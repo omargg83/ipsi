@@ -358,15 +358,30 @@ class Cuest extends ipsi{
 				$info = pathinfo($nombrearchivo);
 				if($archivo!=""){
 					$extension = $info['extension'];
-					if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+					if($tipo=="imagen"){
+						if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
 						$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
 						move_uploaded_file($tmp,$ruta.$nombreFile);
 						$ruta=$ruta."/".$nombreFile;
 						$arreglo+=array('texto'=>$nombreFile);
 					}
-					else{
+						else{
+
 						echo "fail";
 						exit;
+					}
+					}
+					else{
+						if ($extension=='pdf' || $extension=='doc' || $extension=='docx') {
+							$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
+							move_uploaded_file($tmp,$ruta.$nombreFile);
+							$ruta=$ruta."/".$nombreFile;
+							$arreglo+=array('texto'=>$nombreFile);
+						}
+						else{
+							echo "fail";
+							exit;
+						}
 					}
 				}
 			}
