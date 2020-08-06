@@ -4,6 +4,8 @@
   $id1=clean_var($_REQUEST['id1']);
 	$observaciones="";
 	$texto="";
+	$descripcion="";
+
 	if($id1==0){
 		$idactividad=clean_var($_REQUEST['id2']);
 		$idsubactividad=clean_var($_REQUEST['id3']);
@@ -38,42 +40,28 @@
 
 	    <?php
 	    if($tipo=="texto"){
-	    ?>
-				<label>Texto:</label>
-		    <textarea id='texto' name='texto' rows=10><?php echo $texto; ?></textarea>
-	    <?php
+				echo "<label>Texto:</label>";
+		    echo "<textarea class='texto' id='texto' name='texto' rows=10>$texto</textarea>";
 	    }
 	    else if($tipo=="imagen"){
-	    ?>
-				<label>Adjuntar imagen</label>
-				<input type="file" class="form-control-file" id="exampleFormControlFile1">
-	    <?php
+				echo "<label>Adjuntar imagen</label>";
+				echo "<input type='file' class='form-control-file' id='texto' name='texto' accept='image/png, image/jpeg'>";
 	    }
 	    else if($tipo=="video"){
-	    ?>
-				<label>Video</label>
-		    <textarea id='video' name='video' class='form-control' rows='10'><?php echo $texto; ?></textarea>
-	    <?php
-	    }
+				echo "<label>Video</label>";
+				echo "<textarea id='texto' name='texto' rows=10 class='form-control'>$texto</textarea>";
+
+			}
 	    else if($tipo=="archivo"){
-	    ?>
-				<label>Adjuntar archivo</label>
-	     	<input type="file" class="form-control-file" id="exampleFormControlFile1">
-	    <?php
+				echo "<label>Adjuntar archivo</label>";
+	     	echo "<input type='file' class='form-control-file' id='texto' name='texto'>";
 	    }
 	    else if($tipo=="pregunta"){
 	    ?>
 				<div class='row'>
 					<div class="col-12">
-						<label>Pregunta:</label>
-						<input type="text" name="pregunta" id="pregunta" value="<?php echo $texto; ?>" class='form-control'>
-					</div>
-				</div>
-				<hr>
-				<div class='row'>
-					<div class="col-12">
 						<label>Agregue texto descriptivo a la respuesta:</label> <small>(Deje en blanco en caso de no requerir)</small>
-						<input type="text" name="descripcion" id="descripcion" value="<?php echo $descripcion; ?>" class='form-control'>
+						<input type="text" name="texto" id="texto" value="<?php echo $descripcion; ?>" class='form-control'>
 					</div>
 					<div class="col-4">
 						<div class="form-check">
@@ -113,7 +101,7 @@
 
 <script type="text/javascript">
 	$(function() {
-		$('#texto').summernote({
+		$('.texto').summernote({
 			lang: 'es-ES',
 			placeholder: 'Texto',
 			tabsize: 5,

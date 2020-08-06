@@ -158,9 +158,6 @@ class Cuest extends ipsi{
 		return $x;
 	}
 
-
-
-
 	public function actividad_lista($id){
 		try{
 			$sql="select * from actividad where idmodulo=:id";
@@ -203,13 +200,9 @@ class Cuest extends ipsi{
 			if (isset($_REQUEST['tipo'])){
 				$arreglo+=array('tipo'=>clean_var($_REQUEST['tipo']));
 			}
-			if (isset($_REQUEST['terapia'])){
-				$arreglo+=array('terapia'=>clean_var($_REQUEST['terapia']));
-			}
-			if (isset($_REQUEST['track'])){
-				$arreglo+=array('track'=>clean_var($_REQUEST['track']));
-			}
+
 			if($id1==0){
+				$arreglo+=array('idmodulo'=>clean_var($_REQUEST['idmodulo']));
 				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
 				$x=$this->insert('actividad', $arreglo);
 			}
@@ -326,17 +319,17 @@ class Cuest extends ipsi{
 			$id1=clean_var($_REQUEST['id1']);
 			$tipo=clean_var($_REQUEST['tipo']);
 			$arreglo+=array('tipo'=>$tipo);
-
 			$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
+
 			if($tipo=="texto"){
 				$arreglo+=array('texto'=>$_REQUEST['texto']);
 			}
 			if($tipo=="video"){
-				$arreglo+=array('texto'=>$_REQUEST['video']);
+				$arreglo+=array('texto'=>$_REQUEST['texto']);
 			}
+
 			if($tipo=="pregunta"){
-				$arreglo+=array('texto'=>clean_var($_REQUEST['pregunta']));
-				$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
+				$arreglo+=array('texto'=>clean_var($_REQUEST['texto']));
 				if(isset($_REQUEST['incisos'])){
 					$arreglo+=array('incisos'=>1);
 				}
@@ -354,6 +347,27 @@ class Cuest extends ipsi{
 				}
 				else{
 					$arreglo+=array('personalizado'=>null);
+				}
+			}
+			if($tipo=="imagen" or $tipo=="archivo"){
+				$extension = '';
+				$ruta = '../a_archivos/respuestas/';
+				$archivo = $_FILES['texto']['tmp_name'];
+				$nombrearchivo = $_FILES['texto']['name'];
+				$tmp=$_FILES['texto']['tmp_name'];
+				$info = pathinfo($nombrearchivo);
+				if($archivo!=""){
+					$extension = $info['extension'];
+					if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+						$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
+						move_uploaded_file($tmp,$ruta.$nombreFile);
+						$ruta=$ruta."/".$nombreFile;
+						$arreglo+=array('texto'=>$nombreFile);
+					}
+					else{
+						echo "fail";
+						exit;
+					}
 				}
 			}
 
