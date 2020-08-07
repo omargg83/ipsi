@@ -4,3 +4,4 @@ cgi-bin/
 historial/
 *error_log
 *.jpg
+*.png
