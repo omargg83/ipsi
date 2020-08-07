@@ -14,7 +14,8 @@
 
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
-		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_clientes/lista" dix="trabajo">Pacientes</li>
+		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
+		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/paciente" id1="<?php echo $id1; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
 	</ol>
 </nav>
 
@@ -81,7 +82,7 @@
 					<div class='card-body'>
 						<div class='col-12'>
 							<?php
-								echo "<button type='button' class='btn btn-warning btn-block' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' title='Agregar actividad' >Agregar terapia</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_terapia' dix='nueva_sub' tp='edit' id1='$id1' omodal='1'>Agregar terapia</button>";
 							?>
 						</div>
 					</div>
@@ -100,7 +101,7 @@
 						</div>
 						<div class='row'>
 							<div class='col-4'>
-								<button class='btn btn-warning btn-block btn-block' onclick='ficha(<?php echo $id;?>)'>Ficha de registro</button>
+								<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/editar" dix="trabajo" id1="<?php echo $id1;?>">Ficha de registro</button>
 							</div>
 							<div class='col-4'>
 								<button class='btn btn-warning btn-block btn-block' onclick='ficha(<?php echo $id;?>)'>Pruebas iniciales</button>

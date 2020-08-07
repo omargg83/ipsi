@@ -401,75 +401,14 @@ class Cuest extends ipsi{
 		}
 	}
 
-	public function inciso_editar($id){
-		try{
-			$sql="select * from inciso where id=:id";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":id",$id);
-			$sth->execute();
-			return $sth->fetch(PDO::FETCH_OBJ);
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-	}
-	public function guarda_inciso(){
-		try {
-			$arreglo=array();
-			$x="";
-			$id1=clean_var($_REQUEST['id1']);
-
-
-			$arreglo+=array('tipo'=>clean_var($_REQUEST['tipo']));
-			$arreglo+=array('pregunta'=>clean_var($_REQUEST['pregunta']));
-
-			if(isset($_REQUEST['varios']))
-				$arreglo+=array('varios'=>clean_var($_REQUEST['varios']));
-			else
-			 $arreglo+=array('varios'=>NULL);
-
-			 if(isset($_REQUEST['orden']))
-			 $arreglo+=array('orden'=>clean_var($_REQUEST['orden']));
-
-			if(isset($_REQUEST['personalizada']))
-			$arreglo+=array('personalizada'=>clean_var($_REQUEST['personalizada']));
-
-			if(isset($_REQUEST['texto']))
-			$arreglo+=array('texto'=>clean_var($_REQUEST['texto']));
-
-			if($id1==0){
-				$arreglo+=array('idsubactividad'=>clean_var($_REQUEST['idsubactividad']));
-				$x=$this->insert('inciso', $arreglo);
-			}
-			else{
-				$x=$this->update('inciso',array('id'=>$id1), $arreglo);
-			}
-			return $x;
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-	}
-	public function inciso_ver($id){
-		try{
-			$sql="select * from inciso where idsubactividad=:id order by orden asc";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":id",$id);
-			$sth->execute();
-			return $sth->fetchAll(PDO::FETCH_OBJ);
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-	}
 
 	public function guarda_respuesta(){
 		try{
 			$arreglo=array();
 			$x="";
-			$id=clean_var($_REQUEST['id1']);
-			$respuesta=clean_var($_REQUEST['respuesta']);
-			$idsubactividad=clean_var($_REQUEST['idsubactividad']);
+			$id1=clean_var($_REQUEST['id1']);
+			$nombre=clean_var($_REQUEST['nombre']);
+			$idcontexto=clean_var($_REQUEST['idcontexto']);
 			$orden=clean_var($_REQUEST['orden']);
 
 			$extension = '';
@@ -492,16 +431,15 @@ class Cuest extends ipsi{
 		    }
 		  }
 
-
-			$arreglo+=array('respuesta'=>$respuesta);
+			$arreglo+=array('nombre'=>$nombre);
 			$arreglo+=array('orden'=>$orden);
 
-			if($id==0){
-				$arreglo+=array('idinciso'=>$idsubactividad);
+			if($id1==0){
+				$arreglo+=array('idcontexto'=>$idcontexto);
 				$x=$this->insert('respuestas', $arreglo);
 			}
 			else{
-				$x=$this->update('respuestas',array('id'=>$id), $arreglo);
+				$x=$this->update('respuestas',array('id'=>$id1), $arreglo);
 			}
 			return $x;
 		}
@@ -511,7 +449,7 @@ class Cuest extends ipsi{
 	}
 	public function respuestas_ver($id){
 		try{
-			$sql="select * from respuestas where idinciso=:id order by orden";
+			$sql="select * from respuestas where idcontexto=:id order by orden";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();

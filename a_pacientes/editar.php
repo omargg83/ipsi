@@ -19,7 +19,7 @@
 	$medicamentos="";
 	$per = $db->personal();
 
-	if($id>0){
+	if($id1>0){
 		$pd = $db->cliente_editar($id1);
 		$nombre=$pd->nombre;
 		$apellidop=$pd->apellidop;
@@ -41,16 +41,16 @@
 	?>
 	<nav aria-label='breadcrumb'>
 		<ol class='breadcrumb'>
-			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_clientes/lista" dix="trabajo">Pacientes</li>
-			<li class='breadcrumb-item active' aria-current='page' onclick='paciente($id)'>".$nombre." ".$apellidop." ".$apellidom."</li>
-			<li class='breadcrumb-item active' aria-current='page'>Ficha de registro</li>
+			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
+			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" id1="<?php echo $id1; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
+			<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/editar" id1="<?php echo $id1; ?>" dix="trabajo">Ficha de registro</li>
 		</ol>
 	</nav>
 
 
 <div class="container">
-	<form action="" id="form_cliente" data-lugar="a_clientes/db_" data-funcion="guardar_cliente" data-destino='a_clientes/editar'>
-		<input type="hidden" name="id" id="id" value="<?php echo $id;?>">
+	<form is="f-submit" id="form_cliente" db="a_pacientes/db_" fun="guardar_cliente" lug="a_pacientes/editar">
+		<input type="hidden" name="id1" id="id1" value="<?php echo $id1;?>">
 		<div class='card'>
 			<div class='card-header'>
 				Editar cliente
@@ -135,8 +135,6 @@
 						</select>
 					</div>
 				</div>
-
-
 				<div class='row'>
 					<div class="col-12">
 						<label>Información personal:</label>
@@ -159,18 +157,14 @@
 			<div class='card-footer'>
 				<div class="row">
 					<div class="col-sm-12">
-						<div class="btn-group">
-						<button class="btn btn-warning btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
-						<button class="btn btn-warning btn-sm sagyc" type="button" id="btn_flujo" lugar="lugar.php"><i class='far fa-save'></i>demo</button>
+						<button class="btn btn-warning btn-sm" type="submit">Guardar</button>
 						<?php
-							if($id>0){
-								echo "<button type='button' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#myModal' id='fileup_foto' data-ruta='$db->doc' data-tabla='clientes' data-campo='foto' data-tipo='1' data-id='$id' data-keyt='id' data-destino='a_clientes/editar' data-iddest='$id' data-ext='.jpg,.png' title='Subir foto'><i class='fas fa-cloud-upload-alt'></i>Foto</button>";
-
-								echo "<button type='button' class='btn btn-warning btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</button>";
+							if($id1>0){
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_foto' dix='nueva_sub' tp='edit' id1='$id1' omodal='1'>Foto</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_pass' dix='nueva_sub' tp='edit' id1='$id1' omodal='1'>Contraseña</button>";
 							}
-							echo "<button class='btn btn-warning btn-sm' type='button' onclick='paciente($id)' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>";
 						?>
-						</div>
+						<button class='btn btn-warning btn-sm' type='button' is="b-link" des="a_pacientes/paciente" id1="<?php echo $id1; ?>" dix="trabajo">Regresar</button>
 					</div>
 				</div>
 			</div>

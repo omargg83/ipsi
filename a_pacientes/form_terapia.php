@@ -1,5 +1,5 @@
 <?php
-	$id=$_REQUEST['id'];
+	$id1=$_REQUEST['id1'];
 ?>
 <div class='modal-header'>
 	<h5 class='modal-title'>Agregar Actividad</h5>
@@ -17,19 +17,16 @@
 					<button class="btn btn-warning btn-block" type="button" onclick='buscar_actividad(<?php echo $id;  ?>)'><i class='fas fa-search'></i>Buscar</button>
 				</div>
 			</div>
-
-			<div clas='row' id='resultadosx'>
-
-	    </div>
-			<hr>
-			<div class='row'>
-				<div class='col-12'>
-					<div class='btn-group'>
-						<button class='btn btn-warning btn-block' type='button' id='acceso' title='Guardar'><i class='far fa-save'></i>Guardar</button>
-						<button type="button" class="btn btn-warning btn-block" data-dismiss="modal" title='Cancelar'><i class="fas fa-sign-out-alt"></i>Cancelar</button>
-					</div>
-				</div>
+				<div clas='row' id='resultadosx'>
+		    </div>
 			</div>
 		</div>
+	</div>
+	<div class='modal-footer' >
+		<button class='btn btn-warning' type='button' id='acceso' title='Guardar'>Guardar</button>
+		<button type="button" class="btn btn-warning" data-dismiss="modal" title='Cancelar'>Cancelar</button>
+	</div>
 
-  </div>
+<script>
+	alert("gola muindo");
+</script>

@@ -65,7 +65,7 @@ class Cliente extends ipsi{
 	public function guardar_cliente(){
 		$x="";
 		$arreglo =array();
-		$id=$_REQUEST['id'];
+		$id1=$_REQUEST['id1'];
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
@@ -109,16 +109,16 @@ class Cliente extends ipsi{
 			$arreglo+=array('medicamentos'=>clean_var($_REQUEST['medicamentos']));
 		}
 
-		if($id==0){
+		if($id1==0){
 			$x=$this->insert('clientes', $arreglo);
 		}
 		else{
-			$x=$this->update('clientes',array('id'=>$id), $arreglo);
+			$x=$this->update('clientes',array('id'=>$id1), $arreglo);
 		}
 		return $x;
 	}
 	public function password(){
-		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
+		if (isset($_REQUEST['id1'])){$id=$_REQUEST['id1'];}
 		if (isset($_REQUEST['pass1'])){$pass1=$_REQUEST['pass1'];}
 		if (isset($_REQUEST['pass2'])){$pass2=$_REQUEST['pass2'];}
 		if(trim($pass1)==($pass2)){
@@ -131,6 +131,32 @@ class Cliente extends ipsi{
 		else{
 			return "La contraseña no coincide";
 		}
+	}
+	public function foto(){
+		$x="";
+		$arreglo =array();
+		$id1=$_REQUEST['id1'];
+
+		$extension = '';
+		$ruta = '../a_archivos/clientes/';
+		$archivo = $_FILES['foto']['tmp_name'];
+		$nombrearchivo = $_FILES['foto']['name'];
+		$tmp=$_FILES['foto']['tmp_name'];
+		$info = pathinfo($nombrearchivo);
+		if($archivo!=""){
+			$extension = $info['extension'];
+			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+				$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
+				move_uploaded_file($tmp,$ruta.$nombreFile);
+				$ruta=$ruta."/".$nombreFile;
+				$arreglo+=array('foto'=>$nombreFile);
+			}
+			else{
+				echo "fail";
+				exit;
+			}
+		}
+		return $this->update('clientes',array('id'=>$id1), $arreglo);
 	}
 
 	public function buscar_actividad(){

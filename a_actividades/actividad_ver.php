@@ -97,7 +97,7 @@
 				$bloq=$db->contexto_ver($key->idsubactividad);
 				foreach($bloq as $row){
 			?>
-				<div class="card mb-4">
+				<div class="card mb-4" draggable="true">
 					<div class="card-header">
 						<div class='row'>
 							<div class="col-2">
@@ -120,78 +120,53 @@
 
 					<div id="collapsecon<?php echo $row->id; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 						<div class="card-body">
-						<div>
-							<?php	echo $row->observaciones; ?>
-						</div>
-						<hr>
-						<div>
-							<?php
-								if($row->tipo=="imagen"){
-									echo "<img src='".$db->doc.$row->texto."'/>";
-								}
-								if($row->tipo=="texto"){
-									echo $row->texto;
-								}
-								if($row->tipo=="video"){
-									echo $row->texto;
-								}
-								if($row->tipo=="archivo"){
-									echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
-								}
-								if($row->tipo=="pregunta"){
-									echo $row->texto;
-								}
-							?>
-						</div>
-
-			<!-- Fin de contexto  -->
-
-			<!-- Preguntas  -->
-							<?php
-
-							$rx=$db->inciso_ver($row->id);
-							foreach ($rx as $inciso) {
-								?>
-								<div class="card mb-3">
-									<div class="card-body">
-										<div class="row">
-											<div class="col-1">
-												<button class="btn btn-warning " type="button" is="b-link" des="a_actividades/inciso" id1="<?php echo $inciso->id; ?>" id2="<?php echo $idactividad; ?>" id3="<?php echo $idsubactividad; ?>" params='tipo-inciso' omodal="1" >Editar</button>
-											</div>
-											<div class="col-10">
-												<?php echo $inciso->pregunta;  ?>
-											</div>
-										</div>
-									</div>
-
-									<div class="card-body">
-										<div class="row">
-										<?php
-											$resp=$db->respuestas_ver($inciso->id);
-											foreach($resp as $respuestas){
-												echo "<div class='col-3 mb-3'>";
-													echo "<div class='row'>";
-														echo "<div class='col-3'>";
-															echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/inciso_respuesta' id1='$respuestas->id' id2='$inciso->id' id3='$idactividad' params='tipo-imagen' omodal='1' >Editar</button>";
-														echo "</div>";
-														echo "<div class='col-9'>";
-															echo "<label>inciso 1:</label><br>";
-															echo $respuestas->respuesta;
-														echo "</div>";
-													echo "</div>";
-
-												echo "</div>";
-											}
-										?>
-										<div class='col-3 mb-3'>
-											<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/inciso_respuesta" id1="0" id2="<?php echo $inciso->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
-											</div>
-										</div>
-									</div>
-								</div>
+							<div>
+								<?php	echo $row->observaciones; ?>
+							</div>
+							<hr>
+							<div>
 								<?php
-							}
-							?>
+									if($row->tipo=="imagen"){
+										echo "<img src='".$db->doc.$row->texto."'/>";
+									}
+									if($row->tipo=="texto"){
+										echo $row->texto;
+									}
+									if($row->tipo=="video"){
+										echo $row->texto;
+									}
+									if($row->tipo=="archivo"){
+										echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
+									}
+									if($row->tipo=="pregunta"){
+										echo $row->texto;
+									}
+								?>
+								<hr>
+
+							</div>
+
+							<!-- Fin de contexto  -->
+							<!-- Preguntas  -->
+							<div class="container-fluid">
+								<?php
+								$rx=$db->respuestas_ver($row->id);
+								foreach ($rx as $respuesta) {
+									?>
+
+											<div class="row">
+												<div class="col-1">
+													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/inciso_editar" id1="<?php echo $respuesta->id; ?>" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-inciso' omodal="1" >Editar</button>
+												</div>
+												<div class="col-10">
+													<?php echo $respuesta->nombre;  ?>
+												</div>
+											</div>
+									<?php
+								}
+								?>
+							</div>
+							<button class="btn btn-warning" type="button" is="b-link" des="a_actividades_e/inciso_editar" id1="0" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
 			<!-- Fin Preguntas  -->
 					</div>
 				</div>
