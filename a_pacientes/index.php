@@ -7,3 +7,8 @@
 		include 'lista.php';
 	?>
 </div>
+
+
+<script>
+	
+</script>

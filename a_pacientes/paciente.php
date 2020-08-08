@@ -57,19 +57,11 @@
 						<div class='row'>
 							<div class='col-4'>
 							<?php
-								$resp=$db->individual($id,'individual','enojo');
-								$num=count($resp);
-								if($num>0){
-										echo "<button type='button' class='btn btn-warning btn-block' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' >Enojo</button>";
-								}
-
-								$resp=$db->individual($id,'individual','ansiedad');
-								$num=count($resp);
-								if($num>0){
-										echo "<button type='button' class='btn btn-warning btn-block' id='winmodal_pass' data-id='$id' data-lugar='a_clientes/form_terapia' >Ansiedad</button>";
+								$resp=$db->terapias_paciente($id1);
+								foreach($resp as $key){
+									echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividad' dix='trabajo' id1='$id1' id2='$key->idactividad'>Actividad</button>";
 								}
 							?>
-
 							</div>
 							<div class='col-4'>
 
@@ -83,6 +75,7 @@
 						<div class='col-12'>
 							<?php
 								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_terapia' dix='nueva_sub' tp='edit' id1='$id1' omodal='1'>Agregar terapia</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_terapia' dix='nueva_sub' tp='edit' id1='$id1' omodal='1'>Nueva terapia</button>";
 							?>
 						</div>
 					</div>

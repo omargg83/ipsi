@@ -1,21 +1,22 @@
 <?php
-	$id1=$_REQUEST['id1'];
+	require_once("db_.php");
+	$id1=clean_var($_REQUEST['id1']);
 ?>
-<div class='modal-header'>
-	<h5 class='modal-title'>Agregar Actividad</h5>
-</div>
+
+<form is="f-submit" id="form_terapiab" des="a_pacientes/terapia_buscar" dix="resultadosx">
+
+	<div class='modal-header'>
+		<h5 class='modal-title'>Agregar Actividad</h5>
+	</div>
   <div class='modal-body' >
 	<?php
-		echo "<input  type='hidden' id='id' NAME='id' value='$id'>";
+		echo "<input  type='hidden' id='id1' NAME='id1' value='$id1'>";
 	?>
 		<div class='row'>
 			<div class='col-12'>
 				<label>Buscar actividad</label>
 				<div class="input-group mb-3">
-				<input type="text" class="form-control" name="b_actividad" id='b_actividad' placeholder='buscar producto' aria-label="buscar producto" aria-describedby="basic-addon2" onkeyup='Javascript: if (event.keyCode==13) buscar_actividad(<?php echo $id;  ?>)'>
-				<div class="input-group-append">
-					<button class="btn btn-warning btn-block" type="button" onclick='buscar_actividad(<?php echo $id;  ?>)'><i class='fas fa-search'></i>Buscar</button>
-				</div>
+				<input type="text" class="form-control" name="terapia_b" id='terapia_b' placeholder='buscar producto' />
 			</div>
 				<div clas='row' id='resultadosx'>
 		    </div>
@@ -23,10 +24,7 @@
 		</div>
 	</div>
 	<div class='modal-footer' >
-		<button class='btn btn-warning' type='button' id='acceso' title='Guardar'>Guardar</button>
+		<button class="btn btn-warning" type="submit" id1="">Buscar</button>
 		<button type="button" class="btn btn-warning" data-dismiss="modal" title='Cancelar'>Cancelar</button>
 	</div>
-
-<script>
-	alert("gola muindo");
-</script>
+</form>

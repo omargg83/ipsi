@@ -160,7 +160,7 @@ class Cuest extends ipsi{
 
 	public function actividad_lista($id){
 		try{
-			$sql="select * from actividad where idmodulo=:id";
+			$sql="select * from actividad where idmodulo=:id and idpaciente is null";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
@@ -202,6 +202,7 @@ class Cuest extends ipsi{
 			}
 
 			if($id1==0){
+				$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
 				$arreglo+=array('idmodulo'=>clean_var($_REQUEST['idmodulo']));
 				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
 				$x=$this->insert('actividad', $arreglo);

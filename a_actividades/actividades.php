@@ -5,8 +5,6 @@
 	$modulo=$db->modulo_editar($idmodulo);
 	$track=$db->track_editar($modulo->idtrack);
 	$terapia=$db->terapia_editar($track->idterapia);
-
-
 	$pd = $db->actividad_lista($idmodulo);
 ?>
 

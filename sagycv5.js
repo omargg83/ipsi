@@ -100,74 +100,88 @@
 		 		let cmodal;
 				(elemento.attributes.cmodal !== undefined) ? cmodal=elemento.attributes.cmodal.nodeValue : cmodal="";
 
-				if(db.length==0){
-					alert("falta DB");
-					return 0;
-				}
+				////////FORM pertenece a ventanamodal
+		 		let des;
+				(elemento.attributes.des !== undefined) ? des=elemento.attributes.des.nodeValue : des="";
 
-		 		var formData = new FormData(elemento);
-		 		formData.append("function", fun);
+				var formData = new FormData(elemento);
+				formData.append("function", fun);
 
-		 		Swal.fire({
-		 			title: '¿Desea procesar los cambios realizados?',
-		 			text: "ya no se podrá deshacer",
-		 			showCancelButton: true,
-		 			confirmButtonColor: '#3085d6',
-		 			cancelButtonColor: '#d33',
-		 			confirmButtonText: 'Guardar'
-		 		}).then((result) => {
-		 			if (result.value) {
-		 				cargando(true);
-		 				let xhr = new XMLHttpRequest();
-		 				xhr.open('POST',db);
-		 				xhr.addEventListener('load',(data)=>{
-							if (!isJSON(data.target.response)){
-								console.log(data.target.response);
-								Swal.fire({
-		 							type: 'error',
-		 							title: "Error favor de verificar",
-		 							showConfirmButton: false,
-		 							timer: 1000
-		 						});
-								return;
-							}
-		 					var datos = JSON.parse(data.target.response);
-		 					if (datos.error==0){
-		 						document.getElementById("id1").value=datos.id1;
-								//////////////quitar esta linea al acompletar todo el cambio
-								if(iddest!==""){
-									datos.id1=iddest;
+				if(db.length>0){
+					Swal.fire({
+						title: '¿Desea procesar los cambios realizados?',
+						text: "ya no se podrá deshacer",
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Guardar'
+					}).then((result) => {
+						if (result.value) {
+							cargando(true);
+							let xhr = new XMLHttpRequest();
+							xhr.open('POST',db);
+							xhr.addEventListener('load',(data)=>{
+								if (!isJSON(data.target.response)){
+									console.log(data.target.response);
+									Swal.fire({
+										type: 'error',
+										title: "Error favor de verificar",
+										showConfirmButton: false,
+										timer: 1000
+									});
+									return;
 								}
-		 						if (lug !== undefined && lug.length>0) {
-		 							redirige_div(lug,dix,datos,"");
-		 						}
-		 						if(cmodal==1){
-		 							$('#myModal').modal('hide');
-		 						}
-		 						cargando(false);
-		 						Swal.fire({
-		 							type: 'success',
-		 							title: "Se guardó correctamente ",
-		 							showConfirmButton: false,
-		 							timer: 1000
-		 						});
-		 					}
-		 					else{
-		 						Swal.fire({
-		 							type: 'info',
-		 							title: datos.terror,
-		 							showConfirmButton: false,
-		 							timer: 1000
-		 						});
-		 					}
-		 				});
-		 				xhr.onerror =  ()=>{
-		 					console.log("error");
-		 				};
-		 				xhr.send(formData);
-		 				cargando(false);
-		 			}
-		 		});
+								var datos = JSON.parse(data.target.response);
+								if (datos.error==0){
+									document.getElementById("id1").value=datos.id1;
+									//////////////quitar esta linea al acompletar todo el cambio
+									if(iddest!==""){
+										datos.id1=iddest;
+									}
+									if (lug !== undefined && lug.length>0) {
+										redirige_div(lug,dix,datos,"");
+									}
+									if(cmodal==1){
+										$('#myModal').modal('hide');
+									}
+									cargando(false);
+									Swal.fire({
+										type: 'success',
+										title: "Se guardó correctamente ",
+										showConfirmButton: false,
+										timer: 1000
+									});
+								}
+								else{
+									Swal.fire({
+										type: 'info',
+										title: datos.terror,
+										showConfirmButton: false,
+										timer: 1000
+									});
+								}
+							});
+							xhr.onerror =  ()=>{
+								console.log("error");
+							};
+							xhr.send(formData);
+							cargando(false);
+						}
+					});
+				}
+				else{
+					cargando(true);
+					let xhr = new XMLHttpRequest();
+					xhr.open('POST',des+".php");
+					xhr.addEventListener('load',(data)=>{
+						document.getElementById(dix).innerHTML = data.target.response;
+					});
+					xhr.onerror =  ()=>{
+						console.log("error");
+					};
+					xhr.send(formData);
+					cargando(false);
+				}
 		 })
 		}
 	}
@@ -261,9 +275,13 @@
 			cargando(false);
 			return;
 		}
+		if(cmodal==2){
+			$('#myModal').modal('hide');
+			cargando(false);
+		}
 
 		//////////////poner aqui proceso en caso de existir funcion
-		if(tp==="delete"){
+		if(tp==="proceso"){
 			db += ".php";
 			formData.append("function", fun);
 			formData.append("id1",datos.id1);
@@ -274,11 +292,12 @@
 			let xhr = new XMLHttpRequest();
 			xhr.open('POST',db);
 			xhr.addEventListener('load',(data)=>{
+				console.log(data.target.response);
 				var datos = JSON.parse(data.target.response);
 				if (datos.error==0){
 					Swal.fire({
 						type: 'success',
-						title: "Se eliminó correctamente ",
+						title: "Listo",
 						showConfirmButton: false,
 						timer: 1000
 					});
@@ -297,10 +316,8 @@
 			};
 			xhr.send(formData);
 		}
-		if(tp==="edit"){
 
-		}
-		if(tp!=="delete"){
+		if(tp!=="proceso"){
 			redirige_div(des,dix,datos,params);
 		}
 

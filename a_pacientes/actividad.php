@@ -1,33 +1,28 @@
-'<?php
+<?php
 	require_once("db_.php");
+	$id1=clean_var($_REQUEST['id1']);
+	$idactividad=clean_var($_REQUEST['id2']);
 
-	$idactividad=clean_var($_REQUEST['id1']);
-  $actividad = $db->actividad_editar($idactividad);
-	$subactividad = $db->subactividad_ver($idactividad);
+  $cliente = $db->cliente_editar($id1);
 
-	$nombre=$actividad->nombre;
+
+  $actividad=$db->actividad_editar($idactividad);
+  $nombre=$actividad->nombre;
 	$observaciones=$actividad->observaciones;
 	$indicaciones=$actividad->indicaciones;
 	$terapia=$actividad->terapia;
 	$track=$actividad->track;
 
-
-	$modulo = $db->modulo_editar($actividad->idmodulo);
-	$track=$db->track_editar($modulo->idtrack);
-	$terapia=$db->terapia_editar($track->idterapia);
-
+  $subactividad = $db->subactividad_ver($idactividad);
 ?>
 
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="">Inicio</lis>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" id1="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" id1="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/actividades" dix="trabajo" id1="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
-		<li class="breadcrumb-item active" type="button" is="li-link" des="a_actividades/actividad_ver" dix="trabajo" id1="<?php echo $actividad->idactividad; ?>" ><?php echo $actividad->nombre; ?></li>
+		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
+		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/paciente" id1="<?php echo $id1; ?>" dix="trabajo"><?php echo $cliente->nombre." ".$cliente->apellidop." ".$cliente->apellidom; ?></li>
+    <li class="breadcrumb-item" type="button" is="li-link" des="a_pacientes/actividad" dix="trabajo" id1="<?php echo $id1; ?>" id2="<?php echo $idactividad; ?>"><?php echo $actividad->nombre; ?></li>
 	</ol>
 </nav>
-
 
 <!-- actividad  -->
 <div id="accordion">
@@ -43,7 +38,7 @@
 					</button>
 				</div>
 				<div class="col-1">
-					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/actividades" dix="trabajo" id1="<?php echo $modulo->id; ?>">Regresar</button>
+					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/paciente" dix="trabajo" id1="<?php echo $id1; ?>">Regresar</button>
 				</div>
 			</div>
 		</div>
@@ -129,26 +124,17 @@
 									if($row->tipo=="imagen"){
 										echo "<img src='".$db->doc.$row->texto."'/>";
 									}
-									else if($row->tipo=="texto"){
+									if($row->tipo=="texto"){
 										echo $row->texto;
 									}
-									else if($row->tipo=="video"){
+									if($row->tipo=="video"){
 										echo $row->texto;
 									}
-									else if($row->tipo=="archivo"){
+									if($row->tipo=="archivo"){
 										echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
 									}
-									else if($row->tipo=="pregunta"){
+									if($row->tipo=="pregunta"){
 										echo $row->texto;
-									}
-									else if($row->tipo=="textores"){
-										echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
-									}
-									else if($row->tipo=="fecha"){
-										echo "<input type='date' name='texto' id='texto' value='$row->texto' class='form-control'>";
-									}
-									else if($row->tipo=="archivores"){
-										echo "<input type='file' name='texto' id='texto' class='form-control'>";
 									}
 								?>
 								<hr>
@@ -175,13 +161,7 @@
 								}
 								?>
 							</div>
-							<?php
-								if($row->tipo=="pregunta"){
-							?>
 							<button class="btn btn-warning" type="button" is="b-link" des="a_actividades_e/inciso_editar" id1="0" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
-							<?php
-								}
-							?>
 			<!-- Fin Preguntas  -->
 					</div>
 				</div>

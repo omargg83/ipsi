@@ -45,7 +45,7 @@
 	    <?php
 	    if($tipo=="texto"){
 				echo "<label>Texto:</label>";
-		    echo "<textarea class='texto' id='texto' name='texto' rows=10>$texto</textarea>";
+		    echo "<textarea class='texto' id='texto' name='texto' rows=5>$texto</textarea>";
 	    }
 	    else if($tipo=="imagen"){
 				echo "<label>Adjuntar imagen</label>";
@@ -53,63 +53,55 @@
 	    }
 	    else if($tipo=="video"){
 				echo "<label>Video</label>";
-				echo "<textarea id='texto' name='texto' rows=10 class='form-control'>$texto</textarea>";
-
+				echo "<textarea id='texto' name='texto' rows=5 class='form-control'>$texto</textarea>";
 			}
 	    else if($tipo=="archivo"){
 				echo "<label>Adjuntar archivo</label>";
 	     	echo "<input type='file' class='form-control-file' id='texto' name='texto'>";
 	    }
 	    else if($tipo=="pregunta"){
-	    ?>
-				<div class='row'>
-					<div class="col-12">
-						<label>Agregue texto descriptivo a la respuesta:</label> <small>(Deje en blanco en caso de no requerir)</small>
-						<input type="text" name="texto" id="texto" value="<?php echo $texto; ?>" class='form-control'>
-					</div>
-					<div class="col-4">
-						<div class="form-check">
-							<input type="checkbox" class="form-check-input" name="incisos" id="incisos" value="varios"
-							<?php
-								if($incisos=="1"){ echo "checked"; }
-							 ?>
-						 >
-							<label class="form-check-label" for="incisos">Selección de varios incisos</label>
-						</div>
-					</div>
-					<div class="col-4">
-						<div class="form-check">
-							<input type="checkbox" class="form-check-input" name="personalizado" id="personalizado"  value="personalizado"
-							<?php
-								if($personalizado=="1"){ echo "checked"; }
-							?>
-							>
-							<label class="form-check-label" for="personalizado">Permitir agregar incisos personalizados</label>
-						</div>
-					</div>
-					<div class="col-4">
-						<div class="form-check">
-							<input type="checkbox" class="form-check-input" name="usuario" id="usuario"  value="usuario"
-							<?php
-								if($usuario=="1"){ echo "checked"; }
-							?>
-							>
-							<label class="form-check-label" for="usuario">Texto de usuario despues de insiso</label>
-						</div>
-					</div>
-				</div>
-
-	    <?php
+				echo "<div class='row'>";
+					echo "<div class='col-12'>";
+						echo "<label>Agregue texto descriptivo a la respuesta:</label> <small>(Deje en blanco en caso de no requerir)</small>";
+						echo "<input type='text' name='texto' id='texto' value='$texto' class='form-control'>";
+					echo "</div>";
+					echo "<div class='col-4'>";
+						echo "<div class='form-check'>";
+							echo "<input type='checkbox' class='form-check-input' name='incisos' id='incisos' value='varios'"; if($incisos=='1'){ echo "checked"; } echo ">";
+							echo "<label class='form-check-label' for='incisos'>Selección de varios incisos</label>";
+						echo "</div>";
+					echo "</div>";
+					echo "<div class='col-4'>";
+						echo "<div class='form-check'>";
+							echo "<input type='checkbox' class='form-check-input' name='personalizado' id='personalizado'  value='personalizado'"; if($personalizado=='1'){ echo 'checked'; }	echo ">";
+							echo "<label class='form-check-label' for='personalizado'>Permitir agregar incisos personalizados</label>";
+						echo "</div>";
+					echo "</div>";
+					echo "<div class='col-4'>";
+						echo "<div class='form-check'>";
+							echo "<input type='checkbox' class='form-check-input' name='usuario' id='usuario'  value='usuario'"; if($usuario=='1'){ echo 'checked'; } echo 	">";
+							echo "<label class='form-check-label' for='usuario'>Texto de usuario despues de insiso</label>";
+						echo "</div>";
+					echo "</div>";
+				echo "</div>";
 	    }
-			else{
-
+			else if($tipo=="textores"){
+				echo "<label>Agregar texto</label>";
+				echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$texto</textarea>";
+			}
+			else if($tipo=="fecha"){
+				echo "<label>Fecha</label>";
+				echo "<input type='date' name='texto' id='texto' value='$texto' class='form-control'>";
+			}
+			else if($tipo=="archivores"){
+				echo "<label>Fecha</label>";
+				echo "<input type='file' name='texto' id='texto' class='form-control'>";
 			}
 	    ?>
 	  </div>
 	  <div class="card-footer">
 	    <button type='submit' class='btn btn-warning '> Guardar</button>
 			<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
-
 	  </div>
 	</div>
 </form>
@@ -121,7 +113,7 @@
 			lang: 'es-ES',
 			placeholder: 'Texto',
 			tabsize: 5,
-			height: 350
+			height: 250
 		});
 	});
 </script>

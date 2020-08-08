@@ -20,8 +20,8 @@
 						<div class='card-footer'>
 							<div class='row'>
 								<div class='col-12'>
-									<button class='btn btn-warning' type="button" is="b-link" des='a_terapia/editar' dix='trabajo' tp="edit" id1='<?php echo $key->id; ?>' title='editar'>Editar</button>
-									<button class='btn btn-warning' type="button" is="b-link" des='a_terapia/lista'  dix='trabajo' tp="delete" id1='<?php echo $key->id; ?>' db="a_terapia/db_" fun='borrar_terapia' title='editar'>Eliminar</button>
+									<button class='btn btn-warning' type="button" is="b-link" des='a_terapia/editar' dix='trabajo' id1='<?php echo $key->id; ?>' title='editar'>Editar</button>
+									<button class='btn btn-warning' type="button" is="b-link" des='a_terapia/lista'  dix='trabajo' tp="proceso" id1='<?php echo $key->id; ?>' db="a_terapia/db_" fun='borrar_terapia' title='editar'>Eliminar</button>
 								</div>
 							</div>
 						</div>
