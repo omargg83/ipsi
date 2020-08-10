@@ -1,12 +1,24 @@
 <?php
 require_once("../control_db.php");
 
+$_SESSION['des']=1;
+if($_SESSION['des']==1 and strlen($function)==0)
+{
+	echo "<div class='alert alert-primary' role='alert'> ARCHIVO:";
+	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
+	echo array_pop($arrayx);
+	echo " : ".$_SERVER['REQUEST_METHOD'];
+	echo "</div>";
+}
+
+
 class Cliente extends ipsi{
 	public $nivel_personal;
 	public $nivel_captura;
 	public function __construct(){
 		parent::__construct();
-		$this->doc="a_archivos/clientes/";
+		$this->pac="a_archivos/clientes/";
+		$this->doc="a_archivos/respuestas/";
 
 		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
 
@@ -211,16 +223,17 @@ class Cliente extends ipsi{
 				$arreglo+=array('pagina'=>$key->pagina);
 				$arreglo+=array('idactividad'=>$idactividad_array['id1']);
 				$arreglo+=array('idcreado'=>$_SESSION['idusuario']);
-				$idsubactividad_array=json_decode($this->insert('subactividad', $arreglo),true);
+				$subactividad_array=json_decode($this->insert('subactividad', $arreglo),true);
 
 				////////////Clonar Contexto
 				$sql="select * from contexto where idsubactividad=:idsubactividad";
-				$sth = $this->dbh->prepare($sql);
-				$sth->bindValue(":idsubactividad",$key->idsubactividad);
-				$sth->execute();
-				foreach($sth->fetchall(PDO::FETCH_OBJ) as $subkey){
+				$sth1 = $this->dbh->prepare($sql);
+				$sth1->bindValue(":idsubactividad",$key->idsubactividad);
+				$sth1->execute();
+
+				foreach($sth1->fetchall(PDO::FETCH_OBJ) as $subkey){
 					$arreglo=array();
-					$arreglo+=array('idsubactividad'=>$idsubactividad_array['id1']);
+					$arreglo+=array('idsubactividad'=>$subactividad_array['id1']);
 					$arreglo+=array('idcreado'=>$_SESSION['idusuario']);
 					$arreglo+=array('tipo'=>$subkey->tipo);
 					$arreglo+=array('observaciones'=>$subkey->observaciones);
@@ -228,11 +241,25 @@ class Cliente extends ipsi{
 					$arreglo+=array('incisos'=>$subkey->incisos);
 					$arreglo+=array('usuario'=>$subkey->usuario);
 					$arreglo+=array('descripcion'=>$subkey->descripcion);
-					$idcontexto=$this->insert('contexto', $arreglo);
-				}
+					$contexto_array=json_decode($this->insert('contexto', $arreglo),true);
 
+					////////////Clonar respuestas
+					$sql="select * from respuestas where idcontexto=:idcontexto";
+					$sth2 = $this->dbh->prepare($sql);
+					$sth2->bindValue(":idcontexto",$subkey->id);
+					$sth2->execute();
+
+					foreach($sth2->fetchall(PDO::FETCH_OBJ) as $cont){
+						$arreglo=array();
+						$arreglo+=array('idcontexto'=>$contexto_array['id1']);
+						$arreglo+=array('orden'=>$cont->orden);
+						$arreglo+=array('nombre'=>$cont->nombre);
+						$arreglo+=array('imagen'=>$cont->imagen);
+						$respuestas_array=json_decode($this->insert('respuestas', $arreglo),true);
+					}
+				}
 			}
-			return var_dump($idsubactividad);
+			return 1;
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!".$e->getMessage();
@@ -288,7 +315,18 @@ class Cliente extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-
+	public function respuestas_ver($id){
+		try{
+			$sql="select * from respuestas where idcontexto=:id order by orden";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
 }
 
 $db = new Cliente();

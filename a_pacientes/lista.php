@@ -17,7 +17,7 @@
 					echo "<div id='".$key->id."' class='col-4 edit-t mb-3'>";
 						echo "<div class='card '>";
 						echo "<div class='card-body'>";
-								echo "<div class='text-center'><img src='".$db->doc.$key->foto."' class='img-fluid img-thumbnail' alt='foto' width='100px'></div>";
+								echo "<div class='text-center'><img src='".$db->pac.$key->foto."' class='img-fluid img-thumbnail' alt='foto' width='100px'></div>";
 								echo "<div class='text-center'>".$key->nombre." ".$key->apellidop." ".$key->apellidom."</div>";
 								echo "<div class='text-center'>Paciente</div>";
 

@@ -58,7 +58,7 @@
 			<div class='card-body'>
 				<?php
 					echo "<div class='form-group' id='imagen_div'>";
-						echo "<img src='".$db->doc.trim($foto)."' class='img-thumbnail' width='100px'>";
+						echo "<img src='".$db->pac.trim($foto)."' class='img-thumbnail' width='100px'>";
 					echo "</div>";
 				?>
 

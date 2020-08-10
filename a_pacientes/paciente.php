@@ -28,7 +28,7 @@
 						<div class='col-12'>
 							<?php
 								echo "<div class='form-group text-center' id='imagen_div'>";
-									echo "<img src='".$db->doc.trim($foto)."' class='img-thumbnail' width='200px'>";
+									echo "<img src='".$db->pac.trim($foto)."' class='img-thumbnail' width='200px'>";
 									echo "<div class='text-center'>".$nombre." ".$apellidop." ".$apellidom."</div>";
 									echo "<div class='text-center'>Paciente</div>";
 								echo "</div>";
@@ -37,7 +37,7 @@
 					</div>
 				</div>
 			</div>
-			<div class='row text-center p-3'>
+			<div class='row p-3'>
 				<div class='card col-12'>
 					<div class='card-body'>
 						<h5>TERAPIAS</h5>
@@ -55,11 +55,13 @@
 							</div>
 						</div>
 						<div class='row'>
-							<div class='col-4'>
+							<div class='col-12'>
 							<?php
+								echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/terapias' dix='trabajo' id1='$id1'>Actividad</button>";
+
 								$resp=$db->terapias_paciente($id1);
 								foreach($resp as $key){
-									echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividad' dix='trabajo' id1='$id1' id2='$key->idactividad'>Actividad</button>";
+									//echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividad' dix='trabajo' id1='$id1' id2='$key->idactividad'>Actividad</button>";
 								}
 							?>
 							</div>

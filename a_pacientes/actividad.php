@@ -30,7 +30,7 @@
 		<div class="card-header" id="headingOne">
 			<div class='row'>
 				<div class="col-2">
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" id1="<?php echo $idactividad; ?>" id2="<?php echo $actividad->idmodulo; ?>">Editar</button>
+					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/actividad_editar" dix="trabajo" id1="<?php echo $idactividad; ?>" id2="<?php echo $actividad->idmodulo; ?>">Editar</button>
 				</div>
 				<div class="col-9 text-left">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -55,7 +55,7 @@
 
 
 <div class="container-fluid mb-3 text-center">
-	<button class='btn btn-warning' type="button" is="b-link" des='a_actividades_e/subactividad_editar' dix='nueva_sub' tp="edit" id1="0" id2='<?php echo $idactividad; ?>' title='editar' omodal="1">Nueva Subactividad</button>
+	<button class='btn btn-warning' type="button" is="b-link" des='a_pacientes_e/subactividad_editar' dix='nueva_sub' tp="edit" id1="0" id2='<?php echo $idactividad; ?>' title='editar' omodal="1">Nueva Subactividad</button>
 </div>
 
 <?php
@@ -69,7 +69,7 @@
 				<div class="col-2">
 
 					<!-- Editar subactividad --->
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/subactividad_editar" dix="sub_<?php echo $key->idsubactividad; ?>" id1="<?php echo $key->idsubactividad; ?>" id2='<?php echo $idactividad; ?>' omodal="1">Editar</button>
+					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/subactividad_editar" dix="sub_<?php echo $key->idsubactividad; ?>" id1="<?php echo $key->idsubactividad; ?>" id2='<?php echo $idactividad; ?>' omodal="1">Editar</button>
 				</div>
 				<div class="col-10">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapsesub<?php echo $key->idsubactividad; ?>" aria-expanded="true" aria-controls="collapsesub<?php echo $key->idsubactividad; ?>">
@@ -97,7 +97,7 @@
 						<div class='row'>
 							<div class="col-2">
 								<!-- Editar Contexto --->
-								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/contexto_editar" dix="sub_<?php echo $key->idsubactividad; ?>" id1="<?php echo $row->id; ?>" omodal="1">Editar</button>
+								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/contexto_editar" dix="sub_<?php echo $key->idsubactividad; ?>" id1="<?php echo $row->id; ?>" omodal="1">Editar</button>
 							</div>
 							<div class="col-4 text-center">
 								<button class="btn btn-link" data-toggle="collapse" data-target="#collapsecon<?php echo $row->id; ?>" aria-expanded="true" aria-controls="collapsecon<?php echo $row->id; ?>">
@@ -151,7 +151,7 @@
 
 											<div class="row">
 												<div class="col-1">
-													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/inciso_editar" id1="<?php echo $respuesta->id; ?>" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-inciso' omodal="1" >Editar</button>
+													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/inciso_editar" id1="<?php echo $respuesta->id; ?>" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-inciso' omodal="1" >Editar</button>
 												</div>
 												<div class="col-10">
 													<?php echo $respuesta->nombre;  ?>
@@ -161,7 +161,7 @@
 								}
 								?>
 							</div>
-							<button class="btn btn-warning" type="button" is="b-link" des="a_actividades_e/inciso_editar" id1="0" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
+							<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes_e/inciso_editar" id1="0" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
 			<!-- Fin Preguntas  -->
 					</div>
 				</div>
