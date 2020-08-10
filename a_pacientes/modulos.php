@@ -7,11 +7,26 @@
 	$paciente = $db->cliente_editar($idpaciente);
 	$nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
 
+	$sql="select * from track where id=:idtrack";
+	$sth = $db->dbh->prepare($sql);
+	$sth->bindValue(":idtrack",$idtrack);
+	$sth->execute();
+	$track=$sth->fetch(PDO::FETCH_OBJ);
+
 	$sql="select * from terapias where id=:idterapia";
 	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idterapia",$idterapia);
+	$sth->bindValue(":idterapia",$track->idterapia);
 	$sth->execute();
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
+
+	///////////////////////CODIGO
+	$sql="select modulo.* from actividad
+	left outer join modulo on modulo.id=actividad.idmodulo
+	where actividad.idpaciente=:id";
+	$sth = $db->dbh->prepare($sql);
+	$sth->bindValue(":id",$idpaciente);
+	$sth->execute();
+	$modulos=$sth->fetchAll(PDO::FETCH_OBJ);
 
 
 ?>
@@ -21,8 +36,8 @@
 	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
 	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" id1="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre; ?></li>
 	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/terapias" id1="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
-	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" title="Terapias" id1="<?php echo $idterapia; ?>" id2="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
-	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" title="Terapias" id1="<?php echo $idterapia; ?>" id2="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
+	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" id1="<?php echo $terapia->id; ?>" id2="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
+	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" id1="<?php echo $idtrack; ?>" id2="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
  </ol>
 </nav>
 
@@ -53,7 +68,7 @@
   				<div class='card-body'>
   					<div class='row'>
   						<div class='col-12'>
-  							<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/actividades" dix="trabajo" id1="<?php echo $key->id; ?>"  id2="<?php echo $idtrack; ?>">Ver</button>
+  							<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/actividades" dix="trabajo" id1="<?php echo $key->id; ?>"  id2="<?php echo $idpaciente; ?>">Ver</button>
   						</div>
   					</div>
   				</div>
