@@ -84,22 +84,6 @@
 		 		let fun;
 				(elemento.attributes.fun !== undefined) ? fun=elemento.attributes.fun.nodeValue : fun="";
 
-				/////////Id del destino
-				let iddest;
-				if(elemento.attributes.iddest !== undefined) {
-					alert("cambiar por ID1");
-				}
-
-				/////////Div de destino despues de guardar
-				let id1;
-				(elemento.attributes.id1 !== undefined) ? id1=elemento.attributes.id1.nodeValue : id1="";
-
-				let id2;
-				(elemento.attributes.id2 !== undefined) ? id2=elemento.attributes.id2.nodeValue : id2="";
-
-				let id3;
-				(elemento.attributes.id3 !== undefined) ? id3=elemento.attributes.id3.nodeValue : id3="";
-
 				/////////Div de destino despues de guardar
 				let dix;
 				(elemento.attributes.dix !== undefined) ? dix=elemento.attributes.dix.nodeValue : dix="trabajo";
@@ -107,6 +91,9 @@
 				/////////div destino despues de guardar
 		 		let lug;
 				(elemento.attributes.lug !== undefined) ? lug=elemento.attributes.lug.nodeValue : lug="";
+
+				let lugid;
+				(elemento.attributes.lugid !== undefined) ? lugid=elemento.attributes.lugid.nodeValue : lugid="";
 
 				////////FORM pertenece a ventanamodal
 		 		let cmodal;
@@ -118,6 +105,16 @@
 
 				var formData = new FormData(elemento);
 				formData.append("function", fun);
+
+				/////////esto es para todas las variables
+				let variables = new Object();
+				for(let contar=0;contar<elemento.attributes.length; contar++){
+					let arrayDeCadenas = elemento.attributes[contar].name.split("_");
+					if(arrayDeCadenas.length>1){
+						formData.append(elemento.attributes[contar].name, elemento.attributes[contar].value);
+						variables[arrayDeCadenas[1]] = elemento.attributes[contar].value;
+					}
+				}
 
 				if(db.length>0){
 					Swal.fire({
@@ -145,19 +142,13 @@
 								}
 								var datos = JSON.parse(data.target.response);
 								if (datos.error==0){
-									document.getElementById("id1").value=datos.id1;
-									//////////////quitar esta linea al acompletar todo el cambio
-									if(id1!==""){
-										datos.id1=id1;
+									if (lugid !== undefined && lugid.length>0) {
+										document.getElementById(lugid).value=datos.id1;
+										variables[lugid] = datos.id1;
 									}
-									if(id2!==""){
-										datos.id2=id2;
-									}
-									if(id3!==""){
-										datos.id3=id3;
-									}
+
 									if (lug !== undefined && lug.length>0) {
-										redirige_div(lug,dix,datos,"");
+										redirige_div(lug,dix,variables,"");
 									}
 									if(cmodal==1){
 										$('#myModal').modal('hide');
@@ -273,21 +264,16 @@
 		let params="";
 		var formData = new FormData();
 		let datos = new Object();
-
-
-		if(e.target.attributes.params!==undefined){
-			params=e.target.attributes.params.nodeValue;
+		let variables = new Object();
+		/////////esto es para todas las variables
+		for(let contar=0;contar<e.target.attributes.length; contar++){
+			let arrayDeCadenas = e.target.attributes[contar].name.split("_");
+			if(arrayDeCadenas.length>1){
+				//formData.append(elemento.attributes[contar].name, elemento.attributes[contar].value);
+				variables[arrayDeCadenas[1]] =e.target.attributes[contar].value;
+			}
 		}
-		e.target.attributes.id1!==undefined ? datos.id1=e.target.attributes.id1.nodeValue : datos.id1=0;
-		e.target.attributes.id2!==undefined ? datos.id2=e.target.attributes.id2.nodeValue : datos.id2=0;
-		e.target.attributes.id3!==undefined ? datos.id3=e.target.attributes.id3.nodeValue : datos.id3=0;
-
-		datos.omodal=omodal;
-
-		if(iddest!==""){
-			datos.id1=iddest;
-		}
-
+		variables["omodal"] =omodal;
 		if(cmodal==1){
 			$('#myModal').modal('hide');
 			cargando(false);
@@ -297,9 +283,10 @@
 			$('#myModal').modal('hide');
 			cargando(false);
 		}
-
 		//////////////poner aqui proceso en caso de existir funcion
 		if(tp==="proceso"){
+			alert("falta corregir esto");
+
 			db += ".php";
 			formData.append("function", fun);
 			formData.append("id1",datos.id1);
@@ -336,7 +323,7 @@
 		}
 
 		if(tp!=="proceso"){
-			redirige_div(des,dix,datos,params);
+			redirige_div(des,dix,variables,params);
 		}
 
 		cargando(false);
@@ -345,17 +332,9 @@
 	//////////////////////////redirige si es necesario
 	function redirige_div(lugar,div,datos,parametros){
 		lugar+=".php";
-		var formData = new FormData();
-		formData.append("id1", datos.id1);
-		formData.append("id2", datos.id2);
-		formData.append("id3", datos.id3);
-
-		let arrayDeCadenas = parametros.split(",");
-		for (var i=0; i < arrayDeCadenas.length; i++) {
-			let final=arrayDeCadenas[i].split("-");
-			for (var j=0; j < final.length; j=j+2) {
-				formData.append(final[0], final[1]);
-			}
+		let formData = new FormData();
+		for (let key in datos ) {
+    	formData.append(key, datos[key]);
 		}
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',lugar);

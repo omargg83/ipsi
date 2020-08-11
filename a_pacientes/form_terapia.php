@@ -1,6 +1,6 @@
 <?php
 	require_once("db_.php");
-	$id1=clean_var($_REQUEST['id1']);
+	$idpaciente=clean_var($_REQUEST['idpaciente']);
 ?>
 
 <form is="f-submit" id="form_terapiab" des="a_pacientes/terapia_buscar" dix="resultadosx">
@@ -10,7 +10,7 @@
 	</div>
   <div class='modal-body' >
 	<?php
-		echo "<input  type='hidden' id='id1' NAME='id1' value='$id1'>";
+		echo "<input  type='hidden' id='idpaciente' NAME='idpaciente' value='$idpaciente'>";
 	?>
 		<div class='row'>
 			<div class='col-12'>
@@ -25,6 +25,6 @@
 	</div>
 	<div class='modal-footer' >
 		<button class="btn btn-warning" type="submit" id1="">Buscar</button>
-		<button type="button" class="btn btn-warning" data-dismiss="modal" title='Cancelar'>Cancelar</button>
+		<button class="btn btn-warning" type="button" is="b-link" cmodal="1">Regresar</button>
 	</div>
 </form>

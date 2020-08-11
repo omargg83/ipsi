@@ -1,21 +1,21 @@
 <?php
 	require_once("../a_actividades/db_.php");
 
-	$id1=clean_var($_REQUEST['id1']);
-	$idactividad=clean_var($_REQUEST['id2']);
-	$idpaciente=clean_var($_REQUEST['id3']);
+	$idrespuesta=clean_var($_REQUEST['idrespuesta']);
+	$idactividad=clean_var($_REQUEST['idactividad']);
+	$idpaciente=clean_var($_REQUEST['idpaciente']);
 
 	$orden="";
 	$nombre="";
 
-	if($id1>0){
-		$res=$db->respuestas_editar($id1);
+	if($idrespuesta>0){
+		$res=$db->respuestas_editar($idrespuesta);
 		$orden=$res->orden;
 		$nombre=$res->nombre;
 	}
  ?>
- <form is="f-submit" id="form-respuesta" db="a_actividades/db_" lug="a_actividades/actividad_ver" id1="<?php echo $idactividad; ?>" id2="<?php echo $idpaciente; ?>" fun="guarda_respuesta" lug="" cmodal="1">
-	 <input type="text" name="id1" id="id1" value="<?php echo $id1; ?>">
+ <form is="f-submit" id="form-respuesta" db="a_actividades/db_" lug="a_actividades/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" fun="guarda_respuesta" lug="" cmodal="1">
+	 <input type="text" name="id1" id="id1" value="<?php echo $idrespuesta; ?>">
 	 <input type="text" name="idcontexto" id="idcontexto" value="<?php echo $idcontexto; ?>">
 	 <div class="card">
 	 	<div class="card-header">
@@ -44,7 +44,7 @@
 		</div>
 		<div class="card-footer">
 			<button type='submit' class='btn btn-warning'> Guardar</button>
-			<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/actividad_ver" cmodal="1">Regresar</button>
+			<button class="btn btn-warning" type="button" is="b-link" cmodal="1">Regresar</button>
 		</div>
 	 </div>
 </form>

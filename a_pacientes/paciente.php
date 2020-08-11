@@ -1,8 +1,8 @@
 <?php
 	require_once("db_.php");
-	if (isset($_REQUEST['id1'])){$id1=$_REQUEST['id1'];} else{ $id1=0;}
 
-	$pd = $db->cliente_editar($id1);
+	$idpaciente=$_REQUEST['idpaciente'];
+	$pd = $db->cliente_editar($idpaciente);
 	$nombre=$pd->nombre;
 	$apellidop=$pd->apellidop;
 	$apellidom=$pd->apellidom;
@@ -15,7 +15,7 @@
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
 		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
-		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/paciente" id1="<?php echo $id1; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
+		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
 	</ol>
 </nav>
 
@@ -57,11 +57,9 @@
 						<div class='row'>
 							<div class='col-12'>
 							<?php
-								echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/terapias' dix='trabajo' id1='$id1'>Actividad</button>";
-
-								$resp=$db->terapias_paciente($id1);
+								$resp=$db->terapias_paciente($idpaciente);
 								foreach($resp as $key){
-									//echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividad' dix='trabajo' id1='$id1' id2='$key->idactividad'>Actividad</button>";
+									echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' v_idpaciente='$idpaciente' v_idactividad='$key->idactividad'>$key->nombre</button>";
 								}
 							?>
 							</div>
@@ -76,8 +74,8 @@
 					<div class='card-body'>
 						<div class='col-12'>
 							<?php
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_terapia' dix='nueva_sub' tp='edit' id1='$id1' omodal='1'>Agregar terapia</button>";
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_terapia' dix='nueva_sub' tp='edit' id1='$id1' omodal='1'>Nueva terapia</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_terapia' v_idpaciente='$idpaciente' omodal='1'>Agregar terapia</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/actividad_editar' v_idactividad='0' v_idpaciente='$idpaciente' omodal='1'>Nueva terapia</button>";
 							?>
 						</div>
 					</div>
@@ -96,7 +94,7 @@
 						</div>
 						<div class='row'>
 							<div class='col-4'>
-								<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/editar" dix="trabajo" id1="<?php echo $id1;?>">Ficha de registro</button>
+								<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/editar" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ficha de registro</button>
 							</div>
 							<div class='col-4'>
 								<button class='btn btn-warning btn-block btn-block' onclick='ficha(<?php echo $id;?>)'>Pruebas iniciales</button>

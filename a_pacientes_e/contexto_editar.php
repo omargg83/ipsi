@@ -1,9 +1,9 @@
 <?php
 	require_once("../a_pacientes/db_.php");
 
-  $id1=clean_var($_REQUEST['id1']);
-	$idactividad=clean_var($_REQUEST['id2']);
-	$idpaciente=clean_var($_REQUEST['id3']);
+  $idcontexto=clean_var($_REQUEST['idcontexto']);
+	$idactividad=clean_var($_REQUEST['idactividad']);
+	$idpaciente=clean_var($_REQUEST['idpaciente']);
 
 
 	$observaciones="";
@@ -15,13 +15,13 @@
 
 
 
-	if($id1==0){
+	if($idcontexto==0){
 		$idactividad=clean_var($_REQUEST['id2']);
 		$idsubactividad=clean_var($_REQUEST['id3']);
 	  $tipo=clean_var($_REQUEST['tipo']);
 	}
 	else{
-		$con=$db->contexto_editar($id1);
+		$con=$db->contexto_editar($idcontexto);
 		$idsubactividad=$con->idsubactividad;
 		$tipo=$con->tipo;
 		$texto=$con->texto;
@@ -36,8 +36,8 @@
 	$idactividad=$sub->idactividad;
 ?>
 
-<form is="f-submit" id="form-contexto" db="a_pacientes/db_" fun="guarda_contexto" lug="a_pacientes/actividad_ver" id1="<?php echo $idactividad; ?>" id2="<?php echo $idpaciente; ?>" cmodal="1">
-	<input type="hidden" name="id1" id="id1" value="<?php echo $id1; ?>">
+<form is="f-submit" id="form-contexto" db="a_pacientes/db_" fun="guarda_contexto" lug="a_pacientes/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" cmodal="1">
+	<input type="hidden" name="id1" id="id1" value="<?php echo $idcontexto; ?>">
 	<input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php echo $idsubactividad; ?>">
 	<input type="hidden" name="tipo" id="tipo" value="<?php echo $tipo; ?>">
 
@@ -108,7 +108,7 @@
 	  </div>
 	  <div class="card-footer">
 	    <button type='submit' class='btn btn-warning '> Guardar</button>
-			<button class="btn btn-warning" type="button" is="b-link" des='a_pacientes/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
+			<button class="btn btn-warning" type="button" is="b-link" cmodal="1">Regresar</button>
 	  </div>
 	</div>
 </form>

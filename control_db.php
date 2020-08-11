@@ -52,7 +52,6 @@
 			$arreglo=array();
 			try{
 				$this->dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-
 				foreach ($values as $field => $v)
 				$ins[] = ':' . $field;
 
@@ -65,10 +64,10 @@
 				}
 				if ($sth->execute()){
 					$arreglo+=array('id1'=>$this->lastId = $this->dbh->lastInsertId());
-					$arreglo+=array('error'=>0);
-					$arreglo+=array('terror'=>'');
 					$arreglo+=array('id2'=>'');
 					$arreglo+=array('id3'=>'');
+					$arreglo+=array('error'=>0);
+					$arreglo+=array('terror'=>'');
 					return json_encode($arreglo);
 				}
 			}
@@ -172,7 +171,7 @@
 		}
 
 
-	
+
 
 		public function fondo(){
 			$_SESSION['idfondo']=$_REQUEST['imagen'];

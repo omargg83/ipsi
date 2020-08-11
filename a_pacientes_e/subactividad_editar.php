@@ -1,22 +1,22 @@
 <?php
 	require_once("../a_pacientes/db_.php");
-  $id1=clean_var($_REQUEST['id1']);
-  $idactividad=clean_var($_REQUEST['id2']);
-  $idpaciente=clean_var($_REQUEST['id3']);
+  $idsubactividad=clean_var($_REQUEST['idsubactividad']);
+  $idactividad=clean_var($_REQUEST['idactividad']);
+  $idpaciente=clean_var($_REQUEST['idpaciente']);
 
 	$nombre="";
 	$orden="";
 	$pagina="";
-	if($id1){
-		$res=$db->subactividad_editar($id1);
+	if($idsubactividad){
+		$res=$db->subactividad_editar($idsubactividad);
 		$nombre=$res->nombre;
 		$orden=$res->orden;
 		$pagina=$res->pagina;
 	}
 ?>
 
-<form is="f-submit" id="form_sub" db="a_pacientes/db_" fun="subactividad_guardar" lug="a_pacientes/actividad_ver" id1="<?php echo $idactividad; ?>" id2="<?php echo $idpaciente; ?>" dix="trabajo" cmodal="1">
-  <input type="hidden" name="id1" id="id1" value="<?php  echo $id1; ?>">
+<form is="f-submit" id="form_sub" db="a_pacientes/db_" fun="subactividad_guardar" lug="a_pacientes/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo" cmodal="1">
+  <input type="hidden" name="id1" id="id1" value="<?php  echo $idsubactividad; ?>">
   <input type="hidden" name="id2" id="id2" value="<?php  echo $idactividad; ?>">
 	<div class="card">
 	  <div class="card-header">
@@ -40,7 +40,7 @@
 	  </div>
 	  <div class="card-footer">
 	    <button type='submit' class='btn btn-warning'> Guardar</button>
-	    <button class="btn btn-warning" type="button" is="b-link" des='a_pacientes/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
+	    <button class="btn btn-warning" type="button" is="b-link" cmodal="1">Regresar</button>
 	  </div>
   </div>
 </form>

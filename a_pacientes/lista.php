@@ -24,7 +24,7 @@
 								echo "<div class='row'>";
 									echo "<div class='col-12  text-center'>";
 										echo "<div class='btn-group'>";
-											echo "<button class='btn btn-warning btn-block' is='b-link' id='edit_persona' title='Editar' des='a_pacientes/paciente' dix='trabajo' id1='".$key->id."'>Ver perfil</button>";
+											echo "<button class='btn btn-warning btn-block' is='b-link' id='edit_persona' title='Editar' des='a_pacientes/paciente' dix='trabajo' v_idpaciente='".$key->id."'>Ver perfil</button>";
 										echo "</div>";
 									echo "</div>";
 								echo "</div>";
@@ -43,7 +43,7 @@
 
 						<div class='row'>
 							<div class="col-12">
-								<button class='btn btn-warning btn-block' type="button" is="b-link" des='a_pacientes/editar' dix='trabajo' id1='0'>Nuevo</button>
+								<button class='btn btn-warning btn-block' type="button" is="b-link" des='a_pacientes/editar' dix='trabajo' v_idpaciente='0'>Nuevo</button>
 							</div>
 						</div>
 					</div>

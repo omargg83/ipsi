@@ -1,7 +1,7 @@
 <?php
 	require_once("db_.php");
 
-	$id=$_REQUEST['id'];
+	$idusuario=$_REQUEST['idusuario'];
 
 	$nombre="";
 	$apellidop="";
@@ -10,8 +10,8 @@
 	$nivel="";
 	$correo="";
 	$foto="";
-	if($id>0){
-		$pd = $db->usuario_editar($id);
+	if($idusuario>0){
+		$pd = $db->usuario_editar($idusuario);
 		$nombre=$pd->nombre;
 		$apellidop=$pd->apellidop;
 		$apellidom=$pd->apellidom;
@@ -23,7 +23,8 @@
 ?>
 
 <div class="container">
-	<form action="" id="form_personal" data-lugar="a_usuarios/db_" data-funcion="guardar_usuario">
+	<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" lug="a_usuarios/editar" lugid="idusuario"  v_idusuario="<?php echo $idusuario; ?>">
+		<input type="hidden" class="form-control form-control-sm" name="idusuario" id="idusuario" value="<?php echo $idusuario ;?>" placeholder="No" readonly>
 		<div class='card'>
 		<div class='card-header'>
 			Usuarios
@@ -36,11 +37,6 @@
 			?>
 
 			<div class='row'>
-				<div class="col-2">
-					<label for="">Numero:</label>
-					<input type="text" class="form-control form-control-sm" name="id" id="id" value="<?php echo $id ;?>" placeholder="No" readonly>
-				</div>
-
 				<div class="col-4">
 					<label for="">Nombre:</label>
 					<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre ;?>" placeholder="Nombre" required>
@@ -53,12 +49,12 @@
 
 				<div class="col-3">
 					<label for="">Apellido Materno:</label>
-					<input type="text" class="form-control form-control-sm" name="apellidom" id="apellidom" value="<?php echo $apellidom;?>" placeholder="Apellido Materno" required>
+					<input type="text" class="form-control form-control-sm" name="apellidom" id="apellidom" value="<?php echo $apellidom;?>" placeholder="Apellido Materno">
 				</div>
 
 				<div class="col-4">
 					<label for="">Correo:</label>
-					<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo ;?>" placeholder="Usuario" required readonly>
+					<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo ;?>" placeholder="Usuario" >
 				</div>
 
 				<div class="col-4">
@@ -79,15 +75,16 @@
 			<div class='row'>
 				<div class="col-sm-12">
 					<div class="btn-group">
-					<button class="btn btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
+					<button class="btn btn-warning" type="submit"><i class='far fa-save'></i>Guardar</button>
 					<?php
-						if($id>0){
-							echo "<button type='button' class='btn btn-sm' data-toggle='modal' data-target='#myModal' id='fileup_foto' data-ruta='$db->doc' data-tabla='usuarios' data-campo='foto' data-tipo='1' data-id='$id' data-keyt='idusuario' data-destino='a_clientes/editar' data-iddest='$id' data-ext='.jpg,.png' title='Subir foto'><i class='fas fa-cloud-upload-alt'></i>Foto</button>";
+						if($idusuario>0){
+							echo "<button type='button' class='btn btn-warning' data-toggle='modal' data-target='#myModal' id='fileup_foto' data-ruta='$db->doc' data-tabla='usuarios' data-campo='foto' data-tipo='1' data-id='$idusuario' data-keyt='idusuario' data-destino='a_clientes/editar' data-iddest='$idusuario' data-ext='.jpg,.png' title='Subir foto'><i class='fas fa-cloud-upload-alt'></i>Foto</button>";
 
-							echo "<button type='button' class='btn btn-sm' id='winmodal_pass' data-id='$id' data-lugar='a_usuarios/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</button>";
+							echo "<button type='button' class='btn btn-warning' id='winmodal_pass' data-id='$idusuario' data-lugar='a_usuarios/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</button>";
 						}
 					?>
-					<button class='btn btn-sm' id='lista_penarea' data-lugar='a_usuarios/lista' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
+					<button class="btn btn-warning" type="button" is="b-link" des="a_usuarios/lista" dix="trabajo">Regresar</button>
+
 					</div>
 				</div>
 			</div>

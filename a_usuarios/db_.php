@@ -38,9 +38,8 @@ class Usuario extends ipsi{
 	}
 	public function guardar_usuario(){
 		$x="";
-
 		$arreglo =array();
-		$id=$_REQUEST['id'];
+		$idusuario=$_REQUEST['idusuario'];
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}
@@ -57,11 +56,11 @@ class Usuario extends ipsi{
 			$arreglo+=array('nivel'=>$_REQUEST['nivel']);
 		}
 
-		if($id==0){
+		if($idusuario==0){
 			$x=$this->insert('usuarios', $arreglo);
 		}
 		else{
-			$x=$this->update('usuarios',array('idusuario'=>$id), $arreglo);
+			$x=$this->update('usuarios',array('idusuario'=>$idusuario), $arreglo);
 		}
 		return $x;
 	}

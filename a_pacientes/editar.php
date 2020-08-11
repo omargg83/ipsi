@@ -1,6 +1,6 @@
 <?php
 	require_once("db_.php");
-	if (isset($_REQUEST['id1'])){$id1=clean_var($_REQUEST['id1']);} else{ $id1=0;}
+	$idpaciente=clean_var($_REQUEST['idpaciente']);
 
 	$nombre="";
 	$apellidop="";
@@ -19,8 +19,8 @@
 	$medicamentos="";
 	$per = $db->personal();
 
-	if($id1>0){
-		$pd = $db->cliente_editar($id1);
+	if($idpaciente>0){
+		$pd = $db->cliente_editar($idpaciente);
 		$nombre=$pd->nombre;
 		$apellidop=$pd->apellidop;
 		$apellidom=$pd->apellidom;
@@ -37,20 +37,18 @@
 		$enfermedades=$pd->enfermedades;
 		$medicamentos=$pd->medicamentos;
 	}
-
 	?>
 	<nav aria-label='breadcrumb'>
 		<ol class='breadcrumb'>
 			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
-			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" id1="<?php echo $id1; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
-			<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/editar" id1="<?php echo $id1; ?>" dix="trabajo">Ficha de registro</li>
+			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
+			<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/editar" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Ficha de registro</li>
 		</ol>
 	</nav>
 
-
 <div class="container">
-	<form is="f-submit" id="form_cliente" db="a_pacientes/db_" fun="guardar_cliente" lug="a_pacientes/editar">
-		<input type="hidden" name="id1" id="id1" value="<?php echo $id1;?>">
+	<form is="f-submit" id="form_cliente" db="a_pacientes/db_" fun="guardar_cliente" lug="a_pacientes/editar" lugid="idpaciente" >
+		<input type="hidden" name="idpaciente" id="idpaciente" value="<?php echo $idpaciente;?>">
 		<div class='card'>
 			<div class='card-header'>
 				Editar cliente
@@ -159,12 +157,12 @@
 					<div class="col-sm-12">
 						<button class="btn btn-warning btn-sm" type="submit">Guardar</button>
 						<?php
-							if($id1>0){
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_foto' dix='nueva_sub' tp='edit' id1='$id1' omodal='1'>Foto</button>";
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_pass' dix='nueva_sub' tp='edit' id1='$id1' omodal='1'>Contraseña</button>";
+							if($idpaciente>0){
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_foto' dix='nueva_sub' tp='edit' id1='$idpaciente' omodal='1'>Foto</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_pass' dix='nueva_sub' tp='edit' id1='$idpaciente' omodal='1'>Contraseña</button>";
 							}
 						?>
-						<button class='btn btn-warning btn-sm' type='button' is="b-link" des="a_pacientes/paciente" id1="<?php echo $id1; ?>" dix="trabajo">Regresar</button>
+						<button class='btn btn-warning btn-sm' type='button' is="b-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Regresar</button>
 					</div>
 				</div>
 			</div>

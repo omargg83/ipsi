@@ -1,7 +1,7 @@
 <?php
 	require_once("db_.php");
-	$idtrack=$_REQUEST['id1'];
-	$idpaciente=$_REQUEST['id2'];
+	$idtrack=$_REQUEST['idtrack'];
+	$idpaciente=$_REQUEST['idpaciente'];
 
 	/////////////////////breadcrumb
 	$paciente = $db->cliente_editar($idpaciente);
@@ -34,10 +34,10 @@
 <nav aria-label='breadcrumb'>
  <ol class='breadcrumb'>
 	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
-	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" id1="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre; ?></li>
-	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/terapias" id1="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
-	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" id1="<?php echo $terapia->id; ?>" id2="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
-	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" id1="<?php echo $idtrack; ?>" id2="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
+	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre; ?></li>
+	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
+	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
+	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $idtrack; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
  </ol>
 </nav>
 
@@ -68,7 +68,7 @@
   				<div class='card-body'>
   					<div class='row'>
   						<div class='col-12'>
-  							<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/actividades" dix="trabajo" id1="<?php echo $key->id; ?>"  id2="<?php echo $idpaciente; ?>">Ver</button>
+  							<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $key->id; ?>"  v_idpaciente="<?php echo $idpaciente; ?>">Ver</button>
   						</div>
   					</div>
   				</div>

@@ -14,7 +14,7 @@
 			<?php
 				if($_SESSION['nivel']==1){
 			?>
-				<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal' data-lugar='a_usuarios/	editar'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>
+				<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal'  is='a-link' des='a_usuarios/editar' dix='trabajo' v_idusuario='0'>Nuevo</a></li>
 			<?php
 			}
 			?>

@@ -1,7 +1,7 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=0;
+$_SESSION['des']=1;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
 	echo "<div class='alert alert-primary' role='alert'> ARCHIVO:";
@@ -77,7 +77,7 @@ class Cliente extends ipsi{
 	public function guardar_cliente(){
 		$x="";
 		$arreglo =array();
-		$id1=$_REQUEST['id1'];
+		$idpaciente=$_REQUEST['idpaciente'];
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
@@ -121,11 +121,11 @@ class Cliente extends ipsi{
 			$arreglo+=array('medicamentos'=>clean_var($_REQUEST['medicamentos']));
 		}
 
-		if($id1==0){
+		if($idpaciente==0){
 			$x=$this->insert('clientes', $arreglo);
 		}
 		else{
-			$x=$this->update('clientes',array('id'=>$id1), $arreglo);
+			$x=$this->update('clientes',array('id'=>$idpaciente), $arreglo);
 		}
 		return $x;
 	}
@@ -173,7 +173,7 @@ class Cliente extends ipsi{
 
 	public function buscar_actividad($b_actividad){
 		try{
-			$id1=$_REQUEST['id1'];
+			$idpaciente=$_REQUEST['idpaciente'];
 			$sql="select * from actividad where nombre like :nombre and tipo!='inicial' and idpaciente is null";
 			$sth = $this->dbh->prepare($sql);
 		  $sth->bindValue(":nombre","%".$b_actividad."%");
@@ -290,6 +290,47 @@ class Cliente extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+	public function guarda_actividad(){
+		try{
+			$arreglo=array();
+			$x="";
+			$idactividad=$_REQUEST['idactividad'];
+
+			if (isset($_REQUEST['nombre'])){
+				$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
+			}
+			if (isset($_REQUEST['observaciones'])){
+				$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
+			}
+			if (isset($_REQUEST['indicaciones'])){
+				$arreglo+=array('indicaciones'=>clean_var($_REQUEST['indicaciones']));
+			}
+			if (isset($_REQUEST['tipo'])){
+				$arreglo+=array('tipo'=>clean_var($_REQUEST['tipo']));
+			}
+			if (isset($_REQUEST['idmodulo'])){
+				$arreglo+=array('idmodulo'=>clean_var($_REQUEST['idmodulo']));
+			}
+			if (isset($_REQUEST['idpaciente'])){
+				$arreglo+=array('idpaciente'=>clean_var($_REQUEST['idpaciente']));
+			}
+
+			if($idactividad==0){
+				$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
+				$arreglo+=array('idmodulo'=>clean_var($_REQUEST['idmodulo']));
+				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
+				$x=$this->insert('actividad', $arreglo);
+			}
+			else{
+				$x=$this->update('actividad',array('idactividad'=>$idactividad), $arreglo);
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+
 
 	public function subactividad_ver($id){
 		try{
