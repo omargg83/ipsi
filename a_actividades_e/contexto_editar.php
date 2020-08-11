@@ -29,7 +29,7 @@
 	$idactividad=$sub->idactividad;
 ?>
 
-<form is="f-submit" id="form-contexto" db="a_actividades/db_" fun="guarda_contexto" lug="a_actividades/actividad_ver" iddest="<?php echo $idactividad; ?>" cmodal="1">
+<form is="f-submit" id="form-contexto" db="a_actividades/db_" fun="guarda_contexto" lug="a_actividades/actividad_ver" id1="<?php echo $idactividad; ?>" cmodal="1">
 	<input type="hidden" name="id1" id="id1" value="<?php echo $id1; ?>">
 	<input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php echo $idsubactividad; ?>">
 	<input type="hidden" name="tipo" id="tipo" value="<?php echo $tipo; ?>">

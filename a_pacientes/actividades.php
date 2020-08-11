@@ -77,7 +77,7 @@
 					<div class='card-footer'>
 						<div class='row'>
 							<div class='col-12'>
-								<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" id1="<?php echo $key->idactividad; ?>">Ver</button>
+								<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" id1="<?php echo $key->idactividad; ?>" id2="<?php echo $idpaciente; ?>">Ver</button>
 							</div>
 						</div>
 					</div>

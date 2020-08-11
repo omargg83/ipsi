@@ -86,7 +86,19 @@
 
 				/////////Id del destino
 				let iddest;
-				(elemento.attributes.iddest !== undefined) ?	iddest=elemento.attributes.iddest.nodeValue : iddest="";
+				if(elemento.attributes.iddest !== undefined) {
+					alert("cambiar por ID1");
+				}
+
+				/////////Div de destino despues de guardar
+				let id1;
+				(elemento.attributes.id1 !== undefined) ? id1=elemento.attributes.id1.nodeValue : id1="";
+
+				let id2;
+				(elemento.attributes.id2 !== undefined) ? id2=elemento.attributes.id2.nodeValue : id2="";
+
+				let id3;
+				(elemento.attributes.id3 !== undefined) ? id3=elemento.attributes.id3.nodeValue : id3="";
 
 				/////////Div de destino despues de guardar
 				let dix;
@@ -135,8 +147,14 @@
 								if (datos.error==0){
 									document.getElementById("id1").value=datos.id1;
 									//////////////quitar esta linea al acompletar todo el cambio
-									if(iddest!==""){
-										datos.id1=iddest;
+									if(id1!==""){
+										datos.id1=id1;
+									}
+									if(id2!==""){
+										datos.id2=id2;
+									}
+									if(id3!==""){
+										datos.id3=id3;
 									}
 									if (lug !== undefined && lug.length>0) {
 										redirige_div(lug,dix,datos,"");

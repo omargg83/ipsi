@@ -2,8 +2,8 @@
 	require_once("../a_actividades/db_.php");
 
 	$id1=clean_var($_REQUEST['id1']);
-	$idcontexto=clean_var($_REQUEST['id2']);
-	$idactividad=clean_var($_REQUEST['id3']);
+	$idactividad=clean_var($_REQUEST['id2']);
+	$idpaciente=clean_var($_REQUEST['id3']);
 
 	$orden="";
 	$nombre="";
@@ -14,7 +14,7 @@
 		$nombre=$res->nombre;
 	}
  ?>
- <form is="f-submit" id="form-respuesta" db="a_actividades/db_" lug="a_actividades/actividad_ver" iddest="<?php echo $idactividad; ?>" fun="guarda_respuesta" lug="" cmodal="1">
+ <form is="f-submit" id="form-respuesta" db="a_actividades/db_" lug="a_actividades/actividad_ver" id1="<?php echo $idactividad; ?>" id2="<?php echo $idpaciente; ?>" fun="guarda_respuesta" lug="" cmodal="1">
 	 <input type="text" name="id1" id="id1" value="<?php echo $id1; ?>">
 	 <input type="text" name="idcontexto" id="idcontexto" value="<?php echo $idcontexto; ?>">
 	 <div class="card">

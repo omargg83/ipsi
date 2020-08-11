@@ -1,13 +1,20 @@
 <?php
-	require_once("../a_actividades/db_.php");
+	require_once("../a_pacientes/db_.php");
 
   $id1=clean_var($_REQUEST['id1']);
+	$idactividad=clean_var($_REQUEST['id2']);
+	$idpaciente=clean_var($_REQUEST['id3']);
+
+
 	$observaciones="";
 	$texto="";
 	$descripcion="";
 	$incisos="0";
 	$personalizado="0";
 	$usuario="0";
+
+
+
 	if($id1==0){
 		$idactividad=clean_var($_REQUEST['id2']);
 		$idsubactividad=clean_var($_REQUEST['id3']);
@@ -29,7 +36,7 @@
 	$idactividad=$sub->idactividad;
 ?>
 
-<form is="f-submit" id="form-contexto" db="a_actividades/db_" fun="guarda_contexto" lug="a_actividades/actividad_ver" iddest="<?php echo $idactividad; ?>" cmodal="1">
+<form is="f-submit" id="form-contexto" db="a_pacientes/db_" fun="guarda_contexto" lug="a_pacientes/actividad_ver" id1="<?php echo $idactividad; ?>" id2="<?php echo $idpaciente; ?>" cmodal="1">
 	<input type="hidden" name="id1" id="id1" value="<?php echo $id1; ?>">
 	<input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php echo $idsubactividad; ?>">
 	<input type="hidden" name="tipo" id="tipo" value="<?php echo $tipo; ?>">
@@ -101,7 +108,7 @@
 	  </div>
 	  <div class="card-footer">
 	    <button type='submit' class='btn btn-warning '> Guardar</button>
-			<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
+			<button class="btn btn-warning" type="button" is="b-link" des='a_pacientes/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
 	  </div>
 	</div>
 </form>
