@@ -18,8 +18,8 @@
 </nav>
 
 <div class="container">
-	<form is="f-submit" id="form_terapia" db="a_actividades/db_" fun="guardar_terapia">
-    <input type="hidden" name="id1" id="id1" value="<?php echo $idterapia;?>">
+	<form is="f-submit" id="form_terapia" db="a_actividades/db_" fun="guardar_terapia" des="a_actividades_e/terapias_editar" desid="idterapia">
+    <input type="hidden" name="idterapia" id="idterapia" value="<?php echo $idterapia;?>">
     <div class='card'>
 			<div class='card-header'>
 				Editar Terapia
@@ -40,7 +40,7 @@
 			<div class='card-footer'>
 				<div class="row">
 					<div class="col-sm-12">
-						<button class="btn btn-warning" type="submit">Guardar</button>
+						<button class="btn btn-warning" type="submit"><i class="far fa-save"></i>Guardar</button>
 						<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/terapias' dix='trabajo'>Regresar</button>
 					</div>
 				</div>

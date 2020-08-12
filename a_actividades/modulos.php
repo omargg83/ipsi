@@ -30,7 +30,7 @@
   			<div class='card' style='height:200px;'>
 					<div class="card-header">
 						<?php echo $key->nombre; ?>
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/modulos_editar" dix="trabajo" v_idmodulo="<?php echo $key->id; ?>" id2="<?php echo $idtrack; ?>">Editar</button>
+						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/modulos_editar" dix="trabajo" v_idmodulo="<?php echo $key->id; ?>" v_idtrack="<?php echo $idtrack; ?>"><i class="fas fa-pencil-alt"></i></button>
 					</div>
   				<div class='card-body'>
   					<div class='row'>

@@ -43,25 +43,26 @@ class Cuest extends ipsi{
 	public function guardar_terapia(){
 		$x="";
 		$arreglo =array();
-		$id1=clean_var($_REQUEST['id1']);
+		$idterapia=clean_var($_REQUEST['idterapia']);
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
 		if (isset($_REQUEST['descripcion'])){
 			$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
 		}
-		if($id1==0){
+		if($idterapia==0){
 			$x=$this->insert('terapias', $arreglo);
 		}
 		else{
-			$x=$this->update('terapias',array('id'=>$id1), $arreglo);
+			$x=$this->update('terapias',array('id'=>$idterapia), $arreglo);
 		}
 		return $x;
 	}
 	public function borrar_terapia(){
-		if (isset($_REQUEST['id1'])){$id1=$_REQUEST['id1'];}
-		return $this->borrar('terapias',"id",$id1);
+		if (isset($_REQUEST['idterapia'])){$idterapia=$_REQUEST['idterapia'];}
+		return $this->borrar('terapias',"id",$idterapia);
 	}
+
 
 	public function track($id1){
 		try{
@@ -108,6 +109,10 @@ class Cuest extends ipsi{
 			$x=$this->update('track',array('id'=>$id1), $arreglo);
 		}
 		return $x;
+	}
+	public function borrar_track(){
+		if (isset($_REQUEST['idtrack'])){$idtrack=$_REQUEST['idtrack'];}
+		return $this->borrar('track',"id",$idtrack);
 	}
 
 	public function modulos($id){

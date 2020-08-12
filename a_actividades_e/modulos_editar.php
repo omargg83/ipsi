@@ -1,7 +1,7 @@
 <?php
 	require_once("../a_actividades/db_.php");
-  $idmodulo=$_REQUEST['id1'];
-  $idtrack=$_REQUEST['id2'];
+  $idmodulo=$_REQUEST['idmodulo'];
+  $idtrack=$_REQUEST['idtrack'];
 
 	$track=$db->track_editar($idtrack);
   $terapia=$db->terapia_editar($track->idterapia);
@@ -19,10 +19,10 @@
 
 <nav aria-label='breadcrumb'>
   <ol class='breadcrumb'>
-    <li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" title="Terapias" id1="">Terapias</li>
-    <li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" id1="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
-    <li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" title="Modulos" id1="<?php echo $track->id; ?>"><?php echo $track->nombre; ?></li>
-    <li class='breadcrumb-item active' aria-current='page'><?php echo $nombre; ?></li>
+    <li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" >Terapias</li>
+    <li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
+    <li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>"><?php echo $track->nombre; ?></li>
+    <li class='breadcrumb-item active' is="li-link" des="a_actividades_e/modulos_editar" dix="trabajo" v_idmodulo="<?php echo $idmodulo; ?>" v_idtrack="<?php echo $idtrack; ?>"><?php echo $nombre; ?></li>
   </ol>
 </nav>
 
@@ -52,7 +52,7 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<button class="btn btn-warning" type="submit">Guardar</button>
-						<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/modulos' id1="<?php echo $idtrack; ?>" dix='trabajo'>Regresar</button>
+						<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/modulos' v_idtrack="<?php echo $idtrack; ?>" dix='trabajo'>Regresar</button>
 					</div>
 				</div>
 			</div>

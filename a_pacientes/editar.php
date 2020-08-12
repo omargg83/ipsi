@@ -47,7 +47,7 @@
 	</nav>
 
 <div class="container">
-	<form is="f-submit" id="form_cliente" db="a_pacientes/db_" fun="guardar_cliente" lug="a_pacientes/editar" lugid="idpaciente" >
+	<form is="f-submit" id="form_cliente" db="a_pacientes/db_" fun="guardar_cliente" des="a_pacientes/editar" desid="idpaciente" >
 		<input type="hidden" name="idpaciente" id="idpaciente" value="<?php echo $idpaciente;?>">
 		<div class='card'>
 			<div class='card-header'>

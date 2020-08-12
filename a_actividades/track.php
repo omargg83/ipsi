@@ -27,7 +27,10 @@
   			<div class='card' style='height:200px;'>
   				<div class='card-header'>
 						<?php echo $key->nombre; ?>
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/track_editar" dix="trabajo" v_idtrack="<?php echo $key->id; ?>" v_idterapia="<?php echo $idterapia; ?>">Editar</button>
+
+						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/track" dix="trabajo" db="a_actividades/db_" fun="borrar_track" v_idtrack="<?php echo $key->id; ?>" v_idterapia="<?php echo $key->id; ?>" tp="eliminar" title="Borrar"><i class="far fa-trash-alt"></i></button>
+
+						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/track_editar" dix="trabajo" v_idtrack="<?php echo $key->id; ?>" v_idterapia="<?php echo $idterapia; ?>"><i class="fas fa-pencil-alt"></i></button>
 					</div>
   				<div class='card-body'>
   					<div class='row'>
@@ -51,7 +54,7 @@
 		<div id='' class='col-4 p-3 w-50'>
       <div class="card" style='height:200px;'>
         <div class='card-body text-center'>
-          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades_e/track_editar" dix="trabajo" id1="0" v_idterapia="<?php echo $idterapia; ?>">Nuevo track</button>
+          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades_e/track_editar" dix="trabajo" v_idtrack="0" v_idterapia="<?php echo $idterapia; ?>">Nuevo track</button>
         </div>
       </div>
     </div>

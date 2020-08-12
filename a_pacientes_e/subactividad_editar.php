@@ -15,7 +15,7 @@
 	}
 ?>
 
-<form is="f-submit" id="form_sub" db="a_pacientes/db_" fun="subactividad_guardar" lug="a_pacientes/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo" cmodal="1">
+<form is="f-submit" id="form_sub" db="a_pacientes/db_" fun="subactividad_guardar" des="a_pacientes/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo" cmodal="1">
   <input type="hidden" name="id1" id="id1" value="<?php  echo $idsubactividad; ?>">
   <input type="hidden" name="id2" id="id2" value="<?php  echo $idactividad; ?>">
 	<div class="card">

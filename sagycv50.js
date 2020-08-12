@@ -19,19 +19,21 @@
 
 	class MenuLink extends HTMLAnchorElement {
 		connectedCallback() {
-			this.addEventListener('click', (e) => {cargando(true);
-
-				var formData = new FormData();
-				for(let contar=0;contar<e.currentTarget.attributes.length; contar++){
-					let arrayDeCadenas = e.currentTarget.attributes[contar].name.split("_");
-					if(arrayDeCadenas.length>1){
-						formData.append(arrayDeCadenas[1], e.currentTarget.attributes[contar].value);
-					}
-				}
+			this.addEventListener('click', (e) => {
 				let datos = new Object();
-				datos.des=e.currentTarget.hash.slice(1)+".php";
-				datos.dix="contenido";
-				redirige_div(formData,datos);
+
+				e.currentTarget.attributes.id1!==undefined ? datos.id1=e.currentTarget.attributes.id1.nodeValue : datos.id1="";
+				e.currentTarget.attributes.id2!==undefined ? datos.id1=e.currentTarget.attributes.id2.nodeValue : datos.id2="";
+				e.currentTarget.attributes.id3!==undefined ? datos.id1=e.currentTarget.attributes.id3.nodeValue : datos.id3="";
+
+
+				let lug=e.currentTarget.hash.slice(1);
+				let dix="contenido";
+				var formData = new FormData();
+				formData.append("id1", datos.id1);
+				formData.append("id2", datos.id2);
+				formData.append("id3", datos.id3);
+				redirige_div(lug,dix,datos);
 			});
 		}
 	}
@@ -75,7 +77,7 @@
 
 				/////////API que procesa el form
 		 		let db;
-				(elemento.attributes.db !== undefined) ? db=elemento.attributes.db.nodeValue : db="";
+				(elemento.attributes.db !== undefined) ? db=elemento.attributes.db.nodeValue+".php" : db="";
 
 				/////////funcion del api que procesa el form
 		 		let fun;
@@ -86,30 +88,22 @@
 				(elemento.attributes.dix !== undefined) ? dix=elemento.attributes.dix.nodeValue : dix="trabajo";
 
 				/////////div destino despues de guardar
-		 		let des;
-				(elemento.attributes.des !== undefined) ? des=elemento.attributes.des.nodeValue : des="";
+		 		let lug;
+				(elemento.attributes.lug !== undefined) ? lug=elemento.attributes.lug.nodeValue : lug="";
 
-				let desid;
-				(elemento.attributes.desid !== undefined) ? desid=elemento.attributes.desid.nodeValue : desid="";
+				let lugid;
+				(elemento.attributes.lugid !== undefined) ? lugid=elemento.attributes.lugid.nodeValue : lugid="";
 
 				////////FORM pertenece a ventanamodal
 		 		let cmodal;
 				(elemento.attributes.cmodal !== undefined) ? cmodal=elemento.attributes.cmodal.nodeValue : cmodal="";
 
-				let datos = new Object();
-				datos.des=des+".php";
-				datos.desid=desid;
-				datos.db=db+".php";
-				datos.dix=dix;
-				datos.fun=fun;
-				//datos.tp=tp;
-				//datos.iddest=iddest;
-				//datos.omodal=omodal;
-				datos.cmodal=cmodal;
-				var formDestino = new FormData();
+				////////FORM pertenece a ventanamodal
+		 		let des;
+				(elemento.attributes.des !== undefined) ? des=elemento.attributes.des.nodeValue : des="";
 
 				var formData = new FormData(elemento);
-				formData.append("function", datos.fun);
+				formData.append("function", fun);
 
 				/////////esto es para todas las variables
 				let variables = new Object();
@@ -117,11 +111,11 @@
 					let arrayDeCadenas = elemento.attributes[contar].name.split("_");
 					if(arrayDeCadenas.length>1){
 						formData.append(elemento.attributes[contar].name, elemento.attributes[contar].value);
-						formDestino.append(elemento.attributes[contar].name, elemento.attributes[contar].value);
+						variables[arrayDeCadenas[1]] = elemento.attributes[contar].value;
 					}
 				}
 
-				if(db.length>4){
+				if(db.length>0){
 					Swal.fire({
 						title: '¿Desea procesar los cambios realizados?',
 						text: "ya no se podrá deshacer",
@@ -133,9 +127,10 @@
 						if (result.value) {
 							cargando(true);
 							let xhr = new XMLHttpRequest();
-							xhr.open('POST',datos.db);
+							xhr.open('POST',db);
 							xhr.addEventListener('load',(data)=>{
-								if (!isJSON(data.target.response)){
+								if (!isJSON(data.currentTarget.response)){
+									console.log(data.currentTarget.response);
 									Swal.fire({
 										type: 'error',
 										title: "Error favor de verificar",
@@ -144,16 +139,17 @@
 									});
 									return;
 								}
-								var respon = JSON.parse(data.target.response);
-								if (respon.error==0){
-									if (datos.desid !== undefined && datos.desid.length>0) {
-										document.getElementById(datos.desid).value=respon.id1;
-										formDestino.append(datos.desid, respon.id1);
+								var datos = JSON.parse(data.currentTarget.response);
+								if (datos.error==0){
+									if (lugid !== undefined && lugid.length>0) {
+										document.getElementById(lugid).value=datos.id1;
+										variables[lugid] = datos.id1;
 									}
-									if (datos.des !== undefined && datos.des.length>4) {
-										redirige_div(formDestino,datos);
+
+									if (lug !== undefined && lug.length>0) {
+										redirige_div(lug,dix,variables);
 									}
-									if(datos.cmodal==1){
+									if(cmodal==1){
 										$('#myModal').modal('hide');
 									}
 									cargando(false);
@@ -167,7 +163,7 @@
 								else{
 									Swal.fire({
 										type: 'info',
-										title: respon.terror,
+										title: datos.terror,
 										showConfirmButton: false,
 										timer: 1000
 									});
@@ -184,9 +180,9 @@
 				else{
 					cargando(true);
 					let xhr = new XMLHttpRequest();
-					xhr.open('POST',datos.des);
+					xhr.open('POST',des+".php");
 					xhr.addEventListener('load',(data)=>{
-						document.getElementById(datos.dix).innerHTML = data.target.response;
+						document.getElementById(dix).innerHTML = data.currentTarget.response;
 					});
 					xhr.onerror =  ()=>{
 						console.log("error");
@@ -199,6 +195,10 @@
 	}
 	customElements.define("f-submit", Formsubmit, { extends: "form" });
 
+	function flujo(object){
+		let elemento=document.getElementById(object.id);
+		console.log(elemento.dataset.lugar);
+	}
 	function loadContent(hash){
 		cargando(true);
 		if(hash==''){
@@ -208,7 +208,7 @@
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',destino);
 		xhr.addEventListener('load',(data)=>{
-			document.getElementById("contenido").innerHTML =data.target.response;
+			document.getElementById("contenido").innerHTML =data.currentTarget.response;
 		});
 		xhr.send();
 		cargando(false);
@@ -259,41 +259,34 @@
 		e.currentTarget.attributes.omodal!==undefined ? omodal=e.currentTarget.attributes.omodal.nodeValue : omodal="";
 
 		let cmodal;
-		(e.currentTarget.attributes.cmodal !== undefined) ? cmodal=e.currentTarget.attributes.cmodal.nodeValue : cmodal="0";
+		(e.currentTarget.attributes.cmodal !== undefined) ? cmodal=e.currentTarget.attributes.cmodal.nodeValue : cmodal="";
 
-		let datos = new Object();
-		datos.des=des+".php";
-		datos.db=db+".php";
-		datos.dix=dix;
-		datos.fun=fun;
-		datos.tp=tp;
-		datos.iddest=iddest;
-		datos.omodal=omodal;
-		datos.cmodal=cmodal;
-
-		/////////esto es para todas las variables
-		var variables = new FormData();
+		let params="";
 		var formData = new FormData();
+		let datos = new Object();
+		let variables = new Object();
+		/////////esto es para todas las variables
 		for(let contar=0;contar<e.currentTarget.attributes.length; contar++){
 			let arrayDeCadenas = e.currentTarget.attributes[contar].name.split("_");
 			if(arrayDeCadenas.length>1){
 				formData.append(arrayDeCadenas[1], e.currentTarget.attributes[contar].value);
-				variables.append(arrayDeCadenas[1], e.currentTarget.attributes[contar].value);
+				variables[arrayDeCadenas[1]] =e.currentTarget.attributes[contar].value;
 			}
 		}
-		if(datos.cmodal==1){
+		variables["omodal"] =omodal;
+		if(cmodal==1){
 			$('#myModal').modal('hide');
 			cargando(false);
 			return;
 		}
-		if(datos.cmodal==2){
+		if(cmodal==2){
 			$('#myModal').modal('hide');
 			cargando(false);
 		}
 		//////////////poner aqui proceso en caso de existir funcion
 		if(fun.length>0){
 			if(tp==="eliminar"){
-				formData.append("function", datos.fun);
+				formData.append("function", fun);
 				Swal.fire({
 					title: '¿Desea eliminar el registro seleccionado?',
 					text: "ya no se podrá deshacer",
@@ -303,65 +296,81 @@
 					confirmButtonText: 'Eliminar'
 				}).then((result) => {
 					if (result.value) {
-						let variable=0;
-						let xhr = new XMLHttpRequest();
-						xhr.open('POST',datos.db);
-						xhr.addEventListener('load',(data)=>{
-							var respon = JSON.parse(data.target.response);
-							if (respon.error==0){
-								Swal.fire({
-									type: 'success',
-									title: "Listo",
-									showConfirmButton: false,
-									timer: 1000
-								});
-								redirige_div(variables,datos);
-							}
-							else{
-								Swal.fire({
-									type: 'info',
-									title: respon.terror,
-									showConfirmButton: false,
-									timer: 1000
-								});
-							}
-						});
-						xhr.onerror = (e)=>{
-						};
-						xhr.send(formData);
+						proceso_boton(db,formData,des,dix,variables);
 					}
 				});
 			}
+			else{
+				proceso_boton(db,formData,des,dix,variables);
+			}
 		}
 		else{
-			redirige_div(formData,datos);
+			redirige_div(des,dix,variables);
 		}
 		cargando(false);
 	}
 
 	//////////////////////////redirige si es necesario
-	function redirige_div(formData,datos){
+	function proceso_boton(db,formData,des,dix,datos){
+		console.log("form data inicio");
+		for (var value of formData.values()) {
+   		console.log(value);
+		}
+		console.log("form data fin");
+
+		db += ".php";
 		let xhr = new XMLHttpRequest();
-		xhr.open('POST',datos.des);
-		xhr.addEventListener('load',(datares)=>{
-			if(datares.target.status=="404"){
+		xhr.open('POST',db);
+		xhr.addEventListener('load',(data)=>{
+			console.log(data.currentTarget.response);
+			var datos = JSON.parse(data.currentTarget.response);
+			if (datos.error==0){
+				Swal.fire({
+					type: 'success',
+					title: "Listo",
+					showConfirmButton: false,
+					timer: 1000
+				});
+				redirige_div(des,dix,datos);
+			}
+			else{
+				Swal.fire({
+					type: 'info',
+					title: datos.terror,
+					showConfirmButton: false,
+					timer: 1000
+				});
+			}
+		});
+		xhr.onerror = (e)=>{
+		};
+		xhr.send(formData);
+	}
+	function redirige_div(lugar,div,datos){
+		lugar+=".php";
+		let formData = new FormData();
+		for (let key in datos ) {
+    	formData.append(key, datos[key]);
+		}
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',lugar);
+		xhr.addEventListener('load',(data)=>{
+			if(data.target.status=="404"){
 				Swal.fire({
 						type: 'error',
-						title: "No encontrado: "+datos.des,
+						title: "No encontrado: "+lugar,
 						showConfirmButton: false,
 				})
 				return 0;
 			}
-			else{
-				if(datos.omodal==1){
-					$('#myModal').modal('show');
-					datos.dix="modal_form";
-				}
-				document.getElementById(datos.dix).innerHTML = datares.target.response;
-				var scripts = document.getElementById(datos.dix).getElementsByTagName("script");
-				for (var i = 0; i < scripts.length; i++) {
-			    eval(scripts[i].innerText);
-				}
+			if(datos.omodal==1){
+				$('#myModal').modal('show');
+				div="modal_form";
+			}
+			document.getElementById(div).innerHTML = data.currentTarget.response;
+			var scripts = document.getElementById(div).getElementsByTagName("script");
+			for (var i = 0; i < scripts.length; i++) {
+		    eval(scripts[i].innerText);
 			}
 		});
 		xhr.onerror = (e)=>{
@@ -392,7 +401,7 @@
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',"control_db.php");
 		xhr.addEventListener('load',(data)=>{
-			var datos = JSON.parse(data.target.response);
+			var datos = JSON.parse(data.currentTarget.response);
 			if (datos.sess=="cerrada"){
 				location.href ="login/";
 			}

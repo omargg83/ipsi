@@ -24,7 +24,7 @@
 	$modulo=$sth->fetchAll(PDO::FETCH_OBJ);
 ?>
 
-		<form is="f-submit" id="form_editaract" db="a_pacientes/db_" fun="guarda_actividad" lug="a_pacientes/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" cmodal="1">
+		<form is="f-submit" id="form_editaract" db="a_pacientes/db_" fun="guarda_actividad" des="a_pacientes/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" cmodal="1">
 			<input type='text' class='form-control' id='idactividad' name='idactividad' value='<?php echo $idactividad; ?>' readonly>
 			<input type='hidden' class='form-control' id='idpaciente' name='idpaciente' value='<?php echo $idpaciente; ?>' readonly>
 			<div class='card'>

@@ -36,7 +36,7 @@
 	$idactividad=$sub->idactividad;
 ?>
 
-<form is="f-submit" id="form-contexto" db="a_pacientes/db_" fun="guarda_contexto" lug="a_pacientes/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" cmodal="1">
+<form is="f-submit" id="form-contexto" db="a_pacientes/db_" fun="guarda_contexto" des="a_pacientes/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" cmodal="1">
 	<input type="hidden" name="id1" id="id1" value="<?php echo $idcontexto; ?>">
 	<input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php echo $idsubactividad; ?>">
 	<input type="hidden" name="tipo" id="tipo" value="<?php echo $tipo; ?>">

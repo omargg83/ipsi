@@ -17,12 +17,12 @@
 		$indicaciones=$cuest->indicaciones;
 		$tipo=$cuest->tipo;
 	?>
-		<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_actividad" lug="a_actividades/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" cmodal="1">
+		<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_actividad" des="a_actividades/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" cmodal="1">
 	<?php
 	}
 	else{
 	?>
-		<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_actividad" lug="a_actividades/actividades" v_idmodulo="<?php echo $idmodulo; ?>" cmodal="1">
+		<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_actividad" des="a_actividades/actividades" v_idmodulo="<?php echo $idmodulo; ?>" cmodal="1">
 	<?php
 	}
 
@@ -65,7 +65,7 @@
 		<div class='card-footer'>
 			<div class='row'>
 				<div class='col-12'>
-						<button class='btn btn-warning'  type='submit'>Guardar</button>
+						<button class='btn btn-warning'  type='submit'><i class="far fa-save"></i>Guardar</button>
 						<button class="btn btn-warning" type="button" is="b-link" cmodal="1">Regresar</button>
 				</div>
 			</div>
