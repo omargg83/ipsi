@@ -1,10 +1,10 @@
 <?php
 	require_once("../a_actividades/db_.php");
-	if (isset($_POST['id1'])){$id1=clean_var($_REQUEST['id1']);} else{ $id1=0;}
+	$idterapia=clean_var($_REQUEST['idterapia']);
   $nombre="Terapia nueva";
   $descripcion="";
-  if($id1>0){
-		$pd = $db->terapia_editar($id1);
+  if($idterapia>0){
+		$pd = $db->terapia_editar($idterapia);
     $nombre=$pd->nombre;
     $descripcion=$pd->descripcion;
   }
@@ -12,14 +12,14 @@
 
 <nav aria-label='breadcrumb'>
   <ol class='breadcrumb'>
-    <li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="">Terapias</li>
-    <li class='breadcrumb-item active' aria-current='page'><?php echo $nombre; ?></li>
+    <li class="breadcrumb-item" is="li-link" des="a_actividades/terapias" dix="trabajo">Terapias</li>
+    <li class="breadcrumb-item active" is="li-link" des="a_actividades_e/terapias_editar" dix="trabajo" v_idterapia="<?php echo $idterapia; ?>"><?php echo $nombre; ?></li>
   </ol>
 </nav>
 
 <div class="container">
 	<form is="f-submit" id="form_terapia" db="a_actividades/db_" fun="guardar_terapia">
-    <input type="hidden" name="id1" id="id1" value="<?php echo $id1;?>">
+    <input type="hidden" name="id1" id="id1" value="<?php echo $idterapia;?>">
     <div class='card'>
 			<div class='card-header'>
 				Editar Terapia

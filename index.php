@@ -76,8 +76,7 @@
                             </div>
 
 														<div class="sb-sidenav-menu-heading">Admin</div>
-														<a class="nav-link" is='menu-link' href='#a_terapia/index' title='Terapias'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Catalogo Terapias</a>
-														<a class="nav-link" is='menu-link' href='#a_track/index' title='Track'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Catalogo Tracks</a>
+
 														<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Usuarios</a>
 
                         </div>

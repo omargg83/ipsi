@@ -1,7 +1,7 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=0;
+$_SESSION['des']=1;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
 	echo "ARCHIVO:";
@@ -102,7 +102,6 @@ class Cuest extends ipsi{
 		}
 		if($id1==0){
 			$arreglo+=array('idterapia'=>clean_var($_REQUEST['idterapia']));
-			$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
 			$x=$this->insert('track', $arreglo);
 		}
 		else{
@@ -146,10 +145,8 @@ class Cuest extends ipsi{
 		if (isset($_REQUEST['descripcion'])){
 			$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
 		}
-
 		if($id1==0){
 			$arreglo+=array('idtrack'=>clean_var($_REQUEST['idtrack']));
-			$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
 			$x=$this->insert('modulo', $arreglo);
 		}
 		else{
@@ -186,7 +183,7 @@ class Cuest extends ipsi{
 		try{
 			$arreglo=array();
 			$x="";
-			$id1=$_REQUEST['id1'];
+			$id1=$_REQUEST['idactividad'];
 
 			if (isset($_REQUEST['nombre'])){
 				$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
@@ -402,7 +399,6 @@ class Cuest extends ipsi{
 		}
 	}
 
-
 	public function guarda_respuesta(){
 		try{
 			$arreglo=array();
@@ -472,8 +468,6 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-
-
 }
 
 $db = new Cuest();

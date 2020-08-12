@@ -1,6 +1,5 @@
 	let intval=""
 
-	console.log("enta");
 	onload = ()=> {
 		loadContent(location.hash.slice(1));
 		if(intval==""){
@@ -23,12 +22,12 @@
 			this.addEventListener('click', (e) => {
 				let datos = new Object();
 
-				e.target.attributes.id1!==undefined ? datos.id1=e.target.attributes.id1.nodeValue : datos.id1="";
-				e.target.attributes.id2!==undefined ? datos.id1=e.target.attributes.id2.nodeValue : datos.id2="";
-				e.target.attributes.id3!==undefined ? datos.id1=e.target.attributes.id3.nodeValue : datos.id3="";
+				e.currentTarget.attributes.id1!==undefined ? datos.id1=e.currentTarget.attributes.id1.nodeValue : datos.id1="";
+				e.currentTarget.attributes.id2!==undefined ? datos.id1=e.currentTarget.attributes.id2.nodeValue : datos.id2="";
+				e.currentTarget.attributes.id3!==undefined ? datos.id1=e.currentTarget.attributes.id3.nodeValue : datos.id3="";
 
 
-				let lug=e.target.hash.slice(1);
+				let lug=e.currentTarget.hash.slice(1);
 				let dix="contenido";
 				var formData = new FormData();
 				formData.append("id1", datos.id1);
@@ -73,7 +72,7 @@
 			 	e.preventDefault();
 
 				//////////id del formulario
-		 		let id=e.target.attributes.id.nodeValue;
+		 		let id=e.currentTarget.attributes.id.nodeValue;
 		 		let elemento = document.getElementById(id);
 
 				/////////API que procesa el form
@@ -130,8 +129,8 @@
 							let xhr = new XMLHttpRequest();
 							xhr.open('POST',db);
 							xhr.addEventListener('load',(data)=>{
-								if (!isJSON(data.target.response)){
-									console.log(data.target.response);
+								if (!isJSON(data.currentTarget.response)){
+									console.log(data.currentTarget.response);
 									Swal.fire({
 										type: 'error',
 										title: "Error favor de verificar",
@@ -140,7 +139,7 @@
 									});
 									return;
 								}
-								var datos = JSON.parse(data.target.response);
+								var datos = JSON.parse(data.currentTarget.response);
 								if (datos.error==0){
 									if (lugid !== undefined && lugid.length>0) {
 										document.getElementById(lugid).value=datos.id1;
@@ -183,7 +182,7 @@
 					let xhr = new XMLHttpRequest();
 					xhr.open('POST',des+".php");
 					xhr.addEventListener('load',(data)=>{
-						document.getElementById(dix).innerHTML = data.target.response;
+						document.getElementById(dix).innerHTML = data.currentTarget.response;
 					});
 					xhr.onerror =  ()=>{
 						console.log("error");
@@ -209,7 +208,7 @@
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',destino);
 		xhr.addEventListener('load',(data)=>{
-			document.getElementById("contenido").innerHTML =data.target.response;
+			document.getElementById("contenido").innerHTML =data.currentTarget.response;
 		});
 		xhr.send();
 		cargando(false);
@@ -234,43 +233,45 @@
 		}
 	}
 
+
 	//////////////////////////Solo para un proceso antes del flujo ejem. al borrar que primero borre y luego redirive_div
 	function proceso_db(e){
 		cargando(true);
+
 		let des;	/////////////el destino
-		e.target.attributes.des!==undefined ? des=e.target.attributes.des.nodeValue : des="";
+		e.currentTarget.attributes.des!==undefined ? des=e.currentTarget.attributes.des.nodeValue : des="";
 
 		let dix; 	/////////////	el div donde se pone el destino
-		e.target.attributes.dix!==undefined ? dix=e.target.attributes.dix.nodeValue : dix="";
+		e.currentTarget.attributes.dix!==undefined ? dix=e.currentTarget.attributes.dix.nodeValue : dix="";
 
 		let db;		/////////////en caso de base de datos
-		e.target.attributes.db!==undefined ? db=e.target.attributes.db.nodeValue : db="";
+		e.currentTarget.attributes.db!==undefined ? db=e.currentTarget.attributes.db.nodeValue : db="";
 
 		let fun;	///////////// la funcion a ejecutar
-		e.target.attributes.fun!==undefined ? fun=e.target.attributes.fun.nodeValue : fun="";
+		e.currentTarget.attributes.fun!==undefined ? fun=e.currentTarget.attributes.fun.nodeValue : fun="";
 
 		let tp;	///////////// el tipo de proceso del boton
-		e.target.attributes.tp!==undefined ? tp=e.target.attributes.tp.nodeValue : tp="";
+		e.currentTarget.attributes.tp!==undefined ? tp=e.currentTarget.attributes.tp.nodeValue : tp="";
 
 		let iddest;
-		e.target.attributes.iddest!==undefined ? iddest=e.target.attributes.iddest.nodeValue : iddest="";
+		e.currentTarget.attributes.iddest!==undefined ? iddest=e.currentTarget.attributes.iddest.nodeValue : iddest="";
 
 		let omodal;
-		e.target.attributes.omodal!==undefined ? omodal=e.target.attributes.omodal.nodeValue : omodal="";
+		e.currentTarget.attributes.omodal!==undefined ? omodal=e.currentTarget.attributes.omodal.nodeValue : omodal="";
 
 		let cmodal;
-		(e.target.attributes.cmodal !== undefined) ? cmodal=e.target.attributes.cmodal.nodeValue : cmodal="";
+		(e.currentTarget.attributes.cmodal !== undefined) ? cmodal=e.currentTarget.attributes.cmodal.nodeValue : cmodal="";
 
 		let params="";
 		var formData = new FormData();
 		let datos = new Object();
 		let variables = new Object();
 		/////////esto es para todas las variables
-		for(let contar=0;contar<e.target.attributes.length; contar++){
-			let arrayDeCadenas = e.target.attributes[contar].name.split("_");
+		for(let contar=0;contar<e.currentTarget.attributes.length; contar++){
+			let arrayDeCadenas = e.currentTarget.attributes[contar].name.split("_");
 			if(arrayDeCadenas.length>1){
 				//formData.append(elemento.attributes[contar].name, elemento.attributes[contar].value);
-				variables[arrayDeCadenas[1]] =e.target.attributes[contar].value;
+				variables[arrayDeCadenas[1]] =e.currentTarget.attributes[contar].value;
 			}
 		}
 		variables["omodal"] =omodal;
@@ -297,8 +298,8 @@
 			let xhr = new XMLHttpRequest();
 			xhr.open('POST',db);
 			xhr.addEventListener('load',(data)=>{
-				console.log(data.target.response);
-				var datos = JSON.parse(data.target.response);
+				console.log(data.currentTarget.response);
+				var datos = JSON.parse(data.currentTarget.response);
 				if (datos.error==0){
 					Swal.fire({
 						type: 'success',
@@ -343,7 +344,7 @@
 				$('#myModal').modal('show');
 				div="modal_form";
 			}
-			document.getElementById(div).innerHTML = data.target.response;
+			document.getElementById(div).innerHTML = data.currentTarget.response;
 			var scripts = document.getElementById(div).getElementsByTagName("script");
 			for (var i = 0; i < scripts.length; i++) {
 		    eval(scripts[i].innerText);
@@ -377,7 +378,7 @@
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',"control_db.php");
 		xhr.addEventListener('load',(data)=>{
-			var datos = JSON.parse(data.target.response);
+			var datos = JSON.parse(data.currentTarget.response);
 			if (datos.sess=="cerrada"){
 				location.href ="login/";
 			}
@@ -392,7 +393,7 @@
 	  constructor() {
 	    super();
 			this.addEventListener('click',(e)=>{
-				alert(e.target.attributes.lugar.nodeValue);
+				alert(e.currentTarget.attributes.lugar.nodeValue);
 			});
 	  }
 	};

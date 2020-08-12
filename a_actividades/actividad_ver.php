@@ -1,15 +1,13 @@
 '<?php
 	require_once("db_.php");
 
-	$idactividad=clean_var($_REQUEST['id1']);
+	$idactividad=clean_var($_REQUEST['idactividad']);
   $actividad = $db->actividad_editar($idactividad);
 	$subactividad = $db->subactividad_ver($idactividad);
 
 	$nombre=$actividad->nombre;
 	$observaciones=$actividad->observaciones;
 	$indicaciones=$actividad->indicaciones;
-	$terapia=$actividad->terapia;
-	$track=$actividad->track;
 
 
 	$modulo = $db->modulo_editar($actividad->idmodulo);
@@ -21,10 +19,10 @@
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
 		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="">Inicio</lis>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" id1="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" id1="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/actividades" dix="trabajo" id1="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
-		<li class="breadcrumb-item active" type="button" is="li-link" des="a_actividades/actividad_ver" dix="trabajo" id1="<?php echo $actividad->idactividad; ?>" ><?php echo $actividad->nombre; ?></li>
+		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" v_idterapia="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
+		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
+		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
+		<li class="breadcrumb-item active" type="button" is="li-link" des="a_actividades/actividad_ver" dix="trabajo" v_idactividad="<?php echo $actividad->idactividad; ?>" ><?php echo $actividad->nombre; ?></li>
 	</ol>
 </nav>
 
@@ -35,7 +33,7 @@
 		<div class="card-header" id="headingOne">
 			<div class='row'>
 				<div class="col-2">
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" id1="<?php echo $idactividad; ?>" id2="<?php echo $actividad->idmodulo; ?>">Editar</button>
+					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/actividad_editar" omodal="1" v_idactividad="<?php echo $idactividad; ?>" v_idmodulo="<?php echo $actividad->idmodulo; ?>">Editar</button>
 				</div>
 				<div class="col-9 text-left">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -43,7 +41,7 @@
 					</button>
 				</div>
 				<div class="col-1">
-					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/actividades" dix="trabajo" id1="<?php echo $modulo->id; ?>">Regresar</button>
+					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>">Regresar</button>
 				</div>
 			</div>
 		</div>

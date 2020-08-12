@@ -331,7 +331,6 @@ class Cliente extends ipsi{
 		}
 	}
 
-
 	public function subactividad_ver($id){
 		try{
 			$sql="select * from subactividad where idactividad=:id order by orden asc";
