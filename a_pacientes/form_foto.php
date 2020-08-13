@@ -1,5 +1,5 @@
 <?php
-	$id1=$_REQUEST['id1'];
+	$idpaciente=$_REQUEST['idpaciente'];
 ?>
 <form is="f-submit" id="form_foto" db="a_pacientes/db_" fun="foto" cmodal="1">
 <div class='modal-header'>
@@ -7,7 +7,7 @@
 </div>
   <div class='modal-body' >
 		<?php
-			echo "<input  type='hidden' id='id1' NAME='id1' value='$id1'>";
+			echo "<input  type='hidden' id='id1' NAME='id1' value='$idpaciente'>";
 		?>
 		<label>Subir archivo:</label>
 

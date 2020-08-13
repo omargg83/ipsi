@@ -55,28 +55,69 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Core</div>
-														<a class="nav-link" is='menu-link' href='#a_pacientes/index' title='Pacientes'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Pacientes</a>
-                            <a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Agenda</a>
-
-                            <div class="sb-sidenav-menu-heading">Terapias</div>
-														<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Terapias</a>
+													<div class="sb-sidenav-menu-heading">Inicio</div>
 
 
-														<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Terapias
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-																	<a class='nav-link' is='menu-link' id1='$terapias->nombre' href='#a_actividades/index'>Terapia</a>
-                                </nav>
-                            </div>
+														<?php
+															if($_SESSION['tipo_user'] == "Paciente"){
 
-														<div class="sb-sidenav-menu-heading">Admin</div>
+																$sql="select terapias.* from actividad
+															  left outer join modulo on modulo.id=actividad.idmodulo
+															  left outer join track on track.id=modulo.idtrack
+															  left outer join terapias on terapias.id=track.idterapia
+															  where actividad.idpaciente=:id";
+															  $sth = $db->dbh->prepare($sql);
+															  $sth->bindValue(":id",$_SESSION['idusuario']);
+															  $sth->execute();
+															  foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+																	echo "<a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#collapseLayouts' aria-expanded='false' aria-controls='collapseLayouts'>";
+																			echo "<div class='sb-nav-link-icon'><i class='fas fa-columns'></i></div>";
+																			echo $key->nombre;
+																			echo "<div class='sb-sidenav-collapse-arrow'><i class='fas fa-angle-down'></i></div>";
+																	echo "</a>";
+																}
+														?>
+																<div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+																		<nav class="sb-sidenav-menu-nested nav">
+																			<a class='nav-link' is='menu-link' id1='$terapias->nombre' href='#a_actividades/index'>Terapia</a>
+																		</nav>
+																</div>
 
-														<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Usuarios</a>
+															<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts2">
+																	<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+																	Terapias 2
+																	<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+															</a>
+															<div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+																	<nav class="sb-sidenav-menu-nested nav">
+																		<a class='nav-link' is='menu-link' id1='$terapias->nombre' href='#a_actividades/index'>Terapia</a>
+																	</nav>
+															</div>
+
+															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi cuenta</a>
+														<?php
+															}
+															if($_SESSION['tipo_user'] == "Psicólogo" and $_SESSION['nivel']==2){
+														?>
+															<a class="nav-link" is='menu-link' href='#a_pacientes/index' title='Pacientes'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Mis Pacientes</a>
+															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Agenda</a>
+															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi cuenta</a>
+
+															<div class="sb-sidenav-menu-heading">Terapias</div>
+															<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Terapias</a>
+
+														<?php
+															}
+															if($_SESSION['tipo_user'] == "Psicólogo" and $_SESSION['nivel']==1){
+														?>
+															<a class="nav-link" is='menu-link' href='#a_pacientes/index' title='Pacientes'><div class="sb-nav-link-icon"><i class="far fa-file-alt"></i></div>Pacientes</a>
+															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Cuentas</a>
+															<div class="sb-sidenav-menu-heading">Terapias</div>
+															<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Terapias</a>
+														<?php
+															}
+														?>
+
 
                         </div>
                     </div>

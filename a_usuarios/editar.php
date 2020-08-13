@@ -74,18 +74,15 @@
 		<div class='card-footer'>
 			<div class='row'>
 				<div class="col-sm-12">
-					<div class="btn-group">
-					<button class="btn btn-warning" type="submit"><i class='far fa-save'></i>Guardar</button>
+
+					<button class="btn btn-warning btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
 					<?php
 						if($idusuario>0){
-							echo "<button type='button' class='btn btn-warning' data-toggle='modal' data-target='#myModal' id='fileup_foto' data-ruta='$db->doc' data-tabla='usuarios' data-campo='foto' data-tipo='1' data-id='$idusuario' data-keyt='idusuario' data-destino='a_clientes/editar' data-iddest='$idusuario' data-ext='.jpg,.png' title='Subir foto'><i class='fas fa-cloud-upload-alt'></i>Foto</button>";
-
-							echo "<button type='button' class='btn btn-warning' id='winmodal_pass' data-id='$idusuario' data-lugar='a_usuarios/form_pass' title='Cambiar contraseña' ><i class='fas fa-key'></i>Contraseña</button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1'><i class='fas fa-camera'></i>Foto</button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1'><i class='fas fa-key'></i>Contraseña</button>";
 						}
 					?>
-					<button class="btn btn-warning" type="button" is="b-link" des="a_usuarios/lista" dix="trabajo">Regresar</button>
-
-					</div>
+					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_usuarios/lista" dix="trabajo"><i class="fas fa-undo"></i>Regresar</button>
 				</div>
 			</div>
 		</div>

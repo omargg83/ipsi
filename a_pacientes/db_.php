@@ -1,7 +1,7 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=1;
+$_SESSION['des']=0;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
 	echo "<div class='alert alert-primary' role='alert'> ARCHIVO:";
@@ -187,8 +187,8 @@ class Cliente extends ipsi{
 	}
 	public function agregar_actividad(){
 		try{
-			$idactividad=$_REQUEST['id2'];
-			$idpaciente=$_REQUEST['id1'];
+			$idactividad=$_REQUEST['idactividad'];
+			$idpaciente=$_REQUEST['idpaciente'];
 
 			$sql="select * from actividad where idactividad=:idactividad";
 			$sth = $this->dbh->prepare($sql);
@@ -222,7 +222,6 @@ class Cliente extends ipsi{
 				$arreglo+=array('orden'=>$key->orden);
 				$arreglo+=array('pagina'=>$key->pagina);
 				$arreglo+=array('idactividad'=>$idactividad_array['id1']);
-				$arreglo+=array('idcreado'=>$_SESSION['idusuario']);
 				$subactividad_array=json_decode($this->insert('subactividad', $arreglo),true);
 
 				////////////Clonar Contexto
@@ -234,7 +233,6 @@ class Cliente extends ipsi{
 				foreach($sth1->fetchall(PDO::FETCH_OBJ) as $subkey){
 					$arreglo=array();
 					$arreglo+=array('idsubactividad'=>$subactividad_array['id1']);
-					$arreglo+=array('idcreado'=>$_SESSION['idusuario']);
 					$arreglo+=array('tipo'=>$subkey->tipo);
 					$arreglo+=array('observaciones'=>$subkey->observaciones);
 					$arreglo+=array('texto'=>$subkey->texto);
@@ -259,7 +257,7 @@ class Cliente extends ipsi{
 					}
 				}
 			}
-			return 1;
+			return "hola mundo";
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!".$e->getMessage();

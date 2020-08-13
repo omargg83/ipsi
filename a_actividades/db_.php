@@ -347,7 +347,7 @@ class Cuest extends ipsi{
 					$arreglo+=array('usuario'=>1);
 				}
 				else{
-					$arreglo+=array('personalizado'=>null);
+					$arreglo+=array('usuario'=>null);
 				}
 			}
 			if($tipo=="imagen" or $tipo=="archivo"){

@@ -4,7 +4,7 @@
 	?>
 	<nav aria-label='breadcrumb'>
 		<ol class='breadcrumb'>
-			<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
+			<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/lista" dix="contenido">Pacientes</li>
 		</ol>
 	</nav>
 
@@ -24,7 +24,7 @@
 								echo "<div class='row'>";
 									echo "<div class='col-12  text-center'>";
 										echo "<div class='btn-group'>";
-											echo "<button class='btn btn-warning btn-block' is='b-link' id='edit_persona' title='Editar' des='a_pacientes/paciente' dix='trabajo' v_idpaciente='".$key->id."'>Ver perfil</button>";
+											echo "<button class='btn btn-warning btn-block' is='b-link' id='edit_persona' title='Editar' des='a_pacientes/paciente' dix='contenido' v_idpaciente='".$key->id."'>Ver perfil</button>";
 										echo "</div>";
 									echo "</div>";
 								echo "</div>";
@@ -43,7 +43,7 @@
 
 						<div class='row'>
 							<div class="col-12">
-								<button class='btn btn-warning btn-block' type="button" is="b-link" des='a_pacientes/editar' dix='trabajo' v_idpaciente='0'>Nuevo</button>
+								<button class='btn btn-warning btn-block' type="button" is="b-link" des='a_pacientes/editar' dix='contenido' v_idpaciente='0'>Nuevo</button>
 							</div>
 						</div>
 					</div>

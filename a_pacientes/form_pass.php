@@ -1,5 +1,5 @@
 <?php
-	$id1=$_REQUEST['id1'];
+	$idpaciente=$_REQUEST['idpaciente'];
 ?>
 <form is="f-submit" id="form_pass" db="a_pacientes/db_" fun="password" cmodal="1">
 	<div class='modal-header'>
@@ -7,7 +7,7 @@
 	</div>
   <div class='modal-body' >
 	<?php
-		echo "<input  type='hidden' id='id1' NAME='id1' value='$id1'>";
+		echo "<input  type='hidden' id='id1' NAME='id1' value='$idpaciente'>";
 	?>
 		<label class='input_title'>Contraseña:</label>
 		<div class='form-group input-group'>

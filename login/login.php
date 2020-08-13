@@ -67,7 +67,7 @@
 						$_SESSION['nivel'] = 666;
 						$_SESSION['tipo_user'] = "Paciente";
 						$_SESSION['pagnivel']=40;
-						$_SESSION['idusuario']=$CLAVE->idusuario;
+						$_SESSION['idusuario']=$CLAVE->id;
 						$_SESSION['cfondo']="#fff";
 						$_SESSION['foto']=$CLAVE->foto;
 						$arr=array();

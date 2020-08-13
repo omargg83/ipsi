@@ -33,7 +33,11 @@
 		<div class="card-header" id="headingOne">
 			<div class='row'>
 				<div class="col-2">
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" v_idmodulo="<?php echo $actividad->idmodulo; ?>">Editar</button>
+
+					<!---Editar actividad -->
+					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" v_idmodulo="<?php echo $actividad->idmodulo; ?>"><i class="fas fa-pencil-alt"></i></button>
+
+
 				</div>
 				<div class="col-9 text-left">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -72,7 +76,7 @@
 				<div class="col-2">
 
 					<!-- Editar subactividad --->
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/subactividad_editar" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idactividad='<?php echo $idactividad; ?>' omodal="1">Editar</button>
+					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/subactividad_editar" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idactividad='<?php echo $idactividad; ?>' omodal="1"><i class="fas fa-pencil-alt"></i></button>
 				</div>
 				<div class="col-10">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapsesub<?php echo $key->idsubactividad; ?>" aria-expanded="true" aria-controls="collapsesub<?php echo $key->idsubactividad; ?>">
@@ -99,8 +103,9 @@
 					<div class="card-header">
 						<div class='row'>
 							<div class="col-2">
+
 								<!-- Editar Contexto --->
-								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/contexto_editar" v_idcontexto="<?php echo $row->id; ?>" omodal="1">Editar</button>
+								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/contexto_editar" v_idcontexto="<?php echo $row->id; ?>" omodal="1"><i class="fas fa-pencil-alt"></i></button>
 							</div>
 							<div class="col-4 text-center">
 								<button class="btn btn-link" data-toggle="collapse" data-target="#collapsecon<?php echo $row->id; ?>" aria-expanded="true" aria-controls="collapsecon<?php echo $row->id; ?>">
@@ -162,25 +167,76 @@
 									?>
 
 											<div class="row">
-												<div class="col-1">
-													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/inciso_editar" id1="<?php echo $respuesta->id; ?>" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-inciso' omodal="1" >Editar</button>
+												<div class="col-2">
+													<!--Editar respuesta-->
+													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/inciso_editar" v_idrespuesta="<?php echo $respuesta->id; ?>" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" params='tipo-inciso' omodal="1" ><i class="fas fa-pencil-alt"></i></button>
+
 												</div>
-												<div class="col-10">
+												<div class="col-1">
+													<?php
+														if($row->incisos==1){
+															echo "<input type='checkbox' name='' value=''>";
+														}
+														else{
+															echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
+														}
+													?>
+												</div>
+												<div class="col-1">
+													<img src="<?php echo $db->doc.$respuesta->imagen; ?>" alt="" width="20px">
+												</div>
+												<div class="col-3">
 													<?php echo $respuesta->nombre;  ?>
+												</div>
+												<div class="col-2">
+													<?php
+														if($row->usuario==1){
+															echo "<input type='text' name='' value='' placeholder='Define..'>";
+														}
+													?>
 												</div>
 											</div>
 									<?php
 								}
+
+
+								if($row->personalizado==1){
+									echo "<div class='row'>";
+										echo "<div class='col-2'>";
+										echo "</div>";
+										echo "<div class='col-1'>";
+
+											if($row->incisos==1){
+												echo "<input type='checkbox' name='' value=''>";
+											}
+											else{
+												echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
+											}
+										echo "</div>";
+										echo "<div class='col-1'>";
+										echo "</div>";
+
+										echo "<div class='col-3'>";
+											echo "<input type='text' name='' value=''>";
+										echo "</div>";
+									echo "</div>";
+								}
+
 								?>
 							</div>
 							<?php
 								if($row->tipo=="pregunta"){
 							?>
-							<button class="btn btn-warning" type="button" is="b-link" des="a_actividades_e/inciso_editar" id1="0" id2="<?php echo $row->id; ?>" id3="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
+								<br>
+								<div class="row">
+									<div class="col-12">
+										<button class="btn btn-warning" type="button" is="b-link" des="a_actividades_e/inciso_editar" v_idrespuesta="0" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
+									</div>
+								</div>
 							<?php
 								}
 							?>
-			<!-- Fin Preguntas  -->
+							<!-- Fin Preguntas  -->
 					</div>
 				</div>
 			</div>
