@@ -33,6 +33,9 @@
 				<div class='card' style='height:200px;'>
 					<div class='card-header'>
 						<?php echo $key->nombre; ?>
+
+						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/actividades" dix="trabajo" db="a_actividades/db_" fun="borrar_actividad" v_idactividad="<?php echo $key->idactividad; ?>" v_idmodulo="<?php echo $idmodulo; ?>" tp="eliminar" title="Borrar"><i class="far fa-trash-alt"></i></button>
+
 						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="<?php echo $key->idactividad; ?>" v_idmodulo="<?php echo $idmodulo; ?>"><i class="fas fa-pencil-alt"></i></button>
 					</div>
 					<div class='card-body'>
@@ -57,7 +60,7 @@
 		<div id='' class='col-4 p-3 w-50'>
 			<div class="card" style='height:200px;'>
 				<div class='card-body text-center'>
-					<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="0" v_idmodulo="<?php echo $idmodulo; ?>" omodal="1">Nueva actividad</button>
+					<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="0" v_idmodulo="<?php echo $idmodulo; ?>" >Nueva actividad</button>
 				</div>
 			</div>
 		</div>

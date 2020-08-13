@@ -1,20 +1,20 @@
 <?php
 	require_once("../a_actividades/db_.php");
 
-  $id1=clean_var($_REQUEST['id1']);
+  $idcontexto=clean_var($_REQUEST['idcontexto']);
 	$observaciones="";
 	$texto="";
 	$descripcion="";
 	$incisos="0";
 	$personalizado="0";
 	$usuario="0";
-	if($id1==0){
-		$idactividad=clean_var($_REQUEST['id2']);
-		$idsubactividad=clean_var($_REQUEST['id3']);
+	if($idcontexto==0){
+		$idactividad=clean_var($_REQUEST['idactividad']);
+		$idsubactividad=clean_var($_REQUEST['idsubactividad']);
 	  $tipo=clean_var($_REQUEST['tipo']);
 	}
 	else{
-		$con=$db->contexto_editar($id1);
+		$con=$db->contexto_editar($idcontexto);
 		$idsubactividad=$con->idsubactividad;
 		$tipo=$con->tipo;
 		$texto=$con->texto;
@@ -30,7 +30,7 @@
 ?>
 
 <form is="f-submit" id="form-contexto" db="a_actividades/db_" fun="guarda_contexto" des="a_actividades/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" cmodal="1">
-	<input type="hidden" name="id1" id="id1" value="<?php echo $id1; ?>">
+	<input type="hidden" name="id1" id="id1" value="<?php echo $idcontexto; ?>">
 	<input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php echo $idsubactividad; ?>">
 	<input type="hidden" name="tipo" id="tipo" value="<?php echo $tipo; ?>">
 

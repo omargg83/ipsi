@@ -15,6 +15,9 @@
     $video=$pd->video;
     $descripcion=$pd->descripcion;
   }
+
+
+	echo "idterapia:".$idterapia;
 ?>
 
 <nav aria-label='breadcrumb'>

@@ -116,8 +116,8 @@
 				for(let contar=0;contar<elemento.attributes.length; contar++){
 					let arrayDeCadenas = elemento.attributes[contar].name.split("_");
 					if(arrayDeCadenas.length>1){
-						formData.append(elemento.attributes[contar].name, elemento.attributes[contar].value);
-						formDestino.append(elemento.attributes[contar].name, elemento.attributes[contar].value);
+						formData.append(arrayDeCadenas[1], elemento.attributes[contar].value);
+						formDestino.append(arrayDeCadenas[1], elemento.attributes[contar].value);
 					}
 				}
 
@@ -144,6 +144,7 @@
 									});
 									return;
 								}
+
 								var respon = JSON.parse(data.target.response);
 								if (respon.error==0){
 									if (datos.desid !== undefined && datos.desid.length>0) {
@@ -341,6 +342,10 @@
 
 	//////////////////////////redirige si es necesario
 	function redirige_div(formData,datos){
+		//console.log(datos);
+		//for(var pair of formData.entries()) {
+   		//console.log(pair[0]+ ', '+ pair[1]);
+		//}
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',datos.des);
 		xhr.addEventListener('load',(datares)=>{
@@ -413,7 +418,7 @@
 	};
 	customElements.define('hola-mundo', HolaMundo);
 
-/////////////////////hasta aca
+	/////////////////////hasta aca
 	$(document).on('submit','#recuperarx',function(e){
 		e.preventDefault();
 		var telefono=$('#telefono').val();

@@ -1,13 +1,13 @@
 <?php
 	require_once("../a_actividades/db_.php");
-  $id1=clean_var($_REQUEST['id1']);
-  $idactividad=clean_var($_REQUEST['id2']);
+  $idsubactividad=clean_var($_REQUEST['idsubactividad']);
+  $idactividad=clean_var($_REQUEST['idactividad']);
 
 	$nombre="";
 	$orden="";
 	$pagina="";
-	if($id1){
-		$res=$db->subactividad_editar($id1);
+	if($idsubactividad){
+		$res=$db->subactividad_editar($idsubactividad);
 		$nombre=$res->nombre;
 		$orden=$res->orden;
 		$pagina=$res->pagina;
@@ -15,8 +15,8 @@
 ?>
 
 <form is="f-submit" id="form_sub" db="a_actividades/db_" fun="subactividad_guardar" des="a_actividades/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" dix="trabajo" cmodal="1">
-  <input type="hidden" name="id1" id="id1" value="<?php  echo $id1; ?>">
-  <input type="hidden" name="id2" id="id2" value="<?php  echo $idactividad; ?>">
+  <input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php  echo $idsubactividad; ?>">
+  <input type="hidden" name="idactividad" id="idactividad" value="<?php  echo $idactividad; ?>">
 	<div class="card">
 	  <div class="card-header">
 	    Nueva subactividad
@@ -39,7 +39,7 @@
 	  </div>
 	  <div class="card-footer">
 	    <button type='submit' class='btn btn-warning'> Guardar</button>
-	    <button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
+	    <button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' v_idactividad="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
 	  </div>
   </div>
 </form>

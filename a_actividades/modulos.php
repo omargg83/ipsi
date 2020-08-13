@@ -30,6 +30,9 @@
   			<div class='card' style='height:200px;'>
 					<div class="card-header">
 						<?php echo $key->nombre; ?>
+
+						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/modulos" dix="trabajo" db="a_actividades/db_" fun="borrar_modulo" v_idmodulo="<?php echo $key->id; ?>" v_idtrack="<?php echo $idtrack; ?>" tp="eliminar" title="Borrar"><i class="far fa-trash-alt"></i></button>
+
 						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/modulos_editar" dix="trabajo" v_idmodulo="<?php echo $key->id; ?>" v_idtrack="<?php echo $idtrack; ?>"><i class="fas fa-pencil-alt"></i></button>
 					</div>
   				<div class='card-body'>

@@ -159,6 +159,10 @@ class Cuest extends ipsi{
 		}
 		return $x;
 	}
+	public function borrar_modulo(){
+		if (isset($_REQUEST['idmodulo'])){$idmodulo=$_REQUEST['idmodulo'];}
+		return $this->borrar('modulo',"id",$idmodulo);
+	}
 
 	public function actividad_lista($id){
 		try{
@@ -218,14 +222,9 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-	public function actividad_del(){
-		try{
-			if (isset($_REQUEST['idactividad'])){$idactividad=$_REQUEST['idactividad'];}
-			return $this->borrar('actividad',"idactividad",$idactividad);
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
+	public function borrar_actividad(){
+		if (isset($_REQUEST['idactividad'])){$idactividad=$_REQUEST['idactividad'];}
+		return $this->borrar('actividad',"idactividad",$idactividad);
 	}
 
 	public function subactividad_ver($id){
@@ -244,8 +243,8 @@ class Cuest extends ipsi{
 		try{
 			$arreglo=array();
 			$x="";
-			$id=clean_var($_REQUEST['id1']);
-			$idactividad=clean_var($_REQUEST['id2']);
+			$idsubactividad=clean_var($_REQUEST['idsubactividad']);
+			$idactividad=clean_var($_REQUEST['idactividad']);
 
 			$nombre=clean_var($_REQUEST['nombre']);
 			$orden=clean_var($_REQUEST['orden']);
@@ -255,13 +254,12 @@ class Cuest extends ipsi{
 			$arreglo+=array('orden'=>$orden);
 			$arreglo+=array('pagina'=>$pagina);
 
-			if($id==0){
+			if($idsubactividad==0){
 				$arreglo+=array('idactividad'=>$idactividad);
-				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
 				$x=$this->insert('subactividad', $arreglo);
 			}
 			else{
-				$x=$this->update('subactividad',array('idsubactividad'=>$id), $arreglo);
+				$x=$this->update('subactividad',array('idsubactividad'=>$idsubactividad), $arreglo);
 			}
 			return $x;
 		}
@@ -391,7 +389,6 @@ class Cuest extends ipsi{
 
 			if($id1==0){
 				$arreglo+=array('idsubactividad'=>clean_var($_REQUEST['idsubactividad']));
-				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
 				$x=$this->insert('contexto', $arreglo);
 			}
 			else{

@@ -3,7 +3,8 @@
 	$idterapia=clean_var($_REQUEST['idterapia']);
   $track=$db->track($idterapia);
   $terapia=$db->terapia_editar($idterapia);
-	$idterapia=$terapia->id;
+
+	echo "idterapia:".$idterapia;
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -28,7 +29,7 @@
   				<div class='card-header'>
 						<?php echo $key->nombre; ?>
 
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/track" dix="trabajo" db="a_actividades/db_" fun="borrar_track" v_idtrack="<?php echo $key->id; ?>" v_idterapia="<?php echo $key->id; ?>" tp="eliminar" title="Borrar"><i class="far fa-trash-alt"></i></button>
+						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/track" dix="trabajo" db="a_actividades/db_" fun="borrar_track" v_idtrack="<?php echo $key->id; ?>" v_idterapia="<?php echo $idterapia; ?>" tp="eliminar" title="Borrar"><i class="far fa-trash-alt"></i></button>
 
 						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/track_editar" dix="trabajo" v_idtrack="<?php echo $key->id; ?>" v_idterapia="<?php echo $idterapia; ?>"><i class="fas fa-pencil-alt"></i></button>
 					</div>
