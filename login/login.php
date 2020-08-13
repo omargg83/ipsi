@@ -8,6 +8,7 @@
 	use PHPMailer\PHPMailer\SMTP;
 
 	require_once("../init.php");
+
 	class ipsi{
 		public $nivel_personal;
 		public $nivel_captura;
@@ -27,8 +28,11 @@
 		}
 		public function acceso(){
 			try{
-				$userPOST = clean_var($_REQUEST["userAcceso"]);
-				$passPOST=md5(clean_var($_REQUEST["passAcceso"]));
+				if($_SERVER['REQUEST_METHOD']!="POST"){
+					return 0;
+				}
+				$userPOST = clean_var($_REQUEST["inputEmail"]);
+				$passPOST=md5(clean_var($_REQUEST["inputPassword"]));
 
 				$sql="SELECT * FROM usuarios where correo=:usuario and pass=:pass and autoriza=1";
 				$sth = $this->dbh->prepare($sql);
@@ -91,7 +95,6 @@
 		$val=htmlspecialchars(strip_tags(trim($val)));
 		return $val;
 	}
-
 
 	$db = new ipsi();
 	echo $db->acceso();

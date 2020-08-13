@@ -1,9 +1,8 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=1;
-if($_SESSION['des']==1 and strlen($function)==0)
-{
+$_SESSION['des']=0;
+if($_SESSION['des']==1 and strlen($function)==0){
 	echo "ARCHIVO:";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo array_pop($arrayx);
@@ -62,7 +61,6 @@ class Cuest extends ipsi{
 		if (isset($_REQUEST['idterapia'])){$idterapia=$_REQUEST['idterapia'];}
 		return $this->borrar('terapias',"id",$idterapia);
 	}
-
 
 	public function track($id1){
 		try{

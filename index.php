@@ -175,10 +175,9 @@
         <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/js/uikit-icons.min.js"></script>
 
         <script src="librerias15/js/bootstrap.js"></script>
-        <script src="librerias15/popper.js"></script>
-        <script src="librerias15/tooltip.js"></script>
 
         <!--   Propios   -->
-        <script src="sagycv5.js"></script>
+        <script src="sagyc.js"></script>
+        <script src="vainilla.js"></script>
     </body>
 </html>
