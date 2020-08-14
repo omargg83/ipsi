@@ -187,6 +187,7 @@ class Cliente extends ipsi{
 	}
 	public function agregar_actividad(){
 		try{
+			$x="";
 			$idactividad=$_REQUEST['idactividad'];
 			$idpaciente=$_REQUEST['idpaciente'];
 
@@ -253,14 +254,43 @@ class Cliente extends ipsi{
 						$arreglo+=array('orden'=>$cont->orden);
 						$arreglo+=array('nombre'=>$cont->nombre);
 						$arreglo+=array('imagen'=>$cont->imagen);
-						$respuestas_array=json_decode($this->insert('respuestas', $arreglo),true);
+						$x=$this->insert('respuestas', $arreglo);
 					}
 				}
 			}
-			return "hola mundo";
+			return $x;
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function borrar_actividad(){
+		if (isset($_REQUEST['idactividad'])){$idactividad=$_REQUEST['idactividad'];}
+		return $this->borrar('actividad',"idactividad",$idactividad);
+	}
+
+	public function modulo_editar($id){
+		try{
+			$sql="select * from modulo where id=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function track_editar($id1){
+		try{
+			$sql="select * from track where id=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id1);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
 		}
 	}
 
@@ -276,6 +306,19 @@ class Cliente extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+	public function terapia_editar($id){
+		try{
+			$sql="select * from terapias where id=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
 	public function actividad_editar($id){
 		try{
 			$sql="select * from actividad where idactividad=:id";
@@ -370,7 +413,6 @@ class Cliente extends ipsi{
 
 			if($id==0){
 				$arreglo+=array('idactividad'=>$idactividad);
-				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
 				$x=$this->insert('subactividad', $arreglo);
 			}
 			else{
@@ -471,7 +513,6 @@ class Cliente extends ipsi{
 
 			if($id1==0){
 				$arreglo+=array('idsubactividad'=>clean_var($_REQUEST['idsubactividad']));
-				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
 				$x=$this->insert('contexto', $arreglo);
 			}
 			else{

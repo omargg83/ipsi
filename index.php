@@ -57,7 +57,7 @@
                         <div class="nav">
 													<div class="sb-sidenav-menu-heading">Inicio</div>
 
-
+														------------
 														<?php
 															if($_SESSION['tipo_user'] == "Paciente"){
 
@@ -65,46 +65,85 @@
 															  left outer join modulo on modulo.id=actividad.idmodulo
 															  left outer join track on track.id=modulo.idtrack
 															  left outer join terapias on terapias.id=track.idterapia
-															  where actividad.idpaciente=:id";
-															  $sth = $db->dbh->prepare($sql);
-															  $sth->bindValue(":id",$_SESSION['idusuario']);
-															  $sth->execute();
-															  foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
-																	echo "<a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#collapseLayouts' aria-expanded='false' aria-controls='collapseLayouts'>";
-																			echo "<div class='sb-nav-link-icon'><i class='fas fa-columns'></i></div>";
-																			echo $key->nombre;
-																			echo "<div class='sb-sidenav-collapse-arrow'><i class='fas fa-angle-down'></i></div>";
-																	echo "</a>";
+															  where actividad.idpaciente=:id group by terapias.id";
+															  $sth_te = $db->dbh->prepare($sql);
+															  $sth_te->bindValue(":id",$_SESSION['idusuario']);
+															  $sth_te->execute();
+
+															  foreach($sth_te->fetchAll(PDO::FETCH_OBJ) as $terapia){
+																	echo "<div>";
+																	echo "<a>".$terapia->nombre."</a>";
+																	echo "</div>";
+
+																	$sql="select track.* from actividad
+																	left outer join modulo on modulo.id=actividad.idmodulo
+																	left outer join track on track.id=modulo.idtrack
+																	where actividad.idpaciente=:id and track.idterapia=:idterapia group by track.id";
+																	$sth_tr = $db->dbh->prepare($sql);
+																	$sth_tr->bindValue(":id",$_SESSION['idusuario']);
+																	$sth_tr->bindValue(":idterapia",$terapia->id);
+																	$sth_tr->execute();
+																	foreach($sth_tr->fetchAll(PDO::FETCH_OBJ) as $track){
+																		echo "<div>";
+																		echo "--><a>".$track->nombre."</a>";
+																		echo "</div>";
+
+																		$sql="select modulo.* from actividad
+																		left outer join modulo on modulo.id=actividad.idmodulo
+																		where actividad.idpaciente=:id and modulo.idtrack=:idtrack group by modulo.id";
+																		$sth_mo = $db->dbh->prepare($sql);
+																		$sth_mo->bindValue(":id",$_SESSION['idusuario']);
+																		$sth_mo->bindValue(":idtrack",$track->id);
+																		$sth_mo->execute();
+																		foreach($sth_mo->fetchAll(PDO::FETCH_OBJ) as $modulo){
+																			echo "<div>";
+																			echo "----><a>".$modulo->nombre."</a>";
+																			echo "</div>";
+
+																			$sql="select * from actividad
+																			where actividad.idpaciente=:id and actividad.idmodulo=:idmodulo";
+																			$sth_a = $db->dbh->prepare($sql);
+																			$sth_a->bindValue(":id",$_SESSION['idusuario']);
+																			$sth_a->bindValue(":idmodulo",$modulo->id);
+																			$sth_a->execute();
+																			foreach($sth_a->fetchAll(PDO::FETCH_OBJ) as $actividad){
+																				echo "<div>";
+																				echo "------><a href='#a_respuesta/index' is='menu-link' v_idactividad='$actividad->idactividad'>".$actividad->nombre."</a>";
+																				echo "</div>";
+																			}
+																		}
+																	}
 																}
 														?>
-																<div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-																		<nav class="sb-sidenav-menu-nested nav">
-																			<a class='nav-link' is='menu-link' id1='$terapias->nombre' href='#a_actividades/index'>Terapia</a>
-																		</nav>
-																</div>
-
-															<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts2">
+															------------
+															<!---
+																<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#demo1" aria-expanded="false" aria-controls="demo1">
 																	<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
 																	Terapias 2
 																	<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 															</a>
-															<div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+															<div class="collapse" id="demo1" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 																	<nav class="sb-sidenav-menu-nested nav">
 																		<a class='nav-link' is='menu-link' id1='$terapias->nombre' href='#a_actividades/index'>Terapia</a>
 																	</nav>
 															</div>
+															--->
+
+															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Expediente</a>
+															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Relaciones</a>
+															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Agenda</a>
 
 															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi cuenta</a>
 														<?php
 															}
 															if($_SESSION['tipo_user'] == "Psicólogo" and $_SESSION['nivel']==2){
 														?>
-															<a class="nav-link" is='menu-link' href='#a_pacientes/index' title='Pacientes'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Mis Pacientes</a>
-															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Agenda</a>
-															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi cuenta</a>
+																<a class="nav-link" is='menu-link' href='#a_pacientes/index' title='Pacientes'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Mis Pacientes</a>
+																<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Agenda</a>
+																<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi cuenta</a>
 
-															<div class="sb-sidenav-menu-heading">Terapias</div>
-															<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Terapias</a>
+																<div class="sb-sidenav-menu-heading">Terapias</div>
+																<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Catalogo Terapias</a>
 
 														<?php
 															}
@@ -113,7 +152,7 @@
 															<a class="nav-link" is='menu-link' href='#a_pacientes/index' title='Pacientes'><div class="sb-nav-link-icon"><i class="far fa-file-alt"></i></div>Pacientes</a>
 															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Cuentas</a>
 															<div class="sb-sidenav-menu-heading">Terapias</div>
-															<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Terapias</a>
+															<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Catalogo Terapias</a>
 														<?php
 															}
 														?>

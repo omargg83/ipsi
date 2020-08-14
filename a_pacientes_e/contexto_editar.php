@@ -3,6 +3,7 @@
 
   $idcontexto=clean_var($_REQUEST['idcontexto']);
 	$idactividad=clean_var($_REQUEST['idactividad']);
+
 	$idpaciente=clean_var($_REQUEST['idpaciente']);
 
 
@@ -13,14 +14,7 @@
 	$personalizado="0";
 	$usuario="0";
 
-
-
-	if($idcontexto==0){
-		$idactividad=clean_var($_REQUEST['id2']);
-		$idsubactividad=clean_var($_REQUEST['id3']);
-	  $tipo=clean_var($_REQUEST['tipo']);
-	}
-	else{
+	if($idcontexto>0){
 		$con=$db->contexto_editar($idcontexto);
 		$idsubactividad=$con->idsubactividad;
 		$tipo=$con->tipo;
@@ -31,9 +25,10 @@
 		$personalizado=$con->personalizado;
 		$usuario=$con->usuario;
 	}
-
-	$sub=$db->subactividad_editar($idsubactividad);
-	$idactividad=$sub->idactividad;
+	else{
+		$idsubactividad=clean_var($_REQUEST['idsubactividad']);
+		$tipo=clean_var($_REQUEST['tipo']);
+	}
 ?>
 
 <form is="f-submit" id="form-contexto" db="a_pacientes/db_" fun="guarda_contexto" des="a_pacientes/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" cmodal="1">

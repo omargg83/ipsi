@@ -9,7 +9,8 @@
     echo "<div class='row'>";
     echo "<div class='col-2'>";
       echo "<div class='btn-group'>";
-      echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/paciente' tp='proceso' v_idpaciente='$idpaciente' v_idactividad='$key->idactividad' db='a_pacientes/db_' fun='agregar_actividad' cmodal='2'>Seleccionar</button>";
+      echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/paciente' dix='trabajo' tp='proceso'
+			v_idpaciente='$idpaciente' v_idactividad='$key->idactividad' db='a_pacientes/db_' fun='agregar_actividad' cmodal='2'>Seleccionar</button>";
       echo  "</div>";
     echo "</div>";
     echo "<div class='col-8'>";

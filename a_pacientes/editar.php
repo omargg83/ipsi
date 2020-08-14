@@ -40,9 +40,9 @@
 	?>
 	<nav aria-label='breadcrumb'>
 		<ol class='breadcrumb'>
-			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="contenido">Pacientes</li>
-			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="contenido"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
-			<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/editar" v_idpaciente="<?php echo $idpaciente; ?>" dix="contenido">Ficha de registro</li>
+			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
+			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
+			<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/editar" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Ficha de registro</li>
 		</ol>
 	</nav>
 
@@ -160,9 +160,13 @@
 							if($idpaciente>0){
 								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_foto' dix='nueva_sub' tp='edit' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-camera'></i>Foto</button>";
 								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_pass' dix='nueva_sub' tp='edit' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-key'></i>Contraseña</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+							}
+							else{
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/lista' dix='trabajo'>Regresar</button>";
 							}
 						?>
-						<button class='btn btn-warning btn-sm' type='button' is="b-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="contenido">Regresar</button>
+
 					</div>
 				</div>
 			</div>

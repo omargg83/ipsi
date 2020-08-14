@@ -1,8 +1,8 @@
 <?php
-	require_once("db_.php");
+	require_once("../a_pacientes/db_.php");
 
 	$idactividad=$_REQUEST['idactividad'];
-	$idpaciente=$_REQUEST['idpaciente'];
+	$idpaciente=$_SESSION['idusuario'];
 
 	/////////////////////breadcrumb
 	$paciente = $db->cliente_editar($idpaciente);
@@ -40,17 +40,6 @@
 
 ?>
 
-<nav aria-label='breadcrumb'>
- <ol class='breadcrumb'>
-	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
-	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre; ?></li>
-	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
-	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
-	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
-	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $modulo->nombre; ?></li>
-	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes/actividad_ver" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $nombre_act; ?></li>
- </ol>
-</nav>
 
 <!-- actividad  -->
 <div class="container">
@@ -61,8 +50,7 @@
 				<div class="col-2">
 
 					<!---Editar actividad --->
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/actividad_editar" dix="trabajo"
-					v_idactividad="<?php echo $idactividad; ?>" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><i class="fas fa-pencil-alt"></i></button>
+
 
 				</div>
 				<div class="col-9 text-left">
@@ -86,9 +74,8 @@
 </div>
 <!-- Fin de actividad  -->
 
-<div class="container-fluid mb-3 text-center">
-	<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_pacientes_e/subactividad_editar' v_idsubactividad="0" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' title='editar' omodal="1">Nueva Subactividad</button>
-</div>
+
+<!-- Nueva subactividad  -->
 
 <?php
 	foreach($subactividad as $key){
@@ -101,7 +88,7 @@
 				<div class="col-2">
 
 					<!-- Editar subactividad --->
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/subactividad_editar" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' omodal="1"><i class="fas fa-pencil-alt"></i></button>
+
 				</div>
 				<div class="col-10">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapsesub<?php echo $key->idsubactividad; ?>" aria-expanded="true" aria-controls="collapsesub<?php echo $key->idsubactividad; ?>">
@@ -116,20 +103,7 @@
 		<!-- Contexto  -->
 		<div id="collapsesub<?php echo $key->idsubactividad; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 			<div class="card-body" id='bloque'>
-			<div class="container-fluid mb-3 text-center">
-				<?php
-					if($actividad->tipo=="normal"){
-				?>
-						<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/bloque" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" omodal="1" >Bloque</button>
-				<?php
-					}
-					else{
-				?>
-						<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/bloque_r" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" omodal="1" >Bloque</button>
-				<?php
-					}
-				?>
-			</div>
+      <!--- bloque-->
 
 			<?php
 				$bloq=$db->contexto_ver($key->idsubactividad);
@@ -142,18 +116,16 @@
 
 
 								<!-- Editar Contexto --->
-								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/contexto_editar" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' omodal="1"><i class="fas fa-pencil-alt"></i></button>
+
 							</div>
 							<div class="col-4 text-center">
+
 								<button class="btn btn-link" data-toggle="collapse" data-target="#collapsecon<?php echo $row->id; ?>" aria-expanded="true" aria-controls="collapsecon<?php echo $row->id; ?>">
 									Contexto (<?php echo $row->tipo; ?>)
 								</button>
 							</div>
 							<div class="col-4">
-								<button class="btn btn-warning btn-sm" ><i class="fas fa-arrows-alt"></i>Mover</button>
-								<button class="btn btn-warning btn-sm" onclick='eliminar_subact(<?php echo $key->idsubactividad; ?>)' ><i class="far fa-trash-alt"></i>Eliminar</button>
-								<button class="btn btn-warning btn-sm" ><i class="far fa-copy"></i>Duplicar</button>
-								<button class="btn btn-warning btn-sm" ><i class="fas fa-project-diagram"></i>Condicional</button>
+								<!-- botones -->
 							</div>
 						</div>
 					</div>
@@ -195,11 +167,7 @@
 									?>
 
 											<div class="row">
-												<div class="col-2">
-													<!--Editar respuesta-->
-													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/inciso_editar" v_idrespuesta="<?php echo $respuesta->id; ?>" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" params='tipo-inciso' omodal="1" ><i class="fas fa-pencil-alt"></i></button>
-
-												</div>
+                        <!--Editar respuesta-->
 												<div class="col-1">
 													<?php
 														if($row->incisos==1){
@@ -230,8 +198,6 @@
 
 								if($row->personalizado==1){
 									echo "<div class='row'>";
-										echo "<div class='col-2'>";
-										echo "</div>";
 										echo "<div class='col-1'>";
 
 											if($row->incisos==1){
@@ -258,7 +224,7 @@
 								<br>
 								<div class="row">
 									<div class="col-12">
-										<button class="btn btn-warning" type="button" is="b-link" des="a_actividades_e/inciso_editar" v_idrespuesta="0" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
+                    <!-- agregar inciso -->
 									</div>
 								</div>
 							<?php

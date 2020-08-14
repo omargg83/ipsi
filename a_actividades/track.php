@@ -3,8 +3,6 @@
 	$idterapia=clean_var($_REQUEST['idterapia']);
   $track=$db->track($idterapia);
   $terapia=$db->terapia_editar($idterapia);
-
-	echo "idterapia:".$idterapia;
 ?>
 
 <nav aria-label='breadcrumb'>
