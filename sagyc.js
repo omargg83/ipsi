@@ -122,6 +122,7 @@
 							xhr.open('POST',datos.db);
 							xhr.addEventListener('load',(data)=>{
 								if (!isJSON(data.target.response)){
+									console.log(data.target.response);
 									Swal.fire({
 										type: 'error',
 										title: "Error favor de verificar",
@@ -316,6 +317,7 @@
 						let xhr = new XMLHttpRequest();
 						xhr.open('POST',datos.db);
 						xhr.addEventListener('load',(data)=>{
+							console.log("error?"+data.target.response);
 							var respon = JSON.parse(data.target.response);
 							if (respon.error==0){
 								Swal.fire({
@@ -336,6 +338,7 @@
 							}
 						});
 						xhr.onerror = (e)=>{
+
 						};
 						xhr.send(formData);
 					}

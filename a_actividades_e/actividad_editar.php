@@ -32,7 +32,7 @@
 </nav>
 
 <div class='container'>
-	<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_actividad">
+	<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_actividad" >
 
 		<input type='hidden' class='form-control' id='idactividad' name='idactividad' value='<?php echo $idactividad; ?>' readonly>
 		<input type='hidden' class='form-control' id='idmodulo' name='idmodulo' value='<?php echo $idmodulo; ?>' readonly>

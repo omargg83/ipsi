@@ -75,7 +75,7 @@
 </nav>
 
 <div class='container'>
-		<form is="f-submit" id="form_editaract" db="a_pacientes/db_" fun="guarda_actividad" des="a_pacientes/actividad_ver" desid="idactividad" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" cmodal="1">
+		<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_actividad" des="a_pacientes/actividad_ver" desid="idactividad" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>">
 			<input type='hidden' class='form-control' id='idactividad' name='idactividad' value='<?php echo $idactividad; ?>' readonly>
 			<input type='hidden' class='form-control' id='idpaciente' name='idpaciente' value='<?php echo $idpaciente; ?>' readonly>
 			<div class='card'>

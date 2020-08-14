@@ -9,11 +9,9 @@
 	$observaciones=$actividad->observaciones;
 	$indicaciones=$actividad->indicaciones;
 
-
 	$modulo = $db->modulo_editar($actividad->idmodulo);
 	$track=$db->track_editar($modulo->idtrack);
 	$terapia=$db->terapia_editar($track->idterapia);
-
 ?>
 
 <nav aria-label='breadcrumb'>

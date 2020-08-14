@@ -1,7 +1,7 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=0;
+$_SESSION['des']=1;
 if($_SESSION['des']==1 and strlen($function)==0){
 	echo "ARCHIVO:";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
@@ -203,6 +203,13 @@ class Cuest extends ipsi{
 			}
 			if (isset($_REQUEST['tipo'])){
 				$arreglo+=array('tipo'=>clean_var($_REQUEST['tipo']));
+			}
+
+			if (isset($_REQUEST['idmodulo'])){
+				$arreglo+=array('idmodulo'=>clean_var($_REQUEST['idmodulo']));
+			}
+			if (isset($_REQUEST['idpaciente'])){
+				$arreglo+=array('idpaciente'=>clean_var($_REQUEST['idpaciente']));
 			}
 
 			if($id1==0){

@@ -2,7 +2,6 @@
   $idactividad=$_REQUEST['idactividad'];
   $idsubactividad=$_REQUEST['idsubactividad'];
 ?>
-
   <div class="card">
     <div class="card-header">
       Bloque respuesta

@@ -14,7 +14,7 @@
 		$nombre=$res->nombre;
 	}
  ?>
- <form is="f-submit" id="form-respuesta" db="a_actividades/db_" des="a_actividades/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" fun="guarda_respuesta" cmodal="1">
+ <form is="f-submit" id="form-respuesta" db="a_pacientes/db_" fun="guarda_respuesta" des="a_actividades/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>"  cmodal="1">
 	 <input type="text" name="id1" id="id1" value="<?php echo $idrespuesta; ?>">
 	 <input type="text" name="idcontexto" id="idcontexto" value="<?php echo $idcontexto; ?>">
 	 <div class="card">
