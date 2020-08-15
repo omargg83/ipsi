@@ -410,7 +410,7 @@ class Cuest extends ipsi{
 		try{
 			$arreglo=array();
 			$x="";
-			$id1=clean_var($_REQUEST['id1']);
+			$idrespuesta=clean_var($_REQUEST['idrespuesta']);
 			$nombre=clean_var($_REQUEST['nombre']);
 			$idcontexto=clean_var($_REQUEST['idcontexto']);
 			$orden=clean_var($_REQUEST['orden']);
@@ -438,12 +438,12 @@ class Cuest extends ipsi{
 			$arreglo+=array('nombre'=>$nombre);
 			$arreglo+=array('orden'=>$orden);
 
-			if($id1==0){
+			if($idrespuesta==0){
 				$arreglo+=array('idcontexto'=>$idcontexto);
 				$x=$this->insert('respuestas', $arreglo);
 			}
 			else{
-				$x=$this->update('respuestas',array('id'=>$id1), $arreglo);
+				$x=$this->update('respuestas',array('id'=>$idrespuesta), $arreglo);
 			}
 			return $x;
 		}
