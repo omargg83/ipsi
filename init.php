@@ -32,5 +32,13 @@ else{
 ///////////////////contraseñas
 /////////// USAR EL SERVER 4 *TEMPORALMENTE
 ////EN LOS ARCHIVOS DB_.PHP ACTIVAR PARA VER PATH
+//// Cuentas
+
+//    User: paciente@correo.com
+//    PAss: 123
+///   TErapeuta:  terapeuta@correo.com
+///   pass:  123
+//  suma
+///// correcto/incorrecto
 
 ?>
