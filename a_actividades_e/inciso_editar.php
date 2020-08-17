@@ -4,8 +4,8 @@
 	$idrespuesta=clean_var($_REQUEST['idrespuesta']);
 	$idcontexto=clean_var($_REQUEST['idcontexto']);
 	$idactividad=clean_var($_REQUEST['idactividad']);
-	$paciente=0;
 
+	$paciente=0;
 	if (isset($_REQUEST['idpaciente'])) {
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
 		$paciente=1;
@@ -27,8 +27,8 @@
 		echo "<form is='f-submit' id='form-respuesta' db='a_actividades/db_' fun='guarda_respuesta' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente'  cmodal='1'>";
 	}
 ?>
-	 <input type="text" name="idrespuesta" id="idrespuesta" value="<?php echo $idrespuesta; ?>">
-	 <input type="text" name="idcontexto" id="idcontexto" value="<?php echo $idcontexto; ?>">
+	 <input type="hidden" name="idrespuesta" id="idrespuesta" value="<?php echo $idrespuesta; ?>">
+	 <input type="hidden" name="idcontexto" id="idcontexto" value="<?php echo $idcontexto; ?>">
 	 <div class="card">
 	 	<div class="card-header">
 			Agregar respuesta

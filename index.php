@@ -167,6 +167,7 @@
             </div>
             <div id="layoutSidenav_content">
                 <main>
+										<!---DIV PRINCIPAL--->
                     <div id="contenido" class="container-fluid">
                     </div>
                 </main>

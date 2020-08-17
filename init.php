@@ -1,5 +1,5 @@
 <?php
-$server=4;
+$server=2;
 if($server==1){
   /////////remoto
   define("MYSQLUSER", "wwipsi_wwipsi");
@@ -27,5 +27,10 @@ else{
   define("SERVIDOR", "sagyc.com.mx");
   define("BDD", "sagycrmr_apasear");
 }
+
+
+///////////////////contraseñas
+/////////// USAR EL SERVER 4 *TEMPORALMENTE
+////EN LOS ARCHIVOS DB_.PHP ACTIVAR PARA VER PATH
 
 ?>

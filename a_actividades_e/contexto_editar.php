@@ -2,6 +2,12 @@
 	require_once("../a_actividades/db_.php");
 
   $idcontexto=clean_var($_REQUEST['idcontexto']);
+	$paciente=0;
+	if (isset($_REQUEST['idpaciente'])) {
+		$idpaciente=clean_var($_REQUEST['idpaciente']);
+		$paciente=1;
+	}
+
 	$observaciones="";
 	$texto="";
 	$descripcion="";
@@ -27,9 +33,19 @@
 
 	$sub=$db->subactividad_editar($idsubactividad);
 	$idactividad=$sub->idactividad;
+
+	$actividad=$db->actividad_editar($idactividad);
+	$tipo_actividad=$actividad->tipo;
+
+	if($paciente==0){
+		echo "<form is='f-submit' id='form-contexto' db='a_actividades/db_' fun='guarda_contexto' des='a_actividades/actividad_ver' v_idactividad='$idactividad' cmodal='1'>";
+	}
+	else{
+		echo "<form is='f-submit' id='form-contexto' db='a_actividades/db_' fun='guarda_contexto' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' cmodal='1'>";
+	}
 ?>
 
-<form is="f-submit" id="form-contexto" db="a_actividades/db_" fun="guarda_contexto" des="a_actividades/actividad_ver" v_idactividad="<?php echo $idactividad; ?>" cmodal="1">
+
 	<input type="hidden" name="id1" id="id1" value="<?php echo $idcontexto; ?>">
 	<input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php echo $idsubactividad; ?>">
 	<input type="hidden" name="tipo" id="tipo" value="<?php echo $tipo; ?>">
@@ -39,10 +55,12 @@
 	    Editar contexto
 	  </div>
 	  <div class="card-body">
-			<label>Observaciones:</label>
-			<textarea id='observaciones' name='observaciones' class="form-control"><?php echo $observaciones; ?></textarea>
+			<?php
+			if($tipo_actividad=="normal"){
+				echo "<label>Observaciones:</label>";
+				echo "<textarea id='observaciones' name='observaciones' class='form-control'>$observaciones</textarea>";
+			}
 
-	    <?php
 	    if($tipo=="texto"){
 				echo "<label>Texto:</label>";
 		    echo "<textarea class='texto' id='texto' name='texto' rows=5>$texto</textarea>";
@@ -65,24 +83,26 @@
 						echo "<label>Agregue texto descriptivo a la respuesta:</label> <small>(Deje en blanco en caso de no requerir)</small>";
 						echo "<input type='text' name='texto' id='texto' value='$texto' class='form-control'>";
 					echo "</div>";
-					echo "<div class='col-4'>";
-						echo "<div class='form-check'>";
-							echo "<input type='checkbox' class='form-check-input' name='incisos' id='incisos' value='varios'"; if($incisos=='1'){ echo "checked"; } echo ">";
-							echo "<label class='form-check-label' for='incisos'>Selección de varios incisos</label>";
+					if($tipo_actividad=="normal"){
+						echo "<div class='col-4'>";
+							echo "<div class='form-check'>";
+								echo "<input type='checkbox' class='form-check-input' name='incisos' id='incisos' value='varios'"; if($incisos=='1'){ echo "checked"; } echo ">";
+								echo "<label class='form-check-label' for='incisos'>Selección de varios incisos</label>";
+							echo "</div>";
 						echo "</div>";
-					echo "</div>";
-					echo "<div class='col-4'>";
-						echo "<div class='form-check'>";
-							echo "<input type='checkbox' class='form-check-input' name='personalizado' id='personalizado'  value='personalizado'"; if($personalizado=='1'){ echo 'checked'; }	echo ">";
-							echo "<label class='form-check-label' for='personalizado'>Permitir agregar incisos personalizados</label>";
+						echo "<div class='col-4'>";
+							echo "<div class='form-check'>";
+								echo "<input type='checkbox' class='form-check-input' name='personalizado' id='personalizado'  value='personalizado'"; if($personalizado=='1'){ echo 'checked'; }	echo ">";
+								echo "<label class='form-check-label' for='personalizado'>Permitir agregar incisos personalizados</label>";
+							echo "</div>";
 						echo "</div>";
-					echo "</div>";
-					echo "<div class='col-4'>";
-						echo "<div class='form-check'>";
-							echo "<input type='checkbox' class='form-check-input' name='usuario' id='usuario'  value='usuario'"; if($usuario=='1'){ echo 'checked'; } echo 	">";
-							echo "<label class='form-check-label' for='usuario'>Texto de usuario despues de insiso</label>";
+						echo "<div class='col-4'>";
+							echo "<div class='form-check'>";
+								echo "<input type='checkbox' class='form-check-input' name='usuario' id='usuario'  value='usuario'"; if($usuario=='1'){ echo 'checked'; } echo 	">";
+								echo "<label class='form-check-label' for='usuario'>Texto de usuario despues de insiso</label>";
+							echo "</div>";
 						echo "</div>";
-					echo "</div>";
+					}
 				echo "</div>";
 	    }
 			else if($tipo=="textores"){

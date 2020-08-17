@@ -117,18 +117,7 @@
 		<div id="collapsesub<?php echo $key->idsubactividad; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 			<div class="card-body" id='bloque'>
 			<div class="container-fluid mb-3 text-center">
-				<?php
-					if($actividad->tipo=="normal"){
-				?>
-						<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/bloque" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" omodal="1" >Bloque</button>
-				<?php
-					}
-					else{
-				?>
-						<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/bloque_r" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" omodal="1" >Bloque</button>
-				<?php
-					}
-				?>
+				<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/bloque" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_tipo="<?php echo $actividad->tipo; ?>" omodal="1" >Bloque</button>
 			</div>
 
 			<?php
@@ -142,7 +131,7 @@
 
 
 								<!-- Editar Contexto --->
-								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/contexto_editar" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' omodal="1"><i class="fas fa-pencil-alt"></i></button>
+								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/contexto_editar" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' omodal="1"><i class="fas fa-pencil-alt"></i></button>
 							</div>
 							<div class="col-4 text-center">
 								<button class="btn btn-link" data-toggle="collapse" data-target="#collapsecon<?php echo $row->id; ?>" aria-expanded="true" aria-controls="collapsecon<?php echo $row->id; ?>">

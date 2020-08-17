@@ -90,18 +90,7 @@
 		<div id="collapsesub<?php echo $key->idsubactividad; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 			<div class="card-body" id='bloque'>
 			<div class="container-fluid mb-3 text-center">
-				<?php
-					if($actividad->tipo=="normal"){
-				?>
-					<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/bloque" dix="sub_<?php echo $key->idsubactividad; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" id3="texto" params='tipo-imagen' omodal="1" >Nuevo Bloque</button>
-				<?php
-					}
-					else{
-				?>
-					<button class="btn btn-warning" type="button" is="b-link" des="a_actividades/bloque_r" dix="sub_<?php echo $key->idsubactividad; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" id3="texto" params='tipo-imagen' omodal="1" >Nuevo Bloque</button>
-				<?php
-					}
-				?>
+				<button class="btn btn-warning" type="button" is="b-link" des="a_actividades_e/bloque" dix="sub_<?php echo $key->idsubactividad; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_tipo="<?php echo $actividad->tipo; ?>" omodal="1" >Nuevo Bloque</button>
 			</div>
 
 			<?php
