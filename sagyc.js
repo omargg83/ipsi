@@ -116,7 +116,6 @@
 				if(db.length>4){
 					Swal.fire({
 						title: '¿Desea procesar los cambios realizados?',
-						text: "ya no se podrá deshacer",
 						showCancelButton: true,
 						confirmButtonColor: '#3085d6',
 						cancelButtonColor: '#d33',
@@ -174,6 +173,7 @@
 							cargando(false);
 						}
 					});
+
 				}
 				else{
 					cargando(true);

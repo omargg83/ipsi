@@ -483,6 +483,7 @@ class Cuest extends ipsi{
 
 			$arreglo+=array('nombre'=>$nombre);
 			$arreglo+=array('orden'=>$orden);
+			$arreglo+=array('valor'=>$valor);
 
 			if($idrespuesta==0){
 				$arreglo+=array('idcontexto'=>$idcontexto);

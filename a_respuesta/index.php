@@ -1,5 +1,5 @@
 <?php
-	require_once("../a_pacientes/db_.php");
+	require_once("db_.php");
 
 	$idactividad=$_REQUEST['idactividad'];
 	$idpaciente=$_SESSION['idusuario'];
@@ -159,7 +159,8 @@
 							<!-- Fin de contexto  -->
 							<!-- Preguntas  -->
 							<div class="container-fluid">
-								<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_respuesta" des="a_pacientes/actividad_ver" desid="idactividad" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>">
+
+								<form is="f-submit" id="form_g_<?php echo $row->id; ?>" db="a_respuesta/db_" fun="guarda_respuesta" des="a_pacientes/actividad_ver" desid="idactividad" msg="0" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>">
 								<?php
 								$rx=$db->respuestas_ver($row->id);
 								foreach ($rx as $respuesta) {
@@ -178,7 +179,11 @@
 												?>
 											</div>
 											<div class="col-1">
-												<img src="<?php echo $db->doc.$respuesta->imagen; ?>" alt="" width="20px">
+												<?php
+													if(strlen($respuesta->imagen)>0){
+														echo "<img src=".$db->doc.$respuesta->imagen." alt='' width='20px'>";
+													}
+												?>
 											</div>
 											<div class="col-3">
 												<?php echo $respuesta->nombre;  ?>
@@ -217,9 +222,10 @@
 								}
 
 								?>
-								fin del form
+								<br>
+								<button class="btn btn-warning btn-sm" type="submit">Guardar</button>
+								</form>
 							</div>
-							<button class="btn btn-warning btn-sm" type="button" is="b-link" des='a_pacientes/paciente' v_idpaciente="<?php echo $idpaciente; ?>" dix='trabajo'>Responder</button>
 							<!-- Fin Preguntas  -->
 					</div>
 				</div>

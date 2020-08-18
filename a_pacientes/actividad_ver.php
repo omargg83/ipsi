@@ -220,6 +220,9 @@
 												<div class="col-3">
 													<?php echo $respuesta->nombre;  ?>
 												</div>
+												<div class="col-1">
+													<?php echo $respuesta->valor;  ?>
+												</div>
 												<div class="col-4">
 													<?php
 														if($row->usuario==1){
