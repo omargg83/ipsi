@@ -284,15 +284,11 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-	public function subactividad_del(){
-		try{
-			if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
-			return $this->borrar('subactividad',"idsubactividad",$id);
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
+	public function subactividad_borrar(){
+		if (isset($_REQUEST['idsubactividad'])){$idsubactividad=$_REQUEST['idsubactividad'];}
+		return $this->borrar('subactividad',"idsubactividad",$idsubactividad);
 	}
+
 
 	public function contexto_ver($id){
 		try{
@@ -405,6 +401,53 @@ class Cuest extends ipsi{
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!";
+		}
+	}
+	public function contexto_borrar(){
+		if (isset($_REQUEST['idcontexto'])){$idcontexto=$_REQUEST['idcontexto'];}
+		return $this->borrar('contexto',"id",$idcontexto);
+	}
+	public function contexto_duplicar(){
+		try{
+			$idcontexto=$_REQUEST['idcontexto'];
+			$x="1";
+			////////////Clonar Contexto
+			$sql="select * from contexto where id=:idcontexto";
+			$sth1 = $this->dbh->prepare($sql);
+			$sth1->bindValue(":idcontexto",$idcontexto);
+			$sth1->execute();
+
+			foreach($sth1->fetchall(PDO::FETCH_OBJ) as $subkey){
+				$arreglo=array();
+				$arreglo+=array('idsubactividad'=>$subkey->idsubactividad);
+				$arreglo+=array('tipo'=>$subkey->tipo);
+				$arreglo+=array('observaciones'=>$subkey->observaciones);
+				$arreglo+=array('texto'=>$subkey->texto);
+				$arreglo+=array('incisos'=>$subkey->incisos);
+				$arreglo+=array('usuario'=>$subkey->usuario);
+				$arreglo+=array('descripcion'=>$subkey->descripcion);
+				$x=$this->insert('contexto', $arreglo);
+				$contexto_array=json_decode($x,true);
+
+				////////////Clonar respuestas
+				$sql="select * from respuestas where idcontexto=:idcontexto";
+				$sth2 = $this->dbh->prepare($sql);
+				$sth2->bindValue(":idcontexto",$subkey->id);
+				$sth2->execute();
+
+				foreach($sth2->fetchall(PDO::FETCH_OBJ) as $cont){
+					$arreglo=array();
+					$arreglo+=array('idcontexto'=>$contexto_array['id1']);
+					$arreglo+=array('orden'=>$cont->orden);
+					$arreglo+=array('nombre'=>$cont->nombre);
+					$arreglo+=array('imagen'=>$cont->imagen);
+					$x=$this->insert('respuestas', $arreglo);
+				}
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return json_encode($e->getMessage());
 		}
 	}
 

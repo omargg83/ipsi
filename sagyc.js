@@ -260,7 +260,7 @@
 		e.currentTarget.attributes.fun!==undefined ? fun=e.currentTarget.attributes.fun.nodeValue : fun="";
 
 		let tp;	///////////// la funcion a ejecutar
-		e.currentTarget.attributes.tp!==undefined ? tp=e.currentTarget.attributes.tp.nodeValue : fun="";
+		e.currentTarget.attributes.tp!==undefined ? tp=e.currentTarget.attributes.tp.nodeValue : tp="";
 
 		let iddest;
 		e.currentTarget.attributes.iddest!==undefined ? iddest=e.currentTarget.attributes.iddest.nodeValue : iddest="";
@@ -302,15 +302,14 @@
 		}
 		//////////////poner aqui proceso en caso de existir funcion
 		if(fun.length>0){
-			if(tp==="eliminar"){
+			if(datos.tp.length>0){
 				formData.append("function", datos.fun);
 				Swal.fire({
-					title: '¿Desea eliminar el registro seleccionado?',
-					text: "ya no se podrá deshacer",
+					title: datos.tp,
 					showCancelButton: true,
 					confirmButtonColor: '#3085d6',
 					cancelButtonColor: '#d33',
-					confirmButtonText: 'Eliminar'
+					confirmButtonText: 'Aceptar'
 				}).then((result) => {
 					if (result.value) {
 						let variable=0;
@@ -318,46 +317,6 @@
 						xhr.open('POST',datos.db);
 						xhr.addEventListener('load',(data)=>{
 							console.log("error?"+data.target.response);
-							var respon = JSON.parse(data.target.response);
-							if (respon.error==0){
-								Swal.fire({
-									type: 'success',
-									title: "Listo",
-									showConfirmButton: false,
-									timer: 1000
-								});
-								redirige_div(variables,datos);
-							}
-							else{
-								Swal.fire({
-									type: 'info',
-									title: respon.terror,
-									showConfirmButton: false,
-									timer: 1000
-								});
-							}
-						});
-						xhr.onerror = (e)=>{
-
-						};
-						xhr.send(formData);
-					}
-				});
-			}
-			if(tp==="proceso"){
-				formData.append("function", datos.fun);
-				Swal.fire({
-					title: '¿Desea procesar la información?',
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Procesar'
-				}).then((result) => {
-					if (result.value) {
-						let variable=0;
-						let xhr = new XMLHttpRequest();
-						xhr.open('POST',datos.db);
-						xhr.addEventListener('load',(data)=>{
 							if (!isJSON(data.target.response)){
 								Swal.fire({
 									type: 'error',
@@ -388,6 +347,7 @@
 							}
 						});
 						xhr.onerror = (e)=>{
+
 						};
 						xhr.send(formData);
 					}
