@@ -169,17 +169,26 @@
 									if($row->tipo=="imagen"){
 										echo "<img src='".$db->doc.$row->texto."'/>";
 									}
-									if($row->tipo=="texto"){
+									else if($row->tipo=="texto"){
 										echo $row->texto;
 									}
-									if($row->tipo=="video"){
+									else if($row->tipo=="video"){
 										echo $row->texto;
 									}
-									if($row->tipo=="archivo"){
+									else if($row->tipo=="archivo"){
 										echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
 									}
-									if($row->tipo=="pregunta"){
+									else if($row->tipo=="pregunta"){
 										echo $row->texto;
+									}
+									else if($row->tipo=="textores"){
+										echo "<textarea class='texto' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
+									}
+									else if($row->tipo=="fecha"){
+										echo "<input type='date' name='texto' id='texto' value='$row->texto' class='form-control'>";
+									}
+									else if($row->tipo=="archivores"){
+										echo "<input type='file' name='texto' id='texto' class='form-control'>";
 									}
 								?>
 								<hr>
@@ -193,7 +202,6 @@
 								$rx=$db->respuestas_ver($row->id);
 								foreach ($rx as $respuesta) {
 									?>
-
 											<div class="row">
 												<div class="col-2">
 													<!--Editar respuesta-->
@@ -287,3 +295,15 @@
 	}
  ?>
 </div>
+
+
+<script type="text/javascript">
+	$(function() {
+		$('.texto').summernote({
+			lang: 'es-ES',
+			placeholder: 'Texto',
+			tabsize: 5,
+			height: 250
+		});
+	});
+</script>

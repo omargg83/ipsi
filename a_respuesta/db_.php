@@ -76,9 +76,10 @@ class Cliente extends ipsi{
 		}
 	}
   public function guarda_respuesta(){
-    
+
     $idpaciente=$_REQUEST['idpaciente'];
-    return "hola".$idpaciente;
+
+    return "hola".print_r($_REQUEST);
   }
 }
 

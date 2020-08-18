@@ -39,6 +39,10 @@
 		xhr.open('POST',destino);
 		xhr.addEventListener('load',(data)=>{
 			document.getElementById("contenido").innerHTML =data.target.response;
+			var scripts = document.getElementById("contenido").getElementsByTagName("script");
+			for (var i = 0; i < scripts.length; i++) {
+				eval(scripts[i].innerText);
+			}
 		});
 		xhr.send(formData);
 		cargando(false);

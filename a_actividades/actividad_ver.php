@@ -150,7 +150,7 @@
 										echo $row->texto;
 									}
 									else if($row->tipo=="textores"){
-										echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
+										echo "<textarea class='texto' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
 									}
 									else if($row->tipo=="fecha"){
 										echo "<input type='date' name='texto' id='texto' value='$row->texto' class='form-control'>";
@@ -166,71 +166,70 @@
 							<!-- Fin de contexto  -->
 							<!-- Preguntas  -->
 							<div class="container-fluid">
+
+
 								<?php
-								$rx=$db->respuestas_ver($row->id);
-								foreach ($rx as $respuesta) {
-									?>
+									$rx=$db->respuestas_ver($row->id);
+									foreach ($rx as $respuesta) {
+										?>
 
-											<div class="row">
-												<div class="col-2">
-													<!--Editar respuesta-->
-													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/inciso_editar" v_idrespuesta="<?php echo $respuesta->id; ?>" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" params='tipo-inciso' omodal="1" ><i class="fas fa-pencil-alt"></i></button>
+												<div class="row">
+													<div class="col-2">
+														<!--Editar respuesta-->
+														<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/inciso_editar" v_idrespuesta="<?php echo $respuesta->id; ?>" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" params='tipo-inciso' omodal="1" ><i class="fas fa-pencil-alt"></i></button>
 
-													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="respuesta_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idrespuesta="<?php echo $respuesta->id; ?>" tp="¿Desea eliminar el inciso selecionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+														<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="respuesta_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idrespuesta="<?php echo $respuesta->id; ?>" tp="¿Desea eliminar el inciso selecionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 
-													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/condicional_editar" omodal="1"><i class="fas fa-project-diagram"></i></button>
+														<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/condicional_editar" omodal="1"><i class="fas fa-project-diagram"></i></button>
 
+													</div>
+													<div class="col-1">
+														<?php
+															if($row->incisos==1){
+																echo "<input type='checkbox' name='' value=''>";
+															}
+															else{
+																echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
+															}
+														?>
+													</div>
+													<div class="col-1">
+														<img src="<?php echo $db->doc.$respuesta->imagen; ?>" alt="" width="20px">
+													</div>
+													<div class="col-3">
+														<?php echo $respuesta->nombre;  ?>
+													</div>
+													<div class="col-4">
+														<?php
+															if($row->usuario==1){
+																echo "<input type='text' name='' value='' placeholder='Define..' class='form-control'>";
+															}
+														?>
+													</div>
 												</div>
-												<div class="col-1">
-													<?php
-														if($row->incisos==1){
-															echo "<input type='checkbox' name='' value=''>";
-														}
-														else{
-															echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
-														}
-													?>
-												</div>
-												<div class="col-1">
-													<img src="<?php echo $db->doc.$respuesta->imagen; ?>" alt="" width="20px">
-												</div>
-												<div class="col-3">
-													<?php echo $respuesta->nombre;  ?>
-												</div>
-												<div class="col-4">
-													<?php
-														if($row->usuario==1){
-															echo "<input type='text' name='' value='' placeholder='Define..' class='form-control'>";
-														}
-													?>
-												</div>
-											</div>
-									<?php
-								}
+										<?php
+									}
+									if($row->personalizado==1){
+										echo "<div class='row'>";
+											echo "<div class='col-2'>";
+											echo "</div>";
+											echo "<div class='col-1'>";
 
+												if($row->incisos==1){
+													echo "<input type='checkbox' name='' value=''>";
+												}
+												else{
+													echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
+												}
+											echo "</div>";
+											echo "<div class='col-1'>";
+											echo "</div>";
 
-								if($row->personalizado==1){
-									echo "<div class='row'>";
-										echo "<div class='col-2'>";
+											echo "<div class='col-3'>";
+												echo "<input type='text' class='form-control' name='' value=''>";
+											echo "</div>";
 										echo "</div>";
-										echo "<div class='col-1'>";
-
-											if($row->incisos==1){
-												echo "<input type='checkbox' name='' value=''>";
-											}
-											else{
-												echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
-											}
-										echo "</div>";
-										echo "<div class='col-1'>";
-										echo "</div>";
-
-										echo "<div class='col-3'>";
-											echo "<input type='text' class='form-control' name='' value=''>";
-										echo "</div>";
-									echo "</div>";
-								}
-
+									}
 								?>
 							</div>
 							<?php
@@ -262,3 +261,15 @@
 	}
  ?>
 </div>
+
+
+<script type="text/javascript">
+	$(function() {
+		$('.texto').summernote({
+			lang: 'es-ES',
+			placeholder: 'Texto',
+			tabsize: 5,
+			height: 250
+		});
+	});
+</script>

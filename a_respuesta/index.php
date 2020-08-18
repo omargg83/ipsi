@@ -148,8 +148,17 @@
 									if($row->tipo=="archivo"){
 										echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
 									}
-									if($row->tipo=="pregunta"){
+									else if($row->tipo=="pregunta"){
 										echo $row->texto;
+									}
+									else if($row->tipo=="textores"){
+										echo "<textarea class='texto' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
+									}
+									else if($row->tipo=="fecha"){
+										echo "<input type='date' name='texto' id='texto' value='$row->texto' class='form-control'>";
+									}
+									else if($row->tipo=="archivores"){
+										echo "<input type='file' name='texto' id='texto' class='form-control'>";
 									}
 								?>
 								<hr>
@@ -191,7 +200,7 @@
 											<div class="col-4">
 												<?php
 													if($row->usuario==1){
-														echo "<input type='text' name='' value='' placeholder='Define..' class='form-control'>";
+														echo "<input type='text' name='texto' value='texto' placeholder='Define..' class='form-control'>";
 													}
 												?>
 											</div>
@@ -243,3 +252,14 @@
 	}
  ?>
 </div>
+
+<script type="text/javascript">
+	$(function() {
+		$('.texto').summernote({
+			lang: 'es-ES',
+			placeholder: 'Texto',
+			tabsize: 5,
+			height: 250
+		});
+	});
+</script>
