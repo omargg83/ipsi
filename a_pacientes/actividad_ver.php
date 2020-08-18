@@ -35,9 +35,8 @@
 	$nombre_act=$actividad->nombre;
 	$observaciones=$actividad->observaciones;
 	$indicaciones=$actividad->indicaciones;
+	$anotaciones=$actividad->anotaciones;
   $subactividad = $db->subactividad_ver($idactividad);
-
-
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -81,6 +80,14 @@
 				<p>Indicaciones</p>
 				<?php echo $indicaciones; ?>
 			</div>
+			<hr>
+			<div class='card-body'>
+					<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_pacientes_e/anotaciones_editar' v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' title='editar' omodal="1">Anotaciones</button>
+				<p>Anotaciones -Solo visible al teraéuta-</p>
+
+				<?php echo $anotaciones; ?>
+
+			</div>
 		</div>
 	</div>
 </div>
@@ -102,6 +109,8 @@
 
 					<!-- Editar subactividad --->
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/subactividad_editar" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' omodal="1"><i class="fas fa-pencil-alt"></i></button>
+
+					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="subactividad_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' tp="¿Desea eliminar la subactividad?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 				</div>
 				<div class="col-10">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapsesub<?php echo $key->idsubactividad; ?>" aria-expanded="true" aria-controls="collapsesub<?php echo $key->idsubactividad; ?>">
@@ -132,6 +141,11 @@
 
 								<!-- Editar Contexto --->
 								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/contexto_editar" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' omodal="1"><i class="fas fa-pencil-alt"></i></button>
+
+								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="contexto_duplicar" v_idactividad="<?php echo $idactividad; ?>" v_idcontexto="<?php echo $row->id; ?>" v_idpaciente='<?php echo $idpaciente; ?>' tp="¿Desea duplicar el bloque?" title="Borrar"><i class="far fa-copy"></i></button>
+
+								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="contexto_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idcontexto="<?php echo $row->id; ?>" v_idpaciente='<?php echo $idpaciente; ?>' tp="¿Desea eliminar el bloque selecionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+
 							</div>
 							<div class="col-4 text-center">
 								<button class="btn btn-link" data-toggle="collapse" data-target="#collapsecon<?php echo $row->id; ?>" aria-expanded="true" aria-controls="collapsecon<?php echo $row->id; ?>">
@@ -140,9 +154,6 @@
 							</div>
 							<div class="col-4">
 								<button class="btn btn-warning btn-sm" ><i class="fas fa-arrows-alt"></i>Mover</button>
-								<button class="btn btn-warning btn-sm" onclick='eliminar_subact(<?php echo $key->idsubactividad; ?>)' ><i class="far fa-trash-alt"></i>Eliminar</button>
-								<button class="btn btn-warning btn-sm" ><i class="far fa-copy"></i>Duplicar</button>
-								<button class="btn btn-warning btn-sm" ><i class="fas fa-project-diagram"></i>Condicional</button>
 							</div>
 						</div>
 					</div>
@@ -188,6 +199,10 @@
 													<!--Editar respuesta-->
 													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/inciso_editar" v_idrespuesta="<?php echo $respuesta->id; ?>" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" omodal="1" ><i class="fas fa-pencil-alt"></i></button>
 
+													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="respuesta_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idrespuesta="<?php echo $respuesta->id; ?>" v_idpaciente='<?php echo $idpaciente; ?>' tp="¿Desea eliminar el inciso selecionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+
+													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/condicional_editar" omodal="1"><i class="fas fa-project-diagram"></i></button>
+
 												</div>
 												<div class="col-1">
 													<?php
@@ -205,17 +220,16 @@
 												<div class="col-3">
 													<?php echo $respuesta->nombre;  ?>
 												</div>
-												<div class="col-2">
+												<div class="col-4">
 													<?php
 														if($row->usuario==1){
-															echo "<input type='text' name='' value='' placeholder='Define..'>";
+															echo "<input type='text' name='' value='' placeholder='Define..' class='form-control'>";
 														}
 													?>
 												</div>
 											</div>
 									<?php
 								}
-
 
 								if($row->personalizado==1){
 									echo "<div class='row'>";
@@ -234,7 +248,7 @@
 										echo "</div>";
 
 										echo "<div class='col-3'>";
-											echo "<input type='text' name='' value=''>";
+											echo "<input type='text' name='' value='' class='form-control'>";
 										echo "</div>";
 									echo "</div>";
 								}

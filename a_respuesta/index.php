@@ -50,8 +50,6 @@
 				<div class="col-2">
 
 					<!---Editar actividad --->
-
-
 				</div>
 				<div class="col-9 text-left">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -59,7 +57,7 @@
 					</button>
 				</div>
 				<div class="col-1">
-					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/paciente" dix="trabajo" id1="<?php echo $id1; ?>">Regresar</button>
+
 				</div>
 			</div>
 		</div>
@@ -161,37 +159,39 @@
 							<!-- Fin de contexto  -->
 							<!-- Preguntas  -->
 							<div class="container-fluid">
+								<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_respuesta" des="a_pacientes/actividad_ver" desid="idactividad" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>">
 								<?php
 								$rx=$db->respuestas_ver($row->id);
 								foreach ($rx as $respuesta) {
-									?>
 
-											<div class="row">
-                        <!--Editar respuesta-->
-												<div class="col-1">
-													<?php
-														if($row->incisos==1){
-															echo "<input type='checkbox' name='' value=''>";
-														}
-														else{
-															echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
-														}
-													?>
-												</div>
-												<div class="col-1">
-													<img src="<?php echo $db->doc.$respuesta->imagen; ?>" alt="" width="20px">
-												</div>
-												<div class="col-3">
-													<?php echo $respuesta->nombre;  ?>
-												</div>
-												<div class="col-2">
-													<?php
-														if($row->usuario==1){
-															echo "<input type='text' name='' value='' placeholder='Define..'>";
-														}
-													?>
-												</div>
+									?>
+										<div class="row">
+                      <!--Editar respuesta-->
+											<div class="col-1">
+												<?php
+													if($row->incisos==1){
+														echo "<input type='checkbox' name='' value=''>";
+													}
+													else{
+														echo "<input type='radio' id='resp_".$respuesta->id."' name='resp_".$row->id."' value='1'>";
+													}
+												?>
 											</div>
+											<div class="col-1">
+												<img src="<?php echo $db->doc.$respuesta->imagen; ?>" alt="" width="20px">
+											</div>
+											<div class="col-3">
+												<?php echo $respuesta->nombre;  ?>
+											</div>
+											<div class="col-4">
+												<?php
+													if($row->usuario==1){
+														echo "<input type='text' name='' value='' placeholder='Define..' class='form-control'>";
+													}
+												?>
+											</div>
+										</div>
+
 									<?php
 								}
 
@@ -204,32 +204,22 @@
 												echo "<input type='checkbox' name='' value=''>";
 											}
 											else{
-												echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
+												echo "<input type='radio' id='resp_".$row->id."' name='resp_".$row->id."' value='1'>";
 											}
 										echo "</div>";
 										echo "<div class='col-1'>";
 										echo "</div>";
 
 										echo "<div class='col-3'>";
-											echo "<input type='text' name='' value=''>";
+											echo "<input type='text' name='' value='' class='form-control'>";
 										echo "</div>";
 									echo "</div>";
 								}
 
 								?>
+								fin del form
 							</div>
-							<?php
-								if($row->tipo=="pregunta"){
-							?>
-								<br>
-								<div class="row">
-									<div class="col-12">
-                    <!-- agregar inciso -->
-									</div>
-								</div>
-							<?php
-								}
-							?>
+							<button class="btn btn-warning btn-sm" type="button" is="b-link" des='a_pacientes/paciente' v_idpaciente="<?php echo $idpaciente; ?>" dix='trabajo'>Responder</button>
 							<!-- Fin Preguntas  -->
 					</div>
 				</div>

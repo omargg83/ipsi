@@ -90,7 +90,7 @@
 																			$sth_a->execute();
 																			foreach($sth_a->fetchAll(PDO::FETCH_OBJ) as $actividad){
 																				echo "<div>";
-																				echo "------><a href='#a_respuesta/index' is='menu-link' v_idactividad='$actividad->idactividad'>".$actividad->nombre."</a>";
+																				echo "------><a href='#a_respuesta/index?idactividad=$actividad->idactividad' is='menu-link'>".$actividad->nombre."</a>";
 																				echo "</div>";
 																			}
 																		}

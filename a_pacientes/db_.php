@@ -74,7 +74,22 @@ class Cliente extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+	public function guarda_anotacion(){
+		try{
+			$arreglo=array();
+			$x="";
+			$idactividad=$_REQUEST['idactividad'];
 
+			if (isset($_REQUEST['anotaciones'])){
+				$arreglo+=array('anotaciones'=>$_REQUEST['anotaciones']);
+			}
+			$x=$this->update('actividad',array('idactividad'=>$idactividad), $arreglo);
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
 	public function guardar_cliente(){
 		$x="";
 		$arreglo =array();

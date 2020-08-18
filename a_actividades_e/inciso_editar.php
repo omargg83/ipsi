@@ -13,11 +13,13 @@
 
 	$orden="";
 	$nombre="";
+	$valor="";
 
 	if($idrespuesta>0){
 		$res=$db->respuestas_editar($idrespuesta);
 		$orden=$res->orden;
 		$nombre=$res->nombre;
+		$valor=$res->valor;
 	}
 
 	if($paciente==0){
@@ -40,12 +42,17 @@
 					<input type="text" name="orden" id="orden" value="<?php echo $orden; ?>" class="form-control">
 				</div>
 
-				<div class="col-6">
+				<div class="col-8">
 					<label>Inciso</label>
 					<input type="text" name="nombre" id="nombre" value="<?php echo $nombre; ?>" class="form-control">
 				</div>
 
-				<div class="col-4">
+				<div class="col-2">
+					<label>Valor</label>
+					<input type="text" name="valor" id="valor" value="<?php echo $valor; ?>" class="form-control">
+				</div>
+
+				<div class="col-12">
 					<label>Imagen</label>
 					<div class="custom-file">
 						<input type="file" name="imagen" id="imagen" value="" class="custom-file-input">

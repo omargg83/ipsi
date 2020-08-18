@@ -44,13 +44,11 @@
 		echo "<form is='f-submit' id='form-contexto' db='a_actividades/db_' fun='guarda_contexto' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' cmodal='1'>";
 	}
 ?>
-
-
 	<input type="hidden" name="id1" id="id1" value="<?php echo $idcontexto; ?>">
 	<input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php echo $idsubactividad; ?>">
 	<input type="hidden" name="tipo" id="tipo" value="<?php echo $tipo; ?>">
 
-	<div class="card mb-3">
+	<div class="card">
 	  <div class="card-header">
 	    Editar contexto
 	  </div>

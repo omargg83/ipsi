@@ -17,18 +17,30 @@
 		loadContent(location.hash.slice(1));
 	},false);	///////////////////para el hash
 
+
 	function loadContent(hash){
 		cargando(true);
-		if(hash==''){
-			hash= 'dash/dashboard';
+		let formData = new FormData();
+		let arrayDeCadenas = hash.split("?");
+		let nhash=arrayDeCadenas[0];
+		if(arrayDeCadenas.length>1){
+			let query=arrayDeCadenas[1];
+			var vars = query.split("&");
+			for (var i=0; i < vars.length; i++) {
+			var pair = vars[i].split("=");
+				formData.append(pair[0],pair[1]);
+			}
 		}
-		let destino=hash + '.php';
+		if(nhash==''){
+			nhash= 'dash/dashboard';
+		}
+		let destino=nhash + '.php';
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST',destino);
 		xhr.addEventListener('load',(data)=>{
 			document.getElementById("contenido").innerHTML =data.target.response;
 		});
-		xhr.send();
+		xhr.send(formData);
 		cargando(false);
 	}
 	function salir(){

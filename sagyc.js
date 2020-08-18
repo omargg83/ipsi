@@ -6,16 +6,22 @@
 	class MenuLink extends HTMLAnchorElement {
 		connectedCallback() {
 			this.addEventListener('click', (e) => {cargando(true);
+				let formData = new FormData();
 
-				var formData = new FormData();
-				for(let contar=0;contar<e.currentTarget.attributes.length; contar++){
-					let arrayDeCadenas = e.currentTarget.attributes[contar].name.split("_");
-					if(arrayDeCadenas.length>1){
-						formData.append(arrayDeCadenas[1], e.currentTarget.attributes[contar].value);
+				let hash=e.currentTarget.hash.slice(1);
+				let arrayDeCadenas = hash.split("?");
+				let nhash=arrayDeCadenas[0];
+				if(arrayDeCadenas.length>1){
+					let query=arrayDeCadenas[1];
+					var vars = query.split("&");
+					for (var i=0; i < vars.length; i++) {
+					var pair = vars[i].split("=");
+						formData.append(pair[0],pair[1]);
 					}
 				}
+
 				let datos = new Object();
-				datos.des=e.currentTarget.hash.slice(1)+".php";
+				datos.des=nhash+".php";
 				datos.dix="contenido";
 				redirige_div(formData,datos);
 			});
@@ -366,7 +372,7 @@
    		//console.log(pair[0]+ ', '+ pair[1]);
 		//}
 		let xhr = new XMLHttpRequest();
-		xhr.open('POST',datos.des);
+		xhr.open('POST', datos.des);
 		xhr.addEventListener('load',(datares)=>{
 			if(datares.target.status=="404"){
 				Swal.fire({
@@ -381,7 +387,7 @@
 					$('#myModal').modal('show');
 					datos.dix="modal_form";
 				}
-				document.getElementById(datos.dix).innerHTML = datares.target.response;
+				document.getElementById(datos.dix).innerHTML = datares.target.responseText;
 				var scripts = document.getElementById(datos.dix).getElementsByTagName("script");
 				for (var i = 0; i < scripts.length; i++) {
 			    eval(scripts[i].innerText);

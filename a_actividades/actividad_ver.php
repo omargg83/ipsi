@@ -1,6 +1,7 @@
 <?php
 	require_once("db_.php");
 
+
 	$idactividad=clean_var($_REQUEST['idactividad']);
   $actividad = $db->actividad_editar($idactividad);
 	$subactividad = $db->subactividad_ver($idactividad);
@@ -16,7 +17,7 @@
 
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="">Inicio</lis>
+		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="">Inicio</li>
 		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" v_idterapia="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
 		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
 		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
@@ -43,9 +44,6 @@
 					</button>
 				</div>
 				<div class="col-1">
-
-
-
 					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>">Regresar</button>
 				</div>
 			</div>
@@ -123,7 +121,7 @@
 							<div class="col-4">
 								<button class="btn btn-warning btn-sm" ><i class="fas fa-arrows-alt"></i>Mover</button>
 
-								<button class="btn btn-warning btn-sm" ><i class="fas fa-project-diagram"></i>Condicional</button>
+
 							</div>
 						</div>
 					</div>
@@ -178,6 +176,10 @@
 													<!--Editar respuesta-->
 													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/inciso_editar" v_idrespuesta="<?php echo $respuesta->id; ?>" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" params='tipo-inciso' omodal="1" ><i class="fas fa-pencil-alt"></i></button>
 
+													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="respuesta_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idrespuesta="<?php echo $respuesta->id; ?>" tp="¿Desea eliminar el inciso selecionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+
+													<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/condicional_editar" omodal="1"><i class="fas fa-project-diagram"></i></button>
+
 												</div>
 												<div class="col-1">
 													<?php
@@ -195,10 +197,10 @@
 												<div class="col-3">
 													<?php echo $respuesta->nombre;  ?>
 												</div>
-												<div class="col-2">
+												<div class="col-4">
 													<?php
 														if($row->usuario==1){
-															echo "<input type='text' name='' value='' placeholder='Define..'>";
+															echo "<input type='text' name='' value='' placeholder='Define..' class='form-control'>";
 														}
 													?>
 												</div>
@@ -224,7 +226,7 @@
 										echo "</div>";
 
 										echo "<div class='col-3'>";
-											echo "<input type='text' name='' value=''>";
+											echo "<input type='text' class='form-control' name='' value=''>";
 										echo "</div>";
 									echo "</div>";
 								}

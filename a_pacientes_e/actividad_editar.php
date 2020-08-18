@@ -50,7 +50,7 @@
 
 	$sql="select modulo.id, modulo.nombre as modulo, track.nombre as track, terapias.nombre as terapia from modulo
 	left outer join track on track.id=modulo.idtrack
-	left outer join terapias on terapias.id=track.idterapia";
+	left outer join terapias on terapias.id=track.idterapia order by terapias.nombre asc, track.nombre asc, modulo.nombre asc";
 	$sth = $db->dbh->prepare($sql);
 	$sth->execute();
 	$modulo_p=$sth->fetchAll(PDO::FETCH_OBJ);
@@ -93,7 +93,7 @@
 							<select class='form-control' id='idmodulo' name='idmodulo'>
 								<?php
 									foreach($modulo_p as $key){
-										echo "<option value='$key->id'"; if($tipo=="normal"){ echo " selected";} echo ">$key->modulo - $key->track - $key->terapia</option>";
+										echo "<option value='$key->id'"; if($tipo=="normal"){ echo " selected";} echo ">$key->terapia - $key->track - $key->modulo</option>";
 									}
 								?>
 							</select>

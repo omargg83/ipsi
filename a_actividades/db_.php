@@ -16,6 +16,7 @@ class Cuest extends ipsi{
 
 	}
 
+
 	public function terapias(){
 		try{
 			$sql="select * from terapias order by nombre asc";
@@ -289,7 +290,6 @@ class Cuest extends ipsi{
 		return $this->borrar('subactividad',"idsubactividad",$idsubactividad);
 	}
 
-
 	public function contexto_ver($id){
 		try{
 			$sql="select * from contexto where idsubactividad=:id";
@@ -459,6 +459,7 @@ class Cuest extends ipsi{
 			$nombre=clean_var($_REQUEST['nombre']);
 			$idcontexto=clean_var($_REQUEST['idcontexto']);
 			$orden=clean_var($_REQUEST['orden']);
+			$valor=clean_var($_REQUEST['valor']);
 
 			$extension = '';
 		  $ruta = '../a_archivos/respuestas/';
@@ -520,6 +521,11 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+	public function respuesta_borrar(){
+		if (isset($_REQUEST['idrespuesta'])){$idrespuesta=$_REQUEST['idrespuesta'];}
+		return $this->borrar('respuestas',"id",$idrespuesta);
+	}
+
 }
 
 $db = new Cuest();
