@@ -39,37 +39,37 @@
                         <div class="nav">
 													<div class="sb-sidenav-menu-heading">Inicio</div>
 
-														------------
+
 														<?php
 															if($_SESSION['tipo_user'] == "Paciente"){
-																$sql="select terapias.* from actividad
-															  left outer join modulo on modulo.id=actividad.idmodulo
-															  left outer join track on track.id=modulo.idtrack
-															  left outer join terapias on terapias.id=track.idterapia
-															  where actividad.idpaciente=:id group by terapias.id";
+																$sql="SELECT * from terapias_per left outer join terapias on terapias.id=terapias_per.idterapia where terapias_per.idpaciente=:id";
 															  $sth_te = $db->dbh->prepare($sql);
 															  $sth_te->bindValue(":id",$_SESSION['idusuario']);
 															  $sth_te->execute();
 
 															  foreach($sth_te->fetchAll(PDO::FETCH_OBJ) as $terapia){
-																	echo "<div>";
-																		echo "<a href='#a_respuesta/index?idactividad=$actividad->idactividad' is='menu-link'>".$terapia->nombre."</a>";
-																	echo "</div>";
+																	echo "<a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#demo1' aria-expanded='false' aria-controls='demo1'>";
+																		echo "<div class='sb-nav-link-icon'><i class='fas fa-columns'></i></div>";
+																		echo $terapia->nombre;
+																		echo "<div class='sb-sidenav-collapse-arrow'><i class='fas fa-angle-down'></i></div>";
+																	echo "</a>";
+
+																	$sql="SELECT * from track_per left outer join track on track.id=track_per.idtrack where track_per.idpaciente=:id and track.idterapia=:idterapia";
+																	$sth = $db->dbh->prepare($sql);
+																	$sth->bindValue(":id",$_SESSION['idusuario']);
+																	$sth->bindValue(":idterapia",$terapia->id);
+																	$sth->execute();
+																	foreach($sth->fetchAll(PDO::FETCH_OBJ) as $track){
+																		echo "<div class='collapse' id='demo1' aria-labelledby='headingOne' data-parent='#sidenavAccordion'>";
+																			echo "<nav class='sb-sidenav-menu-nested nav'>";
+																				echo "<a class='nav-link' is='menu-link' href='#a_actividades/track?idterapia=$terapia->id' is='menu-link'>$track->nombre</a>";
+																			echo "</nav>";
+																		echo "</div>";
+																	}
 																}
 														?>
-															------------
-															<!---
-																<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#demo1" aria-expanded="false" aria-controls="demo1">
-																	<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-																	Terapias 2
-																	<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-															</a>
-															<div class="collapse" id="demo1" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-																	<nav class="sb-sidenav-menu-nested nav">
-																		<a class='nav-link' is='menu-link' id1='$terapias->nombre' href='#a_actividades/index'>Terapia</a>
-																	</nav>
-															</div>
-															--->
+
+
 
 															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Expediente</a>
 															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Relaciones</a>

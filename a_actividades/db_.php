@@ -202,6 +202,18 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+	public function actividad_inicial($id){
+		try{
+			$sql="select * from actividad where idterapia=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
 	public function actividad_editar($id){
 		try{
 			$sql="select * from actividad where idactividad=:id";
@@ -232,9 +244,11 @@ class Cuest extends ipsi{
 			if (isset($_REQUEST['tipo'])){
 				$arreglo+=array('tipo'=>clean_var($_REQUEST['tipo']));
 			}
-
 			if (isset($_REQUEST['idmodulo'])){
 				$arreglo+=array('idmodulo'=>clean_var($_REQUEST['idmodulo']));
+			}
+			if (isset($_REQUEST['idterapia'])){
+				$arreglo+=array('idterapia'=>clean_var($_REQUEST['idterapia']));
 			}
 			if (isset($_REQUEST['idpaciente'])){
 				$arreglo+=array('idpaciente'=>clean_var($_REQUEST['idpaciente']));
@@ -242,7 +256,6 @@ class Cuest extends ipsi{
 
 			if($idactividad==0){
 				$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
-				$arreglo+=array('idmodulo'=>clean_var($_REQUEST['idmodulo']));
 				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
 				$x=$this->insert('actividad', $arreglo);
 

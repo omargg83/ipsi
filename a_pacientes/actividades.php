@@ -59,8 +59,6 @@
 
 <div class='container'>
 	<div class='row'>
-
-
 	<?php
 		foreach($actividades as $key){
 	?>
@@ -68,6 +66,7 @@
 				<div class='card' style='height:200px;'>
 					<div class='card-header'>
 						<?php echo $key->nombre; ?>
+						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/actividades" dix="trabajo" db="a_actividades/db_" fun="borrar_actividad" v_idactividad="<?php echo $key->idactividad; ?>" v_idmodulo="<?php echo $idmodulo; ?>" tp="¿Desea eliminar la actividad seleccionada?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 					</div>
 					<div class='card-body'>
 						<div class='row'>

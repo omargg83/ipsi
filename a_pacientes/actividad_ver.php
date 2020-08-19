@@ -70,7 +70,7 @@
 					</button>
 				</div>
 				<div class="col-1">
-					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/paciente" dix="trabajo" id1="<?php echo $id1; ?>">Regresar</button>
+					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
 				</div>
 			</div>
 		</div>
