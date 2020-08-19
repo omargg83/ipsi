@@ -4,7 +4,6 @@
 ?>
 
 <form is="f-submit" id="form_terapiab" des="a_pacientes/terapia_buscar" dix="resultadosx">
-
 	<div class='modal-header'>
 		<h5 class='modal-title'>Agregar Actividad</h5>
 	</div>

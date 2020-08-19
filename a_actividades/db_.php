@@ -52,6 +52,15 @@ class Cuest extends ipsi{
 		}
 		if($idterapia==0){
 			$x=$this->insert('terapias', $arreglo);
+
+			$resp=json_decode($x);
+			if (isset($_REQUEST['idpaciente'])){
+				$idpaciente=$_REQUEST['idpaciente'];
+				$arreglo =array();
+				$arreglo+=array('idterapia'=>$resp->id1);
+				$arreglo+=array('idpaciente'=>$idpaciente);
+				$x=$this->insert('terapias_per',$arreglo);
+			}
 		}
 		else{
 			$x=$this->update('terapias',array('id'=>$idterapia), $arreglo);
@@ -90,7 +99,7 @@ class Cuest extends ipsi{
 	public function guardar_track(){
 		$x="";
 		$arreglo =array();
-		$id1=clean_var($_REQUEST['id1']);
+		$idtrack=clean_var($_REQUEST['idtrack']);
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
@@ -100,12 +109,21 @@ class Cuest extends ipsi{
 		if (isset($_REQUEST['descripcion'])){
 			$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
 		}
-		if($id1==0){
+		if($idtrack==0){
 			$arreglo+=array('idterapia'=>clean_var($_REQUEST['idterapia']));
 			$x=$this->insert('track', $arreglo);
+
+			$resp=json_decode($x);
+			if (isset($_REQUEST['idpaciente'])){
+				$idpaciente=$_REQUEST['idpaciente'];
+				$arreglo =array();
+				$arreglo+=array('idtrack'=>$resp->id1);
+				$arreglo+=array('idpaciente'=>$idpaciente);
+				$x=$this->insert('track_per',$arreglo);
+			}
 		}
 		else{
-			$x=$this->update('track',array('id'=>$id1), $arreglo);
+			$x=$this->update('track',array('id'=>$idtrack), $arreglo);
 		}
 		return $x;
 	}
@@ -141,7 +159,7 @@ class Cuest extends ipsi{
 	public function guardar_modulo(){
 		$x="";
 		$arreglo =array();
-		$id1=clean_var($_REQUEST['id1']);
+		$idmodulo=clean_var($_REQUEST['idmodulo']);
 
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
@@ -149,12 +167,21 @@ class Cuest extends ipsi{
 		if (isset($_REQUEST['descripcion'])){
 			$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
 		}
-		if($id1==0){
+		if($idmodulo==0){
 			$arreglo+=array('idtrack'=>clean_var($_REQUEST['idtrack']));
 			$x=$this->insert('modulo', $arreglo);
+
+			$resp=json_decode($x);
+			if (isset($_REQUEST['idpaciente'])){
+				$idpaciente=$_REQUEST['idpaciente'];
+				$arreglo =array();
+				$arreglo+=array('idmodulo'=>$resp->id1);
+				$arreglo+=array('idpaciente'=>$idpaciente);
+				$x=$this->insert('modulo_per',$arreglo);
+			}
 		}
 		else{
-			$x=$this->update('modulo',array('id'=>$id1), $arreglo);
+			$x=$this->update('modulo',array('id'=>$idmodulo), $arreglo);
 		}
 		return $x;
 	}
@@ -165,7 +192,7 @@ class Cuest extends ipsi{
 
 	public function actividad_lista($id){
 		try{
-			$sql="select * from actividad where idmodulo=:id and idpaciente is null";
+			$sql="select * from actividad where idmodulo=:id";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
@@ -191,7 +218,7 @@ class Cuest extends ipsi{
 		try{
 			$arreglo=array();
 			$x="";
-			$id1=$_REQUEST['idactividad'];
+			$idactividad=$_REQUEST['idactividad'];
 
 			if (isset($_REQUEST['nombre'])){
 				$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
@@ -213,14 +240,23 @@ class Cuest extends ipsi{
 				$arreglo+=array('idpaciente'=>clean_var($_REQUEST['idpaciente']));
 			}
 
-			if($id1==0){
+			if($idactividad==0){
 				$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
 				$arreglo+=array('idmodulo'=>clean_var($_REQUEST['idmodulo']));
 				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
 				$x=$this->insert('actividad', $arreglo);
+
+				$resp=json_decode($x);
+				if (isset($_REQUEST['idpaciente'])){
+					$idpaciente=$_REQUEST['idpaciente'];
+					$arreglo =array();
+					$arreglo+=array('idactividad'=>$resp->id1);
+					$arreglo+=array('idpaciente'=>$idpaciente);
+					$x=$this->insert('actividad_per',$arreglo);
+				}
 			}
 			else{
-				$x=$this->update('actividad',array('idactividad'=>$id1), $arreglo);
+				$x=$this->update('actividad',array('idactividad'=>$idactividad), $arreglo);
 			}
 			return $x;
 		}
@@ -510,6 +546,7 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+
 	public function respuestas_editar($id){
 		try{
 			$sql="select * from respuestas where id=:id";

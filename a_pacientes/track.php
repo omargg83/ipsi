@@ -15,10 +15,8 @@
 
 
 	///////////////////////CODIGO
-	$sql="select track.* from actividad
-	left outer join modulo on modulo.id=actividad.idmodulo
-	left outer join track on track.id=modulo.idtrack
-	where actividad.idpaciente=:id and track.idterapia=:idterapia group by track.id";
+	 $sql="SELECT * from track_per
+	 left outer join track on track.id=track_per.idtrack where track_per.idpaciente=:id and track.idterapia=:idterapia";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":id",$idpaciente);
 	$sth->bindValue(":idterapia",$idterapia);
@@ -37,8 +35,8 @@
 </nav>
 
 <div class="alert alert-warning text-center" role="alert">
-  Track
-	<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/terapias" dix="trabajo" id1="">Regresar</button>
+  Mis Track
+	<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Regresar</button>
 </div>
 
 <div class='container'>
@@ -70,5 +68,12 @@
   	<?php
   	}
   	?>
+		<div id='' class='col-4 p-3 w-50'>
+      <div class="card" style='height:200px;'>
+        <div class='card-body text-center'>
+          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e\track_agregar" dix="trabajo" v_idtrack="0" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Nuevo track</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

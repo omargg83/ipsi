@@ -20,16 +20,12 @@
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 	///////////////////////CODIGO
-	$sql="select modulo.* from actividad
-	left outer join modulo on modulo.id=actividad.idmodulo
-	where actividad.idpaciente=:id and modulo.idtrack=:idtrack group by modulo.id";
+	$sql="SELECT * from modulo_per left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=:id and modulo.idtrack=:idtrack";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":id",$idpaciente);
 	$sth->bindValue(":idtrack",$idtrack);
 	$sth->execute();
 	$modulos=$sth->fetchAll(PDO::FETCH_OBJ);
-
-
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -43,7 +39,7 @@
 </nav>
 
  <div class="alert alert-warning text-center" role="alert">
-   Modulos
+   Mis Modulos
 	 <button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/track" dix="trabajo" id1="<?php echo $terapia->id; ?>">Regresar</button>
  </div>
 
@@ -77,5 +73,12 @@
   	<?php
   	}
   	?>
+		<div id='' class='col-4 p-3 w-50'>
+      <div class="card" style='height:200px;'>
+        <div class='card-body text-center'>
+          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e/modulos_agregar" dix="trabajo" v_idmodulo="0" v_idtrack="<?php echo $idtrack; ?>"  v_idpaciente="<?php echo $idpaciente; ?>" >Nuevo modulo</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

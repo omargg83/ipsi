@@ -59,7 +59,7 @@
 							<?php
 								$resp=$db->terapias_paciente($idpaciente);
 								foreach($resp as $key){
-									echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' v_idpaciente='$idpaciente' v_idactividad='$key->idactividad'>$key->nombre</button>";
+									echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/terapias' dix='trabajo' v_idpaciente='$idpaciente' v_idterapia='$key->id'>$key->nombre</button>";
 								}
 							?>
 							</div>
@@ -74,8 +74,7 @@
 					<div class='card-body'>
 						<div class='col-12'>
 							<?php
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_terapia' v_idpaciente='$idpaciente' omodal='1'>Agregar terapia</button>";
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idactividad='0' v_idpaciente='$idpaciente'>Nueva terapia</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/terapias_agregar' dix='trabajo' v_idpaciente='$idpaciente' >Nueva terapia</button>";
 							?>
 						</div>
 					</div>
@@ -95,12 +94,9 @@
 						<div class='row'>
 							<div class='col-4'>
 								<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/editar" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ficha de registro</button>
-							</div>
+							</div
 							<div class='col-4'>
-								<button class='btn btn-warning btn-block btn-block' onclick='ficha(<?php echo $id;?>)'>Pruebas iniciales</button>
-							</div>
-							<div class='col-4'>
-								<button class='btn btn-warning btn-block btn-block' onclick='ficha(<?php echo $id;?>)'>Agenda</button>
+								<button class='btn btn-warning'>Agenda</button>
 							</div>
 						</div>
 					</div>

@@ -29,7 +29,7 @@
 
 <div class="container">
 	<form is="f-submit" id="form_terapia" db="a_actividades/db_" fun="guardar_modulo">
-    <input type="hidden" name="id1" id="id1" value="<?php echo $idmodulo;?>">
+    <input type="hidden" name="idmodulo" id="idmodulo" value="<?php echo $idmodulo;?>">
     <input type="hidden" name="idtrack" id="idtrack" value="<?php echo $idtrack;?>">
     <div class='card'>
 			<div class='card-header'>

@@ -20,13 +20,19 @@
 	<ol class='breadcrumb'>
 		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
 		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre_p; ?></li>
-		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
+		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes_e/terapias_editar" v_idpaciente="<?php echo $idpaciente; ?>" v_idterapia='0' dix="trabajo">Nueva Terapias</li>
 	</ol>
 </nav>
 
+<div class="alert alert-warning text-center" role="alert">
+	Nueva Terapia
+  <button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/paciente" dix="trabajo" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
+</div>
+
 <div class="container">
-	<form is="f-submit" id="form_terapia" db="a_actividades/db_" fun="guardar_terapia">
-    <input type="hidden" name="id1" id="id1" value="<?php echo $idterapia;?>">
+	<form is="f-submit" id="form_terapia" db="a_actividades/db_" fun="guardar_terapia" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>">
+    <input type="hidden" name="idterapia" id="idterapia" value="<?php echo $idterapia;?>">
+    <input type="hidden" name="idpaciente" id="idpaciente" value="<?php echo $idpaciente; ?>">
     <div class='card'>
 			<div class='card-header'>
 				Editar Terapia
@@ -42,13 +48,12 @@
 						<textarea name="descripcion" id="descripcion" rows="8" cols="80" placeholder="Descripción" class="form-control"><?php echo $descripcion;?></textarea>
 					</div>
 			  </div>
-
 			</div>
 			<div class='card-footer'>
 				<div class="row">
 					<div class="col-sm-12">
 						<button class="btn btn-warning" type="submit">Guardar</button>
-						<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/terapias' dix='trabajo'>Regresar</button>
+						<button class="btn btn-warning" type="button" is="b-link" des='a_pacientes/paciente' v_idpaciente='<?php echo $idpaciente; ?>' dix='trabajo'>Regresar</button>
 					</div>
 				</div>
 			</div>

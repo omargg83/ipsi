@@ -5,11 +5,7 @@
   $paciente = $db->cliente_editar($idpaciente);
   $nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
 
-  $sql="select terapias.* from actividad
-  left outer join modulo on modulo.id=actividad.idmodulo
-  left outer join track on track.id=modulo.idtrack
-  left outer join terapias on terapias.id=track.idterapia
-  where actividad.idpaciente=:id group by terapias.id";
+  $sql="SELECT * from terapias_per left outer join terapias on terapias.id=terapias_per.idterapia where terapias_per.idpaciente=:id";
   $sth = $db->dbh->prepare($sql);
   $sth->bindValue(":id",$idpaciente);
   $sth->execute();
@@ -25,7 +21,7 @@
 </nav>
 
 <div class="alert alert-warning text-center" role="alert">
-	Terapias
+	Mis Terapias
 </div>
 
 <div class='container'>
@@ -37,7 +33,6 @@
   			<div class='card' style='height:200px;'>
 					<div class="card-header">
 						<?php echo $key->nombre; ?>
-
 					</div>
   				<div class='card-body'>
   					<div class='row'>
@@ -58,5 +53,12 @@
   	<?php
   	}
   	?>
+    <div id='' class='col-4 p-3 w-50'>
+      <div class="card" style='height:200px;'>
+        <div class='card-body text-center'>
+          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e/terapias_agregar" dix="trabajo" v_idterapia="0" v_idpaciente='<?php echo $idpaciente; ?>'>Nueva terapia</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

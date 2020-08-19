@@ -42,7 +42,6 @@
 														------------
 														<?php
 															if($_SESSION['tipo_user'] == "Paciente"){
-
 																$sql="select terapias.* from actividad
 															  left outer join modulo on modulo.id=actividad.idmodulo
 															  left outer join track on track.id=modulo.idtrack
@@ -54,47 +53,8 @@
 
 															  foreach($sth_te->fetchAll(PDO::FETCH_OBJ) as $terapia){
 																	echo "<div>";
-																	echo "<a>".$terapia->nombre."</a>";
+																		echo "<a href='#a_respuesta/index?idactividad=$actividad->idactividad' is='menu-link'>".$terapia->nombre."</a>";
 																	echo "</div>";
-
-																	$sql="select track.* from actividad
-																	left outer join modulo on modulo.id=actividad.idmodulo
-																	left outer join track on track.id=modulo.idtrack
-																	where actividad.idpaciente=:id and track.idterapia=:idterapia group by track.id";
-																	$sth_tr = $db->dbh->prepare($sql);
-																	$sth_tr->bindValue(":id",$_SESSION['idusuario']);
-																	$sth_tr->bindValue(":idterapia",$terapia->id);
-																	$sth_tr->execute();
-																	foreach($sth_tr->fetchAll(PDO::FETCH_OBJ) as $track){
-																		echo "<div>";
-																		echo "--><a>".$track->nombre."</a>";
-																		echo "</div>";
-
-																		$sql="select modulo.* from actividad
-																		left outer join modulo on modulo.id=actividad.idmodulo
-																		where actividad.idpaciente=:id and modulo.idtrack=:idtrack group by modulo.id";
-																		$sth_mo = $db->dbh->prepare($sql);
-																		$sth_mo->bindValue(":id",$_SESSION['idusuario']);
-																		$sth_mo->bindValue(":idtrack",$track->id);
-																		$sth_mo->execute();
-																		foreach($sth_mo->fetchAll(PDO::FETCH_OBJ) as $modulo){
-																			echo "<div>";
-																			echo "----><a>".$modulo->nombre."</a>";
-																			echo "</div>";
-
-																			$sql="select * from actividad
-																			where actividad.idpaciente=:id and actividad.idmodulo=:idmodulo";
-																			$sth_a = $db->dbh->prepare($sql);
-																			$sth_a->bindValue(":id",$_SESSION['idusuario']);
-																			$sth_a->bindValue(":idmodulo",$modulo->id);
-																			$sth_a->execute();
-																			foreach($sth_a->fetchAll(PDO::FETCH_OBJ) as $actividad){
-																				echo "<div>";
-																				echo "------><a href='#a_respuesta/index?idactividad=$actividad->idactividad' is='menu-link'>".$actividad->nombre."</a>";
-																				echo "</div>";
-																			}
-																		}
-																	}
 																}
 														?>
 															------------

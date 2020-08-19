@@ -29,6 +29,8 @@
   ///////////////////////CODIGO
 	$sql="select * from actividad
 	where actividad.idpaciente=:id and actividad.idmodulo=:idmodulo";
+
+	$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idmodulo=:idmodulo";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":id",$idpaciente);
 	$sth->bindValue(":idmodulo",$idmodulo);
@@ -66,11 +68,6 @@
 				<div class='card' style='height:200px;'>
 					<div class='card-header'>
 						<?php echo $key->nombre; ?>
-
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/actividades" dix="trabajo" db="a_actividades/db_" fun="borrar_actividad" v_idactividad="<?php echo $key->idactividad; ?>"	v_idmodulo="<?php echo $idmodulo; ?>" v_idpaciente="<?php echo $idpaciente; ?>" tp="eliminar" title="Borrar"><i class="far fa-trash-alt"></i></button>
-
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes_e/actividad_editar" dix="trabajo"
-						v_idactividad="<?php echo $key->idactividad; ?>" v_idmodulo="<?php echo $idmodulo; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><i class="fas fa-pencil-alt"></i></button>
 					</div>
 					<div class='card-body'>
 						<div class='row'>
@@ -94,7 +91,7 @@
 		<div id='' class='col-4 p-3 w-50'>
 			<div class="card" style='height:200px;'>
 				<div class='card-body text-center'>
-					<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e/actividad_editar" dix="trabajo" v_idactividad="0" v_idpaciente="<?php echo $idpaciente; ?>">Nueva actividad</button>
+					<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e/actividad_agregar" dix="trabajo" v_idmodulo="<?php echo $idmodulo; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Nueva actividad</button>
 				</div>
 			</div>
 		</div>

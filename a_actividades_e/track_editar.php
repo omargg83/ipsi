@@ -31,7 +31,7 @@
 
 <div class="container">
 	<form is="f-submit" id="form_track" db="a_actividades/db_" fun="guardar_track">
-    <input type="hidden" name="id1" id="id1" value="<?php echo $idtrack;?>">
+    <input type="hidden" name="idtrack" id="idtrack" value="<?php echo $idtrack;?>">
     <input type="hidden" name="idterapia" id="idterapia" value="<?php echo $idterapia;?>">
     <div class='card'>
 			<div class='card-header'>

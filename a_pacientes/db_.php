@@ -1,7 +1,7 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=0;
+$_SESSION['des']=1;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
 	echo "<div class='alert alert-primary' role='alert'> ARCHIVO:<br>";
@@ -187,6 +187,149 @@ class Cliente extends ipsi{
 		return $this->update('clientes',array('id'=>$id1), $arreglo);
 	}
 
+	public function terapias_lista(){
+		try{
+			$sql="select * from terapias";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function track_lista($idterapia){
+		try{
+			$sql="select * from track where idterapia=:idterapia";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":idterapia",$idterapia);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function modulo_lista($idtrack){
+		try{
+			$sql="select * from modulo where idtrack=:idtrack";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":idtrack",$idtrack);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function actividad_lista($idmodulo){
+		try{
+			$sql="select * from actividad where idmodulo=:idmodulo";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":idmodulo",$idmodulo);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
+
+	public function agregar_terapia(){
+		$idterapia=clean_var($_REQUEST['idterapia']);
+		$idpaciente=clean_var($_REQUEST['idpaciente']);
+		$sql="select * from terapias_per where idterapia=:idterapia and idpaciente=:idpaciente";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idterapia",$idterapia);
+		$sth->bindValue(":idpaciente",$idpaciente);
+		$sth->execute();
+		if ($sth->rowCount()==0){
+			$arreglo=array();
+			$arreglo+=array('idterapia'=>$idterapia);
+			$arreglo+=array('idpaciente'=>$idpaciente);
+			$x=$this->insert('terapias_per', $arreglo);
+			return $x;
+		}
+		else{
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"La terapia ya existe");
+			return json_encode($arreglo);
+		}
+	}
+	public function agregar_track(){
+		$idtrack=clean_var($_REQUEST['idtrack']);
+		$idpaciente=clean_var($_REQUEST['idpaciente']);
+		$sql="select * from track_per where idtrack=:idtrack and idpaciente=:idpaciente";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idtrack",$idtrack);
+		$sth->bindValue(":idpaciente",$idpaciente);
+		$sth->execute();
+		if ($sth->rowCount()==0){
+			$arreglo=array();
+			$arreglo+=array('idpaciente'=>$idpaciente);
+			$arreglo+=array('idtrack'=>$idtrack);
+			$x=$this->insert('track_per', $arreglo);
+			return $x;
+		}
+		else{
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"El track ya existe");
+			return json_encode($arreglo);
+		}
+	}
+	public function agregar_modulo(){
+		$idmodulo=clean_var($_REQUEST['idmodulo']);
+		$idpaciente=clean_var($_REQUEST['idpaciente']);
+		$sql="select * from modulo_per where idmodulo=:idmodulo and idpaciente=:idpaciente";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idmodulo",$idmodulo);
+		$sth->bindValue(":idpaciente",$idpaciente);
+		$sth->execute();
+		if ($sth->rowCount()==0){
+			$arreglo=array();
+			$arreglo+=array('idpaciente'=>$idpaciente);
+			$arreglo+=array('idmodulo'=>$idmodulo);
+			$x=$this->insert('modulo_per', $arreglo);
+			return $x;
+		}
+		else{
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"El modulo ya existe");
+			return json_encode($arreglo);
+		}
+	}
+	public function agregar_actividad(){
+		$idactividad=clean_var($_REQUEST['idactividad']);
+		$idpaciente=clean_var($_REQUEST['idpaciente']);
+		$sql="select * from actividad_per where idactividad=:idactividad and idpaciente=:idpaciente";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idactividad",$idactividad);
+		$sth->bindValue(":idpaciente",$idpaciente);
+		$sth->execute();
+		if ($sth->rowCount()==0){
+			$arreglo=array();
+			$arreglo+=array('idpaciente'=>$idpaciente);
+			$arreglo+=array('idactividad'=>$idactividad);
+			$x=$this->insert('actividad_per', $arreglo);
+			return $x;
+		}
+		else{
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"El modulo ya existe");
+			return json_encode($arreglo);
+		}
+	}
+
+
 	public function buscar_actividad($b_actividad){
 		try{
 			$idpaciente=$_REQUEST['idpaciente'];
@@ -202,7 +345,7 @@ class Cliente extends ipsi{
 		}
 	}
 
-	public function agregar_actividad(){
+	public function agregar_actividadold(){
 		try{
 			$x="";
 			$idactividad=$_REQUEST['idactividad'];
@@ -319,9 +462,11 @@ class Cliente extends ipsi{
 		}
 	}
 
+	/////////////////////
+
 	public function terapias_paciente($id){
 		try{
-			$sql="select * from actividad where idpaciente=:id";
+			$sql="SELECT * from terapias_per left outer join terapias on terapias.id=terapias_per.idterapia where terapias_per.idpaciente=:id";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
