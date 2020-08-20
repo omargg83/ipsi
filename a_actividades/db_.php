@@ -1,12 +1,13 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=1;			//////////ACTIVA PARA VER PATH
-if($_SESSION['des']==1 and strlen($function)==0){
-	echo "ARCHIVO:";
+$_SESSION['des']=1;
+if($_SESSION['des']==1 and strlen($function)==0)
+{
+	echo "<div class='alert alert-primary' role='alert'> ARCHIVO:<br>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
-	echo array_pop($arrayx);
-	echo " : ".$_SERVER['REQUEST_METHOD'];
+	echo print_r($arrayx);
+	echo "</div>";
 }
 
 class Cuest extends ipsi{

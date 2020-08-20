@@ -12,7 +12,7 @@
 ?>
   <div class="card">
     <?php
-    if($tipo=="normal"){
+    if($tipo=="normal" or $tipo=="inicial"){
       echo "<div class='card-header'>";
         echo "Bloque contexto";
       echo "</div>";

@@ -1,26 +1,40 @@
 <?php
 	require_once("db_.php");
 
-
 	$idactividad=clean_var($_REQUEST['idactividad']);
+
   $actividad = $db->actividad_editar($idactividad);
 	$subactividad = $db->subactividad_ver($idactividad);
 
 	$nombre=$actividad->nombre;
 	$observaciones=$actividad->observaciones;
 	$indicaciones=$actividad->indicaciones;
+	$inicial=0;
 
-	$modulo = $db->modulo_editar($actividad->idmodulo);
-	$track=$db->track_editar($modulo->idtrack);
-	$terapia=$db->terapia_editar($track->idterapia);
+	if($actividad->tipo=="inicial"){
+		$inicial=1;
+		$idterapia=$actividad->idterapia;
+	}
+	else{
+		$modulo = $db->modulo_editar($actividad->idmodulo);
+		$track=$db->track_editar($modulo->idtrack);
+		$idterapia=$track->idterapia;
+	}
+	$terapia=$db->terapia_editar($idterapia);
 ?>
 
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
 		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="">Inicio</li>
 		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" v_idterapia="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
+		<?php
+			if($inicial==0){
+		?>
+			<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
+			<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
+		<?php
+			}
+		 ?>
 		<li class="breadcrumb-item active" type="button" is="li-link" des="a_actividades/actividad_ver" dix="trabajo" v_idactividad="<?php echo $actividad->idactividad; ?>" ><?php echo $actividad->nombre; ?></li>
 	</ol>
 </nav>

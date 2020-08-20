@@ -71,9 +71,66 @@
 		<div id='' class='col-4 p-3 w-50'>
       <div class="card" style='height:200px;'>
         <div class='card-body text-center'>
-          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e\track_agregar" dix="trabajo" v_idtrack="0" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Nuevo track</button>
+          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e\track_agregar" dix="trabajo" v_idtrack="0" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Agregar track</button>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<hr>
+
+<div class="alert alert-warning text-center" role="alert">
+	Actividad inicial
+</div>
+
+<div class='container'>
+	<div class='row'>
+		<?php
+		///////////////////////CODIGO
+		 $sql="SELECT * from actividad_per
+		 left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idterapia=:idterapia";
+		$sth = $db->dbh->prepare($sql);
+		$sth->bindValue(":id",$idpaciente);
+		$sth->bindValue(":idterapia",$idterapia);
+		$sth->execute();
+		$inicial=$sth->fetchAll(PDO::FETCH_OBJ);
+
+
+		foreach($inicial as $key){
+		?>
+			<div class='col-4 p-3 w-50'>
+				<div class='card' style='height:200px;'>
+					<div class='card-header'>
+						<?php echo $key->nombre; ?>
+					</div>
+					<div class='card-body'>
+						<div class='row'>
+							<div class='col-12'>
+								<?php echo $key->observaciones; ?>
+							</div>
+						</div>
+					</div>
+					<div class='card-body'>
+						<div class='row'>
+							<div class='col-12'>
+								<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" v_idactividad="<?php echo $key->idactividad; ?>" v_idterapia="<?php echo $idterapia; ?>">Ver</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php
+		}
+		?>
+
+		<div id='' class='col-4 p-3 w-50'>
+			<div class="card" style='height:200px;'>
+				<div class='card-body text-center'>
+					<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e/inicial_agregar" dix="trabajo" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Agregar Actividad inicial</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
 </div>

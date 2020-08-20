@@ -56,10 +56,10 @@
     <div id='' class='col-4 p-3 w-50'>
       <div class="card" style='height:200px;'>
         <div class='card-body text-center'>
-          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e/terapias_agregar" dix="trabajo" v_idterapia="0" v_idpaciente='<?php echo $idpaciente; ?>'>Nueva terapia</button>
+          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e/terapias_agregar" dix="trabajo" v_idterapia="0" v_idpaciente='<?php echo $idpaciente; ?>'>Agregar terapia</button>
         </div>
       </div>
     </div>
-    
+
   </div>
 </div>

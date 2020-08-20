@@ -328,6 +328,29 @@ class Cliente extends ipsi{
 			return json_encode($arreglo);
 		}
 	}
+	public function agregar_inicial(){
+		$idactividad=clean_var($_REQUEST['idactividad']);
+		$idpaciente=clean_var($_REQUEST['idpaciente']);
+		$sql="select * from actividad_per where idactividad=:idactividad and idpaciente=:idpaciente";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idactividad",$idactividad);
+		$sth->bindValue(":idpaciente",$idpaciente);
+		$sth->execute();
+		if ($sth->rowCount()==0){
+			$arreglo=array();
+			$arreglo+=array('idpaciente'=>$idpaciente);
+			$arreglo+=array('idactividad'=>$idactividad);
+			$x=$this->insert('actividad_per', $arreglo);
+			return $x;
+		}
+		else{
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"La actividad inicial ya existe");
+			return json_encode($arreglo);
+		}
+	}
 
 
 	public function buscar_actividad($b_actividad){
@@ -456,6 +479,19 @@ class Cliente extends ipsi{
 			$sth->bindValue(":id",$id1);
 			$sth->execute();
 			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+
+	public function actividad_inicial($id){
+		try{
+			$sql="select * from actividad where idterapia=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!";
