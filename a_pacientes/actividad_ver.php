@@ -14,21 +14,30 @@
 	$sth->execute();
 	$actividad=$sth->fetch(PDO::FETCH_OBJ);
 
-	$sql="select * from modulo where id=:idmodulo";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idmodulo",$actividad->idmodulo);
-	$sth->execute();
-	$modulo=$sth->fetch(PDO::FETCH_OBJ);
+	$inicial=0;
+	if($actividad->tipo=="inicial"){
+		$inicial=1;
+		$idterapia=$actividad->idterapia;
+	}
+	else{
 
-	$sql="select * from track where id=:idtrack";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idtrack",$modulo->idtrack);
-	$sth->execute();
-	$track=$sth->fetch(PDO::FETCH_OBJ);
+		$sql="select * from modulo where id=:idmodulo";
+		$sth = $db->dbh->prepare($sql);
+		$sth->bindValue(":idmodulo",$actividad->idmodulo);
+		$sth->execute();
+		$modulo=$sth->fetch(PDO::FETCH_OBJ);
+
+		$sql="select * from track where id=:idtrack";
+		$sth = $db->dbh->prepare($sql);
+		$sth->bindValue(":idtrack",$modulo->idtrack);
+		$sth->execute();
+		$track=$sth->fetch(PDO::FETCH_OBJ);
+		$idterapia=$track->idterapia;
+	}
 
 	$sql="select * from terapias where id=:idterapia";
 	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idterapia",$track->idterapia);
+	$sth->bindValue(":idterapia",$idterapia);
 	$sth->execute();
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
@@ -36,7 +45,7 @@
 	$observaciones=$actividad->observaciones;
 	$indicaciones=$actividad->indicaciones;
 	$anotaciones=$actividad->anotaciones;
-  $subactividad = $db->subactividad_ver($idactividad);
+	$subactividad = $db->subactividad_ver($idactividad);
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -45,8 +54,14 @@
 	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre; ?></li>
 	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
 	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
-	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
-	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $modulo->nombre; ?></li>
+	 <?php
+	 if($inicial==0){
+	?>
+		 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
+		 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $modulo->nombre; ?></li>
+		<?php
+	 }
+	 ?>
 	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes/actividad_ver" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $nombre_act; ?></li>
  </ol>
 </nav>
@@ -70,7 +85,18 @@
 					</button>
 				</div>
 				<div class="col-1">
+					<?php
+					if($inicial==0){
+					?>
 					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
+					<?php
+					}
+					else{
+					?>
+						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
+					<?php
+					}
+					?>
 				</div>
 			</div>
 		</div>

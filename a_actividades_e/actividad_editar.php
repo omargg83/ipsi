@@ -100,7 +100,14 @@
 				<div class='row'>
 					<div class='col-12'>
 							<button class='btn btn-warning'  type='submit'><i class="far fa-save"></i>Guardar</button>
-							<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividades' v_idmodulo="<?php echo $idmodulo; ?>" dix='trabajo'>Regresar</button>
+							<?php
+							if($inicial==0){
+								echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/actividades' v_idmodulo='$idmodulo' dix='trabajo'>Regresar</button>";
+							}
+							else{
+								echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/track' v_idterapia='$idterapia' dix='trabajo'>Regresar</button>";
+							}
+							?>
 					</div>
 				</div>
 			</div>

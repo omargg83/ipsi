@@ -63,7 +63,7 @@
       <div id='' class='col-4 p-3 w-50'>
         <div class="card" style='height:200px;'>
           <div class='card-body text-center'>
-            <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="0" v_idterapia='<?php echo $idterapia; ?>'>Nueva Actividad inicial</button>
+            <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e/actividad_editar" dix="trabajo" v_idactividad="0" v_idterapia='<?php echo $idterapia; ?>'  v_idpaciente="<?php echo $idpaciente; ?>">Nueva Actividad inicial</button>
           </div>
         </div>
       </div>

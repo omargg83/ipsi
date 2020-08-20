@@ -1,24 +1,45 @@
 <?php
 	require_once("../a_pacientes/db_.php");
-	$idmodulo=$_REQUEST['idmodulo'];
+
 	$idpaciente=$_REQUEST['idpaciente'];
 	$idactividad=$_REQUEST['idactividad'];
 
   /////////////////////breadcrumb
   $paciente = $db->cliente_editar($idpaciente);
   $nombre_p=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
+	$inicial=0;
 
-  $sql="select * from modulo where id=:idmodulo";
-  $sth = $db->dbh->prepare($sql);
-  $sth->bindValue(":idmodulo",$idmodulo);
-  $sth->execute();
-  $modulo=$sth->fetch(PDO::FETCH_OBJ);
+	if(isset($_REQUEST['idmodulo'])){
+		$idmodulo=$_REQUEST['idmodulo'];
 
-  $sql="select * from track where id=:idtrack";
-  $sth = $db->dbh->prepare($sql);
-  $sth->bindValue(":idtrack",$modulo->idtrack);
-  $sth->execute();
-  $track=$sth->fetch(PDO::FETCH_OBJ);
+		$sql="select * from modulo where id=:idmodulo";
+		 $sth = $db->dbh->prepare($sql);
+		 $sth->bindValue(":idmodulo",$idmodulo);
+		 $sth->execute();
+		 $modulo=$sth->fetch(PDO::FETCH_OBJ);
+
+		 $sql="select * from track where id=:idtrack";
+		 $sth = $db->dbh->prepare($sql);
+		 $sth->bindValue(":idtrack",$modulo->idtrack);
+		 $sth->execute();
+		 $track=$sth->fetch(PDO::FETCH_OBJ);
+	}
+	if(isset($_REQUEST['idterapia'])){
+		$idterapia=clean_var($_REQUEST['idterapia']);
+		$inicial=1;
+	}
+
+	$nombre="Nueva actividad";
+	$observaciones="";
+	$indicaciones="";
+	$tipo="";
+	if($idactividad>0){
+		$actividad=$db->actividad_editar($idactividad);
+		$nombre=$actividad->nombre;
+		$observaciones=$actividad->observaciones;
+		$indicaciones=$actividad->indicaciones;
+		$tipo=$actividad->tipo;
+	}
 
   $sql="select * from terapias where id=:idterapia";
   $sth = $db->dbh->prepare($sql);
@@ -26,17 +47,7 @@
   $sth->execute();
   $terapia=$sth->fetch(PDO::FETCH_OBJ);
 
-	$nombre="Nueva actividad";
-	$observaciones="";
-	$indicaciones="";
-	$tipo="";
-	if($idactividad>0){
-		$cuest=$db->actividad_editar($idactividad);
-		$nombre=$cuest->nombre;
-		$observaciones=$cuest->observaciones;
-		$indicaciones=$cuest->indicaciones;
-		$tipo=$cuest->tipo;
-	}
+
 
 ?>
 
