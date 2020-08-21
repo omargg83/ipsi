@@ -38,7 +38,15 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-													<div class="sb-sidenav-menu-heading">Inicio</div>
+												
+													<div class="sb-sidenav-menu-heading">
+
+														<div style="width: 36%;display: inline-block;"> <img style="vertical-align: bottom;border-radius: 10px; max-width: 50px;" src="img/perfil.jpg"> </div>
+														<div style="padding-left: 5px;width: 46%;display: inline-block;color:#fff;">  <strong>STEVE GUTIERREZ</strong> <br>PACIENTE</div>
+
+
+
+													</div>
 
 
 														<?php
