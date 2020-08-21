@@ -92,24 +92,24 @@ class Cliente extends ipsi{
 			$contexto=$sth->fetch(PDO::FETCH_OBJ);
 
 			if($contexto->tipo=="imagen"){
-				$arreglo+=array('valor'=>"leido");
+				$arreglo+=array('marca'=>"leido");
 			}
 			else if($contexto->tipo=="texto"){
-				$arreglo+=array('valor'=>"leido");
+				$arreglo+=array('marca'=>"leido");
 			}
 			else if($contexto->tipo=="video"){
-				$arreglo+=array('valor'=>"leido");
+				$arreglo+=array('marca'=>"leido");
 			}
 			else if($contexto->tipo=="archivo"){
-				$arreglo+=array('valor'=>"leido");
+				$arreglo+=array('marca'=>"leido");
 			}
 			else if($contexto->tipo=="textores"){
-				$arreglo+=array('valor'=>"leido");
+				$arreglo+=array('marca'=>"leido");
 				$texto=$_REQUEST['texto'];
 				$arreglo+=array('texto'=>$texto);
 			}
 			else if($contexto->tipo=="fecha"){
-				$arreglo+=array('valor'=>"leido");
+				$arreglo+=array('marca'=>"leido");
 				$fecha=$_REQUEST['fecha'];
 				$arreglo+=array('fecha'=>$fecha);
 			}
@@ -126,31 +126,87 @@ class Cliente extends ipsi{
 					move_uploaded_file($tmp,$ruta.$nombreFile);
 					$ruta=$ruta."/".$nombreFile;
 					$arreglo+=array('archivo'=>$nombreFile);
-					$arreglo+=array('valor'=>"leido");
+					$arreglo+=array('marca'=>"leido");
 				}
 			}
 			else if($contexto->tipo=="pregunta"){
 
+				$sql="delete from contexto_resp where idcontexto=$idcontexto";
+				$delcontx = $this->dbh->query($sql);
+				$arreglo=array();
+				$arreglo+=array('id1'=>1);
+				$arreglo+=array('error'=>0);
+				$x=json_encode($arreglo);
+
+				$sql="select * from contexto where id=:id";
+				$sth = $this->dbh->prepare($sql);
+				$sth->bindValue(":id",$idcontexto);
+				$sth->execute();
+				$contexto=$sth->fetch(PDO::FETCH_OBJ);
+
+
+				foreach($_REQUEST as $key=>$value){
+					$arreglo=array();
+					if (strpos($key, 'checkbox') !== false) {
+						$ic = explode("_", $key);
+						//echo "\n control:".$ic[0];
+						//echo "\n id:".$ic[1];
+						$id_ctrol=$ic[1];
+						$texto="";
+						if(isset($_REQUEST["resp_".$id_ctrol])){
+							$texto=clean_var($_REQUEST["resp_".$id_ctrol]);
+						}
+
+						$arreglo+=array('idrespuesta'=>$id_ctrol);
+						$arreglo+=array('valor'=>$value);
+						$arreglo+=array('texto'=>$texto);
+
+						$arreglo+=array('idcontexto'=>$idcontexto);
+						$arreglo+=array('marca'=>"leido");
+						$x=$this->insert('contexto_resp', $arreglo);
+					}
+					if (strpos($key, 'radio') !== false) {
+						$ic = explode("_", $key);
+						$id_ctrol=$ic[1];
+
+						$sql="select * from respuestas where idcontexto=:id and valor=:valor";
+						$resp = $this->dbh->prepare($sql);
+						$resp->bindValue(":id",$idcontexto);
+						$resp->bindValue(":valor",$value);
+						$resp->execute();
+						$inpx=$resp->fetch(PDO::FETCH_OBJ);
+
+						$texto="";
+						if(isset($_REQUEST["resp_".$inpx->id])){
+							$texto=clean_var($_REQUEST["resp_".$inpx->id]);
+						}
+
+						$arreglo+=array('valor'=>$value);
+						$arreglo+=array('texto'=>$texto);
+						$arreglo+=array('idrespuesta'=>$id_ctrol);
+						$arreglo+=array('idcontexto'=>$idcontexto);
+						$arreglo+=array('marca'=>"leido");
+						$x=$this->insert('contexto_resp', $arreglo);
+					}
+				}
+				echo "\n ".print_r($_REQUEST);
 			}
 
-			$sql="select * from contexto_resp where idcontexto=:id";
-			$contx = $this->dbh->prepare($sql);
-			$contx->bindValue(":id",$idcontexto);
-			$contx->execute();
-			if($contx->rowCount()>0){
-				$resp=$contx->fetch(PDO::FETCH_OBJ);
-				$x=$this->update('contexto_resp',array('id'=>$resp->id), $arreglo);
+			if($contexto->tipo!="pregunta"){
+				$sql="select * from contexto_resp where idcontexto=:id";
+				$contx = $this->dbh->prepare($sql);
+				$contx->bindValue(":id",$idcontexto);
+				$contx->execute();
+				if($contx->rowCount()>0){
+					$resp=$contx->fetch(PDO::FETCH_OBJ);
+					$x=$this->update('contexto_resp',array('id'=>$resp->id), $arreglo);
+				}
+				else{
+					$arreglo+=array('idcontexto'=>$idcontexto);
+					$x=$this->insert('contexto_resp', $arreglo);
+				}
+				//$x=$this->update('contexto_resp',array('idactividad'=>$idactividad), $arreglo);
 			}
-			else{
-				$arreglo+=array('idcontexto'=>$idcontexto);
-				$x=$this->insert('contexto_resp', $arreglo);
-			}
-
-
-
-			//echo  $contexto->tipo;
-			//echo "hola".print_r($_REQUEST);
-			//$x=$this->update('contexto_resp',array('idactividad'=>$idactividad), $arreglo);
 			return $x;
 		}
 		catch(PDOException $e){
