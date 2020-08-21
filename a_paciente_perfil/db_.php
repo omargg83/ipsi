@@ -20,20 +20,13 @@ class Usuario extends ipsi{
 		}
 	}
 	public function usuario_lista(){
-
-		if($_SESSION['nivel']==1){
-			$sql="select * from usuarios";
-		}
-		else{
-			$sql="select * from usuarios where idusuario=".$_SESSION['idusuario']."";
-		}
-		echo $sql;
+		$sql="select * from clientes where id=".$_SESSION['idusuario']."";
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
-	public function usuario_editar($id){
+	public function cliente_editar($id){
 
-		$sql="select * from usuarios where idusuario='$id'";
+		$sql="select * from clientes where idusuario='$id'";
 		$sth = $this->dbh->query($sql);
 		return $sth->fetch(PDO::FETCH_OBJ);
 	}
