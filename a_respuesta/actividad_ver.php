@@ -239,8 +239,14 @@
 														$texto_resp=$resp->texto;
 														$valor_resp=$resp->valor;
 													}
-													echo "select * from contexto_resp where idcontexto=$row->id and idrespuesta=$respuesta->id";
-													echo print_r($resp);
+												}
+												else{
+													echo "<br>select * from contexto_resp where idcontexto=$row->id";
+													$contx = $db->dbh->prepare($sql);
+													$contx->bindValue(":id",$row->id);
+													$contx->execute();
+													$resp=$contx->fetch(PDO::FETCH_OBJ);
+													echo "<br>".print_r($resp);
 												}
 
 
@@ -254,11 +260,13 @@
 														}
 														else{
 															$idx=$row->id;
+															echo "<br>idrespuesta?:".$respuesta->id;
 															echo "<input type='radio' name='radio_".$idx."' value='$respuesta->valor' ";
 																if($respuesta->valor==$valor_resp){ echo " checked";}
 															echo ">";
 														}
 													echo "</div>";
+
 													echo "<div class='col-1'>";
 														if(strlen($respuesta->imagen)>0){
 															echo "<img src=".$db->doc.$respuesta->imagen." alt='' width='20px'>";
