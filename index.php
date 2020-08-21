@@ -38,7 +38,7 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-												
+
 													<div class="sb-sidenav-menu-heading">
 
 														<div style="width: 36%;display: inline-block;"> <img style="vertical-align: bottom;border-radius: 10px; max-width: 50px;" src="img/perfil.jpg"> </div>
@@ -112,7 +112,7 @@
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <a onclick='salir()' href='#' class="btn btn-warning btn-block"><i class="fas fa-sign-out-alt"></i>Salir</a>
+                        <a onclick='salir()' href='#' class="btn btn-block"><i class="fas fa-sign-out-alt"></i>Salir</a>
                     </div>
                 </nav>
             </div>
@@ -206,7 +206,7 @@
               <span class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><a href="#" class="topcuenta">Mi cuenta</a></span>
 								<span class="mr-2 d-none d-lg-inline text-gray-600 small">|</span>
-								<span class="mr-2 d-none d-lg-inline text-gray-600 small"><a href="#"class="topcuenta">Salir</a></span>
+								<span class="mr-2 d-none d-lg-inline text-gray-600 small"><a onclick='salir()' href="#"class="topcuenta">Salir</a></span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </span>
 
