@@ -48,7 +48,7 @@
 															  $sth_te->execute();
 
 															  foreach($sth_te->fetchAll(PDO::FETCH_OBJ) as $terapia){
-																	echo "<a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#demo1' aria-expanded='false' aria-controls='demo1'>";
+																	echo "<a class='nav-link collapsed' href='#' data-toggle='collapse' data-target='#d".$terapia->id."' aria-expanded='false' aria-controls='demo1'>";
 																		echo "<div class='sb-nav-link-icon'><i class='fas fa-columns'></i></div>";
 																		echo $terapia->nombre;
 																		echo "<div class='sb-sidenav-collapse-arrow'><i class='fas fa-angle-down'></i></div>";
@@ -60,9 +60,9 @@
 																	$sth->bindValue(":idterapia",$terapia->id);
 																	$sth->execute();
 																	foreach($sth->fetchAll(PDO::FETCH_OBJ) as $track){
-																		echo "<div class='collapse' id='demo1' aria-labelledby='headingOne' data-parent='#sidenavAccordion'>";
+																		echo "<div class='collapse' id='d".$terapia->id."' aria-labelledby='headingOne' data-parent='#sidenavAccordion'>";
 																			echo "<nav class='sb-sidenav-menu-nested nav'>";
-																				echo "<a class='nav-link' is='menu-link' href='#a_actividades/track?idterapia=$terapia->id' is='menu-link'>$track->nombre</a>";
+																				echo "<a class='nav-link' is='menu-link' href='#a_respuesta/track?idterapia=$terapia->id' is='menu-link'>$track->nombre</a>";
 																			echo "</nav>";
 																		echo "</div>";
 																	}

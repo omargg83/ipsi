@@ -4,7 +4,7 @@ require_once("../control_db.php");
 $_SESSION['des']=1;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
-	echo "<div class='alert alert-primary' role='alert'> ARCHIVO:<br>";
+	echo "<div class='alert alert-primary' role='alert'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
 	echo "</div>";
@@ -235,7 +235,6 @@ class Cliente extends ipsi{
 		}
 	}
 
-
 	public function agregar_terapia(){
 		$idterapia=clean_var($_REQUEST['idterapia']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
@@ -351,7 +350,6 @@ class Cliente extends ipsi{
 			return json_encode($arreglo);
 		}
 	}
-
 
 	public function buscar_actividad($b_actividad){
 		try{

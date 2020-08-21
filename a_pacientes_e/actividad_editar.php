@@ -10,19 +10,21 @@
 	$inicial=0;
 
 	if(isset($_REQUEST['idmodulo'])){
+		echo "entra";
 		$idmodulo=$_REQUEST['idmodulo'];
 
 		$sql="select * from modulo where id=:idmodulo";
 		 $sth = $db->dbh->prepare($sql);
-		 $sth->bindValue(":idmodulo",$idmodulo);
-		 $sth->execute();
-		 $modulo=$sth->fetch(PDO::FETCH_OBJ);
+		$sth->bindValue(":idmodulo",$idmodulo);
+		$sth->execute();
+		$modulo=$sth->fetch(PDO::FETCH_OBJ);
 
-		 $sql="select * from track where id=:idtrack";
-		 $sth = $db->dbh->prepare($sql);
-		 $sth->bindValue(":idtrack",$modulo->idtrack);
-		 $sth->execute();
-		 $track=$sth->fetch(PDO::FETCH_OBJ);
+		$sql="select * from track where id=:idtrack";
+		$sth = $db->dbh->prepare($sql);
+		$sth->bindValue(":idtrack",$modulo->idtrack);
+		$sth->execute();
+		$track=$sth->fetch(PDO::FETCH_OBJ);
+		$idterapia=$track->idterapia;
 	}
 	if(isset($_REQUEST['idterapia'])){
 		$idterapia=clean_var($_REQUEST['idterapia']);
@@ -43,13 +45,11 @@
 
   $sql="select * from terapias where id=:idterapia";
   $sth = $db->dbh->prepare($sql);
-  $sth->bindValue(":idterapia",$track->idterapia);
+  $sth->bindValue(":idterapia",$idterapia);
   $sth->execute();
   $terapia=$sth->fetch(PDO::FETCH_OBJ);
-
-
-
 ?>
+
 
   <nav aria-label='breadcrumb'>
    <ol class='breadcrumb'>
@@ -57,18 +57,38 @@
   	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre_p; ?></li>
   	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
   	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
-  	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
-  	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $modulo->nombre; ?></li>
-  	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes_e/actividad_editar" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" v_idmodulo="<?php echo $idmodulo; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Nueva actividad</li>
+		 	<?php
+		 	if($inicial==0){
+			?>
+				<li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
+		 		<li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $modulo->nombre; ?></li>
+				<li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes_e/actividad_editar" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" v_idmodulo="<?php echo $idmodulo; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Nueva actividad</li>
+			<?php
+			}
+			else{
+			?>
+				<li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes_e/actividad_editar" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Nueva actividad</li>
+			<?php
+			}
+			?>
    </ol>
   </nav>
 
 
-<div class='container'>
-		<form is="f-submit" id="form_editaract" db="a_actividades/db_" fun="guarda_actividad" des="a_pacientes/actividades" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idmodulo="<?php echo $idmodulo; ?>">
+	<div class='container'>
+			<?php
+				if(isset($modulo)){
+					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' des='a_pacientes/actividades' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo'>";
+					echo "<input type='hidden' class='form-control' id='idmodulo' name='idmodulo' value='$idmodulo;' readonly>";
+			 	}
+				else{
+					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' des='a_pacientes/track' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idterapia='$idterapia'>";
+					echo "<input type='hidden' class='form-control' id='idterapia' name='idterapia' value='$idterapia;' readonly>";
+				}
+			?>
 			<input type='hidden' class='form-control' id='idactividad' name='idactividad' value='<?php echo $idactividad; ?>' readonly>
-			<input type='hidden' class='form-control' id='idmodulo' name='idmodulo' value='<?php echo $idmodulo; ?>' readonly>
 			<input type='hidden' class='form-control' id='idpaciente' name='idpaciente' value='<?php echo $idpaciente; ?>' readonly>
+
 			<div class='card'>
 				<div class="card-header">
 					Editar actividad
@@ -82,8 +102,15 @@
 						<div class="col-3">
 							<label>Tipo de terapia:</label>
 							<select class='form-control' id='tipo' name='tipo'>
-								<option value='normal' <?php if($tipo=="normal"){ echo " selected";} ?>>Normal</option>
-								<option value='evaluacion' <?php if($tipo=="evaluacion"){ echo " selected";} ?>>Evaluacion</option>
+								<?php
+								if($inicial==0){
+									echo "<option value='normal' "; if($tipo=="normal"){ echo " selected";} echo ">Normal</option>";
+									echo "<option value='evaluacion' "; if($tipo=="evaluacion"){ echo " selected";} echo ">Evaluacion</option>";
+								}
+								else{
+									echo "<option value='inicial' "; if($tipo=="inicial"){ echo " selected";} echo ">Inicial</option>";
+								}
+								?>
 							</select>
 						</div>
 					</div>
@@ -104,16 +131,18 @@
 						<div class='col-12'>
 								<button class='btn btn-warning'  type='submit'>Guardar</button>
 								<?php
-									if($idactividad>0){
-								?>
-									<button class="btn btn-warning" type="button" is="b-link" des='a_pacientes/actividades' v_idmodulo="<?php echo $idmodulo; ?>" v_idpaciente="<?php echo $idpaciente; ?>" dix='trabajo'>Regresar</button>
-								<?php
+									if($inicial==0){
+										if($idactividad>0){
+											echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividades' v_idmodulo='$idmodulo' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+										}
+										else{
+											echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+										}
 									}
 									else{
-								?>
-									<button class="btn btn-warning" type="button" is="b-link" des='a_pacientes/paciente' v_idpaciente="<?php echo $idpaciente; ?>" dix='trabajo'>Regresar</button>
-								<?php
+										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/track' dix='trabajo' v_idterapia='$idterapia' v_idpaciente='$idpaciente'>Regresar</button>";
 									}
+
 								?>
 						</div>
 					</div>
