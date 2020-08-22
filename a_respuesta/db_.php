@@ -10,7 +10,6 @@ if($_SESSION['des']==1 and strlen($function)==0)
 	echo "</div>";
 }
 
-
 class Cliente extends ipsi{
 	public $nivel_personal;
 	public $nivel_captura;
@@ -144,13 +143,10 @@ class Cliente extends ipsi{
 				$sth->execute();
 				$contexto=$sth->fetch(PDO::FETCH_OBJ);
 
-
 				foreach($_REQUEST as $key=>$value){
 					$arreglo=array();
 					if (strpos($key, 'checkbox') !== false) {
 						$ic = explode("_", $key);
-						//echo "\n control:".$ic[0];
-						//echo "\n id:".$ic[1];
 						$id_ctrol=$ic[1];
 						$texto="";
 						if(isset($_REQUEST["resp_".$id_ctrol])){
@@ -164,6 +160,8 @@ class Cliente extends ipsi{
 						$arreglo+=array('idcontexto'=>$idcontexto);
 						$arreglo+=array('marca'=>"leido");
 						$x=$this->insert('contexto_resp', $arreglo);
+
+
 					}
 					if (strpos($key, 'radio') !== false) {
 						$ic = explode("_", $key);
@@ -174,22 +172,54 @@ class Cliente extends ipsi{
 						$resp->bindValue(":id",$idcontexto);
 						$resp->bindValue(":valor",$value);
 						$resp->execute();
-						$inpx=$resp->fetch(PDO::FETCH_OBJ);
+						if($resp->rowCount()>0){
+							//////////para respuesta normal
+							$inpx=$resp->fetch(PDO::FETCH_OBJ);
+							$texto="";
 
-						$texto="";
-						if(isset($_REQUEST["resp_".$inpx->id])){
-							$texto=clean_var($_REQUEST["resp_".$inpx->id]);
+							if(isset($_REQUEST["resp_".$inpx->id])){
+								$texto=clean_var($_REQUEST["resp_".$inpx->id]);
+							}
+
+							$arreglo+=array('valor'=>$value);
+							$arreglo+=array('texto'=>$texto);
+							$arreglo+=array('idcontexto'=>$idcontexto);
+
+							$arreglo+=array('idrespuesta'=>$inpx->id);
+							$arreglo+=array('marca'=>"leido");
+							$x=$this->insert('contexto_resp', $arreglo);
 						}
+						else{
+							//////////para otra respuestas
+							$inpx=$resp->fetch(PDO::FETCH_OBJ);
+							$texto="";
 
-						$arreglo+=array('valor'=>$value);
+							if(isset($_REQUEST["otrorad_".$idcontexto])){
+								$texto=clean_var($_REQUEST["otrorad_".$idcontexto]);
+							}
+
+							$arreglo+=array('valor'=>$value);
+							$arreglo+=array('texto'=>$texto);
+							$arreglo+=array('idcontexto'=>$idcontexto);
+							$arreglo+=array('otraresp'=>"OTRO");
+							$arreglo+=array('marca'=>"leido");
+							$x=$this->insert('contexto_resp', $arreglo);
+						}
+					}
+					if (strpos($key, 'datacheck') !== false){
+						$ic = explode("_", $key);
+						$id_ctrol=$ic[1];
+						if(isset($_REQUEST["otroche_".$id_ctrol])){
+							$texto=clean_var($_REQUEST["otroche_".$id_ctrol]);
+						}
+						$arreglo+=array('otraresp'=>"OTRO");
 						$arreglo+=array('texto'=>$texto);
-						$arreglo+=array('idrespuesta'=>$id_ctrol);
 						$arreglo+=array('idcontexto'=>$idcontexto);
 						$arreglo+=array('marca'=>"leido");
 						$x=$this->insert('contexto_resp', $arreglo);
 					}
 				}
-				echo "\n ".print_r($_REQUEST);
+
 			}
 
 			if($contexto->tipo!="pregunta"){
