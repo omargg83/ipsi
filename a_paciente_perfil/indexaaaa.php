@@ -1,7 +1,7 @@
 <?php
 	require_once("db_.php");
 
-	$idusuario=$_REQUEST['idusuario'];
+	$idusuario=$_SESSION['idusuario'];
 
 	$nombre="";
 	$apellidop="";

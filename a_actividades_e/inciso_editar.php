@@ -44,12 +44,12 @@
 
 				<div class="col-8">
 					<label>Inciso</label>
-					<input type="text" name="nombre" id="nombre" value="<?php echo $nombre; ?>" class="form-control">
+					<input type="text" name="nombre" id="nombre" value="<?php echo $nombre; ?>" class="form-control" required>
 				</div>
 
 				<div class="col-2">
 					<label>Valor</label>
-					<input type="text" name="valor" id="valor" value="<?php echo $valor; ?>" class="form-control">
+					<input type="text" name="valor" id="valor" value="<?php echo $valor; ?>" class="form-control" required>
 				</div>
 
 				<div class="col-12">

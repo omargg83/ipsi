@@ -184,7 +184,6 @@ class Cliente extends ipsi{
 							$arreglo+=array('valor'=>$value);
 							$arreglo+=array('texto'=>$texto);
 							$arreglo+=array('idcontexto'=>$idcontexto);
-
 							$arreglo+=array('idrespuesta'=>$inpx->id);
 							$arreglo+=array('marca'=>"leido");
 							$x=$this->insert('contexto_resp', $arreglo);

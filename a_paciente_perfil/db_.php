@@ -10,6 +10,7 @@ class Usuario extends ipsi{
 	public function __construct(){
 		parent::__construct();
 		$this->doc="a_archivos/terapeuta/";
+		$this->pac="a_archivos/clientes/";
 
 		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
 
@@ -25,8 +26,7 @@ class Usuario extends ipsi{
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
 	public function cliente_editar($id){
-
-		$sql="select * from clientes where idusuario='$id'";
+		$sql="select * from clientes where id='$id'";
 		$sth = $this->dbh->query($sql);
 		return $sth->fetch(PDO::FETCH_OBJ);
 	}
@@ -71,6 +71,23 @@ class Usuario extends ipsi{
 		}
 		else{
 			return "La contraseña no coincide";
+		}
+	}
+	public function personal(){
+		try{
+
+			if($_SESSION['nivel']==1){
+				$sql="select * from usuarios";
+			}
+			else{
+				$sql="select * from usuarios where idusuario='".$_SESSION['idusuario']."'";
+			}
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
 		}
 	}
 }

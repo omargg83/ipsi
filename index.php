@@ -42,9 +42,7 @@
 													<div class="sb-sidenav-menu-heading">
 
 														<div style="width: 36%;display: inline-block;"> <img style="vertical-align: bottom;border-radius: 10px; max-width: 50px;" src="img/perfil.jpg"> </div>
-														<div style="padding-left: 5px;width: 46%;display: inline-block;color:#fff;">  <strong>STEVE GUTIERREZ</strong> <br>PACIENTE</div>
-
-
+														<div style="padding-left: 5px;width: 46%;display: inline-block;color:#fff;">  <strong><?php echo $_SESSION['nombrec']; ?> </strong> <br><?php echo $_SESSION['tipo_user']; ?></div>
 
 													</div>
 
@@ -77,13 +75,9 @@
 																	}
 																}
 														?>
-
-
-
 															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Expediente</a>
 															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Relaciones</a>
 															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Agenda</a>
-
 															<a class="nav-link" is='menu-link' href='#a_paciente_perfil/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi cuenta</a>
 														<?php
 															}
@@ -91,7 +85,7 @@
 														?>
 																<a class="nav-link" is='menu-link' href='#a_pacientes/index' title='Pacientes'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Mis Pacientes</a>
 																<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Agenda</a>
-																<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi cuenta</a>
+																<a class="nav-link" is='menu-link' href='#a_paciente_perfil/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi cuenta</a>
 
 																<div class="sb-sidenav-menu-heading">Terapias</div>
 																<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Catalogo Terapias</a>
@@ -126,7 +120,7 @@
           </button>
 
           <!-- Topbar Mensaje bienvenida-->
-        <p class="bienvenida"> Hola, Nombre de usuario, Que bueno tenerte de vuelta </p>
+        <p class="bienvenida"> Hola, <?php echo $_SESSION['nombrec']; ?>, Que bueno tenerte de vuelta </p>
 
 
 
@@ -204,7 +198,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <span class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <span class="mr-2 d-none d-lg-inline text-gray-600 small"><a href="#" class="topcuenta">Mi cuenta</a></span>
+               <span class="mr-2 d-none d-lg-inline text-gray-600 small"><a class="topcuenta" is='menu-link' href='#a_paciente_perfil/index'>Mi cuenta</a></span>
 								<span class="mr-2 d-none d-lg-inline text-gray-600 small">|</span>
 								<span class="mr-2 d-none d-lg-inline text-gray-600 small"><a onclick='salir()' href="#"class="topcuenta">Salir</a></span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">

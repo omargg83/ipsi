@@ -45,6 +45,7 @@
 					$_SESSION['autoriza']=1;
 					$_SESSION['admin']=1;
 					$_SESSION['nombre']=$CLAVE->nombre;
+					$_SESSION['nombrec']=$CLAVE->nombre." ".$CLAVE->apellidop;
 					$_SESSION['nivel'] = $CLAVE->nivel;
 					$_SESSION['tipo_user'] = "Psicólogo";
 					$_SESSION['pagnivel']=40;
@@ -68,6 +69,7 @@
 						$_SESSION['autoriza']=1;
 						$_SESSION['admin']=0;
 						$_SESSION['nombre']=$CLAVE->nombre;
+						$_SESSION['nombrec']=$CLAVE->nombre." ".$CLAVE->apellidop;
 						$_SESSION['nivel'] = 666;
 						$_SESSION['tipo_user'] = "Paciente";
 						$_SESSION['pagnivel']=40;

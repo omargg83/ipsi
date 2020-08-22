@@ -1,24 +1,150 @@
 <?php
 	require_once("db_.php");
-?>
-	<nav class='navbar navbar-expand-lg navbar-light bg-light'>
-	<a class='navbar-brand' ><i class='fas fa-user-check'></i> Usuarios</a>
-	  <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>
-		<span class='navbar-toggler-icon'></span>
-	  </button>
-		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
-			<ul class='navbar-nav mr-auto'>
-			<li class='nav-item active'>
-				<a class='nav-link barranav' is="a-link" des='a_paciente_perfil/lista' dix='trabajo' tp="router"><i class='fas fa-plus'></i>Lista</a>
-			</li>
-			</ul>
 
-	  </div>
-	</nav>
+	$idpaciente=$_SESSION['idusuario'];
+	$nombre="";
+	$apellidop="";
+	$apellidom="";
+	$telefono="";
+	$correo="";
+	$foto="";
+	$observaciones="";
+	$idusuario="";
+	$direccion="";
+	$edad="";
+	$sexo="";
+	$peso="";
+	$altura="";
+	$enfermedades="";
+	$medicamentos="";
+	$per = $db->personal();
 
+	if($idpaciente>0){
+		$pd = $db->cliente_editar($idpaciente);
 
-<div id='trabajo'>
-	<?php
-		include 'lista.php';
+		$nombre=$pd->nombre;
+		$apellidop=$pd->apellidop;
+		$apellidom=$pd->apellidom;
+		$telefono=$pd->telefono;
+		$correo=$pd->correo;
+		$foto=$pd->foto;
+		$observaciones=$pd->observaciones;
+		$idusuario=$pd->idusuario;
+		$direccion=$pd->direccion;
+		$edad=$pd->edad;
+		$sexo=$pd->sexo;
+		$peso=$pd->peso;
+		$altura=$pd->altura;
+		$enfermedades=$pd->enfermedades;
+		$medicamentos=$pd->medicamentos;
+	}
 	?>
+
+<div class="container">
+	<form is="f-submit" id="form_cliente" db="a_pacientes/db_" fun="guardar_cliente" des="a_paciente_perfil/index" desid="idpaciente" >
+		<input type="hidden" name="idpaciente" id="idpaciente" value="<?php echo $idpaciente;?>">
+		<div class='card'>
+			<div class='card-header'>
+				Editar cliente
+			</div>
+			<div class='card-body'>
+				<?php
+					echo "<div class='form-group' id='imagen_div'>";
+						echo "<img src='".$db->pac.trim($foto)."' class='img-thumbnail' width='100px'>";
+					echo "</div>";
+				?>
+
+				<div class='row'>
+					<div class="col-3">
+						<label>Nombre:</label>
+							<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" maxlength="100" required >
+					</div>
+
+					<div class="col-3">
+						<label>Apellido Paterno:</label>
+							<input type="text" class="form-control form-control-sm" name="apellidop" id="apellidop" value="<?php echo $apellidop;?>" placeholder="Apellido Paterno" maxlength="50" required>
+					</div>
+
+					<div class="col-3">
+						<label>Apellido materno:</label>
+							<input type="text" class="form-control form-control-sm" name="apellidom" id="apellidom" value="<?php echo $apellidom;?>" placeholder="Apellido materno" maxlength="50">
+					</div>
+
+					<div class="col-3">
+						<label>Correo:</label>
+							<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo;?>" placeholder="Correo" maxlength="100" required>
+					</div>
+				</div>
+				<div class='row'>
+					<div class="col-3">
+						<label>Edad:</label>
+							<input type="text" class="form-control form-control-sm" name="edad" id="edad" value="<?php echo $edad;?>" placeholder="Edad"  maxlength="20">
+					</div>
+
+					<div class='col-sm-3'>
+						<label for='nombre'>Sexo</label>
+						<select name='sexo' id='sexo' class='form-control form-control-sm'>
+						<?php
+							echo  "<option value='masculino'"; if ($sexo=="masculino"){	echo  " selected ";	}	echo  ">Masculino</option>";
+							echo  "<option value='femenino'"; if ($sexo=="femenino"){	echo  " selected ";	}	echo  ">Femenino</option>";
+						?>
+						</select>
+					</div>
+
+					<div class="col-3">
+						<label>Peso:</label>
+							<input type="text" class="form-control form-control-sm" name="peso" id="peso" value="<?php echo $peso;?>" placeholder="Peso" maxlength="20">
+					</div>
+					<div class="col-3">
+						<label>Altura:</label>
+							<input type="text" class="form-control form-control-sm" name="altura" id="altura" value="<?php echo $altura;?>" placeholder="Altura" maxlength="20">
+					</div>
+
+					<div class="col-8">
+						<label>Dirección:</label>
+							<input type="text" class="form-control form-control-sm" name="direccion" id="direccion" value="<?php echo $direccion;?>" placeholder="Dirección" maxlength="255">
+					</div>
+
+					<div class="col-4">
+						<label>Teléfono:</label>
+							<input type="text" class="form-control form-control-sm" name="telefono" id="telefono" value="<?php echo $telefono;?>" maxlength="20" placeholder="Teléfono">
+					</div>
+				</div>
+
+				<div class='row'>
+					<div class="col-12">
+						<label>Información personal:</label>
+							<textarea class="form-control form-control-sm" name="observaciones" id="observaciones" placeholder="Información personal" rows=5><?php echo $observaciones;?></textarea>
+					</div>
+				</div>
+				<div class='row'>
+					<div class="col-12">
+						<label>Enfermedades previas:</label>
+							<textarea class="form-control form-control-sm" name="enfermedades" id="enfermedades" placeholder="Enfermedades previas" rows=5><?php echo $enfermedades;?></textarea>
+					</div>
+				</div>
+				<div class='row'>
+					<div class="col-12">
+						<label>Medicamentos que consume:</label>
+							<textarea class="form-control form-control-sm" name="medicamentos" id="medicamentos" placeholder="Medicamentos que consume" rows=5><?php echo $medicamentos;?></textarea>
+					</div>
+				</div>
+			</div>
+			<div class='card-footer'>
+				<div class="row">
+					<div class="col-sm-12">
+						<button class="btn btn-warning btn-sm" type="submit">Guardar</button>
+						<?php
+							if($idpaciente>0){
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_foto' dix='nueva_sub' tp='edit' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-camera'></i>Foto</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_pass' dix='nueva_sub' tp='edit' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-key'></i>Contraseña</button>";
+							}
+
+						?>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
 </div>

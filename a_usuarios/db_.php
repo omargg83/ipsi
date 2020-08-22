@@ -27,7 +27,6 @@ class Usuario extends ipsi{
 		else{
 			$sql="select * from usuarios where idusuario=".$_SESSION['idusuario']."";
 		}
-		echo $sql;
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}

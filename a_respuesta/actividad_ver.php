@@ -70,11 +70,32 @@
 	<div class="card mb-3">
 		<div class="card-header" id="headingOne">
 			<div class='row'>
-				<div class="col-2">
-				</div>
-				<div class="col-9 text-left">
+				<div class="col-11 text-center">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						Actividad: <?php echo $nombre_act; ?>
+						<?php
+							$sql="SELECT count(contexto.id) as total from contexto
+							left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+							where subactividad.idactividad=:id";
+							$contx = $db->dbh->prepare($sql);
+							$contx->bindValue(":id",$idactividad);
+							$contx->execute();
+							$bloques=$contx->fetch(PDO::FETCH_OBJ);
+
+							$sql="SELECT count(contexto_resp.id) as total FROM	contexto
+							right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
+							left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+							where subactividad.idactividad=:id
+							group by contexto.id";
+							$contx = $db->dbh->prepare($sql);
+							$contx->bindValue(":id",$idactividad);
+							$contx->execute();
+							$total=(100*$contx->rowCount())/$bloques->total;
+
+							echo "<br>(".$contx->rowCount()."/".$bloques->total.")<br>";
+							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
+						?>
+
 					</button>
 				</div>
 				<div class="col-1">
@@ -117,6 +138,7 @@
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapsesub<?php echo $key->idsubactividad; ?>" aria-expanded="true" aria-controls="collapsesub<?php echo $key->idsubactividad; ?>">
 						<?php echo $key->orden; ?>- Subactividad: <?php echo $key->nombre; ?>
 						<?php
+
 							$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = :id";
 							$contx = $db->dbh->prepare($sql);
 							$contx->bindValue(":id",$key->idsubactividad);
@@ -145,7 +167,7 @@
 				<?php
 				$bloq=$db->contexto_ver($key->idsubactividad);
 				foreach($bloq as $row){
-
+					echo "idcontexto:".$row->id;
 					$sql="select * from contexto_resp where idcontexto=:id";
 					$contx = $db->dbh->prepare($sql);
 					$contx->bindValue(":id",$row->id);
@@ -172,11 +194,11 @@
 									Contexto (<?php echo $row->tipo; ?>)<br>
 									<?php
 										if(strlen($marca)>0){
-											echo "<i class='fas fa-user-check'></i>(100/100)<br>";
+											echo "<i class='fas fa-user-check'></i>(1/1)<br>";
 											echo "<progress id='file' value='100' max='100'> 100 %</progress>";
 										}
 										else{
-											echo "(0/100)<br>";
+											echo "(0/1)<br>";
 											echo "<progress id='file' value='0' max='100'> 0 %</progress>";
 										}
 									 ?>
