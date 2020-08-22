@@ -55,6 +55,9 @@
 			<div class='col-4 p-3 w-50'>
 				<div class='card' style='height:200px;'>
 					<div class='card-header'>
+						<img style="vertical-align: bottom;border-radius: 10px; max-width: 50px;" src="img/perfil.jpg">
+					</div>
+					<div class='card-header'>
 						<?php echo $key->nombre; ?> (Actividad inicial)
 					</div>
 					<div class='card-body'>
@@ -81,8 +84,9 @@
   	<?php
   	foreach($track as $key){
   	?>
-  		<div class='col-4 p-3 w-50'>
-  			<div class='card' style='height:200px;'>
+  		<div class='col-4 p-3 w-50 actcard'>
+  			<div class='card'>
+					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
   				<div class='card-header'>
 						<?php echo $key->nombre; ?>
 					</div>
