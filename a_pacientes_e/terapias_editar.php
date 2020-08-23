@@ -24,7 +24,7 @@
 	</ol>
 </nav>
 
-<div class="alert alert-warning text-center" role="alert">
+<div class="alert alert-warning text-center tituloventana" role="alert">
 	Nueva Terapia
   <button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/paciente" dix="trabajo" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
 </div>

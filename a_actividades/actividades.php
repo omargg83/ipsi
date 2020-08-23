@@ -18,7 +18,7 @@
 	</ol>
 </nav>
 
-<div class="alert alert-warning text-center" role="alert">
+<div class="alert alert-warning text-center tituloventana" role="alert">
 	Actividades
 
 </div>
@@ -30,8 +30,9 @@
 	<?php
 		foreach($pd as $key){
 	?>
-			<div id='<?php echo $key->idactividad; ?>' class='col-4 p-3 w-50'>
-				<div class='card' style='height:200px;'>
+<div id='<?php echo $key->idactividad; ?>' class='col-4 p-3 w-50 actcard'>
+				<div class='card'>
+				<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">	
 					<div class='card-header'>
 						<?php echo $key->nombre; ?>
 
