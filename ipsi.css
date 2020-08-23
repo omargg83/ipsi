@@ -26,3 +26,8 @@ text-align: center;
     background-color: unset;
     font-size: 24px;
 }
+
+.breadcrumb
+{display: block;}
+.breadcrumb-item {display: inline-block;cursor: pointer;}
+.breadcrumb button{display: inline-block;float: right;margin-top: -4px;}
