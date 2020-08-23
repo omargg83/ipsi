@@ -28,7 +28,6 @@ class Cliente extends ipsi{
 		}
 	}
 
-
 	public function personal(){
 		try{
 
@@ -327,7 +326,98 @@ class Cliente extends ipsi{
 			return json_encode($arreglo);
 		}
 	}
+
+
 	public function agregar_inicial(){
+		try{
+			$x="";
+			$idactividad=$_REQUEST['idactividad'];
+			$idpaciente=$_REQUEST['idpaciente'];
+
+			$sql="select * from actividad where idactividad=:idactividad";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":idactividad",$idactividad);
+			$sth->execute();
+			$resp=$sth->fetch(PDO::FETCH_OBJ);
+
+			$fecha=date("Y-m-d H:i:s");
+			////////////Clonar actividad
+			$arreglo=array();
+			$arreglo+=array('idmodulo'=>$resp->idmodulo);
+			$arreglo+=array('idpaciente'=>$idpaciente);
+			$arreglo+=array('idterapia'=>$resp->idterapia);
+			$arreglo+=array('idcreado'=>$resp->idcreado);
+			$arreglo+=array('nombre'=>$resp->nombre);
+			$arreglo+=array('indicaciones'=>$resp->indicaciones);
+			$arreglo+=array('observaciones'=>$resp->observaciones);
+			$arreglo+=array('tipo'=>$resp->tipo);
+			$arreglo+=array('fecha'=>$fecha);
+			$x=$this->insert('actividad', $arreglo);
+			$idactividad_array=json_decode($x,true);
+
+			//////////////////Permisos
+			$arreglo=array();
+			$arreglo+=array('idpaciente'=>$idpaciente);
+			$arreglo+=array('idactividad'=>$idactividad_array['id1']);
+			$x=$this->insert('actividad_per', $arreglo);
+
+			////////////Clonar Subactividad
+			$sql="select * from subactividad where idactividad=:idactividad";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":idactividad",$idactividad);
+			$sth->execute();
+
+			foreach($sth->fetchall(PDO::FETCH_OBJ) as $key){
+				$arreglo=array();
+				$arreglo+=array('nombre'=>$key->nombre);
+				$arreglo+=array('orden'=>$key->orden);
+				$arreglo+=array('pagina'=>$key->pagina);
+				$arreglo+=array('idactividad'=>$idactividad_array['id1']);
+				$x=$this->insert('subactividad', $arreglo);
+				$subactividad_array=json_decode($x,true);
+
+				////////////Clonar Contexto
+				$sql="select * from contexto where idsubactividad=:idsubactividad";
+				$sth1 = $this->dbh->prepare($sql);
+				$sth1->bindValue(":idsubactividad",$key->idsubactividad);
+				$sth1->execute();
+
+				foreach($sth1->fetchall(PDO::FETCH_OBJ) as $subkey){
+					$arreglo=array();
+					$arreglo+=array('idsubactividad'=>$subactividad_array['id1']);
+					$arreglo+=array('tipo'=>$subkey->tipo);
+					$arreglo+=array('observaciones'=>$subkey->observaciones);
+					$arreglo+=array('texto'=>$subkey->texto);
+					$arreglo+=array('incisos'=>$subkey->incisos);
+					$arreglo+=array('usuario'=>$subkey->usuario);
+					$arreglo+=array('descripcion'=>$subkey->descripcion);
+					$x=$this->insert('contexto', $arreglo);
+					$contexto_array=json_decode($x,true);
+
+					////////////Clonar respuestas
+					$sql="select * from respuestas where idcontexto=:idcontexto";
+					$sth2 = $this->dbh->prepare($sql);
+					$sth2->bindValue(":idcontexto",$subkey->id);
+					$sth2->execute();
+
+					foreach($sth2->fetchall(PDO::FETCH_OBJ) as $cont){
+						$arreglo=array();
+						$arreglo+=array('idcontexto'=>$contexto_array['id1']);
+						$arreglo+=array('orden'=>$cont->orden);
+						$arreglo+=array('nombre'=>$cont->nombre);
+						$arreglo+=array('imagen'=>$cont->imagen);
+						$x=$this->insert('respuestas', $arreglo);
+					}
+				}
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+
+		//////////////clonar
+		/*
 		$idactividad=clean_var($_REQUEST['idactividad']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
 		$sql="select * from actividad_per where idactividad=:idactividad and idpaciente=:idpaciente";
@@ -349,7 +439,52 @@ class Cliente extends ipsi{
 			$arreglo+=array('terror'=>"La actividad inicial ya existe");
 			return json_encode($arreglo);
 		}
+		*/
 	}
+
+	public function quitar_terapia(){
+		$idterapia=clean_var($_REQUEST['idterapia']);
+		$idpaciente=clean_var($_REQUEST['idpaciente']);
+
+		$sql="select * from terapias_per where idterapia=:idterapia and idpaciente=:idpaciente";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idterapia",$idterapia);
+		$sth->bindValue(":idpaciente",$idpaciente);
+		$sth->execute();
+		if ($sth->rowCount()>0){
+			$res=$sth->fetch(PDO::FETCH_OBJ);
+			return $this->borrar('terapias_per',"id",$res->id);
+		}
+	}
+	public function quitar_track(){
+		$idtrack=clean_var($_REQUEST['idtrack']);
+		$idpaciente=clean_var($_REQUEST['idpaciente']);
+
+		$sql="select * from track_per where idtrack=:idtrack and idpaciente=:idpaciente";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idtrack",$idtrack);
+		$sth->bindValue(":idpaciente",$idpaciente);
+		$sth->execute();
+		if ($sth->rowCount()>0){
+			$res=$sth->fetch(PDO::FETCH_OBJ);
+			return $this->borrar('track_per',"id",$res->id);
+		}
+	}
+	public function quitar_modulo(){
+		$idmodulo=clean_var($_REQUEST['idmodulo']);
+		$idpaciente=clean_var($_REQUEST['idpaciente']);
+
+		$sql="select * from modulo_per where idmodulo=:idmodulo and idpaciente=:idpaciente";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idmodulo",$idmodulo);
+		$sth->bindValue(":idpaciente",$idpaciente);
+		$sth->execute();
+		if ($sth->rowCount()>0){
+			$res=$sth->fetch(PDO::FETCH_OBJ);
+			return $this->borrar('modulo_per',"id",$res->id);
+		}
+	}
+
 
 	public function buscar_actividad($b_actividad){
 		try{

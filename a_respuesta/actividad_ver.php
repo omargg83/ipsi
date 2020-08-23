@@ -167,7 +167,6 @@
 				<?php
 				$bloq=$db->contexto_ver($key->idsubactividad);
 				foreach($bloq as $row){
-					echo "idcontexto:".$row->id;
 					$sql="select * from contexto_resp where idcontexto=:id";
 					$contx = $db->dbh->prepare($sql);
 					$contx->bindValue(":id",$row->id);
@@ -187,6 +186,9 @@
 
 
 				<div class="card mb-4">
+
+					<?php
+					/*
 					<div class="card-header">
 						<div class='row'>
 							<div class="col-12 text-center">
@@ -206,6 +208,8 @@
 							</div>
 						</div>
 					</div>
+						*/
+					?>
 					<div id="collapsecon<?php echo $row->id; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 						<div class="card-body">
 							<?php

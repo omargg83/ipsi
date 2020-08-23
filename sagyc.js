@@ -322,7 +322,7 @@
 						let xhr = new XMLHttpRequest();
 						xhr.open('POST',datos.db);
 						xhr.addEventListener('load',(data)=>{
-							console.log("error?"+data.target.response);
+							console.log(data.target.response);
 							if (!isJSON(data.target.response)){
 								Swal.fire({
 									type: 'error',

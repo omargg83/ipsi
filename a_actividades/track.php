@@ -9,12 +9,12 @@
   <ol class='breadcrumb'>
     <li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" title="Inicio" id1="">Inicio</li>
     <li class="breadcrumb-item active" type="button" is="li-link" des="a_actividades/track" dix="trabajo" title="Terapias" v_idterapia="<?php echo $idterapia; ?>"><?php echo $terapia->nombre; ?></li>
+		<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/terapias" dix="trabajo" id1="">Regresar</button>
   </ol>
 </nav>
 
 <div class="alert alert-warning text-center" role="alert">
   Track
-	<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/terapias" dix="trabajo" id1="">Regresar</button>
 </div>
 
 <div class='container'>

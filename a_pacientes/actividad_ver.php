@@ -63,6 +63,20 @@
 	 }
 	 ?>
 	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes/actividad_ver" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $nombre_act; ?></li>
+
+	 <?php
+	 if($inicial==0){
+	 ?>
+	 <button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
+	 <?php
+	 }
+	 else{
+	 ?>
+		 <button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
+	 <?php
+	 }
+	 ?>
+
  </ol>
 </nav>
 
@@ -79,24 +93,10 @@
 					v_idactividad="<?php echo $idactividad; ?>" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><i class="fas fa-pencil-alt"></i></button>
 
 				</div>
-				<div class="col-9 text-left">
+				<div class="col-10 text-left">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						Actividad: <?php echo $nombre_act; ?>
 					</button>
-				</div>
-				<div class="col-1">
-					<?php
-					if($inicial==0){
-					?>
-					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
-					<?php
-					}
-					else{
-					?>
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
-					<?php
-					}
-					?>
 				</div>
 			</div>
 		</div>
@@ -110,9 +110,7 @@
 			<div class='card-body'>
 					<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_pacientes_e/anotaciones_editar' v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' title='editar' omodal="1">Anotaciones</button>
 				<p>Anotaciones -Solo visible al teraéuta-</p>
-
 				<?php echo $anotaciones; ?>
-
 			</div>
 		</div>
 	</div>

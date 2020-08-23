@@ -71,6 +71,20 @@
 			<?php
 			}
 			?>
+			<!-- Botones regresar -->
+			<?php
+				if($inicial==0){
+					if($idactividad>0){
+						echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividades' v_idmodulo='$idmodulo' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+					}
+					else{
+						echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+					}
+				}
+				else{
+					echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/track' dix='trabajo' v_idterapia='$idterapia' v_idpaciente='$idpaciente'>Regresar</button>";
+				}
+			?>
    </ol>
   </nav>
 
@@ -78,10 +92,12 @@
 	<div class='container'>
 			<?php
 				if(isset($modulo)){
+					////////////////Cuando es actividad normal
 					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' des='a_pacientes/actividades' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo'>";
 					echo "<input type='hidden' class='form-control' id='idmodulo' name='idmodulo' value='$idmodulo;' readonly>";
 			 	}
 				else{
+					/////////////////Cuando es actividad inicial
 					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' des='a_pacientes/track' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idterapia='$idterapia'>";
 					echo "<input type='hidden' class='form-control' id='idterapia' name='idterapia' value='$idterapia;' readonly>";
 				}
@@ -130,20 +146,7 @@
 					<div class='row'>
 						<div class='col-12'>
 								<button class='btn btn-warning'  type='submit'>Guardar</button>
-								<?php
-									if($inicial==0){
-										if($idactividad>0){
-											echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividades' v_idmodulo='$idmodulo' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
-										}
-										else{
-											echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
-										}
-									}
-									else{
-										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/track' dix='trabajo' v_idterapia='$idterapia' v_idpaciente='$idpaciente'>Regresar</button>";
-									}
 
-								?>
 						</div>
 					</div>
 				</div>
