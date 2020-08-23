@@ -61,6 +61,19 @@
 	 }
 	 ?>
 	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_respuesta/actividad_ver" dix="contenido" v_idactividad="<?php echo $idactividad; ?>" ><?php echo $nombre_act; ?></li>
+
+		 <?php
+		 if($inicial==0){
+		 ?>
+		 <button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_respuesta/actividades" dix="contenido" v_idmodulo="<?php echo $modulo->id; ?>" >Regresar</button>
+		 <?php
+		 }
+		 else{
+		 ?>
+		 	<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_respuesta/track" dix="contenido" v_idterapia="<?php echo $idterapia; ?>" >Regresar</button>
+		 <?php
+		 }
+		 ?>
  </ol>
 </nav>
 
@@ -70,7 +83,7 @@
 	<div class="card mb-3">
 		<div class="card-header" id="headingOne">
 			<div class='row'>
-				<div class="col-11 text-center">
+				<div class="col-12 text-center">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						Actividad: <?php echo $nombre_act; ?>
 						<?php
@@ -97,20 +110,6 @@
 						?>
 
 					</button>
-				</div>
-				<div class="col-1">
-					<?php
-					if($inicial==0){
-					?>
-					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_respuesta/actividades" dix="contenido" v_idmodulo="<?php echo $modulo->id; ?>" >Regresar</button>
-					<?php
-					}
-					else{
-					?>
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_respuesta/track" dix="contenido" v_idterapia="<?php echo $idterapia; ?>" >Regresar</button>
-					<?php
-					}
-					?>
 				</div>
 			</div>
 		</div>

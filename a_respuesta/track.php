@@ -29,6 +29,8 @@
 	<ol class='breadcrumb'>
 		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_respuesta/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="contenido">Terapias</li>
 		<li class="breadcrumb-item active" type="button" is="li-link" des="a_respuesta/track" dix="contenido" title="Terapias" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
+
+		 <button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_respuesta/terapias" dix="contenido" v_idterapia="<?php echo $terapia->id; ?>">Regresar</button>
 	</ol>
 </nav>
 
@@ -127,7 +129,7 @@
   						<div class='col-12'>
 									<?php
 										if($continuar==1){
-											echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_respuesta/modulos' dix='contenido' v_idtrack='<?php echo $key->id; ?>' v_idpaciente='$idpaciente'>Ver</button>";
+											echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_respuesta/modulos' dix='contenido' v_idtrack='$key->id' v_idpaciente='$idpaciente'>Ver</button>";
 										}
 										else{
 											echo "<button class='btn btn-warning btn-block' type='button' disabled>Ver</button>";

@@ -303,31 +303,92 @@ class Cliente extends ipsi{
 			return json_encode($arreglo);
 		}
 	}
+
+	//////////////estas 2 clonan al catalogo
 	public function agregar_actividad(){
-		$idactividad=clean_var($_REQUEST['idactividad']);
-		$idpaciente=clean_var($_REQUEST['idpaciente']);
-		$sql="select * from actividad_per where idactividad=:idactividad and idpaciente=:idpaciente";
+		$x="";
+		$idactividad=$_REQUEST['idactividad'];
+		$idpaciente=$_REQUEST['idpaciente'];
+
+		$sql="select * from actividad where idactividad=:idactividad";
 		$sth = $this->dbh->prepare($sql);
 		$sth->bindValue(":idactividad",$idactividad);
-		$sth->bindValue(":idpaciente",$idpaciente);
 		$sth->execute();
-		if ($sth->rowCount()==0){
+		$resp=$sth->fetch(PDO::FETCH_OBJ);
+
+		$fecha=date("Y-m-d H:i:s");
+		////////////Clonar actividad
+		$arreglo=array();
+		$arreglo+=array('idmodulo'=>$resp->idmodulo);
+		$arreglo+=array('idpaciente'=>$idpaciente);
+		$arreglo+=array('idterapia'=>$resp->idterapia);
+		$arreglo+=array('idcreado'=>$resp->idcreado);
+		$arreglo+=array('nombre'=>$resp->nombre);
+		$arreglo+=array('indicaciones'=>$resp->indicaciones);
+		$arreglo+=array('observaciones'=>$resp->observaciones);
+		$arreglo+=array('tipo'=>$resp->tipo);
+		$arreglo+=array('fecha'=>$fecha);
+		$x=$this->insert('actividad', $arreglo);
+		$idactividad_array=json_decode($x,true);
+
+		//////////////////Permisos
+		$arreglo=array();
+		$arreglo+=array('idpaciente'=>$idpaciente);
+		$arreglo+=array('idactividad'=>$idactividad_array['id1']);
+		$x=$this->insert('actividad_per', $arreglo);
+
+		////////////Clonar Subactividad
+		$sql="select * from subactividad where idactividad=:idactividad";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idactividad",$idactividad);
+		$sth->execute();
+
+		foreach($sth->fetchall(PDO::FETCH_OBJ) as $key){
 			$arreglo=array();
-			$arreglo+=array('idpaciente'=>$idpaciente);
-			$arreglo+=array('idactividad'=>$idactividad);
-			$x=$this->insert('actividad_per', $arreglo);
-			return $x;
+			$arreglo+=array('nombre'=>$key->nombre);
+			$arreglo+=array('orden'=>$key->orden);
+			$arreglo+=array('pagina'=>$key->pagina);
+			$arreglo+=array('idactividad'=>$idactividad_array['id1']);
+			$x=$this->insert('subactividad', $arreglo);
+			$subactividad_array=json_decode($x,true);
+
+			////////////Clonar Contexto
+			$sql="select * from contexto where idsubactividad=:idsubactividad";
+			$sth1 = $this->dbh->prepare($sql);
+			$sth1->bindValue(":idsubactividad",$key->idsubactividad);
+			$sth1->execute();
+
+			foreach($sth1->fetchall(PDO::FETCH_OBJ) as $subkey){
+				$arreglo=array();
+				$arreglo+=array('idsubactividad'=>$subactividad_array['id1']);
+				$arreglo+=array('tipo'=>$subkey->tipo);
+				$arreglo+=array('observaciones'=>$subkey->observaciones);
+				$arreglo+=array('texto'=>$subkey->texto);
+				$arreglo+=array('incisos'=>$subkey->incisos);
+				$arreglo+=array('usuario'=>$subkey->usuario);
+				$arreglo+=array('descripcion'=>$subkey->descripcion);
+				$x=$this->insert('contexto', $arreglo);
+				$contexto_array=json_decode($x,true);
+
+				////////////Clonar respuestas
+				$sql="select * from respuestas where idcontexto=:idcontexto";
+				$sth2 = $this->dbh->prepare($sql);
+				$sth2->bindValue(":idcontexto",$subkey->id);
+				$sth2->execute();
+
+				foreach($sth2->fetchall(PDO::FETCH_OBJ) as $cont){
+					$arreglo=array();
+					$arreglo+=array('idcontexto'=>$contexto_array['id1']);
+					$arreglo+=array('orden'=>$cont->orden);
+					$arreglo+=array('nombre'=>$cont->nombre);
+					$arreglo+=array('imagen'=>$cont->imagen);
+					$arreglo+=array('valor'=>$cont->valor);
+					$x=$this->insert('respuestas', $arreglo);
+				}
+			}
 		}
-		else{
-			$arreglo=array();
-			$arreglo+=array('id1'=>0);
-			$arreglo+=array('error'=>1);
-			$arreglo+=array('terror'=>"El modulo ya existe");
-			return json_encode($arreglo);
-		}
+		return $x;
 	}
-
-
 	public function agregar_inicial(){
 		try{
 			$x="";
@@ -406,6 +467,7 @@ class Cliente extends ipsi{
 						$arreglo+=array('orden'=>$cont->orden);
 						$arreglo+=array('nombre'=>$cont->nombre);
 						$arreglo+=array('imagen'=>$cont->imagen);
+						$arreglo+=array('valor'=>$cont->valor);
 						$x=$this->insert('respuestas', $arreglo);
 					}
 				}
@@ -482,6 +544,24 @@ class Cliente extends ipsi{
 		if ($sth->rowCount()>0){
 			$res=$sth->fetch(PDO::FETCH_OBJ);
 			return $this->borrar('modulo_per',"id",$res->id);
+		}
+	}
+
+	public function quitar_actividad(){
+		$idactividad=clean_var($_REQUEST['idactividad']);
+		$idpaciente=clean_var($_REQUEST['idpaciente']);
+
+		$sql="select * from actividad_per where idactividad=:idactividad and idpaciente=:idpaciente";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idactividad",$idactividad);
+		$sth->bindValue(":idpaciente",$idpaciente);
+		$sth->execute();
+		if ($sth->rowCount()>1){
+			$res=$sth->fetch(PDO::FETCH_OBJ);
+			return $this->borrar('actividad_per',"id",$res->id);
+		}
+		else if($sth->rowCount()==1){
+			return $this->borrar('actividad',"idactividad",$idactividad);
 		}
 	}
 
@@ -620,7 +700,7 @@ class Cliente extends ipsi{
 
 	public function actividad_inicial($id){
 		try{
-			$sql="select * from actividad where idterapia=:id";
+			$sql="select * from actividad where idterapia=:id and idpaciente is null";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();

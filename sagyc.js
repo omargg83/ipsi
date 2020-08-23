@@ -341,7 +341,9 @@
 									showConfirmButton: false,
 									timer: 1000
 								});
-								redirige_div(variables,datos);
+								if (des.length>0){
+									redirige_div(variables,datos);
+								}
 							}
 							else{
 								Swal.fire({

@@ -51,13 +51,14 @@
 		$sth->execute();
 		$inicial=$sth->fetchAll(PDO::FETCH_OBJ);
 
-
 		foreach($inicial as $key){
 		?>
 			<div class='col-4 p-3 w-50'>
 				<div class='card' style='height:200px;'>
 					<div class='card-header'>
 						<?php echo $key->nombre; ?>
+
+						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/track" dix="trabajo" db="a_pacientes/db_" fun="quitar_actividad" v_idactividad="<?php echo $key->idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idterapia="<?php echo $idterapia; ?>" tp="¿Desea quitar la actividad inicial seleccionada?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 
 					</div>
 					<div class='card-body'>

@@ -16,8 +16,6 @@
     $descripcion=$pd->descripcion;
   }
 
-
-	echo "idterapia:".$idterapia;
 ?>
 
 <nav aria-label='breadcrumb'>

@@ -10,7 +10,6 @@
 	$inicial=0;
 
 	if(isset($_REQUEST['idmodulo'])){
-		echo "entra";
 		$idmodulo=$_REQUEST['idmodulo'];
 
 		$sql="select * from modulo where id=:idmodulo";
@@ -25,10 +24,26 @@
 		$sth->execute();
 		$track=$sth->fetch(PDO::FETCH_OBJ);
 		$idterapia=$track->idterapia;
+
+		$sql="select * from terapias where id=:idterapia";
+		$sth = $db->dbh->prepare($sql);
+		$sth->bindValue(":idterapia",$idterapia);
+		$sth->execute();
+		$terapia=$sth->fetch(PDO::FETCH_OBJ);
 	}
 	if(isset($_REQUEST['idterapia'])){
 		$idterapia=clean_var($_REQUEST['idterapia']);
 		$inicial=1;
+
+		$sql="select * from terapias where id=:idterapia";
+		$sth = $db->dbh->prepare($sql);
+		$sth->bindValue(":idterapia",$idterapia);
+		$sth->execute();
+		$terapia=$sth->fetch(PDO::FETCH_OBJ);
+
+	}
+	else{
+
 	}
 
 	$nombre="Nueva actividad";
@@ -43,11 +58,6 @@
 		$tipo=$actividad->tipo;
 	}
 
-  $sql="select * from terapias where id=:idterapia";
-  $sth = $db->dbh->prepare($sql);
-  $sth->bindValue(":idterapia",$idterapia);
-  $sth->execute();
-  $terapia=$sth->fetch(PDO::FETCH_OBJ);
 ?>
 
 

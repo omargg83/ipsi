@@ -33,12 +33,14 @@
 	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_respuesta/terapias"  dix="contenido">Terapias</li>
 	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_respuesta/track" dix="contenido" v_idterapia="<?php echo $terapia->id; ?>" ><?php echo $terapia->nombre; ?></li>
 	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_respuesta/modulos" dix="contenido" v_idtrack="<?php echo $idtrack; ?>" ><?php echo $track->nombre; ?></li>
+
+	  <button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_respuesta/track" dix="contenido" v_idterapia="<?php echo $terapia->id; ?>">Regresar</button>
  </ol>
 </nav>
 
  <div class="alert alert-warning text-center" role="alert">
    Mis Modulos
-	 <button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_respuesta/track" dix="contenido" id1="<?php echo $terapia->id; ?>">Regresar</button>
+
  </div>
 
 <div class='container'>
