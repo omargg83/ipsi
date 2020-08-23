@@ -18,3 +18,11 @@ text-align: center;
   background-color: #85c03f;
   border: none;
 }
+
+.tituloventana{
+	font-weight: 800;
+    color: #00417c;
+    border: none;
+    background-color: unset;
+    font-size: 24px;
+}

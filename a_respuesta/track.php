@@ -33,7 +33,7 @@
 </nav>
 
 
-<div class="alert alert-warning text-center" role="alert">
+<div class="alert alert-warning text-center tituloventana" role="alert">
 	Track
 </div>
 
