@@ -193,7 +193,7 @@ class Cuest extends ipsi{
 
 	public function actividad_lista($id){
 		try{
-			$sql="select * from actividad where idmodulo=:id";
+			$sql="select * from actividad where idmodulo=:id and idpaciente is null";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
@@ -205,7 +205,7 @@ class Cuest extends ipsi{
 	}
 	public function actividad_inicial($id){
 		try{
-			$sql="select * from actividad where idterapia=:id";
+			$sql="select * from actividad where idterapia=:id and idpaciente is null";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
@@ -257,14 +257,18 @@ class Cuest extends ipsi{
 			if($idactividad==0){
 				$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
 				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
+				if (isset($_REQUEST['idpaciente'])){
+					$idpaciente=$_REQUEST['idpaciente'];
+					$arreglo+=array('idpaciente'=>$idpaciente);
+				}
 				$x=$this->insert('actividad', $arreglo);
 
 				$resp=json_decode($x);
 				if (isset($_REQUEST['idpaciente'])){
 					$idpaciente=$_REQUEST['idpaciente'];
 					$arreglo =array();
-					$arreglo+=array('idactividad'=>$resp->id1);
 					$arreglo+=array('idpaciente'=>$idpaciente);
+					$arreglo+=array('idactividad'=>$resp->id1);
 					$x=$this->insert('actividad_per',$arreglo);
 				}
 			}
@@ -281,6 +285,82 @@ class Cuest extends ipsi{
 		if (isset($_REQUEST['idactividad'])){$idactividad=$_REQUEST['idactividad'];}
 		return $this->borrar('actividad',"idactividad",$idactividad);
 	}
+	public function publicar_actividad(){
+		$idactividad=$_REQUEST['idactividad'];
+
+		$sql="select * from actividad where idactividad=:idactividad";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idactividad",$idactividad);
+		$sth->execute();
+		$resp=$sth->fetch(PDO::FETCH_OBJ);
+
+		$fecha=date("Y-m-d H:i:s");
+		////////////Clonar actividad
+		$arreglo=array();
+		$arreglo+=array('idmodulo'=>$resp->idmodulo);
+		$arreglo+=array('idterapia'=>$resp->idterapia);
+		$arreglo+=array('idcreado'=>$resp->idcreado);
+		$arreglo+=array('nombre'=>$resp->nombre);
+		$arreglo+=array('indicaciones'=>$resp->indicaciones);
+		$arreglo+=array('observaciones'=>$resp->observaciones);
+		$arreglo+=array('tipo'=>$resp->tipo);
+		$arreglo+=array('fecha'=>$fecha);
+		$x=$this->insert('actividad', $arreglo);
+		$idactividad_array=json_decode($x,true);
+
+
+		////////////Clonar Subactividad
+		$sql="select * from subactividad where idactividad=:idactividad";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idactividad",$idactividad);
+		$sth->execute();
+
+		foreach($sth->fetchall(PDO::FETCH_OBJ) as $key){
+			$arreglo=array();
+			$arreglo+=array('nombre'=>$key->nombre);
+			$arreglo+=array('orden'=>$key->orden);
+			$arreglo+=array('pagina'=>$key->pagina);
+			$arreglo+=array('idactividad'=>$idactividad_array['id1']);
+			$x=$this->insert('subactividad', $arreglo);
+			$subactividad_array=json_decode($x,true);
+
+			////////////Clonar Contexto
+			$sql="select * from contexto where idsubactividad=:idsubactividad";
+			$sth1 = $this->dbh->prepare($sql);
+			$sth1->bindValue(":idsubactividad",$key->idsubactividad);
+			$sth1->execute();
+
+			foreach($sth1->fetchall(PDO::FETCH_OBJ) as $subkey){
+				$arreglo=array();
+				$arreglo+=array('idsubactividad'=>$subactividad_array['id1']);
+				$arreglo+=array('tipo'=>$subkey->tipo);
+				$arreglo+=array('observaciones'=>$subkey->observaciones);
+				$arreglo+=array('texto'=>$subkey->texto);
+				$arreglo+=array('incisos'=>$subkey->incisos);
+				$arreglo+=array('usuario'=>$subkey->usuario);
+				$arreglo+=array('descripcion'=>$subkey->descripcion);
+				$x=$this->insert('contexto', $arreglo);
+				$contexto_array=json_decode($x,true);
+
+				////////////Clonar respuestas
+				$sql="select * from respuestas where idcontexto=:idcontexto";
+				$sth2 = $this->dbh->prepare($sql);
+				$sth2->bindValue(":idcontexto",$subkey->id);
+				$sth2->execute();
+
+				foreach($sth2->fetchall(PDO::FETCH_OBJ) as $cont){
+					$arreglo=array();
+					$arreglo+=array('idcontexto'=>$contexto_array['id1']);
+					$arreglo+=array('orden'=>$cont->orden);
+					$arreglo+=array('nombre'=>$cont->nombre);
+					$arreglo+=array('imagen'=>$cont->imagen);
+					$x=$this->insert('respuestas', $arreglo);
+				}
+			}
+		}
+		return $x;
+	}
+
 
 	public function subactividad_ver($id){
 		try{

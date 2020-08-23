@@ -322,7 +322,7 @@
 						let xhr = new XMLHttpRequest();
 						xhr.open('POST',datos.db);
 						xhr.addEventListener('load',(data)=>{
-							console.log("error?"+data.target.response);
+							console.log(data.target.response);
 							if (!isJSON(data.target.response)){
 								Swal.fire({
 									type: 'error',
@@ -341,7 +341,9 @@
 									showConfirmButton: false,
 									timer: 1000
 								});
-								redirige_div(variables,datos);
+								if (des.length>0){
+									redirige_div(variables,datos);
+								}
 							}
 							else{
 								Swal.fire({

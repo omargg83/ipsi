@@ -1,5 +1,5 @@
 <?php
-$server=4;
+$server=3;
 if($server==1){
   /////////remoto
   define("MYSQLUSER", "wwipsi_wwipsi");

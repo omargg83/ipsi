@@ -14,12 +14,13 @@
 		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
 		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre_p; ?></li>
 		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes_e/terapias_agregar" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Agregar terapia</li>
+		<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/paciente" dix="trabajo" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
 	</ol>
 </nav>
 
 <div class="alert alert-danger text-center" role="alert">
 	Agregar Terapias existentes
-  <button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/paciente" dix="trabajo" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
+
 </div>
 
 
