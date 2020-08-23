@@ -1,4 +1,4 @@
-body{background-color: #f4f6fa;}
+#layoutSidenav,body{background-color: #f4f6fa;}
 .bienvenida,.topcuenta{font-weight: 800;
     color: #00417c;}
 .badge-danger{background-color:#61c12c;font-size: 13px;}
@@ -14,7 +14,7 @@ color: #00417c;
 text-align: center;
 }
 
-.actcard .card .btn-warning{
+.btn-warning{
   background-color: #85c03f;
   border: none;
 }
@@ -31,3 +31,21 @@ text-align: center;
 {display: block;}
 .breadcrumb-item {display: inline-block;cursor: pointer;}
 .breadcrumb button{display: inline-block;float: right;margin-top: -4px;}
+
+.actcardn .card{
+  border: none;
+  border-radius: 10px;
+}
+
+.actcardn .card .card-header{
+font-weight: 800;
+color: #00417c;
+text-align: center;
+}
+
+.actcardn .card .btn-warning{
+  background-color: #85c03f;
+  border: none;
+}
+
+.btn-warning:disabled{display: none;}
