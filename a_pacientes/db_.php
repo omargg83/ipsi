@@ -18,6 +18,7 @@ class Cliente extends ipsi{
 		parent::__construct();
 		$this->pac="a_archivos/clientes/";
 		$this->doc="a_archivos/respuestas/";
+		$this->resp="a_archivos/terapias/";
 
 		if(isset($_SESSION['idusuario']) and $_SESSION['autoriza'] == 1) {
 
