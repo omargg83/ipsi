@@ -111,7 +111,7 @@
 			<hr>
 			<div class='card-body'>
 					<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_pacientes_e/anotaciones_editar' v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' title='editar' omodal="1">Anotaciones</button>
-				<p>Anotaciones -Solo visible al teraéuta-</p>
+				<p>Anotaciones -Solo visible al terapéuta-</p>
 				<?php echo $anotaciones; ?>
 			</div>
 		</div>
