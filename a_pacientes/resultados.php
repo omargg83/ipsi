@@ -88,11 +88,6 @@
 			<div class='row'>
 				<div class="col-2">
 
-					<!---Editar actividad --->
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/actividad_editar" dix="trabajo"
-					v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idterapia="<?php echo $idterapia; ?>"><i class="fas fa-pencil-alt"></i></button>
-
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" db="a_actividades/db_" fun="publicar_actividad" v_idactividad="<?php echo $idactividad; ?>" tp="¿Desea publicar la actividad en el catalogo?" title="Duplicar"><i class="far fa-copy"></i></button>
 
 				</div>
 				<div class="col-10 text-left">
@@ -103,25 +98,9 @@
 			</div>
 		</div>
 
-		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-			<div class='card-body'>
-				<p>Indicaciones</p>
-				<?php echo $indicaciones; ?>
-			</div>
-			<hr>
-			<div class='card-body'>
-					<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_pacientes_e/anotaciones_editar' v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' title='editar' omodal="1">Anotaciones</button>
-				<p>Anotaciones -Solo visible al terapéuta-</p>
-				<?php echo $anotaciones; ?>
-			</div>
-		</div>
 	</div>
 </div>
 <!-- Fin de actividad  -->
-
-<div class="container-fluid mb-3 text-center">
-	<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_actividades_e/subactividad_editar' v_idsubactividad="0" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' title='editar' omodal="1">Nueva Subactividad</button>
-</div>
 
 <?php
 	foreach($subactividad as $key){
@@ -133,32 +112,11 @@
 			<div class="row">
 				<div class="col-2">
 
-					<!-- Editar subactividad --->
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/subactividad_editar" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' omodal="1"><i class="fas fa-pencil-alt"></i></button>
-
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="subactividad_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' tp="¿Desea eliminar la subactividad?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 				</div>
 				<div class="col-10 text-center">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapsesub<?php echo $key->idsubactividad; ?>" aria-expanded="true" aria-controls="collapsesub<?php echo $key->idsubactividad; ?>">
 						<?php echo $key->orden; ?>- Subactividad: <?php echo $key->nombre; ?>
-						<?php
-							$total=0;
-							$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = :id and evalua=1";
-							$contx = $db->dbh->prepare($sql);
-							$contx->bindValue(":id",$key->idsubactividad);
-							$contx->execute();
-							$bloques=$contx->fetch(PDO::FETCH_OBJ);
 
-							$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = :id	group by contexto.id";
-							$contx = $db->dbh->prepare($sql);
-							$contx->bindValue(":id",$key->idsubactividad);
-							$contx->execute();
-							if($contx->rowCount()>0){
-								$total=(100*$contx->rowCount())/$bloques->total;
-							}
-							echo "<br>(".$contx->rowCount()."/".$bloques->total.")<br>";
-							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
-						 ?>
 					</button>
 				</div>
 			</div>
@@ -203,8 +161,6 @@
 								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="contexto_duplicar" v_idactividad="<?php echo $idactividad; ?>" v_idcontexto="<?php echo $row->id; ?>" v_idpaciente='<?php echo $idpaciente; ?>' tp="¿Desea duplicar el bloque?" title="Duplicar"><i class="far fa-copy"></i></button>
 
 								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="contexto_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idcontexto="<?php echo $row->id; ?>" v_idpaciente='<?php echo $idpaciente; ?>' tp="¿Desea eliminar el bloque selecionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
-
-								<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad="<?php echo $idactividad; ?>" omodal='1'><i class='fas fa-project-diagram'></i></button>
 
 							</div>
 							<div class="col-4 text-center">
@@ -295,7 +251,9 @@
 
 														echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='respuesta_borrar' v_idactividad='<?php echo $idactividad; ?>' v_idrespuesta='<?php echo $respuesta->id; ?>' v_idpaciente='<?php echo $idpaciente; ?>' tp='¿Desea eliminar el inciso selecionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
-														echo "</div>";
+														echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/condicional_editar' omodal='1'><i class='fas fa-project-diagram'></i></button>";
+
+													echo "</div>";
 
 													echo "<div class='col-1'>";
 														if($row->incisos==1){
@@ -392,18 +350,7 @@
 								?>
 							</div>
 
-							<!-- Fin Preguntas  -->
-							<br>
-							<?php
-								if($row->evalua==1){
-									if(strlen($marca)==0){
-										echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Responder</button>";
-									}
-									else{
-										echo "<button class='btn btn-warning btn-sm' type='submit'><i class='fas fa-check-double'></i>Actualizar respuesta</button>";
-									}
-								}
-							?>
+
 						</form>
 					</div>
 				</div>
@@ -421,15 +368,3 @@
 	}
  ?>
 </div>
-
-
-<script type="text/javascript">
-	$(function() {
-		$('.texto').summernote({
-			lang: 'es-ES',
-			placeholder: 'Texto',
-			tabsize: 5,
-			height: 250
-		});
-	});
-</script>

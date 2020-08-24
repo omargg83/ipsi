@@ -1,5 +1,8 @@
 <?php
-
+	require_once("../a_actividades/db_.php");
+  $idactividad=$_REQUEST['idactividad'];
+  echo $idactividad;
+  $sql="select * from ";
  ?>
  <div class="card">
    <div class="card-header">
