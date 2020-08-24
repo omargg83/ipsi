@@ -149,8 +149,6 @@
 							</div>
 							<div class="col-4">
 								<button class="btn btn-warning btn-sm" ><i class="fas fa-arrows-alt"></i>Mover</button>
-
-
 							</div>
 						</div>
 					</div>

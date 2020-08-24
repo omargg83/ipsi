@@ -143,7 +143,7 @@
 						<?php echo $key->orden; ?>- Subactividad: <?php echo $key->nombre; ?>
 						<?php
 							$total=0;
-							$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = :id";
+							$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = :id and evalua=1";
 							$contx = $db->dbh->prepare($sql);
 							$contx->bindValue(":id",$key->idsubactividad);
 							$contx->execute();
@@ -156,8 +156,6 @@
 							if($contx->rowCount()>0){
 								$total=(100*$contx->rowCount())/$bloques->total;
 							}
-
-
 							echo "<br>(".$contx->rowCount()."/".$bloques->total.")<br>";
 							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
 						 ?>
@@ -398,12 +396,14 @@
 							<!-- Fin Preguntas  -->
 							<br>
 							<?php
-							if(strlen($marca)==0){
-								echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Responder</button>";
-							}
-							else{
-								echo "<button class='btn btn-warning btn-sm' type='submit'><i class='fas fa-check-double'></i>Actualizar respuesta</button>";
-							}
+								if($row->evalua==1){
+									if(strlen($marca)==0){
+										echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Responder</button>";
+									}
+									else{
+										echo "<button class='btn btn-warning btn-sm' type='submit'><i class='fas fa-check-double'></i>Actualizar respuesta</button>";
+									}
+								}
 							?>
 						</form>
 					</div>

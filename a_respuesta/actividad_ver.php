@@ -89,7 +89,7 @@
 						<?php
 							$sql="SELECT count(contexto.id) as total from contexto
 							left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-							where subactividad.idactividad=:id";
+							where subactividad.idactividad=:id and contexto.evalua=1";
 							$contx = $db->dbh->prepare($sql);
 							$contx->bindValue(":id",$idactividad);
 							$contx->execute();
@@ -138,7 +138,7 @@
 						<?php echo $key->orden; ?>- Subactividad: <?php echo $key->nombre; ?>
 						<?php
 
-							$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = :id";
+							$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = :id and contexto.evalua=1";
 							$contx = $db->dbh->prepare($sql);
 							$contx->bindValue(":id",$key->idsubactividad);
 							$contx->execute();
@@ -365,12 +365,14 @@
 							<!-- Fin Preguntas  -->
 							<br>
 							<?php
-							if(strlen($marca)==0){
-								echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Contestar</button>";
-							}
-							else{
-								echo "<button class='btn btn-warning btn-sm' type='submit'><i class='fas fa-check-double'></i>Actualizar</button>";
-							}
+								if($row->evalua==1){
+									if(strlen($marca)==0){
+										echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Contestar</button>";
+									}
+									else{
+										echo "<button class='btn btn-warning btn-sm' type='submit'><i class='fas fa-check-double'></i>Actualizar</button>";
+									}
+								}
 							?>
 							</form>
 						</div>

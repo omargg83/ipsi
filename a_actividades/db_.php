@@ -450,6 +450,8 @@ class Cuest extends ipsi{
 			$id1=clean_var($_REQUEST['id1']);
 			$tipo=clean_var($_REQUEST['tipo']);
 			$arreglo+=array('tipo'=>$tipo);
+
+
 			if(isset($_REQUEST['observaciones'])){
 				$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
 			}
@@ -460,7 +462,6 @@ class Cuest extends ipsi{
 			if($tipo=="video"){
 				$arreglo+=array('texto'=>$_REQUEST['texto']);
 			}
-
 			if($tipo=="pregunta"){
 				$arreglo+=array('texto'=>clean_var($_REQUEST['texto']));
 				if(isset($_REQUEST['incisos'])){
@@ -482,6 +483,10 @@ class Cuest extends ipsi{
 					$arreglo+=array('usuario'=>null);
 				}
 			}
+			if($tipo=="archivores" or $tipo=="textores" or $tipo=="pregunta" or $tipo=="fecha"){
+				$arreglo+=array('evalua'=>1);
+			}
+
 			if($tipo=="imagen" or $tipo=="archivo"){
 				$extension = '';
 				$ruta = '../a_archivos/respuestas/';
