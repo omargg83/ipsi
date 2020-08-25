@@ -122,8 +122,6 @@
           <!-- Topbar Mensaje bienvenida-->
         <p class="bienvenida"> Hola, <?php echo $_SESSION['nombrec']; ?>, Que bueno tenerte de vuelta </p>
 
-
-
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
 
@@ -192,9 +190,6 @@
               </div>
             </li>
 						-->
-
-
-
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <span class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -261,7 +256,7 @@
         <script src="librerias15/js/bootstrap.js"></script>
 
         <!--   Propios   -->
+				<script src="vainilla.js"></script>
         <script src="sagyc.js"></script>
-        <script src="vainilla.js"></script>
     </body>
 </html>
