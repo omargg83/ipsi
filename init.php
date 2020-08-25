@@ -21,12 +21,7 @@ else if($server==3){
   define("SERVIDOR", "192.168.100.15");
   define("BDD", "wwipsi_actividades");
 }
-else{
-  define("MYSQLUSER", "sagyccom_esponda");
-  define("MYSQLPASS", "esponda123$");
-  define("SERVIDOR", "sagyc.com.mx");
-  define("BDD", "sagycrmr_apasear");
-}
+
 
 
 ///////////////////contraseñas
