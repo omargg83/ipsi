@@ -221,11 +221,11 @@
 														?>
 													</div>
 													<?php
-													if (strlen($respuesta->imagen)>0){
-														echo "<div class='col-1'>";
-															echo "<img src='".$db->doc.$respuesta->imagen"' width='20px'>";
-														echo "</div>";
-													}
+														if (strlen($respuesta->imagen)>0){
+															echo "<div class='col-1'>";
+																echo "<img src='".$db->doc.$respuesta->imagen."' width='20px'>";
+															echo "</div>";
+														}
 													?>
 													<div class="col-3">
 														<?php echo $respuesta->nombre;  ?>
