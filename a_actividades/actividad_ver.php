@@ -220,9 +220,13 @@
 															}
 														?>
 													</div>
-													<div class="col-1">
-														<img src="<?php echo $db->doc.$respuesta->imagen; ?>" alt="" width="20px">
-													</div>
+													<?php
+													if (strlen($respuesta->imagen)>0){
+														echo "<div class='col-1'>";
+															echo "<img src='".$db->doc.$respuesta->imagen"' width='20px'>";
+														echo "</div>";
+													}
+													?>
 													<div class="col-3">
 														<?php echo $respuesta->nombre;  ?>
 													</div>
@@ -249,8 +253,8 @@
 													echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
 												}
 											echo "</div>";
-											echo "<div class='col-1'>";
-											echo "</div>";
+											//echo "<div class='col-1'>";
+											//echo "</div>";
 
 											echo "<div class='col-3'>";
 												echo "<input type='text' class='form-control' name='' value=''>";

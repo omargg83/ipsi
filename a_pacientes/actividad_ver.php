@@ -315,11 +315,11 @@
 														}
 													echo "</div>";
 
-													echo "<div class='col-1'>";
-														if(strlen($respuesta->imagen)>0){
-															echo "<img src=".$db->doc.$respuesta->imagen." alt='' width='20px'>";
-														}
-													echo "</div>";
+													if(strlen($respuesta->imagen)>0){
+														echo "<div class='col-1'>";
+																echo "<img src=".$db->doc.$respuesta->imagen." alt='' width='20px'>";
+														echo "</div>";
+													}
 
 													echo "<div class='col-3'>";
 														echo $respuesta->nombre;
@@ -359,8 +359,8 @@
 																}
 																echo " value='1'>";
 															echo "</div>";
-															echo "<div class='col-1'>";
-															echo "</div>";
+															//echo "<div class='col-1'>";
+															//echo "</div>";
 															echo "<div class='col-6'>";
 																echo "<input type='text' name='otroche_".$row->id."' id='per_".$row->id."' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
 															echo "</div>";
