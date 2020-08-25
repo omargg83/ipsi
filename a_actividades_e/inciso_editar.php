@@ -37,12 +37,14 @@
 	 	</div>
 		<div class="card-body">
 			<div class="row">
+				<!--
 				<div class="col-2">
 					<label>Orden</label>
 					<input type="text" name="orden" id="orden" value="<?php echo $orden; ?>" class="form-control">
 				</div>
+			-->
 
-				<div class="col-8">
+				<div class="col-10">
 					<label>Inciso</label>
 					<input type="text" name="nombre" id="nombre" value="<?php echo $nombre; ?>" class="form-control" required>
 				</div>

@@ -382,13 +382,14 @@ class Cuest extends ipsi{
 			$idactividad=clean_var($_REQUEST['idactividad']);
 
 			$nombre=clean_var($_REQUEST['nombre']);
-			$orden=clean_var($_REQUEST['orden']);
-			$pagina=clean_var($_REQUEST['pagina']);
-
 			$arreglo+=array('nombre'=>$nombre);
-			$arreglo+=array('orden'=>$orden);
-			$arreglo+=array('pagina'=>$pagina);
 
+			if (isset($_REQUEST['orden'])){
+				$arreglo+=array('orden'=>clean_var($_REQUEST['orden']));
+			}
+			if (isset($_REQUEST['pagina'])){
+				$arreglo+=array('pagina'=>clean_var($_REQUEST['pagina']));
+			}
 			if($idsubactividad==0){
 				$arreglo+=array('idactividad'=>$idactividad);
 				$x=$this->insert('subactividad', $arreglo);
@@ -592,7 +593,6 @@ class Cuest extends ipsi{
 			$idrespuesta=clean_var($_REQUEST['idrespuesta']);
 			$nombre=clean_var($_REQUEST['nombre']);
 			$idcontexto=clean_var($_REQUEST['idcontexto']);
-			$orden=clean_var($_REQUEST['orden']);
 			$valor=clean_var($_REQUEST['valor']);
 
 			$extension = '';
@@ -614,9 +614,11 @@ class Cuest extends ipsi{
 		      exit;
 		    }
 		  }
+			if (isset($_REQUEST['orden'])){
+				$arreglo+=array('orden'=>clean_var($_REQUEST['orden']));
+			}
 
 			$arreglo+=array('nombre'=>$nombre);
-			$arreglo+=array('orden'=>$orden);
 			$arreglo+=array('valor'=>$valor);
 
 			if($idrespuesta==0){

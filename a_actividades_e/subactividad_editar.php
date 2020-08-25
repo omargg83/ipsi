@@ -36,10 +36,11 @@
 	  </div>
 	  <div class="card-body">
 	    <div class="row">
-	      <div class="col-8">
+	      <div class="col-12">
 	        <label for="">Nombre</label>
 	        <input type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" class="form-control" required>
 	      </div>
+				<!--
 	      <div class="col-2">
 	        <label for="">Orden</label>
 	        <input type="text" id="orden" name="orden" value="<?php echo $orden; ?>" class="form-control">
@@ -48,6 +49,8 @@
 	        <label for="">Pagina</label>
 	        <input type="text" id="pagina" name="pagina" value="<?php echo $pagina; ?>" class="form-control">
 	      </div>
+
+			-->
 	    </div>
 	  </div>
 	  <div class="card-footer">

@@ -4,6 +4,9 @@
   $idsubactividad=clean_var($_REQUEST['idsubactividad']);
   $tipo=clean_var($_REQUEST['tipo']);
 
+	$actividad=$db->actividad_editar($idactividad);
+	$tipo_actividad=$actividad->tipo;
+
   $paciente=0;
   if(isset($_REQUEST['idpaciente'])){
     $idpaciente=$_REQUEST['idpaciente'];
@@ -12,7 +15,7 @@
 ?>
   <div class="card">
     <?php
-    if($tipo=="normal" or $tipo=="inicial"){
+    if($tipo=="normal"){
       echo "<div class='card-header'>";
         echo "Bloque contexto";
       echo "</div>";

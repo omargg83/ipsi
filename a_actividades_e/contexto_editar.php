@@ -81,7 +81,7 @@
 						echo "<label>Agregue texto descriptivo a la respuesta:</label> <small>(Deje en blanco en caso de no requerir)</small>";
 						echo "<input type='text' name='texto' id='texto' value='$texto' class='form-control'>";
 					echo "</div>";
-					if($tipo_actividad=="normal" or $tipo_actividad=="inicial"){
+					if($tipo_actividad=="normal"){
 						echo "<div class='col-4'>";
 							echo "<div class='form-check'>";
 								echo "<input type='checkbox' class='form-check-input' name='incisos' id='incisos' value='varios'"; if($incisos=='1'){ echo "checked"; } echo ">";

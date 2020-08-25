@@ -56,7 +56,7 @@
 	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
 	 <?php
 	 if($inicial==0){
-	?>
+		 ?>
 		 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
 		 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $modulo->nombre; ?></li>
 		<?php
@@ -108,11 +108,12 @@
 				<p>Indicaciones</p>
 				<?php echo $indicaciones; ?>
 			</div>
-			<hr>
-			<div class='card-body'>
+			<div class='card-body mb-3'>
 					<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_pacientes_e/anotaciones_editar' v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' title='editar' omodal="1">Anotaciones</button>
-				<p>Anotaciones -Solo visible al terapéuta-</p>
-				<?php echo $anotaciones; ?>
+					<div class="mb-3">
+						<p>Anotaciones -Solo visible al terapéuta-</p>
+						<?php echo $anotaciones; ?>
+					</div>
 			</div>
 		</div>
 	</div>
@@ -140,7 +141,7 @@
 				</div>
 				<div class="col-10 text-center">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapsesub<?php echo $key->idsubactividad; ?>" aria-expanded="true" aria-controls="collapsesub<?php echo $key->idsubactividad; ?>">
-						<?php echo $key->orden; ?>- Subactividad: <?php echo $key->nombre; ?>
+						<?php echo $key->orden; ?><?php echo $key->nombre; ?>
 						<?php
 							$total=0;
 							$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = :id and evalua=1";
@@ -156,7 +157,7 @@
 							if($contx->rowCount()>0){
 								$total=(100*$contx->rowCount())/$bloques->total;
 							}
-							echo "<br>(".$contx->rowCount()."/".$bloques->total.")<br>";
+							echo "(".$contx->rowCount()."/".$bloques->total.")";
 							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
 						 ?>
 					</button>
@@ -169,29 +170,29 @@
 		<!-- Contexto  -->
 		<div id="collapsesub<?php echo $key->idsubactividad; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 			<div class="card-body" id='bloque'>
-			<div class="container-fluid mb-3 text-center">
-				<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/bloque" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_tipo="<?php echo $actividad->tipo; ?>" omodal="1" >Bloque</button>
-			</div>
 
-			<?php
-				$bloq=$db->contexto_ver($key->idsubactividad);
-				foreach($bloq as $row){
-					$sql="select * from contexto_resp where idcontexto=:id";
-					$contx = $db->dbh->prepare($sql);
-					$contx->bindValue(":id",$row->id);
-					$contx->execute();
-					$texto="";
-					$fecha="";
-					$archivo="";
-					$marca="";
-					if($contx->rowCount()>0){
-						$contexto_resp=$contx->fetch(PDO::FETCH_OBJ);
-						$texto=$contexto_resp->texto;
-						$fecha=$contexto_resp->fecha;
-						$archivo=$contexto_resp->archivo;
-						$marca=$contexto_resp->marca;
-					}
-			?>
+
+				<?php
+					$bloq=$db->contexto_ver($key->idsubactividad);
+					$suma=0;
+					foreach($bloq as $row){
+						$sql="select * from contexto_resp where idcontexto=:id";
+						$contx = $db->dbh->prepare($sql);
+						$contx->bindValue(":id",$row->id);
+						$contx->execute();
+						$texto="";
+						$fecha="";
+						$archivo="";
+						$marca="";
+						if($contx->rowCount()>0){
+							$contexto_resp=$contx->fetch(PDO::FETCH_OBJ);
+							$texto=$contexto_resp->texto;
+							$fecha=$contexto_resp->fecha;
+							$archivo=$contexto_resp->archivo;
+							$marca=$contexto_resp->marca;
+							$suma+=$contexto_resp->valor;
+						}
+				?>
 				<div class="card mb-4" draggable="true">
 					<div class="card-header">
 						<div class='row'>
@@ -206,14 +207,13 @@
 
 								<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad="<?php echo $idactividad; ?>" omodal='1'><i class='fas fa-project-diagram'></i></button>
 
+								<!-- <button class="btn btn-warning btn-sm" ><i class="fas fa-arrows-alt"></i>Mover</button> -->
+
 							</div>
-							<div class="col-4 text-center">
+							<div class="col-10 text-center">
 								<button class="btn btn-link" data-toggle="collapse" data-target="#collapsecon<?php echo $row->id; ?>" aria-expanded="true" aria-controls="collapsecon<?php echo $row->id; ?>">
-									Contexto (<?php echo $row->tipo; ?>)
+									Contexto <!--- (<?php echo $row->tipo; ?>)-->
 								</button>
-							</div>
-							<div class="col-4">
-								<button class="btn btn-warning btn-sm" ><i class="fas fa-arrows-alt"></i>Mover</button>
 							</div>
 						</div>
 					</div>
@@ -224,11 +224,11 @@
 								echo "<form is='f-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' des='a_pacientes/actividad_ver' dix='trabajo' msg='algo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
 							?>
 
-							<div>
+							<div class="mb-3">
 								<?php	echo $row->observaciones; ?>
 							</div>
-							<hr>
-							<div>
+
+							<div class="mb-3">
 								<?php
 									if($row->tipo=="imagen"){
 										echo "<img src='".$db->doc.$row->texto."'/>";
@@ -382,8 +382,8 @@
 												echo "</div>";
 											}
 										echo "</div>";
-										echo "<hr>";
-										echo "<div class='row'>";
+
+										echo "<div class='row mb-3'>";
 											echo "<div class='col-12'>";
 												echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='0' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' >Agregar inciso</button>";
 											echo "</div>";
@@ -393,7 +393,6 @@
 							</div>
 
 							<!-- Fin Preguntas  -->
-							<br>
 							<?php
 								if($row->evalua==1){
 									if(strlen($marca)==0){
@@ -407,12 +406,21 @@
 						</form>
 					</div>
 				</div>
-			</div>
+				</div>
 
-			<?php
-				}
-			?>
-		</div>
+				<?php
+					}
+				?>
+				<div class="container-fluid mb-3 text-center">
+					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/bloque" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_tipo="<?php echo $actividad->tipo; ?>" omodal="1" >Bloque</button>
+				</div>
+			</div>
+			<div class="card-body" id='bloque'>
+				Resultados
+				<?php
+					echo "total: ".$suma;
+				 ?>
+			</div>
 		</div>
 	</div>
 	</div>
