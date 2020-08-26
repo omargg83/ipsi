@@ -28,8 +28,8 @@
     <body class="sb-nav-fixed">
 
 			<div class="container">
-				<form is="f-submit" id="form_cliente" db="a_pacientes/db_" fun="guardar_cliente" des="a_paciente_perfil/index" desid="idpaciente" >
-					<input type="hidden" name="idpaciente" id="idpaciente" value="<?php echo $idpaciente;?>">
+				<form is="f-submit" id="form_cliente" db="a_pacientes/db_" fun="guardar_cliente" >
+					<input type="hidden" name="idpaciente" id="idpaciente" value="0">
 					<div class='card'>
 						<div class='card-header'>
 							Registrar
@@ -63,6 +63,11 @@
 								</div>
 							</div>
 							<div class='row'>
+                <div class="col-3">
+									<label>Fecha nacimiento:</label>
+										<input type="date" class="form-control form-control-sm" name="fnacimiento" id="fnacimiento" value=""  maxlength="20">
+								</div>
+
 								<div class="col-3">
 									<label>Edad:</label>
 										<input type="text" class="form-control form-control-sm" name="edad" id="edad" value="" placeholder="Edad"  maxlength="20">
@@ -94,26 +99,49 @@
 									<label>Teléfono:</label>
 										<input type="text" class="form-control form-control-sm" name="telefono" id="telefono" value="" maxlength="20" placeholder="Teléfono">
 								</div>
+
+								<div class="col-3">
+									<label>Hermanos:</label>
+									<input type="text" class="form-control form-control-sm" name="hermanos" id="hermanos" value="" placeholder="Numero de hermanos"  maxlength="20">
+								</div>
+								<div class="col-3">
+									<label>Facebook:</label>
+									<input type="text" class="form-control form-control-sm" name="facebook" id="facebook" value="" placeholder="Facebook"  maxlength="200">
+								</div>
+                <div class="col-3">
+									<label>Nivel máximo de estudios:</label>
+									<input type="text" class="form-control form-control-sm" name="estudios" id="estudios" value="" placeholder="Nivel máximo de estudios"  maxlength="100">
+								</div>
+                <div class="col-3">
+									<label>Nombre del lugar de trabajo o escuela:</label>
+									<input type="text" class="form-control form-control-sm" name="trabajo" id="trabajo" value="" placeholder="Nombre del lugar de trabajo o escuela"  maxlength="100">
+								</div>
+                <div class="col-3">
+									<label>Nombre del puesto o Número de grado actual:</label>
+									<input type="text" class="form-control form-control-sm" name="puesto" id="puesto" value="" placeholder="Nombre del puesto o Número de grado actual"  maxlength="100">
+								</div>
+                <div class="col-3">
+									<label>Como te enteraste de IPSI:</label>
+									<input type="text" class="form-control form-control-sm" name="ipsi" id="ipsi" value="" placeholder="Como te enteraste de IPSI"  maxlength="100">
+								</div>
 							</div>
 
 							<div class='row'>
-								<div class="col-12">
-									<label>Información personal:</label>
-										<textarea class="form-control form-control-sm" name="observaciones" id="observaciones" placeholder="Información personal" rows=5></textarea>
+                <div class="col-3">
+									<label>Nombre de contacto:</label>
+									<input type="text" class="form-control form-control-sm" name="contacto" id="contacto" value="" placeholder="Nombre de contacto"  maxlength="150">
 								</div>
-							</div>
-							<div class='row'>
-								<div class="col-12">
-									<label>Enfermedades previas:</label>
-										<textarea class="form-control form-control-sm" name="enfermedades" id="enfermedades" placeholder="Enfermedades previas" rows=5></textarea>
+                <div class="col-3">
+									<label>Parentesco:</label>
+									<input type="text" class="form-control form-control-sm" name="parentesco" id="parentesco" value="" placeholder="Parentesco"  maxlength="150">
 								</div>
-							</div>
-							<div class='row'>
-								<div class="col-12">
-									<label>Medicamentos que consume:</label>
-										<textarea class="form-control form-control-sm" name="medicamentos" id="medicamentos" placeholder="Medicamentos que consume" rows=5></textarea>
+                <div class="col-3">
+									<label>Telefono:</label>
+									<input type="text" class="form-control form-control-sm" name="telparentesco" id="telparentesco" value="" placeholder="Telefono"  maxlength="150">
 								</div>
-							</div>
+
+              </div>
+
 							<div class='row'>
 								<div class="col-6">
 									<label>Contraseña:</label>
@@ -135,27 +163,28 @@
 					</div>
 				</form>
 			</div>
-
+      <div class="loader loader-default is-active" id='cargando_div' data-text="Cargando"></div>
+      
 			<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
 
-			<link rel="stylesheet" href="librerias15/jqueryconfirm/css/jquery-confirm.css">
-			<script src="librerias15/jqueryconfirm/js/jquery-confirm.js"></script>
+			<link rel="stylesheet" href="../librerias15/jqueryconfirm/css/jquery-confirm.css">
+			<script src="../librerias15/jqueryconfirm/js/jquery-confirm.js"></script>
 
 			<!-- Animation library for notifications   -->
-			<link href="librerias15/animate.css" rel="stylesheet"/>
+			<link href="../librerias15/animate.css" rel="stylesheet"/>
 
 			<!-- WYSWYG   -->
-			<link href="librerias15/summernote8.12/summernote-lite.css" rel="stylesheet" type="text/css">
-			<script src="librerias15/summernote8.12/summernote-lite.js"></script>
-			<script src="librerias15/summernote8.12/lang/summernote-es-ES.js"></script>
+			<link href="../librerias15/summernote8.12/summernote-lite.css" rel="stylesheet" type="text/css">
+			<script src="../librerias15/summernote8.12/summernote-lite.js"></script>
+			<script src="../librerias15/summernote8.12/lang/summernote-es-ES.js"></script>
 
 			<!--   Alertas   -->
-			<script src="librerias15/swal/dist/sweetalert2.min.js"></script>
+			<script src="../librerias15/swal/dist/sweetalert2.min.js"></script>
 
 			<!--   para imprimir   -->
-			<script src="librerias15/VentanaCentrada.js" type="text/javascript"></script>
+			<script src="../librerias15/VentanaCentrada.js" type="text/javascript"></script>
 
 			<!--   iconos   -->
 			<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
@@ -166,9 +195,8 @@
 			<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/js/uikit.min.js"></script>
 			<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/js/uikit-icons.min.js"></script>
 
-			<script src="librerias15/js/bootstrap.js"></script>
+			<script src="../librerias15/js/bootstrap.js"></script>
 
 			<!--   Propios   -->
-			<script src="sagyc.js"></script>
-
+			<script src="../sagyc.js"></script>
 </body>

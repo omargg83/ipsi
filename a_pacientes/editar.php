@@ -17,6 +17,16 @@
 	$altura="";
 	$enfermedades="";
 	$medicamentos="";
+	$fnacimiento="";
+	$hermanos="";
+	$facebook="";
+	$estudios="";
+	$trabajo="";
+	$puesto="";
+	$ipsi="";
+	$contacto="";
+	$parentesco="";
+	$telparentesco="";
 	$per = $db->personal();
 
 	if($idpaciente>0){
@@ -36,6 +46,16 @@
 		$altura=$pd->altura;
 		$enfermedades=$pd->enfermedades;
 		$medicamentos=$pd->medicamentos;
+		$fnacimiento=$pd->fnacimiento;
+		$hermanos=$pd->hermanos;
+		$facebook=$pd->facebook;
+		$estudios=$pd->estudios;
+		$trabajo=$pd->trabajo;
+		$puesto=$pd->puesto;
+		$ipsi=$pd->ipsi;
+		$contacto=$pd->contacto;
+		$parentesco=$pd->parentesco;
+		$telparentesco=$pd->telparentesco;
 	}
 	?>
 	<nav aria-label='breadcrumb'>
@@ -83,6 +103,11 @@
 				</div>
 				<div class='row'>
 					<div class="col-3">
+						<label>Fecha nacimiento:</label>
+							<input type="date" class="form-control form-control-sm" name="fnacimiento" id="fnacimiento" value="<?php echo $fnacimiento;?>"  maxlength="20">
+					</div>
+
+					<div class="col-3">
 						<label>Edad:</label>
 							<input type="text" class="form-control form-control-sm" name="edad" id="edad" value="<?php echo $edad;?>" placeholder="Edad"  maxlength="20">
 					</div>
@@ -115,6 +140,46 @@
 						<label>Teléfono:</label>
 							<input type="text" class="form-control form-control-sm" name="telefono" id="telefono" value="<?php echo $telefono;?>" maxlength="20" placeholder="Teléfono">
 					</div>
+
+					<div class="col-3">
+						<label>Hermanos:</label>
+						<input type="text" class="form-control form-control-sm" name="hermanos" id="hermanos" value="<?php echo $hermanos;?>" placeholder="Numero de hermanos"  maxlength="20">
+					</div>
+					<div class="col-3">
+						<label>Facebook:</label>
+						<input type="text" class="form-control form-control-sm" name="facebook" id="facebook" value="<?php echo $facebook;?>" placeholder="Facebook"  maxlength="200">
+					</div>
+					<div class="col-3">
+						<label>Nivel máximo de estudios:</label>
+						<input type="text" class="form-control form-control-sm" name="estudios" id="estudios" value="<?php echo $estudios;?>" placeholder="Nivel máximo de estudios"  maxlength="100">
+					</div>
+					<div class="col-3">
+						<label>Nombre del lugar de trabajo o escuela:</label>
+						<input type="text" class="form-control form-control-sm" name="trabajo" id="trabajo" value="<?php echo $trabajo;?>" placeholder="Nombre del lugar de trabajo o escuela"  maxlength="100">
+					</div>
+					<div class="col-3">
+						<label>Nombre del puesto o Número de grado actual:</label>
+						<input type="text" class="form-control form-control-sm" name="puesto" id="puesto" value="<?php echo $puesto;?>" placeholder="Nombre del puesto o Número de grado actual"  maxlength="100">
+					</div>
+					<div class="col-3">
+						<label>Como te enteraste de IPSI:</label>
+						<input type="text" class="form-control form-control-sm" name="ipsi" id="ipsi" value="<?php echo $ipsi;?>" placeholder="Como te enteraste de IPSI"  maxlength="100">
+					</div>
+				</div>
+				<div class='row'>
+					<div class="col-3">
+						<label>Nombre de contacto:</label>
+						<input type="text" class="form-control form-control-sm" name="contacto" id="contacto" value="<?php echo $contacto;?>" placeholder="Nombre de contacto"  maxlength="150">
+					</div>
+					<div class="col-3">
+						<label>Parentesco:</label>
+						<input type="text" class="form-control form-control-sm" name="parentesco" id="parentesco" value="<?php echo $parentesco;?>" placeholder="Parentesco"  maxlength="150">
+					</div>
+					<div class="col-3">
+						<label>Telefono:</label>
+						<input type="text" class="form-control form-control-sm" name="telparentesco" id="telparentesco" value="<?php echo $telparentesco;?>" placeholder="Telefono"  maxlength="150">
+					</div>
+
 				</div>
 
 				<div class='row'>

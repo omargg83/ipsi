@@ -206,7 +206,7 @@
 
 								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="contexto_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idcontexto="<?php echo $row->id; ?>" v_idpaciente='<?php echo $idpaciente; ?>' tp="¿Desea eliminar el bloque selecionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 
-								<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad="<?php echo $idactividad; ?>" omodal='1' v_idcontexto="<?php echo $row->id; ?>"><i class='fas fa-project-diagram'></i></button>
+								<button <?php if($row->idcond){ echo "class='btn btn-danger btn-sm'"; } else { echo "class='btn btn-warning btn-sm'"; } ?> type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" omodal='1' v_idcontexto="<?php echo $row->id; ?>"><i class='fas fa-project-diagram'></i></button>
 
 								<!-- <button class="btn btn-warning btn-sm" ><i class="fas fa-arrows-alt"></i>Mover</button> -->
 

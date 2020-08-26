@@ -118,6 +118,37 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['edad'])){
 			$arreglo+=array('edad'=>clean_var($_REQUEST['edad']));
 		}
+		if (isset($_REQUEST['fnacimiento'])){
+			$arreglo+=array('fnacimiento'=>clean_var($_REQUEST['fnacimiento']));
+		}
+		if (isset($_REQUEST['hermanos'])){
+			$arreglo+=array('hermanos'=>clean_var($_REQUEST['hermanos']));
+		}
+		if (isset($_REQUEST['facebook'])){
+			$arreglo+=array('facebook'=>clean_var($_REQUEST['facebook']));
+		}
+		if (isset($_REQUEST['estudios'])){
+			$arreglo+=array('estudios'=>clean_var($_REQUEST['estudios']));
+		}
+		if (isset($_REQUEST['trabajo'])){
+			$arreglo+=array('trabajo'=>clean_var($_REQUEST['trabajo']));
+		}
+		if (isset($_REQUEST['puesto'])){
+			$arreglo+=array('puesto'=>clean_var($_REQUEST['puesto']));
+		}
+		if (isset($_REQUEST['ipsi'])){
+			$arreglo+=array('ipsi'=>clean_var($_REQUEST['ipsi']));
+		}
+		if (isset($_REQUEST['contacto'])){
+			$arreglo+=array('contacto'=>clean_var($_REQUEST['contacto']));
+		}
+		if (isset($_REQUEST['parentesco'])){
+			$arreglo+=array('parentesco'=>clean_var($_REQUEST['parentesco']));
+		}
+		if (isset($_REQUEST['telparentesco'])){
+			$arreglo+=array('telparentesco'=>clean_var($_REQUEST['telparentesco']));
+		}
+
 		if (isset($_REQUEST['sexo'])){
 			$arreglo+=array('sexo'=>clean_var($_REQUEST['sexo']));
 		}

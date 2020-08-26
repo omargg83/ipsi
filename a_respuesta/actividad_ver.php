@@ -162,7 +162,8 @@
 
 		<!-- Contexto  -->
 		<div id="collapsesub<?php echo $key->idsubactividad; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-			<div class="card-body" id='bloque'>
+			<div class='card-body' id='bloque'>
+
 				<?php
 				$bloq=$db->contexto_ver($key->idsubactividad);
 				foreach($bloq as $row){
@@ -181,45 +182,32 @@
 						$archivo=$contexto_resp->archivo;
 						$marca=$contexto_resp->marca;
 					}
-				?>
 
+						$visible=1;
+						if($row->idcond){
+							$visible=0;
 
-				<div class="card mb-4">
+							$sql="select * from contexto_resp where idrespuesta='$row->idcond'";
+							$sth = $db->dbh->prepare($sql);
+							$sth->execute();
+							$sth->fetch(PDO::FETCH_OBJ);
+							if($sth->rowCount()){
+								$visible=1;
+							}
+						}
+					if($visible){
 
-					<?php
-					/*
-					<div class="card-header">
-						<div class='row'>
-							<div class="col-12 text-center">
-								<button class="btn btn-link" data-toggle="collapse" data-target="#collapsecon<?php echo $row->id; ?>" aria-expanded="true" aria-controls="collapsecon<?php echo $row->id; ?>">
-									Contexto (<?php echo $row->tipo; ?>)<br>
-									<?php
-										if(strlen($marca)>0){
-											echo "<i class='fas fa-user-check'></i>(1/1)<br>";
-											echo "<progress id='file' value='100' max='100'> 100 %</progress>";
-										}
-										else{
-											echo "(0/1)<br>";
-											echo "<progress id='file' value='0' max='100'> 0 %</progress>";
-										}
-									 ?>
-								</button>
-							</div>
-						</div>
-					</div>
-						*/
-					?>
-					<div id="collapsecon<?php echo $row->id; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-						<div class="card-body">
-							<?php
+						echo "<div class='card mb-4'>";
+							echo "<div class='card-body'>";
 								echo "<form is='f-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' des='a_respuesta/actividad_ver' dix='contenido' msg='algo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
-							?>
-							<div>
-								<?php	echo $row->observaciones; ?>
-							</div>
-							<hr>
-							<div>
-								<?php
+
+								echo "<div>";
+									echo $row->observaciones;
+								echo "</div>";
+
+								echo "<hr>";
+
+								echo "<div>";
 									if($row->tipo=="imagen"){
 										echo "<img src='".$db->doc.$row->texto."'/>";
 									}
@@ -246,7 +234,6 @@
 									}
 									else if($row->tipo=="pregunta"){
 										echo $row->texto;
-
 										///////////<!-- Respuestas  -->
 										echo "<div class='container-fluid'>";
 											$rx=$db->respuestas_ver($row->id);
@@ -311,8 +298,8 @@
 														if($row->usuario==1){
 															echo "<input type='text' name='resp_".$respuesta->id."' id='resp_".$respuesta->id."' value='$texto_resp' placeholder='Define..' class='form-control form-control-sm'>";
 														}
-														echo "</div>";
 													echo "</div>";
+												echo "</div>";
 											}
 											if($row->personalizado==1){
 												$texto="";
@@ -360,11 +347,10 @@
 											}
 										echo "</div>";
 									}
-							?>
-							</div>
-							<!-- Fin Preguntas  -->
-							<br>
-							<?php
+								echo "</div>";
+								//<!-- Fin Preguntas  -->
+								echo "<br>";
+
 								if($row->evalua==1){
 									if(strlen($marca)==0){
 										echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Contestar</button>";
@@ -373,19 +359,15 @@
 										echo "<button class='btn btn-warning btn-sm' type='submit'><i class='fas fa-check-double'></i>Actualizar</button>";
 									}
 								}
-							?>
-							</form>
-						</div>
-					</div>
-				</div>
-
-
-			<?php
+								echo "</form>";
+							echo "</div>";
+						echo "</div>";
+					} //////////fin condicional
 				}
+				echo "</div>"; ////////fin ciclo context
+				echo "</div>"; ////////fin ciclo context
 			?>
 		</div>
-		</div>
-	</div>
 	</div>
 
 <?php

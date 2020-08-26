@@ -664,6 +664,21 @@ class Cuest extends ipsi{
 		return $this->borrar('respuestas',"id",$idrespuesta);
 	}
 
+	public function guardar_condicion(){
+		$idcond=$_REQUEST['idcond'];
+		$idcontexto=$_REQUEST['idcontexto'];
+
+		$arreglo=array();
+		if(strlen($idcond)>0){
+			$arreglo+=array('idcond'=>$idcond);
+		}
+		else{
+			$arreglo+=array('idcond'=>null);
+		}
+
+		$x=$this->update('contexto',array('id'=>$idcontexto), $arreglo);
+		return $x;
+	}
 }
 
 $db = new Cuest();

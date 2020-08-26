@@ -51,41 +51,41 @@
 
 <div class='container'>
 <!-- actividad  -->
-<div id="accordion">
-	<div class="card mb-3">
-		<div class="card-header" id="headingOne">
-			<div class='row'>
-				<div class="col-2">
+	<div id="accordion">
+		<div class="card mb-3">
+			<div class="card-header" id="headingOne">
+				<div class='row'>
+					<div class="col-2">
 
-					<!---Editar actividad -->
-					<?php
-					if($inicial==0){
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idmodulo='$actividad->idmodulo'><i class='fas fa-pencil-alt'></i></button>";
-					}
-					else{
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idterapia='$idterapia'><i class='fas fa-pencil-alt'></i></button>";
-					}
-				?>
+						<!---Editar actividad -->
+						<?php
+						if($inicial==0){
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idmodulo='$actividad->idmodulo'><i class='fas fa-pencil-alt'></i></button>";
+						}
+						else{
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idterapia='$idterapia'><i class='fas fa-pencil-alt'></i></button>";
+						}
+					?>
 
+
+					</div>
+					<div class="col-9 text-left">
+						<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							Actividad: <?php echo $nombre; ?>
+						</button>
+					</div>
 
 				</div>
-				<div class="col-9 text-left">
-					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-						Actividad: <?php echo $nombre; ?>
-					</button>
-				</div>
-
 			</div>
-		</div>
 
-		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-			<div class='card-body'>
-				<p>Indicaciones</p>
-				<?php echo $indicaciones; ?>
+			<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+				<div class='card-body'>
+					<p>Indicaciones</p>
+					<?php echo $indicaciones; ?>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 <!-- Fin de actividad  -->
 
 
@@ -141,6 +141,9 @@
 								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="contexto_duplicar" v_idactividad="<?php echo $idactividad; ?>" v_idcontexto="<?php echo $row->id; ?>" tp="¿Desea duplicar el bloque?" title="Borrar"><i class="far fa-copy"></i></button>
 
 								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="contexto_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idcontexto="<?php echo $row->id; ?>" tp="¿Desea eliminar el bloque selecionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+
+								<button <?php if($row->idcond){ echo "class='btn btn-danger btn-sm'"; } else { echo "class='btn btn-warning btn-sm'"; } ?> type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad="<?php echo $idactividad; ?>" omodal='1' v_idcontexto="<?php echo $row->id; ?>"><i class='fas fa-project-diagram'></i></button>
+
 							</div>
 							<div class="col-4 text-center">
 								<button class="btn btn-link" data-toggle="collapse" data-target="#collapsecon<?php echo $row->id; ?>" aria-expanded="true" aria-controls="collapsecon<?php echo $row->id; ?>">
@@ -207,8 +210,6 @@
 
 														<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="respuesta_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idrespuesta="<?php echo $respuesta->id; ?>" tp="¿Desea eliminar el inciso selecionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 
-														<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/condicional_editar" omodal="1"><i class="fas fa-project-diagram"></i></button>
-
 													</div>
 													<div class="col-1">
 														<?php
@@ -229,6 +230,9 @@
 													?>
 													<div class="col-3">
 														<?php echo $respuesta->nombre;  ?>
+													</div>
+													<div class="col-3">
+														<?php echo $respuesta->valor;  ?>
 													</div>
 													<div class="col-4">
 														<?php
