@@ -361,6 +361,38 @@ class Cuest extends ipsi{
 		return $x;
 	}
 
+	public function guarda_escala(){
+		try{
+			$arreglo=array();
+			$x="";
+			$idescala=$_REQUEST['idescala'];
+			$idsubactividad=$_REQUEST['idsubactividad'];
+			$descripcion=$_REQUEST['descripcion'];
+			$minimo=$_REQUEST['minimo'];
+			$maximo=$_REQUEST['maximo'];
+
+			$arreglo+=array('descripcion'=>$descripcion);
+			$arreglo+=array('minimo'=>$minimo);
+			$arreglo+=array('maximo'=>$maximo);
+
+			if($idescala==0){
+
+				$arreglo+=array('idsubactividad'=>$idsubactividad);
+				$x=$this->insert('escala_sub',$arreglo);
+			}
+			else{
+				$x=$this->update('escala_sub',array('id'=>$idescala), $arreglo);
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function borrar_escala(){
+		if (isset($_REQUEST['idescala'])){$idescala=$_REQUEST['idescala'];}
+		return $this->borrar('escala_sub',"id",$idescala);
+	}
 
 	public function subactividad_ver($id){
 		try{
@@ -593,7 +625,32 @@ class Cuest extends ipsi{
 			$idrespuesta=clean_var($_REQUEST['idrespuesta']);
 			$nombre=clean_var($_REQUEST['nombre']);
 			$idcontexto=clean_var($_REQUEST['idcontexto']);
-			$valor=clean_var($_REQUEST['valor']);
+
+			if(isset($_REQUEST['valor'])){
+				$valor=clean_var($_REQUEST['valor']);
+				$sql="select * from respuestas where idcontexto=$idcontexto and valor=$valor";
+				$sth = $this->dbh->prepare($sql);
+				$sth->execute();
+				if($sth->rowCount()>0){
+					$arreglo=array();
+					$arreglo+=array('error'=>1);
+					$arreglo+=array('terror'=>"Ya existe respuesta con el valor");
+					return json_encode($arreglo);
+				}
+			}
+			else{
+				$sql="select max(valor) as total from respuestas where idcontexto=$idcontexto";
+				$sth = $this->dbh->prepare($sql);
+				$sth->execute();
+				if($sth->rowCount()==0){
+					$valor=0;
+				}
+				else{
+					$resp=$sth->fetch(PDO::FETCH_OBJ);
+					$valor=$resp->total+1;
+				}
+			}
+
 
 			$extension = '';
 		  $ruta = '../a_archivos/respuestas/';

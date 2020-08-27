@@ -125,6 +125,7 @@
 </div>
 
 <?php
+	$suma=0;
 	foreach($subactividad as $key){
 ?>
 	<!-- Subactividad  -->
@@ -138,6 +139,8 @@
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/subactividad_editar" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' omodal="1"><i class="fas fa-pencil-alt"></i></button>
 
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="subactividad_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' tp="¿Desea eliminar la subactividad?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+
+					<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" omodal='1' v_idescala="0" v_idsubactividad="<?php echo $key->idsubactividad; ?>"><i class="fas fa-chart-line"></i></button>
 
 				</div>
 				<div class="col-10 text-center">
@@ -175,7 +178,6 @@
 
 				<?php
 					$bloq=$db->contexto_ver($key->idsubactividad);
-					$suma=0;
 					foreach($bloq as $row){
 						$sql="select * from contexto_resp where idcontexto=:id";
 						$contx = $db->dbh->prepare($sql);
@@ -191,7 +193,6 @@
 							$fecha=$contexto_resp->fecha;
 							$archivo=$contexto_resp->archivo;
 							$marca=$contexto_resp->marca;
-							$suma+=$contexto_resp->valor;
 						}
 				?>
 				<div class="card mb-4" draggable="true">
@@ -410,16 +411,59 @@
 				</div>
 
 				<?php
+						//////////////para obtener el valor de lo respondido
+						$sql="select sum(valor) as total from contexto_resp where idcontexto='$row->id'";
+						$suma_r = $db->dbh->prepare($sql);
+						$suma_r->execute();
+						if($suma_r->rowCount()>0){
+							$resp_r=$suma_r->fetch(PDO::FETCH_OBJ);
+							$suma+=$resp_r->total;
+						}
 					}
 				?>
 				<div class="container-fluid mb-3 text-center">
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/bloque" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_tipo="<?php echo $actividad->tipo; ?>" omodal="1" >Bloque</button>
 				</div>
 			</div>
-			<div class="card-body" id='bloque'>
-				Resultados
+			<div class="card-body">
 				<?php
-					echo "total: ".$suma;
+					$sql="select * from escala_sub where idsubactividad='$key->idsubactividad'";
+					$escala = $db->dbh->prepare($sql);
+					$escala->execute();
+					$texto_resp="";
+					if($escala->rowCount()>0){
+						echo "Escala";
+						echo "<table class='table'>";
+						echo "<tr><td>-</td><td>Descripcion</td><td>Minimo</td><td>Maximo</td></tr>";
+						foreach($escala->fetchAll(PDO::FETCH_OBJ) as $exca){
+							echo "<tr>";
+								echo "<td>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='$exca->id' v_idsubactividad='$key->idsubactividad' >
+									Editar</button>";
+
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='borrar_escala' v_idescala='$exca->id' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea eliminar la escala?' title='Borrar'>Borrar</button>";
+
+								echo "</td>";
+								echo "<td>";
+									echo $exca->descripcion;
+								echo "</td>";
+								echo "<td>";
+									echo $exca->minimo;
+								echo "</td>";
+								echo "<td>";
+									echo $exca->maximo;
+								echo "</td>";
+							echo "</tr>";
+
+							if($suma>=$exca->minimo and $suma<=$exca->maximo){
+								$texto_resp=$exca->descripcion;
+							}
+						}
+						echo "</table>";
+					}
+					echo "<br>Resultados:";
+					echo "<br>Suma de respuestas: ".$suma;
+					echo "<br>Resultado: ".$texto_resp;
 				 ?>
 			</div>
 		</div>

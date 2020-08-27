@@ -44,14 +44,23 @@
 				</div>
 			-->
 
-				<div class="col-10">
+				<div class="col-9">
 					<label>Inciso</label>
 					<input type="text" name="nombre" id="nombre" value="<?php echo $nombre; ?>" class="form-control" required>
 				</div>
 
-				<div class="col-2">
+				<div class="col-3">
 					<label>Valor</label>
-					<input type="text" name="valor" id="valor" value="<?php echo $valor; ?>" class="form-control" required>
+					<select class="form-control" name='valor' id='valor'>
+						<?php
+							echo "<option value='0'"; if($valor==0){ echo " selected"; } echo ">0 Falso</option>";
+							echo "<option value='1'"; if($valor==1){ echo " selected"; } echo ">1 Verdadero</option>";
+							for($i=2; $i<=100; $i++){
+								echo "<option value='$i'"; if($valor==$i){ echo " selected"; } echo ">$i</option>";
+							}
+						?>
+					</select>
+
 				</div>
 
 				<div class="col-12">
