@@ -5,7 +5,7 @@
 
 <nav aria-label='breadcrumb'>
   <ol class='breadcrumb'>
-    <li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" title="Inicio">Inicio</li>
+    <li class="breadcrumb-item" is="li-link" des="a_actividades/terapias" dix="trabajo" title="Inicio">Inicio</li>
   </ol>
 </nav>
 

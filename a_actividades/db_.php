@@ -250,8 +250,8 @@ class Cuest extends ipsi{
 				$arreglo+=array('idmodulo'=>clean_var($_REQUEST['idmodulo']));
 			}
 
-			if (isset($_REQUEST['idterapia'])){
-				$arreglo+=array('idterapia'=>clean_var($_REQUEST['idterapia']));
+			if (isset($_REQUEST['idtrack'])){
+				$arreglo+=array('idtrack'=>clean_var($_REQUEST['idtrack']));
 			}
 
 			if($idactividad==0){

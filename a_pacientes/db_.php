@@ -353,7 +353,7 @@ class Cliente extends ipsi{
 		$arreglo=array();
 		$arreglo+=array('idmodulo'=>$resp->idmodulo);
 		$arreglo+=array('idpaciente'=>$idpaciente);
-		$arreglo+=array('idterapia'=>$resp->idterapia);
+		$arreglo+=array('idtrack'=>$resp->idtrack);
 		$arreglo+=array('idcreado'=>$resp->idcreado);
 		$arreglo+=array('nombre'=>$resp->nombre);
 		$arreglo+=array('indicaciones'=>$resp->indicaciones);
@@ -732,7 +732,7 @@ class Cliente extends ipsi{
 
 	public function actividad_inicial($id){
 		try{
-			$sql="select * from actividad where idterapia=:id and idpaciente is null";
+			$sql="select * from actividad where idtrack=:id and idpaciente is null";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();

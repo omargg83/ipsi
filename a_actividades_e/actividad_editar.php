@@ -7,13 +7,14 @@
 		$idmodulo=clean_var($_REQUEST['idmodulo']);
 		$inicial=0;
 		$modulo = $db->modulo_editar($idmodulo);
-		$track=$db->track_editar($modulo->idtrack);
-		$idterapia=$track->idterapia;
+		$idtrack=$modulo->idtrack;
 	}
-	if(isset($_REQUEST['idterapia'])){
-		$idterapia=clean_var($_REQUEST['idterapia']);
+	if(isset($_REQUEST['idtrack'])){
+		$idtrack=clean_var($_REQUEST['idtrack']);
 		$inicial=1;
 	}
+	$track=$db->track_editar($idtrack);
+	$idterapia=$track->idterapia;
 	$terapia=$db->terapia_editar($idterapia);
 
 
@@ -32,14 +33,14 @@
 
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="">Inicio</lis>
-		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" v_idterapia="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
+		<li class="breadcrumb-item" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="">Inicio</lis>
+		<li class="breadcrumb-item" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" v_idterapia="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
 		<?php
 			if($inicial==0){
 		?>
-			<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
-			<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
-			<li class="breadcrumb-item active" type="button" is="li-link" des="a_actividades/actividad_ver" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" ><?php echo $nombre; ?></li>
+			<li class="breadcrumb-item" is="li-link" des="a_actividades/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
+			<li class="breadcrumb-item" is="li-link" des="a_actividades/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
+			<li class="breadcrumb-item active" is="li-link" des="a_actividades/actividad_ver" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" ><?php echo $nombre; ?></li>
 		<?php
 			}
 		?>

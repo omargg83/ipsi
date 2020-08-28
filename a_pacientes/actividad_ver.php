@@ -17,23 +17,22 @@
 	$inicial=0;
 	if($actividad->tipo=="inicial"){
 		$inicial=1;
-		$idterapia=$actividad->idterapia;
+		$idtrack=$actividad->idtrack;
 	}
 	else{
-
 		$sql="select * from modulo where id=:idmodulo";
 		$sth = $db->dbh->prepare($sql);
 		$sth->bindValue(":idmodulo",$actividad->idmodulo);
 		$sth->execute();
 		$modulo=$sth->fetch(PDO::FETCH_OBJ);
-
-		$sql="select * from track where id=:idtrack";
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":idtrack",$modulo->idtrack);
-		$sth->execute();
-		$track=$sth->fetch(PDO::FETCH_OBJ);
-		$idterapia=$track->idterapia;
+		$idtrack=$modulo->idtrack;
 	}
+	$sql="select * from track where id=:idtrack";
+	$sth = $db->dbh->prepare($sql);
+	$sth->bindValue(":idtrack",$idtrack);
+	$sth->execute();
+	$track=$sth->fetch(PDO::FETCH_OBJ);
+	$idterapia=$track->idterapia;
 
 	$sql="select * from terapias where id=:idterapia";
 	$sth = $db->dbh->prepare($sql);
@@ -54,10 +53,10 @@
 	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre; ?></li>
 	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
 	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
+	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
 	 <?php
 	 if($inicial==0){
 		 ?>
-		 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
 		 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $modulo->nombre; ?></li>
 		<?php
 	 }
@@ -72,7 +71,7 @@
 	 }
 	 else{
 	 ?>
-		 <button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
+		 <button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
 	 <?php
 	 }
 	 ?>
@@ -90,7 +89,7 @@
 
 					<!---Editar actividad --->
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/actividad_editar" dix="trabajo"
-					v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idterapia="<?php echo $idterapia; ?>"><i class="fas fa-pencil-alt"></i></button>
+					v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idtrack="<?php echo $idtrack; ?>"><i class="fas fa-pencil-alt"></i></button>
 
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" db="a_actividades/db_" fun="publicar_actividad" v_idactividad="<?php echo $idactividad; ?>" tp="¿Desea publicar la actividad en el catalogo?" title="Duplicar"><i class="far fa-copy"></i></button>
 
