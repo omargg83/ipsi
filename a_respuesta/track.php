@@ -41,71 +41,7 @@
 
 <div class='container'>
 	<div class='row'>
-		<?php
-		///////////////////////CODIGO
-		 $sql="SELECT * from actividad_per
-		 left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idterapia=:idterapia";
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":id",$idpaciente);
-		$sth->bindValue(":idterapia",$idterapia);
-		$sth->execute();
-		$inicial=$sth->fetchAll(PDO::FETCH_OBJ);
-
-		$continuar=1;
-		foreach($inicial as $key){
-
-			$sql="SELECT count(contexto.id) as total from contexto
-			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-			where subactividad.idactividad=:id";
-			$contx = $db->dbh->prepare($sql);
-			$contx->bindValue(":id",$key->idactividad);
-			$contx->execute();
-			$bloques=$contx->fetch(PDO::FETCH_OBJ);
-
-			$sql="SELECT count(contexto_resp.id) as total FROM	contexto
-			right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
-			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-			where subactividad.idactividad=:id
-			group by contexto.id";
-			$contx = $db->dbh->prepare($sql);
-			$contx->bindValue(":id",$key->idactividad);
-			$contx->execute();
-			$total=(100*$contx->rowCount())/$bloques->total;
-
-			if($total!=100){
-				$continuar=0;
-			}
-		?>
-			<div class='col-4 p-3 w-50 actcard'>
-  			<div class='card'>
-					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
-					
-					<div class='card-header'>
-						<?php echo $key->nombre; ?> (Actividad inicial)
-						<?php
-							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
-						?>
-					</div>
-					<div class='card-body'>
-						<div class='row'>
-							<div class='col-12'>
-								<?php echo $key->observaciones; ?>
-							</div>
-						</div>
-					</div>
-					<div class='card-body'>
-						<div class='row'>
-							<div class='col-12'>
-								<button class="btn btn-danger btn-block" type="button" is="b-link" des="a_respuesta/actividad_ver" dix="contenido" v_idactividad="<?php echo $key->idactividad; ?>" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Ver</button>
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		<?php
-		}
-		?>
+	
 
   	<?php
   	foreach($track as $key){

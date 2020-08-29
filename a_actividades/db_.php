@@ -205,7 +205,7 @@ class Cuest extends ipsi{
 	}
 	public function actividad_inicial($id){
 		try{
-			$sql="select * from actividad where idterapia=:id and idpaciente is null";
+			$sql="select * from actividad where idtrack=:id and idpaciente is null";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();

@@ -69,7 +69,7 @@
 																	foreach($sth->fetchAll(PDO::FETCH_OBJ) as $track){
 																		echo "<div class='collapse' id='d".$terapia->id."' aria-labelledby='headingOne' data-parent='#sidenavAccordion'>";
 																			echo "<nav class='sb-sidenav-menu-nested nav'>";
-																				echo "<a class='nav-link' is='menu-link' href='#a_respuesta/track?idterapia=$terapia->id' is='menu-link'>$track->nombre</a>";
+																				echo "<a class='nav-link' is='menu-link' href='#a_respuesta/modulos?idtrack=$track->id' is='menu-link'>$track->nombre</a>";
 																			echo "</nav>";
 																		echo "</div>";
 																	}

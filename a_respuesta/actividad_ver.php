@@ -17,7 +17,7 @@
 	$inicial=0;
 	if($actividad->tipo=="inicial"){
 		$inicial=1;
-		$idterapia=$actividad->idterapia;
+		$idtrack=$actividad->idtrack;
 	}
 	else{
 
@@ -26,14 +26,15 @@
 		$sth->bindValue(":idmodulo",$actividad->idmodulo);
 		$sth->execute();
 		$modulo=$sth->fetch(PDO::FETCH_OBJ);
+		$idtrack=$modulo->idtrack;
 
-		$sql="select * from track where id=:idtrack";
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":idtrack",$modulo->idtrack);
-		$sth->execute();
-		$track=$sth->fetch(PDO::FETCH_OBJ);
-		$idterapia=$track->idterapia;
 	}
+	$sql="select * from track where id=:idtrack";
+	$sth = $db->dbh->prepare($sql);
+	$sth->bindValue(":idtrack",$idtrack);
+	$sth->execute();
+	$track=$sth->fetch(PDO::FETCH_OBJ);
+	$idterapia=$track->idterapia;
 
 	$sql="select * from terapias where id=:idterapia";
 	$sth = $db->dbh->prepare($sql);
@@ -103,7 +104,10 @@
 							$contx = $db->dbh->prepare($sql);
 							$contx->bindValue(":id",$idactividad);
 							$contx->execute();
-							$total=(100*$contx->rowCount())/$bloques->total;
+							$total=0;
+							if($contx->rowCount()){
+								$total=(100*$contx->rowCount())/$bloques->total;
+							}
 
 							echo "<br>(".$contx->rowCount()."/".$bloques->total.")<br>";
 							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
@@ -148,7 +152,10 @@
 							$contx = $db->dbh->prepare($sql);
 							$contx->bindValue(":id",$key->idsubactividad);
 							$contx->execute();
-							$total=(100*$contx->rowCount())/$bloques->total;
+							$total=0;
+							if($contx->rowCount()){
+								$total=(100*$contx->rowCount())/$bloques->total;
+							}
 
 							echo "<br>(".$contx->rowCount()."/".$bloques->total.")<br>";
 							echo "<progress id='file' value='$total' max='100'> $total %</progress>";

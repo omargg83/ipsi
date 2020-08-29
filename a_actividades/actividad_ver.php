@@ -13,13 +13,14 @@
 
 	if($actividad->tipo=="inicial"){
 		$inicial=1;
-		$idterapia=$actividad->idterapia;
+		$idtrack=$actividad->idtrack;
 	}
 	else{
 		$modulo = $db->modulo_editar($actividad->idmodulo);
-		$track=$db->track_editar($modulo->idtrack);
-		$idterapia=$track->idterapia;
+		$idtrack=$modulo->idtrack;
 	}
+	$track=$db->track_editar($idtrack);
+	$idterapia=$track->idterapia;
 	$terapia=$db->terapia_editar($idterapia);
 ?>
 
@@ -27,10 +28,10 @@
 	<ol class='breadcrumb'>
 		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="">Inicio</li>
 		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" v_idterapia="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
+		<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
 		<?php
 			if($inicial==0){
 		?>
-			<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
 			<li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
 		<?php
 			}
