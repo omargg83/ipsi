@@ -1,5 +1,5 @@
 <?php
-$server=2;
+$server=1;
 if($server==1){
   /////////remoto
   define("MYSQLUSER", "wwipsi_wwipsi");
@@ -22,10 +22,8 @@ else if($server==3){
   define("BDD", "wwipsi_actividades");
 }
 
-
-
 ///////////////////contraseñas
-/////////// USAR EL SERVER 4 *TEMPORALMENTE
+/////////// USAR EL SERVER 1
 ////EN LOS ARCHIVOS DB_.PHP ACTIVAR PARA VER PATH
 //// Cuentas
 
