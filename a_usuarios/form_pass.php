@@ -5,7 +5,7 @@
 	<h5 class='modal-title'>Cambiar contraseña</h5>
 </div>
   <div class='modal-body' >
-	<form is="f-submit" id="form_cliente" db="a_usuarios/db_" fun="password" cmodal="1">
+	<form is="f-submit" id="form_clientepass" db="a_usuarios/db_" fun="password" cmodal="1">
 	<?php
 		echo "<input  type='hidden' id='id' NAME='id' value='$id'>";
 	?>

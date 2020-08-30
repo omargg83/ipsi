@@ -136,8 +136,8 @@
 						<button class="btn btn-warning btn-sm" type="submit">Guardar</button>
 						<?php
 							if($idpaciente>0){
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_foto' dix='nueva_sub' tp='edit' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-camera'></i>Foto</button>";
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_pass' dix='nueva_sub' tp='edit' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-key'></i>Contraseña</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_paciente_perfil/form_foto'  omodal='1'><i class='fas fa-camera'></i>Foto</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_paciente_perfil/form_pass'  omodal='1'><i class='fas fa-key'></i>Contraseña</button>";
 							}
 
 						?>

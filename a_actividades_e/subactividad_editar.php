@@ -18,6 +18,13 @@
 		$orden=$res->orden;
 		$pagina=$res->pagina;
 	}
+	else{
+		$sql="select max(orden) as maximo from subactividad where idactividad='$idactividad'";
+		$sth = $db->dbh->prepare($sql);
+		$sth->execute();
+		$ordena=$sth->fetch(PDO::FETCH_OBJ);
+		$orden=$ordena->maximo+1;
+	}
 ?>
 
 	<?php
@@ -36,15 +43,16 @@
 	  </div>
 	  <div class="card-body">
 	    <div class="row">
-	      <div class="col-12">
-	        <label for="">Nombre</label>
-	        <input type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" class="form-control" required>
-	      </div>
-				<!--
-	      <div class="col-2">
+				<div class="col-2">
 	        <label for="">Orden</label>
 	        <input type="text" id="orden" name="orden" value="<?php echo $orden; ?>" class="form-control">
 	      </div>
+	      <div class="col-10">
+	        <label for="">Nombre</label>
+	        <input type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" class="form-control" required>
+	      </div>
+
+				<!--
 	      <div class="col-2">
 	        <label for="">Pagina</label>
 	        <input type="text" id="pagina" name="pagina" value="<?php echo $pagina; ?>" class="form-control">

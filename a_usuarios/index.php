@@ -23,7 +23,6 @@
 	  </div>
 	</nav>
 
-mi coijaslkjnsadñlnkdfgloinkj
 <div id='trabajo'>
 	<?php
 		include 'lista.php';

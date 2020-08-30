@@ -1,5 +1,6 @@
 <?php
 	require_once("../a_pacientes/db_.php");
+
   $idtrack=$_REQUEST['idtrack'];
   $idpaciente=$_REQUEST['idpaciente'];
 
@@ -61,8 +62,8 @@
             <div class='card-body'>
               <div class='row'>
                 <div class='col-12'>
-                  <button class="btn btn-warning btn-block" type="button" is="b-link" db="a_pacientes/db_" fun='agregar_inicial' dix="trabajo" tp='¿Desea agregar la actividad inicial?' des="a_pacientes/track"
-									v_idactividad="<?php echo $key->idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idterapia="<?php echo $idtrack; ?>">Agregar</button>
+                  <button class="btn btn-warning btn-block" type="button" is="b-link" db="a_pacientes/db_" fun='agregar_inicial' dix="trabajo" tp='¿Desea agregar la actividad inicial?' des="a_pacientes/modulos"
+									v_idactividad="<?php echo $key->idactividad; ?>" v_idtrack="<?php echo $idtrack; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idterapia="<?php echo $idtrack; ?>">Agregar</button>
                 </div>
               </div>
             </div>

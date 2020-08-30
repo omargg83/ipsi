@@ -14,10 +14,18 @@
 	$incisos="0";
 	$personalizado="0";
 	$usuario="0";
+	$orden="";
 	if($idcontexto==0){
 		$idactividad=clean_var($_REQUEST['idactividad']);
 		$idsubactividad=clean_var($_REQUEST['idsubactividad']);
 	  $tipo=clean_var($_REQUEST['tipo']);
+
+		$sql="select max(orden) as maximo from contexto where idsubactividad='$idsubactividad'";
+		$sth = $db->dbh->prepare($sql);
+		$sth->execute();
+		$ordena=$sth->fetch(PDO::FETCH_OBJ);
+		$orden=$ordena->maximo+1;
+
 	}
 	else{
 		$con=$db->contexto_editar($idcontexto);
@@ -29,6 +37,7 @@
 		$incisos=$con->incisos;
 		$personalizado=$con->personalizado;
 		$usuario=$con->usuario;
+		$orden=$con->orden;
 	}
 
 	$sub=$db->subactividad_editar($idsubactividad);
@@ -53,8 +62,12 @@
 	    Editar contexto
 	  </div>
 	  <div class="card-body">
+
 			<?php
-			if($tipo_actividad=="normal" or $tipo_actividad=="inicial"){
+			echo "<label>Orden:</label>";
+			echo "<input type='text' class='form-control' id='orden' name='orden'  value='$orden'>";
+
+			if($tipo_actividad=="normal"){
 				echo "<label>Observaciones:</label>";
 				echo "<textarea id='observaciones' name='observaciones' class='form-control'>$observaciones</textarea>";
 			}
@@ -65,7 +78,11 @@
 	    }
 	    else if($tipo=="imagen"){
 				echo "<label>Adjuntar imagen</label>";
-				echo "<input type='file' class='form-control-file' id='texto' name='texto' accept='image/png, image/jpeg'>";
+				echo "<input type='file' id='texto' name='texto' accept='image/png, image/jpeg'>";
+				echo "<hr>";
+				if(strlen($texto)>0){
+					echo "<img src='".$db->doc.$texto."' width='500px'>";
+				}
 	    }
 	    else if($tipo=="video"){
 				echo "<label>Video</label>";

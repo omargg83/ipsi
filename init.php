@@ -1,5 +1,6 @@
 <?php
-$server=1;
+$server=2;
+$_SESSION['des']=1;
 if($server==1){
   /////////remoto
   define("MYSQLUSER", "wwipsi_wwipsi");

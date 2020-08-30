@@ -12,6 +12,7 @@
 	$sth->bindValue(":idtrack",$idtrack);
 	$sth->execute();
 	$track=$sth->fetch(PDO::FETCH_OBJ);
+	$inicial=$track->inicial;
 
 	$sql="select * from terapias where id=:idterapia";
 	$sth = $db->dbh->prepare($sql);
@@ -39,9 +40,19 @@
  </ol>
 </nav>
 
- <div class="alert alert-warning text-center tituloventana" role="alert">
-   Mis Modulos
- </div>
+<?php
+	if($inicial!=1){
+		echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
+			echo "Mis Modulos";
+		echo "</div>";
+	}
+	else{
+		echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
+			echo "Actividad inicial";
+		echo "</div>";
+	}
+
+ ?>
 
 <div class='container'>
   <div class='row'>
@@ -53,9 +64,9 @@
 		$sth->bindValue(":id",$idpaciente);
 		$sth->bindValue(":idtrack",$idtrack);
 		$sth->execute();
-		$inicial=$sth->fetchAll(PDO::FETCH_OBJ);
+		$acinicial=$sth->fetchAll(PDO::FETCH_OBJ);
 
-		foreach($inicial as $key){
+		foreach($acinicial as $key){
 		?>
 			<div class='col-4 p-3 w-50 actcard'>
   			<div class='card'>
@@ -76,7 +87,7 @@
 					<div class='card-body'>
 						<div class='row'>
 							<div class='col-12'>
-								<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" v_idactividad="<?php echo $key->idactividad; ?>" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Ver</button>
+								<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" v_idactividad="<?php echo $key->idactividad; ?>" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Ver inicial</button>
 							</div>
 						</div>
 					</div>
@@ -115,22 +126,24 @@
   		</div>
   	<?php
   	}
-  	?>
-		<div id='' class='col-4 p-3 w-50'>
-			<div class="card" style='height:200px;'>
-				<div class='card-body text-center'>
-					<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e/inicial_agregar" dix="trabajo" v_idtrack="<?php echo $idtrack; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Agregar Actividad inicial</button>
-				</div>
-			</div>
-		</div>
-
-
-		<div id='' class='col-4 p-3 w-50'>
-      <div class="card" style='height:200px;'>
-        <div class='card-body text-center'>
-          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e/modulos_agregar" dix="trabajo" v_idmodulo="0" v_idtrack="<?php echo $idtrack; ?>"  v_idpaciente="<?php echo $idpaciente; ?>" >Nuevo modulo</button>
-        </div>
-      </div>
-    </div>
-  </div>
+		if($inicial==1){
+			echo "<div id='' class='col-4 p-3 w-50'>";
+				echo "<div class='card' style='height:200px;'>";
+					echo "<div class='card-body text-center'>";
+						echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes_e/inicial_agregar' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Agregar Actividad inicial</button>";
+					echo "</div>";
+				echo "</div>";
+			echo "</div>";
+		}
+		else{
+			echo "<div id='' class='col-4 p-3 w-50'>";
+				echo "<div class='card' style='height:200px;'>";
+					echo "<div class='card-body text-center'>";
+						echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes_e/modulos_agregar' dix='trabajo' v_idmodulo='0' v_idtrack='$idtrack'  v_idpaciente='$idpaciente' >Nuevo modulo</button>";
+					echo "</div>";
+				echo "</div>";
+			echo "</div>";
+		}
+		?>
+	</div>
 </div>

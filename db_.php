@@ -6,9 +6,6 @@ class dashboard extends ipsi{
 		parent::__construct();
 		$this->pac="a_archivos/clientes/";
 	}
-
-
-
 }
 
 $db = new dashboard();

@@ -41,7 +41,7 @@
 
 													<div class="sb-sidenav-menu-heading">
 
-														<div style="width: 36%;display: inline-block;"> <img style="vertical-align: bottom;border-radius: 10px; max-width: 50px;" src="img/perfil.jpg"> </div>
+														<div style="width: 36%;display: inline-block;"> <img style="vertical-align: bottom;border-radius: 10px; max-width: 50px;" src="<?php echo $_SESSION['foto']; ?>"> </div>
 														<div style="padding-left: 5px;width: 46%;display: inline-block;color:#fff;">  <strong><?php echo $_SESSION['nombrec']; ?> </strong> <br><?php echo $_SESSION['tipo_user']; ?></div>
 
 													</div>
@@ -61,7 +61,7 @@
 																		echo "<div class='sb-sidenav-collapse-arrow'><i class='fas fa-angle-down'></i></div>";
 																	echo "</a>";
 
-																	$sql="SELECT * from track_per left outer join track on track.id=track_per.idtrack where track_per.idpaciente=:id and track.idterapia=:idterapia";
+																	$sql="SELECT * from track_per left outer join track on track.id=track_per.idtrack where track_per.idpaciente=:id and track.idterapia=:idterapia order by track.inicial desc";
 																	$sth = $db->dbh->prepare($sql);
 																	$sth->bindValue(":id",$_SESSION['idusuario']);
 																	$sth->bindValue(":idterapia",$terapia->id);
@@ -75,9 +75,11 @@
 																	}
 																}
 														?>
+															<!--
 															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Expediente</a>
 															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Relaciones</a>
 															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Agenda</a>
+														-->
 															<a class="nav-link" is='menu-link' href='#a_paciente_perfil/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi cuenta</a>
 														<?php
 															}
@@ -193,17 +195,23 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <span class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <span class="mr-2 d-none d-lg-inline text-gray-600 small"><a class="topcuenta" is='menu-link' href='#a_paciente_perfil/index'>Mi cuenta</a></span>
+               <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+								 <?php
+									 if($_SESSION['tipo_user'] == "Psicólogo"){
+										 echo "<a class='topcuenta' is='menu-link' href='#a_usuarios/editar_p'>Mi cuenta</a></span>";
+									 }
+									 else{
+										 echo "<a class='topcuenta' is='menu-link' href='#a_paciente_perfil/index'>Mi cuenta</a></span>";
+									 }
+								 ?>
+
+
 								<span class="mr-2 d-none d-lg-inline text-gray-600 small">|</span>
 								<span class="mr-2 d-none d-lg-inline text-gray-600 small"><a onclick='salir()' href="#"class="topcuenta">Salir</a></span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                <img class="img-profile rounded-circle" src="<?php echo $_SESSION['foto']; ?>">
               </span>
-
-
             </li>
-
           </ul>
-
         </nav>
                 <main>
 										<!---DIV PRINCIPAL--->

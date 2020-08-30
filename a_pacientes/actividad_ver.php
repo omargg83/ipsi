@@ -15,7 +15,7 @@
 	$actividad=$sth->fetch(PDO::FETCH_OBJ);
 
 	$inicial=0;
-	if($actividad->tipo=="inicial"){
+	if($actividad->idtrack){
 		$inicial=1;
 		$idtrack=$actividad->idtrack;
 	}
@@ -96,7 +96,7 @@
 				</div>
 				<div class="col-10 text-left">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-						Actividad: <?php echo $nombre_act; ?>
+						Actividad: <?php echo $nombre_act; ?> 	(<?php echo $actividad->tipo; ?>)
 					</button>
 				</div>
 			</div>
@@ -138,30 +138,35 @@
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/subactividad_editar" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' omodal="1"><i class="fas fa-pencil-alt"></i></button>
 
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="subactividad_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' tp="¿Desea eliminar la subactividad?" title="Borrar"><i class="far fa-trash-alt"></i></button>
-
-					<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" omodal='1' v_idescala="0" v_idsubactividad="<?php echo $key->idsubactividad; ?>"><i class="fas fa-chart-line"></i></button>
+					<?php
+						if($actividad->tipo=="evaluacion"){
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0' v_idsubactividad='$key->idsubactividad'><i class='fas fa-chart-line'></i></button>";
+						}
+					 ?>
 
 				</div>
 				<div class="col-10 text-center">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapsesub<?php echo $key->idsubactividad; ?>" aria-expanded="true" aria-controls="collapsesub<?php echo $key->idsubactividad; ?>">
 						<?php echo $key->orden; ?><?php echo $key->nombre; ?>
 						<?php
-							$total=0;
-							$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = :id and evalua=1";
-							$contx = $db->dbh->prepare($sql);
-							$contx->bindValue(":id",$key->idsubactividad);
-							$contx->execute();
-							$bloques=$contx->fetch(PDO::FETCH_OBJ);
+							if($actividad->tipo=="evaluacion"){
+								$total=0;
+								$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = :id and evalua=1";
+								$contx = $db->dbh->prepare($sql);
+								$contx->bindValue(":id",$key->idsubactividad);
+								$contx->execute();
+								$bloques=$contx->fetch(PDO::FETCH_OBJ);
 
-							$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = :id	group by contexto.id";
-							$contx = $db->dbh->prepare($sql);
-							$contx->bindValue(":id",$key->idsubactividad);
-							$contx->execute();
-							if($contx->rowCount()>0){
-								$total=(100*$contx->rowCount())/$bloques->total;
-							}
-							echo "(".$contx->rowCount()."/".$bloques->total.")";
-							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
+								$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = :id	group by contexto.id";
+								$contx = $db->dbh->prepare($sql);
+								$contx->bindValue(":id",$key->idsubactividad);
+								$contx->execute();
+								if($contx->rowCount()>0){
+									$total=(100*$contx->rowCount())/$bloques->total;
+								}
+								echo "(".$contx->rowCount()."/".$bloques->total.")";
+								echo "<progress id='file' value='$total' max='100'> $total %</progress>";
+						}
 						 ?>
 					</button>
 				</div>
@@ -173,8 +178,6 @@
 		<!-- Contexto  -->
 		<div id="collapsesub<?php echo $key->idsubactividad; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 			<div class="card-body" id='bloque'>
-
-
 				<?php
 					$bloq=$db->contexto_ver($key->idsubactividad);
 					foreach($bloq as $row){
@@ -325,9 +328,13 @@
 													echo "<div class='col-3'>";
 														echo $respuesta->nombre;
 													echo "</div>";
-													echo "<div class='col-1'>";
-														echo $respuesta->valor;
-													echo "</div>";
+
+													///////////////////////////////////aca el valor
+													if($actividad->tipo=="evaluacion"){
+														echo "<div class='col-1'>";
+															echo $respuesta->valor;
+														echo "</div>";
+													}
 
 													echo "<div class='col-3'>";
 														if($row->usuario==1){
@@ -426,43 +433,45 @@
 			</div>
 			<div class="card-body">
 				<?php
-					$sql="select * from escala_sub where idsubactividad='$key->idsubactividad'";
-					$escala = $db->dbh->prepare($sql);
-					$escala->execute();
-					$texto_resp="";
-					if($escala->rowCount()>0){
-						echo "Escala";
-						echo "<table class='table'>";
-						echo "<tr><td>-</td><td>Descripcion</td><td>Minimo</td><td>Maximo</td></tr>";
-						foreach($escala->fetchAll(PDO::FETCH_OBJ) as $exca){
-							echo "<tr>";
-								echo "<td>";
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='$exca->id' v_idsubactividad='$key->idsubactividad' >
-									Editar</button>";
+					if($actividad->tipo=="evaluacion"){
+						$sql="select * from escala_sub where idsubactividad='$key->idsubactividad'";
+						$escala = $db->dbh->prepare($sql);
+						$escala->execute();
+						$texto_resp="";
+						if($escala->rowCount()>0){
+							echo "Escala";
+							echo "<table class='table'>";
+							echo "<tr><td>-</td><td>Descripcion</td><td>Minimo</td><td>Maximo</td></tr>";
+							foreach($escala->fetchAll(PDO::FETCH_OBJ) as $exca){
+								echo "<tr>";
+									echo "<td>";
+										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='$exca->id' v_idsubactividad='$key->idsubactividad' >
+										Editar</button>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='borrar_escala' v_idescala='$exca->id' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea eliminar la escala?' title='Borrar'>Borrar</button>";
+										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='borrar_escala' v_idescala='$exca->id' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea eliminar la escala?' title='Borrar'>Borrar</button>";
 
-								echo "</td>";
-								echo "<td>";
-									echo $exca->descripcion;
-								echo "</td>";
-								echo "<td>";
-									echo $exca->minimo;
-								echo "</td>";
-								echo "<td>";
-									echo $exca->maximo;
-								echo "</td>";
-							echo "</tr>";
+									echo "</td>";
+									echo "<td>";
+										echo $exca->descripcion;
+									echo "</td>";
+									echo "<td>";
+										echo $exca->minimo;
+									echo "</td>";
+									echo "<td>";
+										echo $exca->maximo;
+									echo "</td>";
+								echo "</tr>";
 
-							if($suma>=$exca->minimo and $suma<=$exca->maximo){
-								$texto_resp=$exca->descripcion;
+								if($suma>=$exca->minimo and $suma<=$exca->maximo){
+									$texto_resp=$exca->descripcion;
+								}
 							}
+							echo "</table>";
 						}
-						echo "</table>";
+						echo "<br>Resultados:";
+						echo "<br>Suma de respuestas: ".$suma;
+						echo "<br>Resultado: ".$texto_resp;
 					}
-					echo "<br>Resultados:";
-					echo "<br>Suma de respuestas: ".$suma;
-					echo "<br>Resultado: ".$texto_resp;
 				 ?>
 			</div>
 		</div>

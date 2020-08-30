@@ -1,7 +1,6 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=1;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
 	echo "<div class='alert alert-primary' role='alert'>";
@@ -54,7 +53,7 @@ class Cliente extends ipsi{
 	}
   public function contexto_ver($id){
 		try{
-			$sql="select * from contexto where idsubactividad=:id";
+			$sql="select * from contexto where idsubactividad=:id order by orden asc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();

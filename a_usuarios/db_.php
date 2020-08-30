@@ -2,6 +2,14 @@
 require_once("../control_db.php");
 
 
+if($_SESSION['des']==1 and strlen($function)==0)
+{
+	echo "<div class='alert alert-primary' role='alert'>";
+	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
+	echo print_r($arrayx);
+	echo "</div>";
+}
+
 class Usuario extends ipsi{
 
 	public $nivel_personal;
@@ -40,12 +48,10 @@ class Usuario extends ipsi{
 		$x="";
 		$arreglo =array();
 		$idusuario=$_REQUEST['idusuario'];
-		if (isset($_REQUEST['nombre'])){
-			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
-		}
-		if (isset($_REQUEST['apellidop'])){
-			$arreglo+=array('apellidop'=>$_REQUEST['apellidop']);
-		}
+
+		$arreglo+=array('nombre'=>$_REQUEST['nombre']);
+		$arreglo+=array('apellidop'=>$_REQUEST['apellidop']);
+
 		if (isset($_REQUEST['apellidom'])){
 			$arreglo+=array('apellidom'=>$_REQUEST['apellidom']);
 		}
@@ -55,6 +61,8 @@ class Usuario extends ipsi{
 		if (isset($_REQUEST['nivel'])){
 			$arreglo+=array('nivel'=>$_REQUEST['nivel']);
 		}
+
+		$_SESSION['nombrec']=$_REQUEST['nombre']." ".$_REQUEST['apellidop'];
 
 		if($idusuario==0){
 			$x=$this->insert('usuarios', $arreglo);
@@ -78,6 +86,33 @@ class Usuario extends ipsi{
 		else{
 			return "La contraseña no coincide";
 		}
+	}
+	public function foto(){
+		$x="";
+		$arreglo =array();
+		$id1=$_REQUEST['id1'];
+
+		$extension = '';
+		$ruta = '../a_archivos/terapeuta/';
+		$archivo = $_FILES['foto']['tmp_name'];
+		$nombrearchivo = $_FILES['foto']['name'];
+		$tmp=$_FILES['foto']['tmp_name'];
+		$info = pathinfo($nombrearchivo);
+		if($archivo!=""){
+			$extension = $info['extension'];
+			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+				$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
+				move_uploaded_file($tmp,$ruta.$nombreFile);
+				$ruta=$ruta."/".$nombreFile;
+				$arreglo+=array('foto'=>$nombreFile);
+				$_SESSION['foto']="a_archivos/terapeuta/".$nombreFile;
+			}
+			else{
+				echo "fail";
+				exit;
+			}
+		}
+		return $this->update('usuarios',array('idusuario'=>$id1), $arreglo);
 	}
 }
 

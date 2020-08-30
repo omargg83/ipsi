@@ -4,6 +4,8 @@
   $modulos=$db->modulos($idtrack);
 
 	$track=$db->track_editar($idtrack);
+	$inicial=$track->inicial;
+
 	$terapia=$db->terapia_editar($track->idterapia);
 ?>
 
@@ -16,15 +18,28 @@
    </ol>
  </nav>
 
- <div class="alert alert-warning text-center tituloventana" role="alert">
-   Modulos
+	<?php
+	if($inicial==1){
+		echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
+	   echo "Actividad inicial";
+	 	echo "</div>";
+	}
+	else{
+		echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
+	   echo "Modulos";
+	 	echo "</div>";
+	}
 
- </div>
+	?>
 
-<div class='container'>
+ <div class='container'>
   <div class='row'>
-
   <?php
+
+
+
+
+
   	foreach($modulos as $key){
   ?>
   		<div class='col-4 p-3 w-50 actcard'>
@@ -36,6 +51,8 @@
 						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/modulos" dix="trabajo" db="a_actividades/db_" fun="borrar_modulo" v_idmodulo="<?php echo $key->id; ?>" v_idtrack="<?php echo $idtrack; ?>" tp="¿Desea eliminar el modulo selecionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 
 						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/modulos_editar" dix="trabajo" v_idmodulo="<?php echo $key->id; ?>" v_idtrack="<?php echo $idtrack; ?>"><i class="fas fa-pencil-alt"></i></button>
+
+
 					</div>
   				<div class='card-body'>
   					<div class='row'>
@@ -55,24 +72,16 @@
   		</div>
   	<?php
   	}
-  	?>
-		<div id='' class='col-4 p-3 w-50'>
-      <div class="card" style='height:200px;'>
-        <div class='card-body text-center'>
-          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades_e/modulos_editar" dix="trabajo" v_idmodulo="0" v_idtrack="<?php echo $idtrack; ?>"   >Nuevo modulo</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<hr>
+		if($inicial!=1){
+			echo "<div id='' class='col-4 p-3 w-50'>";
+	      echo "<div class='card' style='height:200px;'>";
+	        echo "<div class='card-body text-center'>";
+	          echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_actividades_e/modulos_editar' dix='trabajo' v_idmodulo='0' v_idtrack='$idtrack'   >Nuevo modulo</button>";
+	        echo "</div>";
+	      echo "</div>";
+	    echo "</div>";
+		}
 
-<div class="alert alert-warning text-center tituloventana" role="alert">
-  Actividad inicial
-</div>
-<div class='container'>
-  <div class='row'>
-		<?php
 		$actividad=$db->actividad_inicial($idtrack);
 		foreach($actividad as $key){
 		?>
@@ -81,7 +90,7 @@
 					<div class='card-header'>
 						<?php echo $key->nombre; ?>
 
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/track" dix="trabajo" db="a_actividades/db_" fun="borrar_actividad" v_idactividad="<?php echo $key->idactividad; ?>" v_idtrack="<?php echo $idtrack; ?>" tp="¿Desea eliminar la actividad inicial seleccionada?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/modulos" dix="trabajo" db="a_actividades/db_" fun="borrar_actividad" v_idactividad="<?php echo $key->idactividad; ?>" v_idtrack="<?php echo $idtrack; ?>" tp="¿Desea eliminar la actividad inicial seleccionada?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 
 						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="<?php echo $key->idactividad; ?>" v_idtrack="<?php echo $idtrack; ?>"><i class="fas fa-pencil-alt"></i></button>
 					</div>
@@ -103,15 +112,16 @@
 			</div>
 		<?php
 		}
+		if($inicial==1){
+			echo "<div id='' class='col-4 p-3 w-50'>";
+	      echo "<div class='card' style='height:200px;'>";
+	        echo "<div class='card-body text-center'>";
+	          echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='0' v_idtrack='$idtrack'>Nueva Actividad inicial</button>";
+	        echo "</div>";
+	      echo "</div>";
+	    echo "</div>";
+		}
 		?>
-
-		<div id='' class='col-4 p-3 w-50'>
-      <div class="card" style='height:200px;'>
-        <div class='card-body text-center'>
-          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="0" v_idtrack="<?php echo $idtrack; ?>">Nueva Actividad inicial</button>
-        </div>
-      </div>
-    </div>
 
 	</div>
 </div>

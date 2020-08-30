@@ -75,7 +75,7 @@
 						$_SESSION['pagnivel']=40;
 						$_SESSION['idusuario']=$CLAVE->id;
 						$_SESSION['cfondo']="#fff";
-						$_SESSION['foto']=$CLAVE->foto;
+						$_SESSION['foto']="a_archivos/clientes/".$CLAVE->foto;
 						$arr=array();
 						$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idusuario']);
 						return json_encode($arr);

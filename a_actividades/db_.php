@@ -1,7 +1,6 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=1;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
 	echo "<div class='alert alert-primary' role='alert'>";
@@ -75,7 +74,7 @@ class Cuest extends ipsi{
 
 	public function track($id1){
 		try{
-			$sql="select * from track where idterapia=:id";
+			$sql="select * from track where idterapia=:id order by inicial desc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id1);
 			$sth->execute();
@@ -109,6 +108,9 @@ class Cuest extends ipsi{
 		}
 		if (isset($_REQUEST['descripcion'])){
 			$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
+		}
+		if (isset($_REQUEST['inicial'])){
+			$arreglo+=array('inicial'=>clean_var($_REQUEST['inicial']));
 		}
 		if($idtrack==0){
 			$arreglo+=array('idterapia'=>clean_var($_REQUEST['idterapia']));
@@ -298,7 +300,7 @@ class Cuest extends ipsi{
 		////////////Clonar actividad
 		$arreglo=array();
 		$arreglo+=array('idmodulo'=>$resp->idmodulo);
-		$arreglo+=array('idterapia'=>$resp->idterapia);
+		$arreglo+=array('idtrack'=>$resp->idtrack);
 		$arreglo+=array('idcreado'=>$resp->idcreado);
 		$arreglo+=array('nombre'=>$resp->nombre);
 		$arreglo+=array('indicaciones'=>$resp->indicaciones);
@@ -454,7 +456,7 @@ class Cuest extends ipsi{
 
 	public function contexto_ver($id){
 		try{
-			$sql="select * from contexto where idsubactividad=:id";
+			$sql="select * from contexto where idsubactividad=:id order by orden asc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
@@ -484,6 +486,9 @@ class Cuest extends ipsi{
 			$tipo=clean_var($_REQUEST['tipo']);
 			$arreglo+=array('tipo'=>$tipo);
 
+			if(isset($_REQUEST['orden'])){
+				$arreglo+=array('orden'=>clean_var($_REQUEST['orden']));
+			}
 
 			if(isset($_REQUEST['observaciones'])){
 				$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
@@ -628,7 +633,8 @@ class Cuest extends ipsi{
 
 			if(isset($_REQUEST['valor'])){
 				$valor=clean_var($_REQUEST['valor']);
-				$sql="select * from respuestas where idcontexto=$idcontexto and valor=$valor";
+
+				$sql="select * from respuestas where idcontexto=$idcontexto and valor=$valor and id!=$idrespuesta";
 				$sth = $this->dbh->prepare($sql);
 				$sth->execute();
 				if($sth->rowCount()>0){
@@ -650,7 +656,6 @@ class Cuest extends ipsi{
 					$valor=$resp->total+1;
 				}
 			}
-
 
 			$extension = '';
 		  $ruta = '../a_archivos/respuestas/';

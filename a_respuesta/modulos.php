@@ -19,6 +19,48 @@
 	$sth->execute();
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
+	$continuar=1;
+	if($track->inicial!=1){
+		///////////////////////para evaluar
+		$sql="select * from track where idterapia=$terapia->id and inicial=1";
+		$track_c = $db->dbh->prepare($sql);
+		$track_c->execute();
+		$bloquef=0;
+		$contarf=0;
+		foreach($track_c->fetchAll(PDO::FETCH_OBJ) as $key){
+			$sql="SELECT count(contexto.id) as total from contexto
+			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+			left outer join actividad on actividad.idactividad=subactividad.idactividad
+			where  actividad.idtrack=".$key->id." and actividad.idpaciente=".$_SESSION['idusuario']." and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+			$contx = $db->dbh->prepare($sql);
+			$contx->execute();
+			$bloques=$contx->fetch(PDO::FETCH_OBJ);
+			$bloquef+=$bloques->total;
+			/////////////////
+
+			$sql="SELECT count(contexto_resp.id) as total FROM	contexto
+			right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
+			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+			left outer join actividad on actividad.idactividad=subactividad.idactividad
+			where actividad.idtrack=".$key->id."	and actividad.idpaciente=".$_SESSION['idusuario']." group by contexto.id";
+			$respx = $db->dbh->prepare($sql);
+			$respx->execute();
+			$respx->fetch(PDO::FETCH_OBJ);
+			$contarf+=$respx->rowCount();
+		}
+		$continuar=1;
+		$total=(100*$contarf)/$bloquef;
+		if($total!=100){
+			$continuar=0;
+		}
+	}
+
+
+	if($continuar==0){
+		echo "Faltan actividades iniciales por concluir";
+		return 0;
+	}
+
 	///////////////////////CODIGO
 	$sql="SELECT * from modulo_per left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=:id and modulo.idtrack=:idtrack";
 	$sth = $db->dbh->prepare($sql);
@@ -38,10 +80,18 @@
  </ol>
 </nav>
 
- <div class="alert alert-warning text-center tituloventana" role="alert">
-   Mis Modulos
-
- </div>
+<?php
+	if($track->inicial!=1){
+ 		echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
+   		echo "Mis Modulos";
+ 		echo "</div>";
+	}
+	else{
+		echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
+   		echo "Actividad inicial";
+ 		echo "</div>";
+	}
+ ?>
 
 <div class='container'>
   <div class='row'>
@@ -59,7 +109,7 @@
 			$total=0;
 			$sql="SELECT count(contexto.id) as total from contexto
 			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-			where subactividad.idactividad=:id";
+			where subactividad.idactividad=:id and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
 			$contx = $db->dbh->prepare($sql);
 			$contx->bindValue(":id",$key->idactividad);
 			$contx->execute();
@@ -86,9 +136,9 @@
 					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
 
 					<div class='card-header'>
-						<?php echo $key->nombre; ?> (Actividad inicial)
+						<?php echo $key->nombre; ?> <br>(Actividad inicial)
 						<?php
-							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
+							echo "<br><progress id='file' value='$total' max='100'> $total %</progress>";
 						?>
 					</div>
 					<div class='card-body'>
@@ -101,7 +151,7 @@
 					<div class='card-body'>
 						<div class='row'>
 							<div class='col-12'>
-								<button class="btn btn-danger btn-block" type="button" is="b-link" des="a_respuesta/actividad_ver" dix="contenido" v_idactividad="<?php echo $key->idactividad; ?>" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Ver</button>
+								<button class="btn btn-danger btn-block" type="button" is="b-link" des="a_respuesta/actividad_ver" dix="contenido" v_idactividad="<?php echo $key->idactividad; ?>" v_idtrack="<?php echo $idtrack; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Ver</button>
 
 							</div>
 						</div>

@@ -42,8 +42,6 @@
 					echo "<option value='".$key->id."'";  if($contexto->idcond==$key->id){ echo " selected";}  echo ">".$key->cont." - ".$key->nombre."</option>";
 				}
 				echo "</select>";
-
-
 			 ?>
 
 	   </div>

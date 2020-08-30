@@ -11,7 +11,7 @@
 	$indicaciones=$actividad->indicaciones;
 	$inicial=0;
 
-	if($actividad->tipo=="inicial"){
+	if($actividad->idtrack){
 		$inicial=1;
 		$idtrack=$actividad->idtrack;
 	}
@@ -72,7 +72,7 @@
 					</div>
 					<div class="col-9 text-left">
 						<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-							Actividad: <?php echo $nombre; ?>
+							Actividad: <?php echo $nombre; ?> 	(<?php echo $actividad->tipo; ?>)
 						</button>
 					</div>
 
@@ -108,6 +108,12 @@
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/subactividad_editar" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idactividad='<?php echo $idactividad; ?>' omodal="1"><i class="fas fa-pencil-alt"></i></button>
 
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="subactividad_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" tp="¿Desea eliminar la subactividad?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+
+					<?php
+						if($actividad->tipo=="evaluacion"){
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' omodal='1' v_idescala='0' v_idsubactividad='$key->idsubactividad'><i class='fas fa-chart-line'></i></button>";
+						}
+					 ?>
 
 				</div>
 				<div class="col-10">
@@ -146,13 +152,10 @@
 								<button <?php if($row->idcond){ echo "class='btn btn-danger btn-sm'"; } else { echo "class='btn btn-warning btn-sm'"; } ?> type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad="<?php echo $idactividad; ?>" omodal='1' v_idcontexto="<?php echo $row->id; ?>"><i class='fas fa-project-diagram'></i></button>
 
 							</div>
-							<div class="col-4 text-center">
+							<div class="col-10 text-center">
 								<button class="btn btn-link" data-toggle="collapse" data-target="#collapsecon<?php echo $row->id; ?>" aria-expanded="true" aria-controls="collapsecon<?php echo $row->id; ?>">
 									Contexto (<?php echo $row->tipo; ?>)
 								</button>
-							</div>
-							<div class="col-4">
-								<button class="btn btn-warning btn-sm" ><i class="fas fa-arrows-alt"></i>Mover</button>
 							</div>
 						</div>
 					</div>
@@ -284,10 +287,44 @@
 					</div>
 				</div>
 			</div>
-
 			<?php
 				}
 			?>
+			<?php
+				if($actividad->tipo=="evaluacion"){
+					$sql="select * from escala_sub where idsubactividad='$key->idsubactividad'";
+					$escala = $db->dbh->prepare($sql);
+					$escala->execute();
+					$texto_resp="";
+					if($escala->rowCount()>0){
+						echo "Escala";
+						echo "<table class='table'>";
+						echo "<tr><td>-</td><td>Descripcion</td><td>Minimo</td><td>Maximo</td></tr>";
+						foreach($escala->fetchAll(PDO::FETCH_OBJ) as $exca){
+							echo "<tr>";
+								echo "<td>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' omodal='1' v_idescala='$exca->id' v_idsubactividad='$key->idsubactividad' >
+									Editar</button>";
+
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='borrar_escala' v_idescala='$exca->id' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad'  tp='¿Desea eliminar la escala?' title='Borrar'>Borrar</button>";
+
+								echo "</td>";
+								echo "<td>";
+									echo $exca->descripcion;
+								echo "</td>";
+								echo "<td>";
+									echo $exca->minimo;
+								echo "</td>";
+								echo "<td>";
+									echo $exca->maximo;
+								echo "</td>";
+							echo "</tr>";
+						}
+						echo "</table>";
+					}
+
+				}
+			 ?>
 		</div>
 		</div>
 	</div>

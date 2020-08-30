@@ -13,9 +13,6 @@
 		$idtrack=clean_var($_REQUEST['idtrack']);
 		$inicial=1;
 	}
-	$track=$db->track_editar($idtrack);
-	$idterapia=$track->idterapia;
-	$terapia=$db->terapia_editar($idterapia);
 
 
 	$nombre="Nueva actividad";
@@ -28,7 +25,18 @@
 		$observaciones=$cuest->observaciones;
 		$indicaciones=$cuest->indicaciones;
 		$tipo=$cuest->tipo;
+
+		if($cuest->idtrack){
+			$idtrack=$cuest->idtrack;
+			$inicial=1;
+		}
 	}
+
+
+	$track=$db->track_editar($idtrack);
+	$idterapia=$track->idterapia;
+	$terapia=$db->terapia_editar($idterapia);
+
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -74,13 +82,18 @@
 						<label>Tipo de terapia:</label>
 						<select class='form-control' id='tipo' name='tipo'>
 							<?php
-							if($inicial==0){
-								echo "<option value='normal' "; if($tipo=="normal"){ echo " selected";} echo ">Normal</option>";
-								echo "<option value='evaluacion' "; if($tipo=="evaluacion"){ echo " selected";} echo ">Evaluacion</option>";
-							}
-							else{
-								echo "<option value='inicial' "; if($tipo=="inicial"){ echo " selected";} echo ">Inicial</option>";
-							}
+								if($idactividad==0){
+									echo "<option value='normal'>Normal</option>";
+									echo "<option value='evaluacion'>Evaluacion</option>";
+								}
+								else{
+									if($tipo=="normal"){
+										echo "<option value='normal' selected>Normal</option>";
+									}
+									else{
+										echo "<option value='evaluacion' selected>Evaluacion</option>";
+									}
+								}
 							?>
 						</select>
 					</div>

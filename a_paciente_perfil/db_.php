@@ -1,6 +1,13 @@
 <?php
 require_once("../control_db.php");
 
+if($_SESSION['des']==1 and strlen($function)==0)
+{
+	echo "<div class='alert alert-primary' role='alert'>";
+	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
+	echo print_r($arrayx);
+	echo "</div>";
+}
 
 class Usuario extends ipsi{
 
@@ -66,7 +73,7 @@ class Usuario extends ipsi{
 			$arreglo=array();
 			$passPOST=md5(trim($pass1));
 			$arreglo=array('pass'=>$passPOST);
-			$x=$this->update('usuarios',array('idusuario'=>$id), $arreglo);
+			$x=$this->update('clientes',array('id'=>$id), $arreglo);
 			return $x;
 		}
 		else{
@@ -89,6 +96,32 @@ class Usuario extends ipsi{
 		catch(PDOException $e){
 			return "Database access FAILED!";
 		}
+	}
+	public function foto(){
+		$x="";
+		$arreglo =array();
+		$id1=$_REQUEST['id1'];
+
+		$extension = '';
+		$ruta = '../a_archivos/clientes/';
+		$archivo = $_FILES['foto']['tmp_name'];
+		$nombrearchivo = $_FILES['foto']['name'];
+		$tmp=$_FILES['foto']['tmp_name'];
+		$info = pathinfo($nombrearchivo);
+		if($archivo!=""){
+			$extension = $info['extension'];
+			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+				$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
+				move_uploaded_file($tmp,$ruta.$nombreFile);
+				$ruta=$ruta."/".$nombreFile;
+				$arreglo+=array('foto'=>$nombreFile);
+			}
+			else{
+				echo "fail";
+				exit;
+			}
+		}
+		return $this->update('clientes',array('id'=>$id1), $arreglo);
 	}
 }
 

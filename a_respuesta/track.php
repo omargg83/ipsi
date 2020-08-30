@@ -15,8 +15,7 @@
 
 
 	///////////////////////CODIGO
-	 $sql="SELECT * from track_per
-	 left outer join track on track.id=track_per.idtrack where track_per.idpaciente=:id and track.idterapia=:idterapia";
+	$sql="SELECT * from track_per left outer join track on track.id=track_per.idtrack where track_per.idpaciente=:id and track.idterapia=:idterapia order by track.inicial desc";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":id",$idpaciente);
 	$sth->bindValue(":idterapia",$idterapia);
@@ -28,9 +27,9 @@
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
 		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_respuesta/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="contenido">Terapias</li>
-		<li class="breadcrumb-item active" type="button" is="li-link" des="a_respuesta/track" dix="contenido" title="Terapias" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
+		<li class="breadcrumb-item active" is="li-link" des="a_respuesta/track" dix="contenido" title="Terapias" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
 
-		 <button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_respuesta/terapias" dix="contenido" v_idterapia="<?php echo $terapia->id; ?>">Regresar</button>
+		 <button class="btn btn-warning btn-sm" is="b-link" des="a_respuesta/terapias" dix="contenido" v_idterapia="<?php echo $terapia->id; ?>">Regresar</button>
 	</ol>
 </nav>
 
@@ -41,10 +40,33 @@
 
 <div class='container'>
 	<div class='row'>
-	
-
   	<?php
+		$continuar=1;
   	foreach($track as $key){
+			if($key->inicial){
+				$sql="SELECT count(contexto.id) as total from contexto
+				left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+				left outer join actividad on actividad.idactividad=subactividad.idactividad
+				where  actividad.idtrack=".$key->idtrack." and actividad.idpaciente=".$_SESSION['idusuario']." and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+				$contx = $db->dbh->prepare($sql);
+				$contx->execute();
+				$bloques=$contx->fetch(PDO::FETCH_OBJ);
+
+				/////////////////
+				$sql="SELECT count(contexto_resp.id) as total FROM	contexto
+				right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
+				left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+				left outer join actividad on actividad.idactividad=subactividad.idactividad
+				where actividad.idtrack=".$key->idtrack."	and actividad.idpaciente=".$_SESSION['idusuario']." group by contexto.id";
+				$respx = $db->dbh->prepare($sql);
+				$respx->execute();
+				$respx->fetch(PDO::FETCH_OBJ);
+				$total=(100*$respx->rowCount())/$bloques->total;
+
+				if($total!=100){
+					$continuar=0;
+				}
+			}
   	?>
   		<div class='col-4 p-3 w-50 actcard'>
   			<div class='card'>
@@ -63,7 +85,7 @@
   					<div class='row'>
   						<div class='col-12'>
 									<?php
-										if($continuar==1){
+										if($continuar==1 or $key->inicial){
 											echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_respuesta/modulos' dix='contenido' v_idtrack='$key->id' v_idpaciente='$idpaciente'>Ver</button>";
 										}
 										else{

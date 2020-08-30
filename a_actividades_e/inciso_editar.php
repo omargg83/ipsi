@@ -14,14 +14,24 @@
 	$orden="";
 	$nombre="";
 	$valor="";
-
+	$imagen="";
+	$orden="";
 	if($idrespuesta>0){
 		$res=$db->respuestas_editar($idrespuesta);
 		$orden=$res->orden;
 		$nombre=$res->nombre;
 		$valor=$res->valor;
+		$imagen=$res->imagen;
+	}
+	else{
+		$sql="select max(orden) as maximo from respuestas where idcontexto='$idcontexto'";
+		$sth = $db->dbh->prepare($sql);
+		$sth->execute();
+		$ordena=$sth->fetch(PDO::FETCH_OBJ);
+		$orden=$ordena->maximo+1;
 	}
 
+	$cuest=$db->actividad_editar($idactividad);
 	if($paciente==0){
 		echo "<form is='f-submit' id='form-respuesta' db='a_actividades/db_' fun='guarda_respuesta' des='a_actividades/actividad_ver' v_idactividad='$idactividad' cmodal='1'>";
 	}
@@ -37,32 +47,40 @@
 	 	</div>
 		<div class="card-body">
 			<div class="row">
-				<!--
+
+					<?php
+						if(strlen($imagen)>0){
+							echo "<div class='col-1'>";
+							echo "<img src='".$db->doc.$imagen."' width='50px'>";
+							echo "</div>";
+						}
+					?>
+
 				<div class="col-2">
 					<label>Orden</label>
 					<input type="text" name="orden" id="orden" value="<?php echo $orden; ?>" class="form-control">
 				</div>
-			-->
 
-				<div class="col-9">
+
+				<div class="col-6">
 					<label>Inciso</label>
 					<input type="text" name="nombre" id="nombre" value="<?php echo $nombre; ?>" class="form-control" required>
 				</div>
 
-				<div class="col-3">
-					<label>Valor</label>
-					<select class="form-control" name='valor' id='valor'>
-						<?php
-							echo "<option value='0'"; if($valor==0){ echo " selected"; } echo ">0 Falso</option>";
-							echo "<option value='1'"; if($valor==1){ echo " selected"; } echo ">1 Verdadero</option>";
-							for($i=2; $i<=100; $i++){
-								echo "<option value='$i'"; if($valor==$i){ echo " selected"; } echo ">$i</option>";
-							}
-						?>
-					</select>
-
-				</div>
-
+				<?php
+					if($cuest->tipo=="evaluacion"){
+						echo "<div class='col-3'>";
+							echo "<label>Valor</label>";
+							echo "<select class='form-control' name='valor' id='valor'>";
+									echo "<option value='0'"; if($valor==0){ echo " selected"; } echo ">0 Falso</option>";
+									echo "<option value='1'"; if($valor==1){ echo " selected"; } echo ">1 Verdadero</option>";
+									for($i=2; $i<=100; $i++){
+										echo "<option value='$i'"; if($valor==$i){ echo " selected"; } echo ">$i</option>";
+									}
+							echo "</select>";
+						echo "</div>";
+					}
+				?>
 				<div class="col-12">
 					<label>Imagen</label>
 					<div class="custom-file">
@@ -70,6 +88,8 @@
 						<label class="custom-file-label" for="imagen">Imagen</label>
 					</div>
 				</div>
+
+
 			</div>
 		</div>
 		<div class="card-footer">

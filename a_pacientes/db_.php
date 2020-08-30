@@ -1,7 +1,6 @@
 <?php
 require_once("../control_db.php");
 
-$_SESSION['des']=1;
 if($_SESSION['des']==1 and strlen($function)==0)
 {
 	echo "<div class='alert alert-primary' role='alert'>";
@@ -255,7 +254,7 @@ class Cliente extends ipsi{
 	}
 	public function actividad_lista($idmodulo){
 		try{
-			$sql="select * from actividad where idmodulo=:idmodulo";
+			$sql="select * from actividad where idmodulo=:idmodulo and idpaciente is null";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":idmodulo",$idmodulo);
 			$sth->execute();
@@ -384,6 +383,19 @@ class Cliente extends ipsi{
 			$x=$this->insert('subactividad', $arreglo);
 			$subactividad_array=json_decode($x,true);
 
+			/////////////clonando escala
+			$sql="select * from escala_sub where idsubactividad='".$key->idsubactividad."'";
+			$esc = $this->dbh->prepare($sql);
+			$esc->execute();
+			foreach($esc->fetchall(PDO::FETCH_OBJ) as $escala){
+				$arreglo=array();
+				$arreglo+=array('idsubactividad'=>$subactividad_array['id1']);
+				$arreglo+=array('descripcion'=>$escala->descripcion);
+				$arreglo+=array('minimo'=>$escala->minimo);
+				$arreglo+=array('maximo'=>$escala->maximo);
+				$x=$this->insert('escala_sub', $arreglo);
+			}
+
 			////////////Clonar Contexto
 			$sql="select * from contexto where idsubactividad=:idsubactividad";
 			$sth1 = $this->dbh->prepare($sql);
@@ -396,6 +408,7 @@ class Cliente extends ipsi{
 				$arreglo+=array('tipo'=>$subkey->tipo);
 				$arreglo+=array('observaciones'=>$subkey->observaciones);
 				$arreglo+=array('texto'=>$subkey->texto);
+				$arreglo+=array('orden'=>$subkey->orden);
 				$arreglo+=array('incisos'=>$subkey->incisos);
 				$arreglo+=array('usuario'=>$subkey->usuario);
 				$arreglo+=array('descripcion'=>$subkey->descripcion);
@@ -438,7 +451,7 @@ class Cliente extends ipsi{
 			$arreglo=array();
 			$arreglo+=array('idmodulo'=>$resp->idmodulo);
 			$arreglo+=array('idpaciente'=>$idpaciente);
-			$arreglo+=array('idterapia'=>$resp->idterapia);
+			$arreglo+=array('idtrack'=>$resp->idtrack);
 			$arreglo+=array('idcreado'=>$resp->idcreado);
 			$arreglo+=array('nombre'=>$resp->nombre);
 			$arreglo+=array('indicaciones'=>$resp->indicaciones);
@@ -453,6 +466,7 @@ class Cliente extends ipsi{
 			$arreglo+=array('idpaciente'=>$idpaciente);
 			$arreglo+=array('idactividad'=>$idactividad_array['id1']);
 			$x=$this->insert('actividad_per', $arreglo);
+
 
 			////////////Clonar Subactividad
 			$sql="select * from subactividad where idactividad=:idactividad";
@@ -469,6 +483,22 @@ class Cliente extends ipsi{
 				$x=$this->insert('subactividad', $arreglo);
 				$subactividad_array=json_decode($x,true);
 
+
+				/////////////clonando escala
+				$sql="select * from escala_sub where idsubactividad='".$key->idsubactividad."'";
+				$esc = $this->dbh->prepare($sql);
+				$esc->execute();
+				foreach($esc->fetchall(PDO::FETCH_OBJ) as $escala){
+					$arreglo=array();
+					$arreglo+=array('idsubactividad'=>$subactividad_array['id1']);
+					$arreglo+=array('descripcion'=>$escala->descripcion);
+					$arreglo+=array('minimo'=>$escala->minimo);
+					$arreglo+=array('maximo'=>$escala->maximo);
+					$x=$this->insert('escala_sub', $arreglo);
+				}
+
+
+
 				////////////Clonar Contexto
 				$sql="select * from contexto where idsubactividad=:idsubactividad";
 				$sth1 = $this->dbh->prepare($sql);
@@ -481,6 +511,7 @@ class Cliente extends ipsi{
 					$arreglo+=array('tipo'=>$subkey->tipo);
 					$arreglo+=array('observaciones'=>$subkey->observaciones);
 					$arreglo+=array('texto'=>$subkey->texto);
+					$arreglo+=array('orden'=>$subkey->orden);
 					$arreglo+=array('incisos'=>$subkey->incisos);
 					$arreglo+=array('usuario'=>$subkey->usuario);
 					$arreglo+=array('descripcion'=>$subkey->descripcion);
@@ -797,7 +828,7 @@ class Cliente extends ipsi{
 
 	public function contexto_ver($id){
 		try{
-			$sql="select * from contexto where idsubactividad=:id";
+			$sql="select * from contexto where idsubactividad=:id order by orden asc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();
@@ -822,7 +853,7 @@ class Cliente extends ipsi{
 
 	public function respuestas_ver($id){
 		try{
-			$sql="select * from respuestas where idcontexto=:id order by orden";
+			$sql="select * from respuestas where idcontexto=:id order by id asc";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$id);
 			$sth->execute();

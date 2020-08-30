@@ -15,12 +15,11 @@
 	$actividad=$sth->fetch(PDO::FETCH_OBJ);
 
 	$inicial=0;
-	if($actividad->tipo=="inicial"){
+	if($actividad->idtrack){
 		$inicial=1;
 		$idtrack=$actividad->idtrack;
 	}
 	else{
-
 		$sql="select * from modulo where id=:idmodulo";
 		$sth = $db->dbh->prepare($sql);
 		$sth->bindValue(":idmodulo",$actividad->idmodulo);
@@ -90,7 +89,7 @@
 						<?php
 							$sql="SELECT count(contexto.id) as total from contexto
 							left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-							where subactividad.idactividad=:id and contexto.evalua=1";
+							where subactividad.idactividad=:id and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
 							$contx = $db->dbh->prepare($sql);
 							$contx->bindValue(":id",$idactividad);
 							$contx->execute();
@@ -141,10 +140,8 @@
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapsesub<?php echo $key->idsubactividad; ?>" aria-expanded="true" aria-controls="collapsesub<?php echo $key->idsubactividad; ?>">
 						<?php echo $key->orden; ?>- Subactividad: <?php echo $key->nombre; ?>
 						<?php
-
-							$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = :id and contexto.evalua=1";
+							$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
 							$contx = $db->dbh->prepare($sql);
-							$contx->bindValue(":id",$key->idsubactividad);
 							$contx->execute();
 							$bloques=$contx->fetch(PDO::FETCH_OBJ);
 
@@ -156,7 +153,6 @@
 							if($contx->rowCount()){
 								$total=(100*$contx->rowCount())/$bloques->total;
 							}
-
 							echo "<br>(".$contx->rowCount()."/".$bloques->total.")<br>";
 							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
 						 ?>
@@ -170,7 +166,6 @@
 		<!-- Contexto  -->
 		<div id="collapsesub<?php echo $key->idsubactividad; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 			<div class='card-body' id='bloque'>
-
 				<?php
 				$bloq=$db->contexto_ver($key->idsubactividad);
 				foreach($bloq as $row){
@@ -189,7 +184,6 @@
 						$archivo=$contexto_resp->archivo;
 						$marca=$contexto_resp->marca;
 					}
-
 						$visible=1;
 						if($row->idcond){
 							$visible=0;
@@ -203,7 +197,6 @@
 							}
 						}
 					if($visible){
-
 						echo "<div class='card mb-4'>";
 							echo "<div class='card-body'>";
 								echo "<form is='f-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' des='a_respuesta/actividad_ver' dix='contenido' msg='algo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
@@ -358,7 +351,7 @@
 								//<!-- Fin Preguntas  -->
 								echo "<br>";
 
-								if($row->evalua==1){
+								if($row->tipo=="pregunta" or $row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores"){
 									if(strlen($marca)==0){
 										echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Contestar</button>";
 									}
@@ -371,13 +364,10 @@
 						echo "</div>";
 					} //////////fin condicional
 				}
-				echo "</div>"; ////////fin ciclo context
-				echo "</div>"; ////////fin ciclo context
-			?>
-		</div>
-	</div>
-
-<?php
+				echo "</div>";
+			echo "</div>";
+		echo "</div>";
+		echo "</div>";
 	}
  ?>
 </div>
