@@ -97,7 +97,8 @@
 															if($_SESSION['tipo_user'] == "Psicólogo" and $_SESSION['nivel']==1){
 														?>
 															<a class="nav-link" is='menu-link' href='#a_pacientes/index' title='Pacientes'><div class="sb-nav-link-icon"><i class="far fa-file-alt"></i></div>Pacientes</a>
-															<a class="nav-link" is='menu-link' href='#a_usuarios/editar_p' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Cuentas</a>
+															<!-- <a class="nav-link" is='menu-link' href='#a_usuarios/editar_p' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi Cuenta</a>-->
+															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Cuentas</a>
 															<div class="sb-sidenav-menu-heading">Terapias</div>
 															<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Catalogo Terapias</a>
 														<?php
