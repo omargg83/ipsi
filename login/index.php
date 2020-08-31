@@ -7,7 +7,7 @@
  <!DOCTYPE HTML>
  <html lang="es">
  <head>
- 	<title>IPSI</title>
+ 	<title>IPSIAPP</title>
  	<meta charset="utf-8">
  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
  	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +24,7 @@
  <body>
    <div class="container">
        <div class="card card-container login">
-         <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+         <img id="profile-img" class="profile-img-card" src="../img/isotipo.jpg" />
          <p id="profile-name" class="profile-name-card"></p>
 
         <form is="f-login" id="form_login" db="login" fun="acceso" des="/">
