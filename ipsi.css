@@ -55,3 +55,10 @@ text-align: center;
   width: 80px;
   margin: 5px;
 }
+
+#bloque .card{border: none;}
+#bloque hr{display: none;}
+#bloque {
+	padding-top: 0;
+    padding-bottom: 0;
+}
