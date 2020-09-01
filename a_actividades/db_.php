@@ -633,7 +633,7 @@ class Cuest extends ipsi{
 
 			if(isset($_REQUEST['valor'])){
 				$valor=clean_var($_REQUEST['valor']);
-
+				/*
 				$sql="select * from respuestas where idcontexto=$idcontexto and valor=$valor and id!=$idrespuesta";
 				$sth = $this->dbh->prepare($sql);
 				$sth->execute();
@@ -643,6 +643,7 @@ class Cuest extends ipsi{
 					$arreglo+=array('terror'=>"Ya existe respuesta con el valor");
 					return json_encode($arreglo);
 				}
+				*/
 			}
 			else{
 				$sql="select max(valor) as total from respuestas where idcontexto=$idcontexto";

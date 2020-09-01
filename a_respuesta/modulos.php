@@ -49,10 +49,20 @@
 			$contarf+=$respx->rowCount();
 		}
 		$continuar=1;
-		$total=(100*$contarf)/$bloquef;
+		$total=0;
+		if($contarf>0 and $contarf>0){
+			$total=(100*$contarf)/$bloquef;
+		}
 		if($total!=100){
 			$continuar=0;
 		}
+	}
+
+	$sql="select * from actividad where idtrack='$idtrack'";
+	$sth = $db->dbh->prepare($sql);
+	$sth->execute();
+	if($sth->rowCount()==0){
+		$continuar=1;
 	}
 
 

@@ -136,6 +136,7 @@ class Cliente extends ipsi{
 				$arreglo+=array('error'=>0);
 				$x=json_encode($arreglo);
 
+
 				$sql="select * from contexto where id=:id";
 				$sth = $this->dbh->prepare($sql);
 				$sth->bindValue(":id",$idcontexto);
@@ -148,76 +149,54 @@ class Cliente extends ipsi{
 						$ic = explode("_", $key);
 						$id_ctrol=$ic[1];
 						$texto="";
+
 						if(isset($_REQUEST["resp_".$id_ctrol])){
 							$texto=clean_var($_REQUEST["resp_".$id_ctrol]);
 						}
-
-						$arreglo+=array('idrespuesta'=>$id_ctrol);
-						$arreglo+=array('valor'=>$value);
+						if($id_ctrol!="otro"){
+							$arreglo+=array('idrespuesta'=>$_REQUEST["checkbox_".$id_ctrol]);
+							$sql="select * from respuestas where id=".$_REQUEST["checkbox_".$id_ctrol];
+							$sth = $this->dbh->prepare($sql);
+							$sth->execute();
+							$resp=$sth->fetch(PDO::FETCH_OBJ);
+							$arreglo+=array('valor'=>$resp->valor);
+						}
+						else{
+							$arreglo+=array('valor'=>"OTRO");
+						}
 						$arreglo+=array('texto'=>$texto);
-
 						$arreglo+=array('idcontexto'=>$idcontexto);
 						$arreglo+=array('marca'=>"leido");
 						$x=$this->insert('contexto_resp', $arreglo);
-
-
 					}
 					if (strpos($key, 'radio') !== false) {
 						$ic = explode("_", $key);
 						$id_ctrol=$ic[1];
 
-						$sql="select * from respuestas where idcontexto=:id and valor=:valor";
-						$resp = $this->dbh->prepare($sql);
-						$resp->bindValue(":id",$idcontexto);
-						$resp->bindValue(":valor",$value);
-						$resp->execute();
-						if($resp->rowCount()>0){
-							//////////para respuesta normal
-							$inpx=$resp->fetch(PDO::FETCH_OBJ);
-							$texto="";
+						$texto="";
+						$valor=clean_var($_REQUEST["radio_".$id_ctrol]);
 
-							if(isset($_REQUEST["resp_".$inpx->id])){
-								$texto=clean_var($_REQUEST["resp_".$inpx->id]);
-							}
-
-							$arreglo+=array('valor'=>$value);
-							$arreglo+=array('texto'=>$texto);
-							$arreglo+=array('idcontexto'=>$idcontexto);
-							$arreglo+=array('idrespuesta'=>$inpx->id);
-							$arreglo+=array('marca'=>"leido");
-							$x=$this->insert('contexto_resp', $arreglo);
+						if(isset($_REQUEST["resp_".$valor])){
+							$texto=clean_var($_REQUEST["resp_".$valor]);
+						}
+						if($valor!="otro"){
+							$sql="select * from respuestas where id=".$_REQUEST["radio_".$id_ctrol];
+							$sth = $this->dbh->prepare($sql);
+							$sth->execute();
+							$resp=$sth->fetch(PDO::FETCH_OBJ);
+							$arreglo+=array('idrespuesta'=>$resp->id);
+							$arreglo+=array('valor'=>$resp->valor);
 						}
 						else{
-							//////////para otra respuestas
-							$inpx=$resp->fetch(PDO::FETCH_OBJ);
-							$texto="";
-
-							if(isset($_REQUEST["otrorad_".$idcontexto])){
-								$texto=clean_var($_REQUEST["otrorad_".$idcontexto]);
-							}
-
-							$arreglo+=array('valor'=>$value);
-							$arreglo+=array('texto'=>$texto);
-							$arreglo+=array('idcontexto'=>$idcontexto);
-							$arreglo+=array('otraresp'=>"OTRO");
-							$arreglo+=array('marca'=>"leido");
-							$x=$this->insert('contexto_resp', $arreglo);
+							$arreglo+=array('valor'=>"OTRO");
 						}
-					}
-					if (strpos($key, 'datacheck') !== false){
-						$ic = explode("_", $key);
-						$id_ctrol=$ic[1];
-						if(isset($_REQUEST["otroche_".$id_ctrol])){
-							$texto=clean_var($_REQUEST["otroche_".$id_ctrol]);
-						}
-						$arreglo+=array('otraresp'=>"OTRO");
 						$arreglo+=array('texto'=>$texto);
 						$arreglo+=array('idcontexto'=>$idcontexto);
 						$arreglo+=array('marca'=>"leido");
 						$x=$this->insert('contexto_resp', $arreglo);
 					}
-				}
 
+				}
 			}
 
 			if($contexto->tipo!="pregunta"){

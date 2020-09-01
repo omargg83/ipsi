@@ -161,7 +161,7 @@
 								$contx = $db->dbh->prepare($sql);
 								$contx->bindValue(":id",$key->idsubactividad);
 								$contx->execute();
-								if($contx->rowCount()>0){
+								if($contx->rowCount()>0 and $bloques->total>0){
 									$total=(100*$contx->rowCount())/$bloques->total;
 								}
 								echo "(".$contx->rowCount()."/".$bloques->total.")";
@@ -197,7 +197,7 @@
 							$marca=$contexto_resp->marca;
 						}
 				?>
-				<div class="card mb-4" draggable="true">
+				<div class="card mb-4" >
 					<div class="card-header">
 						<div class='row'>
 							<div class="col-2">
@@ -211,9 +211,7 @@
 
 								<button <?php if($row->idcond){ echo "class='btn btn-danger btn-sm'"; } else { echo "class='btn btn-warning btn-sm'"; } ?> type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" omodal='1' v_idcontexto="<?php echo $row->id; ?>"><i class='fas fa-project-diagram'></i></button>
 
-								<!-- <button class="btn btn-warning btn-sm" ><i class="fas fa-arrows-alt"></i>Mover</button> -->
-
-							</div>
+						</div>
 							<div class="col-10 text-center">
 								<button class="btn btn-link" data-toggle="collapse" data-target="#collapsecon<?php echo $row->id; ?>" aria-expanded="true" aria-controls="collapsecon<?php echo $row->id; ?>">
 									Contexto <!--- (<?php echo $row->tipo; ?>)-->
@@ -224,6 +222,7 @@
 
 					<div id="collapsecon<?php echo $row->id; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 						<div class="card-body">
+
 							<?php
 								echo "<form is='f-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' des='a_pacientes/actividad_ver' dix='trabajo' msg='algo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
 							?>
@@ -269,29 +268,6 @@
 												$valor_resp="";
 												$resp_idrespuesta="";
 
-												if($row->incisos==1){
-													$sql="select * from contexto_resp where idcontexto=:id and idrespuesta=:idrespuesta";
-													$contx = $db->dbh->prepare($sql);
-													$contx->bindValue(":id",$row->id);
-													$contx->bindValue(":idrespuesta",$respuesta->id);
-													$contx->execute();
-													$resp=$contx->fetch(PDO::FETCH_OBJ);
-
-													if($contx->rowCount()>0){
-														$texto_resp=$resp->texto;
-														$valor_resp=$resp->valor;
-													}
-												}
-												else{
-													$sql="select * from contexto_resp where idcontexto=:id";
-													$contx = $db->dbh->prepare($sql);
-													$contx->bindValue(":id",$row->id);
-													$contx->execute();
-													if($contx->rowCount()>0){
-														$resp=$contx->fetch(PDO::FETCH_OBJ);
-														$resp_idrespuesta=$resp->idrespuesta;
-													}
-												}
 												echo "<div class='row'>";
 													echo "<div class='col-3'>";
 
@@ -301,19 +277,33 @@
 
 														echo "</div>";
 
+													//////////////////para obtener Respuestas
+													$sql="select * from contexto_resp where idcontexto=:id and idrespuesta=:idrespuesta";
+													$contx = $db->dbh->prepare($sql);
+													$contx->bindValue(":id",$row->id);
+													$contx->bindValue(":idrespuesta",$respuesta->id);
+													$contx->execute();
+													$resp=$contx->fetch(PDO::FETCH_OBJ);
+													$correcta=0;
+													$texto_resp="";
+													if($contx->rowCount()>0){
+														$correcta=1;
+														$texto_resp=$resp->texto;
+														$valor_resp=$resp->valor;
+													}
+
 													echo "<div class='col-1'>";
 														if($row->incisos==1){
 															$idx="";
-															echo "<input type='checkbox' name='checkbox_".$respuesta->id."' value='$respuesta->valor' ";
-															if($respuesta->valor==$valor_resp){ echo " checked";}
+															echo "<input type='checkbox' name='checkbox_".$respuesta->id."' value='$respuesta->id' ";
+															if($correcta){ echo " checked";}
 															echo ">";
 														}
 														else{
 															$idx=$row->id;
-															echo "<input type='radio' name='radio_".$idx."' value='$respuesta->valor' ";
-																if($respuesta->id==$resp_idrespuesta){
+															echo "<input type='radio' name='radio_".$idx."' value='$respuesta->id' ";
+																if($correcta){
 																	echo " checked";
-																	$texto_resp=$resp->texto;
 																}
 															echo ">";
 														}
@@ -346,9 +336,9 @@
 											if($row->personalizado==1){
 												$texto="";
 												$otro=0;
-												$sql="select * from contexto_resp where idcontexto=:id and otraresp='OTRO'";
+
+												$sql="select * from contexto_resp where idcontexto=$row->id and valor='OTRO'";
 												$contx = $db->dbh->prepare($sql);
-												$contx->bindValue(":id",$row->id);
 												$contx->execute();
 												if($contx->rowCount()>0){
 													$resp=$contx->fetch(PDO::FETCH_OBJ);
@@ -361,30 +351,26 @@
 													echo "</div>";
 													if($row->incisos==1){
 															echo "<div class='col-1'>";
-																echo "<input type='checkbox' name='datacheck_".$row->id."'";
+																echo "<input type='checkbox' name='checkbox_otro'";
 																if($otro==1){
 																	echo " checked";
 																}
-																echo " value='1'>";
+																echo " value='otro'>";
 															echo "</div>";
-															//echo "<div class='col-1'>";
-															//echo "</div>";
 															echo "<div class='col-6'>";
-																echo "<input type='text' name='otroche_".$row->id."' id='per_".$row->id."' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
+																echo "<input type='text' name='resp_otro' id='resp_otro' value='$texto' class='form-control form-control-sm' placeholder='Otro'>";
 															echo "</div>";
 														}
 														else{
 															echo "<div class='col-1'>";
-																echo "<input type='radio' name='radio_".$idx."' value='otra'";
+																echo "<input type='radio' name='radio_".$idx."' value='otro'";
 																if($otro==1){
 																	echo " checked";
 																}
-																echo " value='1'>";
-															echo "</div>";
-															echo "<div class='col-1'>";
+																echo ">";
 															echo "</div>";
 															echo "<div class='col-6'>";
-																echo "<input type='text' name='otrorad_".$row->id."' id='per_".$row->id."' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
+																echo "<input type='text' name='resp_otro' id='per_".$row->id."' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
 															echo "</div>";
 													}
 												echo "</div>";
@@ -402,7 +388,8 @@
 
 							<!-- Fin Preguntas  -->
 							<?php
-								if($row->evalua==1){
+
+								if($row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores" or $row->tipo=="pregunta"){
 									if(strlen($marca)==0){
 										echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Responder</button>";
 									}
