@@ -98,26 +98,26 @@
 						echo "<label>Agregue texto descriptivo a la respuesta:</label> <small>(Deje en blanco en caso de no requerir)</small>";
 						echo "<input type='text' name='texto' id='texto' value='$texto' class='form-control'>";
 					echo "</div>";
-					if($tipo_actividad=="normal"){
 						echo "<div class='col-4'>";
 							echo "<div class='form-check'>";
 								echo "<input type='checkbox' class='form-check-input' name='incisos' id='incisos' value='varios'"; if($incisos=='1'){ echo "checked"; } echo ">";
 								echo "<label class='form-check-label' for='incisos'>Selección de varios incisos</label>";
 							echo "</div>";
 						echo "</div>";
+					if($tipo_actividad=="normal"){
 						echo "<div class='col-4'>";
 							echo "<div class='form-check'>";
 								echo "<input type='checkbox' class='form-check-input' name='personalizado' id='personalizado'  value='personalizado'"; if($personalizado=='1'){ echo 'checked'; }	echo ">";
 								echo "<label class='form-check-label' for='personalizado'>Permitir agregar incisos personalizados</label>";
 							echo "</div>";
 						echo "</div>";
+					}
 						echo "<div class='col-4'>";
 							echo "<div class='form-check'>";
 								echo "<input type='checkbox' class='form-check-input' name='usuario' id='usuario'  value='usuario'"; if($usuario=='1'){ echo 'checked'; } echo 	">";
 								echo "<label class='form-check-label' for='usuario'>Texto de usuario despues de insiso</label>";
 							echo "</div>";
 						echo "</div>";
-					}
 				echo "</div>";
 	    }
 			else if($tipo=="textores"){

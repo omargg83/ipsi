@@ -90,9 +90,7 @@
 <!-- Fin de actividad  -->
 
 
-<div class="container-fluid mb-3 text-center">
-	<button class='btn btn-warning' type="button" is="b-link" des='a_actividades_e/subactividad_editar' dix='nueva_sub' v_idsubactividad="0" v_idactividad='<?php echo $idactividad; ?>' title='editar' omodal="1">Nueva Subactividad</button>
-</div>
+
 
 <?php
 	foreach($subactividad as $key){
@@ -129,9 +127,6 @@
 		<!-- Contexto  -->
 		<div id="collapsesub<?php echo $key->idsubactividad; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 			<div class="card-body" id='bloque'>
-			<div class="container-fluid mb-3 text-center">
-				<button class="btn btn-warning" type="button" is="b-link" des="a_actividades_e/bloque" dix="sub_<?php echo $key->idsubactividad; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_tipo="<?php echo $actividad->tipo; ?>" omodal="1" >Nuevo Bloque</button>
-			</div>
 
 			<?php
 				$bloq=$db->contexto_ver($key->idsubactividad);
@@ -325,7 +320,11 @@
 
 				}
 			 ?>
-		</div>
+				 <div class="container-fluid mb-3 text-center">
+		 				<button class="btn btn-warning" type="button" is="b-link" des="a_actividades_e/bloque" dix="sub_<?php echo $key->idsubactividad; ?>" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_tipo="<?php echo $actividad->tipo; ?>" omodal="1" >Nuevo Bloque</button>
+	 			</div>
+
+			</div>
 		</div>
 	</div>
 	</div>
@@ -333,6 +332,11 @@
 <?php
 	}
  ?>
+
+ <div class="container-fluid mb-3 text-center">
+ 	<button class='btn btn-warning' type="button" is="b-link" des='a_actividades_e/subactividad_editar' dix='nueva_sub' v_idsubactividad="0" v_idactividad='<?php echo $idactividad; ?>' title='editar' omodal="1">Nueva Subactividad</button>
+ </div>
+ 
 </div>
 
 
