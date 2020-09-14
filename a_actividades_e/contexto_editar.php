@@ -124,6 +124,10 @@
 				//echo "<label>Agregar texto</label>";
 				//echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$texto</textarea>";
 			}
+			else if($tipo=="textocorto"){
+				//echo "<label>Agregar texto</label>";
+				//echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$texto</textarea>";
+			}
 			else if($tipo=="fecha"){
 				//echo "<label>Fecha</label>";
 				//echo "<input type='date' name='texto' id='texto' value='$texto' class='form-control'>";

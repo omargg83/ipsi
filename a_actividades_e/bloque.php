@@ -29,14 +29,19 @@
       echo "<div class='card-header'>";
         echo "Bloque Respuesta";
       echo "</div>";
+
       echo "<div class='card-body text-center'>";
+
         echo "<button class='btn btn-warning btn-lg btn-constructor' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='0' v_idactividad='$idactividad' v_idsubactividad='$idsubactividad' "; if($paciente==1){ echo " v_idpaciente='$idpaciente' ";} echo " v_tipo='pregunta' omodal='1'> <i class='fas fa-tasks'></i><br> Inciso</button>";
 
-				if($actividad->tipo!="evaluacion"){
-	        echo "<button class='btn btn-warning btn-lg btn-constructor' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='0' v_idactividad='$idactividad' v_idsubactividad='$idsubactividad' "; if($paciente==1){ echo " v_idpaciente='$idpaciente' ";} echo " v_tipo='textores' omodal='1'><i class='fas fa-font'></i><br> Texto</button>";
-	        echo "<button class='btn btn-warning btn-lg btn-constructor' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='0' v_idactividad='$idactividad' v_idsubactividad='$idsubactividad' "; if($paciente==1){ echo " v_idpaciente='$idpaciente' ";} echo " v_tipo='fecha' omodal='1'> <i class='far fa-calendar-alt'></i> <br>Fecha</button>";
-	        echo "<button class='btn btn-warning btn-lg btn-constructor' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='0' v_idactividad='$idactividad' v_idsubactividad='$idsubactividad' "; if($paciente==1){ echo " v_idpaciente='$idpaciente' ";} echo " v_tipo='archivores' omodal='1'><i class='far fa-file'></i><br> Archivo</button>";
-				}
+        echo "<button class='btn btn-warning btn-lg btn-constructor' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='0' v_idactividad='$idactividad' v_idsubactividad='$idsubactividad' "; if($paciente==1){ echo " v_idpaciente='$idpaciente' ";} echo " v_tipo='textores' omodal='1'><i class='fas fa-font'></i><br> Texto</button>";
+
+				echo "<button class='btn btn-warning btn-lg btn-constructor' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='0' v_idactividad='$idactividad' v_idsubactividad='$idsubactividad' "; if($paciente==1){ echo " v_idpaciente='$idpaciente' ";} echo " v_tipo='textocorto' omodal='1'><i class='fas fa-font'></i><br> Texto corto</button>";
+
+        echo "<button class='btn btn-warning btn-lg btn-constructor' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='0' v_idactividad='$idactividad' v_idsubactividad='$idsubactividad' "; if($paciente==1){ echo " v_idpaciente='$idpaciente' ";} echo " v_tipo='fecha' omodal='1'> <i class='far fa-calendar-alt'></i> <br>Fecha</button>";
+
+				echo "<button class='btn btn-warning btn-lg btn-constructor' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='0' v_idactividad='$idactividad' v_idsubactividad='$idsubactividad' "; if($paciente==1){ echo " v_idpaciente='$idpaciente' ";} echo " v_tipo='archivores' omodal='1'><i class='far fa-file'></i><br> Archivo</button>";
+
       echo "</div>";
 
     ?>

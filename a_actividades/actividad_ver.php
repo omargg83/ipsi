@@ -45,8 +45,6 @@
 			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/track' dix='trabajo' v_idterapia='$idterapia' >Regresar</button>";
 		}
 		?>
-
-
 	</ol>
 </nav>
 
@@ -180,6 +178,9 @@
 									}
 									else if($row->tipo=="textores"){
 										echo "<textarea class='texto' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
+									}
+									else if($row->tipo=="textocorto"){
+										echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
 									}
 									else if($row->tipo=="fecha"){
 										echo "<input type='date' name='texto' id='texto' value='$row->texto' class='form-control'>";
@@ -336,7 +337,7 @@
  <div class="container-fluid mb-3 text-center">
  	<button class='btn btn-warning' type="button" is="b-link" des='a_actividades_e/subactividad_editar' dix='nueva_sub' v_idsubactividad="0" v_idactividad='<?php echo $idactividad; ?>' title='editar' omodal="1">Nueva Subactividad</button>
  </div>
- 
+
 </div>
 
 

@@ -246,6 +246,9 @@
 									else if($row->tipo=="textores"){
 										echo "<textarea class='texto' id='texto' name='texto' rows=5 placeholder=''>$texto</textarea>";
 									}
+									else if($row->tipo=="textocorto"){
+										echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$texto</textarea>";
+									}
 									else if($row->tipo=="fecha"){
 										echo "<input type='date' name='texto' id='texto' value='$fecha' class='form-control'>";
 									}
@@ -386,8 +389,7 @@
 
 							<!-- Fin Preguntas  -->
 							<?php
-
-								if($row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores" or $row->tipo=="pregunta"){
+								if($row->tipo=="textocorto" or $row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores" or $row->tipo=="pregunta"){
 									if(strlen($marca)==0){
 										echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Responder</button>";
 									}

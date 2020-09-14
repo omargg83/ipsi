@@ -106,6 +106,11 @@ class Cliente extends ipsi{
 				$texto=$_REQUEST['texto'];
 				$arreglo+=array('texto'=>$texto);
 			}
+			else if($contexto->tipo=="textocorto"){
+				$arreglo+=array('marca'=>"leido");
+				$texto=$_REQUEST['texto'];
+				$arreglo+=array('texto'=>$texto);
+			}
 			else if($contexto->tipo=="fecha"){
 				$arreglo+=array('marca'=>"leido");
 				$fecha=$_REQUEST['fecha'];
