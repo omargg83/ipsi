@@ -56,6 +56,19 @@
 	}
 	customElements.define("b-link", Buttonlink, { extends: "button" });
 
+
+	//////////////////////////especial submit
+	class Sublink extends HTMLInputElement   {
+		connectedCallback() {
+			this.addEventListener('click', (e) => {
+				console.log(e);
+				console.log(e.target.form);
+
+			});
+		}
+	}
+	customElements.define("s-submit", Sublink, { extends: "input" });
+
 	class Formsubmit extends HTMLFormElement {
 		connectedCallback() {
 		 this.addEventListener('submit', (e) => {
@@ -248,6 +261,9 @@
 		}
 	}
 	customElements.define("f-login", Formlogin, { extends: "form" });
+
+
+
 
 	//////////////////////////Solo para un proceso antes del flujo ejem. al borrar que primero borre y luego redirive_div
 	function proceso_db(e){

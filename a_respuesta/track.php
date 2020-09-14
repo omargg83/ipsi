@@ -61,7 +61,10 @@
 				$respx = $db->dbh->prepare($sql);
 				$respx->execute();
 				$respx->fetch(PDO::FETCH_OBJ);
-				$total=(100*$respx->rowCount())/$bloques->total;
+				$total=0;
+				if($bloques->total>0){
+					$total=(100*$respx->rowCount())/$bloques->total;
+				}
 
 				if($total!=100){
 					$continuar=0;

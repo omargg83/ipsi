@@ -25,12 +25,11 @@
   $sth->execute();
   $terapia=$sth->fetch(PDO::FETCH_OBJ);
 
-
   ///////////////////////CODIGO
 	$sql="select * from actividad
 	where actividad.idpaciente=:id and actividad.idmodulo=:idmodulo";
 
-	$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idmodulo=:idmodulo";
+	$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idmodulo=:idmodulo and visible=1";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":id",$idpaciente);
 	$sth->bindValue(":idmodulo",$idmodulo);
@@ -64,7 +63,7 @@
 	?>
 <div id='<?php echo $key->idactividad; ?>' class='col-4 p-3 w-50 actcard'>
 				<div class='card'>
-				<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">	
+				<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
 					<div class='card-header'>
 						<?php echo $key->nombre; ?>
 					</div>

@@ -53,14 +53,15 @@
 	$observaciones="";
 	$indicaciones="";
 	$tipo="";
+	$visible="1";
 	if($idactividad>0){
 		$actividad=$db->actividad_editar($idactividad);
 		$nombre=$actividad->nombre;
 		$observaciones=$actividad->observaciones;
 		$indicaciones=$actividad->indicaciones;
 		$tipo=$actividad->tipo;
+		$visible=$actividad->visible;
 	}
-
 ?>
 
 
@@ -106,12 +107,13 @@
 			<?php
 				if(isset($modulo)){
 					////////////////Cuando es actividad normal
-					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' des='a_pacientes/actividades' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo'>";
+
+					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo'>";
 					echo "<input type='hidden' class='form-control' id='idmodulo' name='idmodulo' value='$idmodulo' readonly>";
 			 	}
 				else{
 					/////////////////Cuando es actividad inicial
-					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' des='a_pacientes/modulos' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack'>";
+					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack'>";
 					echo "<input type='hidden' class='form-control' id='idtrack' name='idtrack' value='$idtrack' readonly>";
 				}
 			?>
@@ -144,6 +146,15 @@
 											echo "<option value='evaluacion' selected>Evaluacion</option>";
 										}
 									}
+								?>
+							</select>
+						</div>
+						<div class="col-3">
+							<label>Visible:</label>
+							<select class='form-control' id='visible' name='visible'>
+								<?php
+									echo "<option value='0'"; if ($visible==0) { echo " selected"; } echo ">Oculta</option>";
+									echo "<option value='1'"; if ($visible==1) { echo " selected"; } echo ">Mostrar</option>";
 								?>
 							</select>
 						</div>

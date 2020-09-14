@@ -19,12 +19,14 @@
 	$observaciones="";
 	$indicaciones="";
 	$tipo="";
+	$visible="";
 	if($idactividad>0){
 		$cuest=$db->actividad_editar($idactividad);
 		$nombre=$cuest->nombre;
 		$observaciones=$cuest->observaciones;
 		$indicaciones=$cuest->indicaciones;
 		$tipo=$cuest->tipo;
+		$visible=$cuest->visible;
 
 		if($cuest->idtrack){
 			$idtrack=$cuest->idtrack;
@@ -94,6 +96,16 @@
 										echo "<option value='evaluacion' selected>Evaluacion</option>";
 									}
 								}
+							?>
+						</select>
+					</div>
+
+					<div class="col-3">
+						<label>Visible:</label>
+						<select class='form-control' id='visible' name='visible'>
+							<?php
+								echo "<option value='0'"; if ($visible==0) { echo " selected"; } echo ">Oculta</option>";
+								echo "<option value='1'"; if ($visible==1) { echo " selected"; } echo ">Mostrar</option>";
 							?>
 						</select>
 					</div>

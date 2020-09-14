@@ -22,8 +22,8 @@
 
 <nav aria-label='breadcrumb'>
   <ol class='breadcrumb'>
-    <li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/terapias" dix="trabajo" title="Terapias" id1="">Terapias</li>
-    <li class="breadcrumb-item" type="button" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" v_idterapia="<?php echo $idterapia; ?>"><?php echo $terapia->nombre; ?></li>
+    <li class="breadcrumb-item" is="li-link" des="a_actividades/terapias" dix="trabajo" title="Terapias" id1="">Terapias</li>
+    <li class="breadcrumb-item" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" v_idterapia="<?php echo $idterapia; ?>"><?php echo $terapia->nombre; ?></li>
     <li class='breadcrumb-item active' is="li-link" des="a_actividades_e/track_editar" dix="trabajo" title="Track" v_idtrack="<?php echo $idtrack; ?>" v_idterapia="<?php echo $idterapia; ?>" ><?php echo $nombre; ?></li>
   </ol>
 </nav>

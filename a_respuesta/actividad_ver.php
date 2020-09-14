@@ -89,7 +89,7 @@
 						<?php
 							$sql="SELECT count(contexto.id) as total from contexto
 							left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-							where subactividad.idactividad=:id and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+							where subactividad.idactividad=:id and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
 							$contx = $db->dbh->prepare($sql);
 							$contx->bindValue(":id",$idactividad);
 							$contx->execute();
@@ -140,7 +140,7 @@
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapsesub<?php echo $key->idsubactividad; ?>" aria-expanded="true" aria-controls="collapsesub<?php echo $key->idsubactividad; ?>">
 						<?php echo $key->orden; ?>- Subactividad: <?php echo $key->nombre; ?>
 						<?php
-							$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+							$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
 							$contx = $db->dbh->prepare($sql);
 							$contx->execute();
 							$bloques=$contx->fetch(PDO::FETCH_OBJ);
@@ -199,7 +199,7 @@
 					if($visible){
 						echo "<div class='card mb-4'>";
 							echo "<div class='card-body'>";
-								echo "<form is='f-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' des='a_respuesta/actividad_ver' dix='contenido' msg='algo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
+								echo "<form is='f-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' msg='algo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
 
 								echo "<div>";
 									echo $row->observaciones;
@@ -265,13 +265,13 @@
 													echo "<div class='col-1'>";
 														if($row->incisos==1){
 															$idx="";
-															echo "<input type='checkbox' name='checkbox_".$respuesta->id."' value='$respuesta->id' ";
+															echo "<input type='checkbox' is='s-submit' name='checkbox_".$respuesta->id."' value='$respuesta->id' ";
 															if($respuesta->valor==$valor_resp){ echo " checked";}
 															echo ">";
 														}
 														else{
 															$idx=$row->id;
-															echo "<input type='radio' name='radio_".$idx."' value='$respuesta->id' ";
+															echo "<input type='radio' is='s-submit' name='radio_".$idx."' value='$respuesta->id' ";
 																if($correcta){
 																	echo " checked";
 																}
@@ -311,7 +311,7 @@
 												echo "<div class='row'>";
 													if($row->incisos==1){
 															echo "<div class='col-1'>";
-																echo "<input type='checkbox' name='checkbox_otro'";
+																echo "<input type='checkbox' is='s-submit' name='checkbox_otro'";
 																if($otro==1){
 																	echo " checked";
 																}
@@ -323,7 +323,7 @@
 														}
 														else{
 															echo "<div class='col-1'>";
-																echo "<input type='radio' name='radio_".$idx."' value='otro'";
+																echo "<input type='radio' is='s-submit' name='radio_".$idx."' value='otro'";
 																if($otro==1){
 																	echo " checked";
 																}
@@ -372,4 +372,5 @@
 			height: 250
 		});
 	});
+
 </script>

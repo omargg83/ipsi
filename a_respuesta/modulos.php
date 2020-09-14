@@ -27,11 +27,13 @@
 		$track_c->execute();
 		$bloquef=0;
 		$contarf=0;
+
 		foreach($track_c->fetchAll(PDO::FETCH_OBJ) as $key){
 			$sql="SELECT count(contexto.id) as total from contexto
 			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
 			left outer join actividad on actividad.idactividad=subactividad.idactividad
-			where  actividad.idtrack=".$key->id." and actividad.idpaciente=".$_SESSION['idusuario']." and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+			where  actividad.idtrack=".$key->id." and actividad.idpaciente=".$_SESSION['idusuario']." and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha' or contexto.tipo='archivores') and actividad.visible=1";
+
 			$contx = $db->dbh->prepare($sql);
 			$contx->execute();
 			$bloques=$contx->fetch(PDO::FETCH_OBJ);
@@ -42,7 +44,7 @@
 			right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
 			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
 			left outer join actividad on actividad.idactividad=subactividad.idactividad
-			where actividad.idtrack=".$key->id."	and actividad.idpaciente=".$_SESSION['idusuario']." group by contexto.id";
+			where actividad.idtrack=".$key->id." and actividad.idpaciente=".$_SESSION['idusuario']." and actividad.visible=1 group by contexto.id";
 			$respx = $db->dbh->prepare($sql);
 			$respx->execute();
 			$respx->fetch(PDO::FETCH_OBJ);
@@ -56,15 +58,19 @@
 		if($total!=100){
 			$continuar=0;
 		}
+		if($bloquef==0){
+			$continuar=1;
+		}
 	}
 
+/*
 	$sql="select * from actividad where idtrack='$idtrack'";
 	$sth = $db->dbh->prepare($sql);
 	$sth->execute();
 	if($sth->rowCount()==0){
 		$continuar=1;
 	}
-
+*/
 
 	if($continuar==0){
 		echo "Faltan actividades iniciales por concluir";
@@ -102,12 +108,11 @@
  		echo "</div>";
 	}
  ?>
-
 <div class='container'>
   <div class='row'>
 		<?php
 		///////////////////////CODIGO
-		$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idtrack=:idtrack";
+		$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idtrack=:idtrack and visible=1";
 		$sth = $db->dbh->prepare($sql);
 		$sth->bindValue(":id",$idpaciente);
 		$sth->bindValue(":idtrack",$idtrack);
@@ -119,7 +124,7 @@
 			$total=0;
 			$sql="SELECT count(contexto.id) as total from contexto
 			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-			where subactividad.idactividad=:id and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+			where subactividad.idactividad=:id and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
 			$contx = $db->dbh->prepare($sql);
 			$contx->bindValue(":id",$key->idactividad);
 			$contx->execute();

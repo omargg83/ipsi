@@ -247,6 +247,9 @@ class Cuest extends ipsi{
 			if (isset($_REQUEST['tipo'])){
 				$arreglo+=array('tipo'=>clean_var($_REQUEST['tipo']));
 			}
+			if (isset($_REQUEST['visible'])){
+				$arreglo+=array('visible'=>clean_var($_REQUEST['visible']));
+			}
 
 			if (isset($_REQUEST['idmodulo'])){
 				$arreglo+=array('idmodulo'=>clean_var($_REQUEST['idmodulo']));

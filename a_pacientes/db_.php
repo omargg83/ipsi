@@ -117,11 +117,17 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['edad'])){
 			$arreglo+=array('edad'=>clean_var($_REQUEST['edad']));
 		}
-		if (isset($_REQUEST['fnacimiento'])){
+		if (isset($_REQUEST['fnacimiento']) and strlen($_REQUEST['fnacimiento'])>4){
 			$arreglo+=array('fnacimiento'=>clean_var($_REQUEST['fnacimiento']));
 		}
-		if (isset($_REQUEST['hermanos'])){
+		else{
+			$arreglo+=array('fnacimiento'=>null);
+		}
+		if (isset($_REQUEST['hermanos']) and strlen($_REQUEST['hermanos']>0)){
 			$arreglo+=array('hermanos'=>clean_var($_REQUEST['hermanos']));
+		}
+		else{
+			$arreglo+=array('hermanos'=>0);
 		}
 		if (isset($_REQUEST['facebook'])){
 			$arreglo+=array('facebook'=>clean_var($_REQUEST['facebook']));
@@ -357,6 +363,7 @@ class Cliente extends ipsi{
 		$arreglo+=array('nombre'=>$resp->nombre);
 		$arreglo+=array('indicaciones'=>$resp->indicaciones);
 		$arreglo+=array('observaciones'=>$resp->observaciones);
+		$arreglo+=array('visible'=>$resp->visible);
 		$arreglo+=array('tipo'=>$resp->tipo);
 		$arreglo+=array('fecha'=>$fecha);
 		$x=$this->insert('actividad', $arreglo);
@@ -456,6 +463,7 @@ class Cliente extends ipsi{
 			$arreglo+=array('nombre'=>$resp->nombre);
 			$arreglo+=array('indicaciones'=>$resp->indicaciones);
 			$arreglo+=array('observaciones'=>$resp->observaciones);
+			$arreglo+=array('visible'=>$resp->visible);
 			$arreglo+=array('tipo'=>$resp->tipo);
 			$arreglo+=array('fecha'=>$fecha);
 			$x=$this->insert('actividad', $arreglo);
@@ -628,7 +636,6 @@ class Cliente extends ipsi{
 		}
 	}
 
-
 	public function buscar_actividad($b_actividad){
 		try{
 			$idpaciente=$_REQUEST['idpaciente'];
@@ -643,7 +650,6 @@ class Cliente extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
-
 	public function agregar_actividadold(){
 		try{
 			$x="";
@@ -760,7 +766,6 @@ class Cliente extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-
 	public function actividad_inicial($id){
 		try{
 			$sql="select * from actividad where idtrack=:id and idpaciente is null";
@@ -775,7 +780,6 @@ class Cliente extends ipsi{
 	}
 
 	/////////////////////
-
 	public function terapias_paciente($id){
 		try{
 			$sql="SELECT * from terapias_per left outer join terapias on terapias.id=terapias_per.idterapia where terapias_per.idpaciente=:id";
