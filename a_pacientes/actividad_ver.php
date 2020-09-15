@@ -95,10 +95,6 @@
 
 					<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='<?php echo $idactividad; ?>' v_idpaciente='<?php echo $idpaciente; ?>' omodal='1' v_idescala='0'><i class="fas fa-file-medical-alt"></i></button>
 
-
-
-
-
 				</div>
 				<div class="col-10 text-left">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -125,6 +121,25 @@
 </div>
 <!-- Fin de actividad  -->
 
+<?php
+
+	$sql="select * from escala_actividad where idactividad=$idactividad";
+	$sth = $db->dbh->prepare($sql);
+	$sth->execute();
+	$escala=$sth->fetch(PDO::FETCH_OBJ);
+	echo "<div class='card'>";
+		echo "<div class='card-header'>";
+			echo $escala->nombre;
+		echo "</div>";
+		echo "<div class='card-body'>";
+
+			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0'><i class='fas fa-file-medical-alt'></i></button>";
+
+		echo "</div>";
+	echo "</div>";
+
+
+ ?>
 
 
 <?php

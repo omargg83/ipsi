@@ -399,6 +399,31 @@ class Cuest extends ipsi{
 		return $this->borrar('escala_sub',"id",$idescala);
 	}
 
+	public function guarda_escalaglobal(){
+		try{
+			$arreglo=array();
+			$x="";
+			$idescala=$_REQUEST['idescala'];
+			$idactividad=$_REQUEST['idactividad'];
+			$nombre=$_REQUEST['nombre'];
+
+			$arreglo+=array('nombre'=>$nombre);
+
+			if($idescala==0){
+				$arreglo+=array('idactividad'=>$idactividad);
+				$x=$this->insert('escala_actividad',$arreglo);
+			}
+			else{
+				$x=$this->update('escala_actividad',array('id'=>$idescala), $arreglo);
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+
+
 	public function subactividad_ver($id){
 		try{
 			$sql="select * from subactividad where idactividad=:id order by orden asc";
