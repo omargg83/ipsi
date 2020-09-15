@@ -126,17 +126,52 @@
 	$sql="select * from escala_actividad where idactividad=$idactividad";
 	$sth = $db->dbh->prepare($sql);
 	$sth->execute();
-	$escala=$sth->fetch(PDO::FETCH_OBJ);
-	echo "<div class='card'>";
-		echo "<div class='card-header'>";
-			echo $escala->nombre;
-		echo "</div>";
-		echo "<div class='card-body'>";
+	if($sth->rowCount()){
 
-			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0'><i class='fas fa-file-medical-alt'></i></button>";
+		$v1=$sth->fetchAll(PDO::FETCH_OBJ);
+		foreach($v1 as $escala){
+			echo "<div class='card'>";
+				echo "<div class='card-header'>";
+					echo "Escala:".$escala->nombre;
+				echo "</div>";
+				echo "<div class='card-body'>";
+					$sql="select * from escala_act where idescala=$escala->id";
+					$sth = $db->dbh->prepare($sql);
+					$sth->execute();
+					$es=$sth->fetchAll(PDO::FETCH_OBJ);
+					echo "<table class='table tabe-sm'>";
+					echo "<tr><th>Descripcion</th><th>Minimo</th><th>Maximo</th></tr>";
+					foreach($es as $v2){
+						echo "<tr>";
 
-		echo "</div>";
-	echo "</div>";
+						echo "<td>";
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala3' v_id='$v2->id' v_idescala='$escala->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0'><i class='fas fa-file-medical-alt'></i></button>";
+
+						echo "</td>";
+						echo "<td>";
+
+						echo $v2->descripcion;
+						echo "</td>";
+						echo "<td>";
+						echo $v2->minimo;
+						echo "</td>";
+						echo "<td>";
+						echo $v2->maximo;
+						echo "</td>";
+						echo "</tr>";
+					}
+					echo "</table>";
+
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala3' v_id='0' v_idescala='$escala->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-file-medical-alt'></i></button>";
+
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_escala' v_id='0' v_idescala='$escala->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-list-ul'></i></button>";
+
+
+
+				echo "</div>";
+			echo "</div><br>";
+		}
+	}
 
 
  ?>

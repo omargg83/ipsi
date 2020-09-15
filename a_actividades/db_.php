@@ -394,6 +394,7 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+
 	public function borrar_escala(){
 		if (isset($_REQUEST['idescala'])){$idescala=$_REQUEST['idescala'];}
 		return $this->borrar('escala_sub',"id",$idescala);
@@ -422,7 +423,33 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+	public function guarda_escalaact(){
+		try{
+			$arreglo=array();
+			$x="";
+			$id=$_REQUEST['id'];
+			$idescala=$_REQUEST['idescala'];
+			$descripcion=$_REQUEST['descripcion'];
+			$minimo=$_REQUEST['minimo'];
+			$maximo=$_REQUEST['maximo'];
 
+			$arreglo+=array('descripcion'=>$descripcion);
+			$arreglo+=array('minimo'=>$minimo);
+			$arreglo+=array('maximo'=>$maximo);
+
+			if($id==0){
+				$arreglo+=array('idescala'=>$idescala);
+				$x=$this->insert('escala_act',$arreglo);
+			}
+			else{
+				$x=$this->update('escala_act',array('id'=>$id), $arreglo);
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
 
 	public function subactividad_ver($id){
 		try{

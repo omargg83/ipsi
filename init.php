@@ -1,5 +1,5 @@
 <?php
-$server=1;
+$server=2;
 $_SESSION['des']=1;   ///////////////cambiar esta para acceder a modo desarrollador
 if($server==1){
   /////////remoto
