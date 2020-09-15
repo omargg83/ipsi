@@ -93,6 +93,12 @@
 
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" db="a_actividades/db_" fun="publicar_actividad" v_idactividad="<?php echo $idactividad; ?>" tp="¿Desea publicar la actividad en el catalogo?" title="Duplicar"><i class="far fa-copy"></i></button>
 
+					<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='<?php echo $idactividad; ?>' v_idpaciente='<?php echo $idpaciente; ?>' omodal='1' v_idescala='0'><i class="fas fa-file-medical-alt"></i></button>
+
+
+
+
+
 				</div>
 				<div class="col-10 text-left">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -124,6 +130,7 @@
 <?php
 	$suma=0;
 	foreach($subactividad as $key){
+		$suma=0;
 ?>
 	<!-- Subactividad  -->
 	<div class="container-fluid mb-4" id="sub_<?php echo $key->idsubactividad; ?>">
@@ -176,6 +183,7 @@
 		<!-- Contexto  -->
 		<div id="collapsesub<?php echo $key->idsubactividad; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 			<div class="card-body" id='bloque'>
+
 				<?php
 					$bloq=$db->contexto_ver($key->idsubactividad);
 					foreach($bloq as $row){
@@ -456,6 +464,7 @@
 							echo "</table>";
 						}
 						echo "<br>Resultados:";
+						$gtotal+=$suma;
 						echo "<br>Suma de respuestas: ".$suma;
 						echo "<br>Resultado: ".$texto_resp;
 					}
@@ -467,7 +476,12 @@
 
 <?php
 	}
+	echo "total:".$gtotal;
  ?>
+
+ aca va el global
+
+
  <div class="container-fluid mb-3 text-center">
  	<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_actividades_e/subactividad_editar' v_idsubactividad="0" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' title='editar' omodal="1">Nueva Subactividad</button>
  </div>
