@@ -180,7 +180,7 @@
 										echo "<textarea class='texto' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
 									}
 									else if($row->tipo=="textocorto"){
-										echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
+										echo "<input type='text' class='form-control' id='texto' name='texto' rows=5 placeholder=''>$row->texto</input>";
 									}
 									else if($row->tipo=="fecha"){
 										echo "<input type='date' name='texto' id='texto' value='$row->texto' class='form-control'>";
