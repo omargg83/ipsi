@@ -18,16 +18,14 @@
 	$sth->execute();
 	$resp=$sth->fetchAll(PDO::FETCH_OBJ);
 
-	$idcontexto=0;
+	$idrespuesta=0;
 	if($id>0){
 		$sql="select * from escala_contexto where id=$id";
 		$sth = $db->dbh->prepare($sql);
 		$sth->execute();
-		$resp=$sth->fetch(PDO::FETCH_OBJ);
-		$idcontexto=$resp->idcontexto;
+		$respx=$sth->fetch(PDO::FETCH_OBJ);
+		$idrespuesta=$respx->idrespuesta;
 	}
-
-
 
 	if($paciente==1){
 		echo "<form is='f-submit' id='form_terapia' db='a_actividades/db_' fun='guardar_evalua' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idescala='$idescala' dix='trabajo' cmodal='1'>";
@@ -44,10 +42,10 @@
 	   </div>
 	   <div class="card-body">
 			 <?php
-			 	echo "<select id='idcontexto' name='idcontexto' class='form-control'>";
+			 	echo "<select id='idrespuesta' name='idrespuesta' class='form-control'>";
 					echo "<option value=''></option>";
 			 	foreach($resp as $key){
-					echo "<option value='".$key->id."'";  if($idcontexto==$key->id){ echo " selected";}  echo ">".$key->cont." - ".$key->nombre."</option>";
+					echo "<option value='".$key->id."'";  if($idrespuesta==$key->id){ echo " selected";}  echo ">".$key->cont." - ".$key->nombre."</option>";
 				}
 				echo "</select>";
 			 ?>

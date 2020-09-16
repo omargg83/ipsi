@@ -451,6 +451,20 @@ class Cuest extends ipsi{
 		}
 	}
 
+	public function borrar_escalaactitivdad(){
+		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
+		return $this->borrar('escala_actividad',"id",$id);
+	}
+	public function borrar_escalaact(){
+		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
+		return $this->borrar('escala_act',"id",$id);
+	}
+	public function borrar_escalacont(){
+		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
+		return $this->borrar('escala_contexto',"id",$id);
+	}
+
+
 	public function subactividad_ver($id){
 		try{
 			$sql="select * from subactividad where idactividad=:id order by orden asc";
@@ -799,19 +813,23 @@ class Cuest extends ipsi{
 	}
 	public function guardar_evalua(){
 		$id=$_REQUEST['id'];
-		$idcontexto=$_REQUEST['idcontexto'];
+		$idrespuesta=$_REQUEST['idrespuesta'];
 		$idescala=$_REQUEST['idescala'];
 
 		$arreglo=array();
 		$arreglo+=array('idescala'=>$idescala);
-		$arreglo+=array('idcontexto'=>$idcontexto);
+		$arreglo+=array('idrespuesta'=>$idrespuesta);
 		if($id==0){
 			$x=$this->insert('escala_contexto',$arreglo);
 		}
 		else{
-			$x=$this->update('escala_contexto',array('id'=>$idcontexto), $arreglo);
+			$x=$this->update('escala_contexto',array('id'=>$id), $arreglo);
 		}
 		return $x;
+	}
+
+	public function escala_borrar(){
+
 	}
 }
 
