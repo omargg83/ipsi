@@ -1,5 +1,7 @@
 <?php
 	require_once("../a_actividades/db_.php");
+  $id=$_REQUEST['id'];
+  $idescala=$_REQUEST['idescala'];
   $idactividad=$_REQUEST['idactividad'];
 
 	$paciente=0;
@@ -12,32 +14,40 @@
 	LEFT OUTER JOIN contexto ON contexto.id = respuestas.idcontexto
 	LEFT OUTER JOIN subactividad ON subactividad.idsubactividad = contexto.idsubactividad
 	WHERE	subactividad.idactividad =$idactividad";
-	echo $sql;
 	$sth = $db->dbh->prepare($sql);
 	$sth->execute();
 	$resp=$sth->fetchAll(PDO::FETCH_OBJ);
 
-	$contexto=$db->contexto_editar($idcontexto);
+	$idcontexto=0;
+	if($id>0){
+		$sql="select * from escala_contexto where id=$id";
+		$sth = $db->dbh->prepare($sql);
+		$sth->execute();
+		$resp=$sth->fetch(PDO::FETCH_OBJ);
+		$idcontexto=$resp->idcontexto;
+	}
+
+
 
 	if($paciente==1){
-		echo "<form is='f-submit' id='form_terapia' db='a_actividades/db_' fun='guardar_condicion' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' dix='trabajo' cmodal='1'>";
+		echo "<form is='f-submit' id='form_terapia' db='a_actividades/db_' fun='guardar_evalua' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idescala='$idescala' dix='trabajo' cmodal='1'>";
 	}
 	else{
-		echo "<form is='f-submit' id='form_terapia' db='a_actividades/db_' fun='guardar_condicion' des='a_actividades/actividad_ver' v_idactividad='$idactividad' dix='trabajo' cmodal='1'>";
+		echo "<form is='f-submit' id='form_terapia' db='a_actividades/db_' fun='guardar_evalua' des='a_actividades/actividad_ver' v_idactividad='$idactividad' v_idescala='$idescala' dix='trabajo' cmodal='1'>";
 
 	}
  ?>
-	 <input type="hidden" name="idcontexto" id="idcontexto" value="<?php echo $idcontexto; ?>" cmodal="1">
+	 <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" cmodal="1">
 	 <div class="card">
 	   <div class="card-header">
 	     Condicional
 	   </div>
 	   <div class="card-body">
 			 <?php
-			 	echo "<select id='idcond' name='idcond' class='form-control'>";
+			 	echo "<select id='idcontexto' name='idcontexto' class='form-control'>";
 					echo "<option value=''></option>";
 			 	foreach($resp as $key){
-					echo "<option value='".$key->id."'";  if($contexto->idcond==$key->id){ echo " selected";}  echo ">".$key->cont." - ".$key->nombre."</option>";
+					echo "<option value='".$key->id."'";  if($idcontexto==$key->id){ echo " selected";}  echo ">".$key->cont." - ".$key->nombre."</option>";
 				}
 				echo "</select>";
 			 ?>

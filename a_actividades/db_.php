@@ -797,6 +797,22 @@ class Cuest extends ipsi{
 		$x=$this->update('contexto',array('id'=>$idcontexto), $arreglo);
 		return $x;
 	}
+	public function guardar_evalua(){
+		$id=$_REQUEST['id'];
+		$idcontexto=$_REQUEST['idcontexto'];
+		$idescala=$_REQUEST['idescala'];
+
+		$arreglo=array();
+		$arreglo+=array('idescala'=>$idescala);
+		$arreglo+=array('idcontexto'=>$idcontexto);
+		if($id==0){
+			$x=$this->insert('escala_contexto',$arreglo);
+		}
+		else{
+			$x=$this->update('escala_contexto',array('id'=>$idcontexto), $arreglo);
+		}
+		return $x;
+	}
 }
 
 $db = new Cuest();

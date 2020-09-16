@@ -20,7 +20,7 @@
 		public function __construct(){
 			date_default_timezone_set("America/Mexico_City");
 			try{
-				$this->dbh = new PDO("mysql:host=".SERVIDOR.";dbname=".BDD, MYSQLUSER, MYSQLPASS);
+				$this->dbh = new PDO("mysql:host=".SERVIDOR.";port=".PORT.";dbname=".BDD, MYSQLUSER, MYSQLPASS);
 				$this->dbh->query("SET NAMES 'utf8'");
 			}
 			catch(PDOException $e){

@@ -1,5 +1,5 @@
 <?php
-$server=2;
+$server=4;
 $_SESSION['des']=1;   ///////////////cambiar esta para acceder a modo desarrollador
 if($server==1){
   /////////remoto
@@ -7,6 +7,7 @@ if($server==1){
   define("MYSQLPASS", "wwipsi123$");
   define("SERVIDOR", "ipsiapp.com");
   define("BDD", "wwipsi_actividades");
+  define("PORT", "3306");
 }
 else if($server==2){
   //////////localhost
@@ -14,6 +15,7 @@ else if($server==2){
   define("MYSQLPASS", "root");
   define("SERVIDOR", "localhost");
   define("BDD", "wwipsi_actividades");
+  define("PORT", "3306");
 }
 else if($server==3){
   //////////localhost 2
@@ -21,6 +23,15 @@ else if($server==3){
   define("MYSQLPASS", "saludp123$");
   define("SERVIDOR", "192.168.100.15");
   define("BDD", "wwipsi_actividades");
+  define("PORT", "3306");
+}
+else if($server==4){
+  //////////localhost 2
+  define("MYSQLUSER", "root");
+  define("MYSQLPASS", "root");
+  define("SERVIDOR", "localhost");
+  define("BDD", "wwipsi_actividades");
+  define("PORT", "8889");
 }
 
 ///////////////////contraseñas
