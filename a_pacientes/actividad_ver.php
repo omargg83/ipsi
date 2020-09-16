@@ -473,27 +473,68 @@
 
 <?php
 	}
-	echo "total:".$gtotal;
+	echo "<div class='card'>";
+	echo "Suma total:".$gtotal;
+	echo "</div>";
  ?>
 
 
  <?php
- 	$sql="select * from escala_actividad where idactividad=$idactividad";
+
+	$sql="select * from escala_actividad where idactividad=$idactividad";
  	$sth = $db->dbh->prepare($sql);
  	$sth->execute();
  	if($sth->rowCount()){
-
  		$v1=$sth->fetchAll(PDO::FETCH_OBJ);
  		foreach($v1 as $escala){
+			$gparcial=0;
+			$reexp="";
  			echo "<div class='card'>";
  				echo "<div class='card-header'>";
-////////////////////////////////////////////////////aca
+
 				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='$escala->id'><i class='fas fa-file-medical-alt'></i></button>";
 
 				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='borrar_escalaactitivdad' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea eliminar la variable?' v_id='$escala->id' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
  					echo "Escala:".$escala->nombre;
+
  				echo "</div>";
+				echo "<div class='card-body'>";
+
+	 				$sql="select escala_contexto.*, respuestas.id as idresp, respuestas.nombre from escala_contexto left outer join respuestas on respuestas.id=escala_contexto.idrespuesta where escala_contexto.idescala='$escala->id'";
+	 				$sth = $db->dbh->prepare($sql);
+	 				$sth->execute();
+	 				$es=$sth->fetchAll(PDO::FETCH_OBJ);
+	 				echo "<table class='table tabe-sm'>";
+	 				echo "<tr><th>-</th><th>Descripcion</th></tr>";
+	 				foreach($es as $v2){
+	 					echo "<tr>";
+
+	 					echo "<td>";
+	 					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_escala' v_id='$v2->id' v_idescala='$escala->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-list-ul'></i></button>";
+
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='borrar_escalacont' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea eliminar la variable?' v_id='$v2->id' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+	 					echo "</td>";
+
+	 					echo "<td>";
+	 					echo $v2->nombre;
+
+						$sql="select * from contexto_resp where idrespuesta='$v2->idresp'";
+						$xsth = $db->dbh->prepare($sql);
+						$xsth->execute();
+						if($xsth->rowCount()){
+							$tabparc=$xsth->fetch(PDO::FETCH_OBJ);
+							if(is_numeric($tabparc->valor)){
+								$gparcial+=$tabparc->valor;
+							}
+						}
+	 					echo "</td>";
+	 					echo "</tr>";
+	 				}
+	 				echo "</table>";
+ 				echo "</div>";
+
+
  				echo "<div class='card-body'>";
  					$sql="select * from escala_act where idescala=$escala->id";
  					$sth = $db->dbh->prepare($sql);
@@ -521,46 +562,29 @@
  						echo $v2->maximo;
  						echo "</td>";
  						echo "</tr>";
+						if($v2->minimo<=$gparcial and $gparcial<=$v2->maximo){
+							$reexp=$v2->descripcion;
+						}
  					}
  					echo "</table>";
 
  				echo "</div>";
- 				echo "<div class='card-body'>";
 
- 				$sql="select escala_contexto.*, respuestas.nombre from escala_contexto left outer join respuestas on respuestas.id=escala_contexto.idrespuesta where escala_contexto.idescala='$escala->id'";
- 				$sth = $db->dbh->prepare($sql);
- 				$sth->execute();
- 				$es=$sth->fetchAll(PDO::FETCH_OBJ);
- 				echo "<table class='table tabe-sm'>";
- 				echo "<tr><th>-</th><th>Descripcion</th></tr>";
- 				foreach($es as $v2){
- 					echo "<tr>";
-
- 					echo "<td>";
- 					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_escala' v_id='$v2->id' v_idescala='$escala->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-list-ul'></i></button>";
-
-					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='borrar_escalacont' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea eliminar la variable?' v_id='$v2->id' title='Borrar'><i class='far fa-trash-alt'></i></button>";
- 					echo "</td>";
-
- 					echo "<td>";
- 					echo $v2->nombre;
- 					echo "</td>";
- 					echo "</tr>";
- 				}
- 				echo "</table>";
-
- 				echo "</div>";
  				echo "<div class='card-body'>";
  					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala3' v_id='0' v_idescala='$escala->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-file-medical-alt'></i></button>";
 
  					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_escala' v_id='0' v_idescala='$escala->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-list-ul'></i></button>";
  				echo "</div>";
- 			echo "</div><br>";
+
+				echo "<div class='card-body'>";
+					echo "Suma:$gparcial";
+					echo "<br>Resultado:$reexp";
+ 				echo "</div>";
+ 			echo "</div>";
  		}
  	}
 
  ?>
- aca va el global
 
 
  <div class="container-fluid mb-3 text-center">

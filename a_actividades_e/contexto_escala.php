@@ -13,7 +13,7 @@
 	$sql="SELECT respuestas.*, contexto.texto as cont  FROM respuestas
 	LEFT OUTER JOIN contexto ON contexto.id = respuestas.idcontexto
 	LEFT OUTER JOIN subactividad ON subactividad.idsubactividad = contexto.idsubactividad
-	WHERE	subactividad.idactividad =$idactividad";
+	WHERE	subactividad.idactividad =$idactividad and contexto.tipo='pregunta'";
 	$sth = $db->dbh->prepare($sql);
 	$sth->execute();
 	$resp=$sth->fetchAll(PDO::FETCH_OBJ);
