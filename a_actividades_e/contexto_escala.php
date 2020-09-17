@@ -10,11 +10,9 @@
 		$paciente=1;
 	}
 
-	$sql="SELECT respuestas.*, contexto.texto as cont  FROM respuestas
-	LEFT OUTER JOIN contexto ON contexto.id = respuestas.idcontexto
-	LEFT OUTER JOIN subactividad ON subactividad.idsubactividad = contexto.idsubactividad
-	WHERE	subactividad.idactividad =$idactividad and contexto.tipo='pregunta'";
-	$sth = $db->dbh->prepare($sql);
+	$sql="SELECT contexto.* FROM contexto LEFT OUTER JOIN subactividad ON subactividad.idsubactividad = contexto.idsubactividad
+	WHERE	subactividad.idactividad=$idactividad and contexto.tipo='pregunta'";
+  $sth = $db->dbh->prepare($sql);
 	$sth->execute();
 	$resp=$sth->fetchAll(PDO::FETCH_OBJ);
 
@@ -42,10 +40,10 @@
 	   </div>
 	   <div class="card-body">
 			 <?php
-			 	echo "<select id='idrespuesta' name='idrespuesta' class='form-control'>";
+			 	echo "<select id='idcontexto' name='idcontexto' class='form-control'>";
 					echo "<option value=''></option>";
 			 	foreach($resp as $key){
-					echo "<option value='".$key->id."'";  if($idrespuesta==$key->id){ echo " selected";}  echo ">".$key->cont." - ".$key->nombre."</option>";
+					echo "<option value='".$key->id."'";  if($idrespuesta==$key->id){ echo " selected";}  echo ">".$key->texto."</option>";
 				}
 				echo "</select>";
 			 ?>

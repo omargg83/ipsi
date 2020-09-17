@@ -369,6 +369,48 @@ class Cliente extends ipsi{
 		$x=$this->insert('actividad', $arreglo);
 		$idactividad_array=json_decode($x,true);
 
+		//////////////////clonar escala_sub
+		$sql="select * from escala_actividad where idactividad=$idactividad";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		$excala_act=$sth->fetchall(PDO::FETCH_OBJ);
+		foreach($excala_act as $v2){
+			$arreglo=array();
+			$arreglo+=array('nombre'=>$v2->nombre);
+			$arreglo+=array('idactividad'=>$idactividad_array['id1']);
+			$x=$this->insert('escala_actividad', $arreglo);
+			$escala_actividad_clon=json_decode($x,true);
+
+			$sql="select * from escala_act where idescala=$v2->id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			$tmp=$sth->fetchall(PDO::FETCH_OBJ);
+			foreach($tmp as $v3){
+				$arreglo=array();
+				$arreglo+=array('descripcion'=>$v3->descripcion);
+				$arreglo+=array('minimo'=>$v3->minimo);
+				$arreglo+=array('maximo'=>$v3->maximo);
+				$arreglo+=array('idescala'=>$escala_actividad_clon['id1']);
+				$x=$this->insert('escala_act', $arreglo);
+				$escala_act_clon=json_decode($x,true);
+			}
+
+			$sql="select * from escala_contexto where idescala=$v2->id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			$tmp=$sth->fetchall(PDO::FETCH_OBJ);
+			foreach($tmp as $v4){
+				$arreglo=array();
+				$arreglo+=array('idcontexto'=>$v4->idcontexto);
+				$arreglo+=array('idescala'=>$escala_actividad_clon['id1']);
+				$x=$this->insert('escala_contexto', $arreglo);
+				$escala_contexto_clon=json_decode($x,true);
+			}
+
+		}
+
+		///////////////////////////////
+
 		//////////////////Permisos
 		$arreglo=array();
 		$arreglo+=array('idpaciente'=>$idpaciente);
@@ -504,8 +546,6 @@ class Cliente extends ipsi{
 					$arreglo+=array('maximo'=>$escala->maximo);
 					$x=$this->insert('escala_sub', $arreglo);
 				}
-
-
 
 				////////////Clonar Contexto
 				$sql="select * from contexto where idsubactividad=:idsubactividad";

@@ -501,7 +501,8 @@
  				echo "</div>";
 				echo "<div class='card-body'>";
 
-	 				$sql="select escala_contexto.*, respuestas.id as idresp, respuestas.nombre from escala_contexto left outer join respuestas on respuestas.id=escala_contexto.idrespuesta where escala_contexto.idescala='$escala->id'";
+	 				$sql="SELECT escala_contexto.*, contexto.id AS idcontex, contexto.texto FROM escala_contexto LEFT OUTER JOIN contexto ON contexto.id = escala_contexto.idcontexto WHERE escala_contexto.idescala='$escala->id'";
+
 	 				$sth = $db->dbh->prepare($sql);
 	 				$sth->execute();
 	 				$es=$sth->fetchAll(PDO::FETCH_OBJ);
@@ -517,15 +518,15 @@
 	 					echo "</td>";
 
 	 					echo "<td>";
-	 					echo $v2->nombre;
+	 					echo $v2->texto;
 
-						$sql="select * from contexto_resp where idrespuesta='$v2->idresp'";
+						$sql="select sum(valor) as total from contexto_resp where idcontexto='$v2->idcontex'";
 						$xsth = $db->dbh->prepare($sql);
 						$xsth->execute();
 						if($xsth->rowCount()){
 							$tabparc=$xsth->fetch(PDO::FETCH_OBJ);
-							if(is_numeric($tabparc->valor)){
-								$gparcial+=$tabparc->valor;
+							if(is_numeric($tabparc->total)){
+								$gparcial+=$tabparc->total;
 							}
 						}
 	 					echo "</td>";

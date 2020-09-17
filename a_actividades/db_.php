@@ -293,13 +293,12 @@ class Cuest extends ipsi{
 	public function publicar_actividad(){
 		$idactividad=$_REQUEST['idactividad'];
 
-		$sql="select * from actividad where idactividad=:idactividad";
+		$sql="select * from actividad where idactividad=$idactividad";
 		$sth = $this->dbh->prepare($sql);
-		$sth->bindValue(":idactividad",$idactividad);
 		$sth->execute();
 		$resp=$sth->fetch(PDO::FETCH_OBJ);
-
 		$fecha=date("Y-m-d H:i:s");
+
 		////////////Clonar actividad
 		$arreglo=array();
 		$arreglo+=array('idmodulo'=>$resp->idmodulo);
@@ -313,6 +312,45 @@ class Cuest extends ipsi{
 		$x=$this->insert('actividad', $arreglo);
 		$idactividad_array=json_decode($x,true);
 
+		//////////////////clonar escala_sub
+		$sql="select * from escala_actividad where idactividad=$idactividad";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		$excala_act=$sth->fetchall(PDO::FETCH_OBJ);
+		foreach($excala_act as $v2){
+			$arreglo=array();
+			$arreglo+=array('nombre'=>$v2->nombre);
+			$arreglo+=array('idactividad'=>$idactividad_array['id1']);
+			$x=$this->insert('escala_actividad', $arreglo);
+			$escala_actividad_clon=json_decode($x,true);
+
+			$sql="select * from escala_act where idescala=$v2->id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			$tmp=$sth->fetchall(PDO::FETCH_OBJ);
+			foreach($tmp as $v3){
+				$arreglo=array();
+				$arreglo+=array('descripcion'=>$v3->descripcion);
+				$arreglo+=array('minimo'=>$v3->minimo);
+				$arreglo+=array('maximo'=>$v3->maximo);
+				$arreglo+=array('idescala'=>$escala_actividad_clon['id1']);
+				$x=$this->insert('escala_act', $arreglo);
+				$escala_act_clon=json_decode($x,true);
+			}
+
+			$sql="select * from escala_contexto where idescala=$v2->id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			$tmp=$sth->fetchall(PDO::FETCH_OBJ);
+			foreach($tmp as $v4){
+				$arreglo=array();
+				$arreglo+=array('idcontexto'=>$v4->idcontexto);
+				$arreglo+=array('idescala'=>$escala_actividad_clon['id1']);
+				$x=$this->insert('escala_contexto', $arreglo);
+				$escala_contexto_clon=json_decode($x,true);
+			}
+
+		}
 
 		////////////Clonar Subactividad
 		$sql="select * from subactividad where idactividad=:idactividad";
@@ -328,6 +366,20 @@ class Cuest extends ipsi{
 			$arreglo+=array('idactividad'=>$idactividad_array['id1']);
 			$x=$this->insert('subactividad', $arreglo);
 			$subactividad_array=json_decode($x,true);
+
+			/////////////////clonar Escala subactividad
+			$sql="select * from escala_sub where idsubactividad=$key->idsubactividad";
+			$sty = $this->dbh->prepare($sql);
+			$sty->execute();
+			foreach($sty->fetchall(PDO::FETCH_OBJ) as $escala_sub){
+				$arreglo=array();
+				$arreglo+=array('descripcion'=>$escala_sub->descripcion);
+				$arreglo+=array('minimo'=>$escala_sub->minimo);
+				$arreglo+=array('maximo'=>$escala_sub->maximo);
+				$arreglo+=array('idsubactividad'=>$subactividad_array['id1']);
+				$x=$this->insert('escala_sub', $arreglo);
+			}
+
 
 			////////////Clonar Contexto
 			$sql="select * from contexto where idsubactividad=:idsubactividad";
@@ -394,7 +446,6 @@ class Cuest extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-
 	public function borrar_escala(){
 		if (isset($_REQUEST['idescala'])){$idescala=$_REQUEST['idescala'];}
 		return $this->borrar('escala_sub',"id",$idescala);
@@ -463,7 +514,6 @@ class Cuest extends ipsi{
 		if (isset($_REQUEST['id'])){$id=$_REQUEST['id'];}
 		return $this->borrar('escala_contexto',"id",$id);
 	}
-
 
 	public function subactividad_ver($id){
 		try{
@@ -813,12 +863,12 @@ class Cuest extends ipsi{
 	}
 	public function guardar_evalua(){
 		$id=$_REQUEST['id'];
-		$idrespuesta=$_REQUEST['idrespuesta'];
+		$idcontexto=$_REQUEST['idcontexto'];
 		$idescala=$_REQUEST['idescala'];
 
 		$arreglo=array();
 		$arreglo+=array('idescala'=>$idescala);
-		$arreglo+=array('idrespuesta'=>$idrespuesta);
+		$arreglo+=array('idcontexto'=>$idcontexto);
 		if($id==0){
 			$x=$this->insert('escala_contexto',$arreglo);
 		}
@@ -826,10 +876,6 @@ class Cuest extends ipsi{
 			$x=$this->update('escala_contexto',array('id'=>$id), $arreglo);
 		}
 		return $x;
-	}
-
-	public function escala_borrar(){
-
 	}
 }
 
