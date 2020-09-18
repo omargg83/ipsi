@@ -199,7 +199,7 @@
 					if($visible){
 						echo "<div class='card mb-4'>";
 							echo "<div class='card-body'>";
-								echo "<form is='f-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' msg='algo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
+								echo "<form is='f-submit' id='form_g_".$row->id."' db='a_respuesta/db_' des='a_respuesta/actividad_ver' dix='contenido' fun='guarda_respuesta' msg='algo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
 
 								echo "<div>";
 									echo $row->observaciones;
@@ -341,7 +341,7 @@
 								//<!-- Fin Preguntas  -->
 								echo "<br>";
 
-								if($row->tipo=="pregunta" or $row->tipo=="textocorto" or $row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores"){
+								if($row->tipo=="textocorto" or $row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores"){
 									if(strlen($marca)==0){
 										echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Contestar</button>";
 									}

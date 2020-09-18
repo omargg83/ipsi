@@ -60,10 +60,109 @@
 	//////////////////////////especial submit
 	class Sublink extends HTMLInputElement   {
 		connectedCallback() {
-			this.addEventListener('click', (e) => {
-				console.log(e);
-				console.log(e.target.form);
+			this.addEventListener('change', (e) => {
+				e.preventDefault();
 
+				//////////id del formulario
+		 		let id=e.target.form.id;
+		 		let elemento = document.getElementById(id);
+
+				/////////API que procesa el form
+		 		let db;
+				(elemento.attributes.db !== undefined) ? db=elemento.attributes.db.nodeValue : db="";
+
+				/////////funcion del api que procesa el form
+		 		let fun;
+				(elemento.attributes.fun !== undefined) ? fun=elemento.attributes.fun.nodeValue : fun="";
+
+				/////////Div de destino despues de guardar
+				let dix;
+				(elemento.attributes.dix !== undefined) ? dix=elemento.attributes.dix.nodeValue : dix="trabajo";
+
+				/////////div destino despues de guardar
+		 		let des;
+				(elemento.attributes.des !== undefined) ? des=elemento.attributes.des.nodeValue : des="";
+
+				let desid;
+				(elemento.attributes.desid !== undefined) ? desid=elemento.attributes.desid.nodeValue : desid="";
+
+				////////FORM pertenece a ventanamodal
+		 		let cmodal;
+				(elemento.attributes.cmodal !== undefined) ? cmodal=elemento.attributes.cmodal.nodeValue : cmodal="";
+
+				let datos = new Object();
+				datos.des=des+".php";
+				datos.desid=desid;
+				datos.db=db+".php";
+				datos.dix=dix;
+				datos.fun=fun;
+				datos.cmodal=cmodal;
+				var formDestino = new FormData();
+
+				var formData = new FormData(elemento);
+				formData.append("function", datos.fun);
+
+				/////////esto es para todas las variables
+				let variables = new Object();
+				for(let contar=0;contar<elemento.attributes.length; contar++){
+					let arrayDeCadenas = elemento.attributes[contar].name.split("_");
+					if(arrayDeCadenas.length>1){
+						formData.append(arrayDeCadenas[1], elemento.attributes[contar].value);
+						formDestino.append(arrayDeCadenas[1], elemento.attributes[contar].value);
+					}
+				}
+
+				if(db.length>4){
+					cargando(true);
+					let xhr = new XMLHttpRequest();
+					xhr.open('POST',datos.db);
+					xhr.addEventListener('load',(data)=>{
+						if (!isJSON(data.target.response)){
+							console.log(data.target.response);
+							Swal.fire({
+								type: 'error',
+								title: "Error favor de verificar",
+								showConfirmButton: false,
+								timer: 1000
+							});
+							return;
+						}
+
+						var respon = JSON.parse(data.target.response);
+						if (respon.error==0){
+							if (datos.desid !== undefined && datos.desid.length>0) {
+								document.getElementById(datos.desid).value=respon.id1;
+								formDestino.append(datos.desid, respon.id1);
+							}
+							if (datos.des !== undefined && datos.des.length>4) {
+								redirige_div(formDestino,datos);
+							}
+							if(datos.cmodal==1){
+								$('#myModal').modal('hide');
+							}
+							cargando(false);
+							Swal.fire({
+								type: 'success',
+								title: "Se guardó correctamente ",
+								showConfirmButton: false,
+								timer: 500
+							});
+						}
+						else{
+							Swal.fire({
+								type: 'info',
+								title: respon.terror,
+								showConfirmButton: false,
+								timer: 1000
+							});
+						}
+					});
+					xhr.onerror =  ()=>{
+						console.log("error");
+					};
+					xhr.send(formData);
+					cargando(false);
+				}
 			});
 		}
 	}
