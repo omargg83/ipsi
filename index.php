@@ -1,6 +1,6 @@
 <?php
 	require_once("db_.php");
-	if(!isset($_SESSION['idusuario']) and strlen($_SESSION['idusuario'])==0){
+	if(!isset($_SESSION['idusuario']) or strlen($_SESSION['idusuario'])==0){
 		header("location: login/");
 	}
 ?>

@@ -361,9 +361,6 @@
 	}
 	customElements.define("f-login", Formlogin, { extends: "form" });
 
-
-
-
 	//////////////////////////Solo para un proceso antes del flujo ejem. al borrar que primero borre y luego redirive_div
 	function proceso_db(e){
 		cargando(true);
@@ -536,3 +533,160 @@
 				return false;
 		}
 	}
+
+/* mover
+
+var dragSrcEl = null;
+
+class Divlink extends HTMLDivElement  {
+	connectedCallback() {
+		this.addEventListener('dragstart', (e) => {
+				this.style.opacity = '0.4';
+				dragSrcEl = this;
+				e.dataTransfer.effectAllowed = 'move';
+				e.dataTransfer.setData('text/html', this.innerHTML);
+		});
+		this.addEventListener('dragenter', (e) => {
+			console.log("dragenter");
+
+				this.classList.add('over');
+		});
+		this.addEventListener('dragover', (e) => {
+				if (e.preventDefault) {
+					e.preventDefault();
+				}
+				console.log("dragover");
+				e.dataTransfer.dropEffect = 'move';
+				return false;
+		});
+		this.addEventListener('dragleave', (e) => {
+				this.classList.remove('over');
+		});
+		this.addEventListener('drop', (e) => {
+			if (e.stopPropagation) {
+				e.stopPropagation(); // stops the browser from redirecting.
+			}
+			if (dragSrcEl != this) {
+				console.log("destino:"+this.dataset.orden);
+				console.log("idSUbactividad:"+dragSrcEl.id);
+
+
+				let padre=document.getElementById("subactividades");
+
+				//padre.replaceChild(dragSrcEl,this);
+				//padre.removeChild(dragSrcEl);
+				//console.log(padre);
+
+				insertAfter(dragSrcEl,this);
+
+				dragSrcEl.innerHTML = this.innerHTML;
+				this.innerHTML = e.dataTransfer.getData('text/html');
+
+				let idx = dragSrcEl.id.split("_");
+
+				let formData = new FormData();
+				formData.append("destino",this.dataset.orden);
+				formData.append("id",idx[1]);
+				formData.append("function","orden_subact");
+
+				let xhr = new XMLHttpRequest();
+				xhr.open('POST',"a_actividades/db_.php");
+				xhr.addEventListener('load',(data)=>{
+					console.log(data.target.response);
+				});
+				xhr.onerror =  ()=>{
+					console.log("error");
+				};
+				xhr.send(formData);
+			}
+			return false;
+		});
+		this.addEventListener('dragend', (e) => {
+				this.style.opacity = '1';
+		});
+	}
+}
+customElements.define("b-card", Divlink, { extends: "div" });
+
+function insertAfter(e,i){
+    if(e.nextSibling){
+        e.parentNode.insertBefore(i,e.nextSibling);
+    } else {
+        e.parentNode.appendChild(i);
+    }
+}
+*/
+
+var dragSrcEl = null;
+
+class Divlink extends HTMLDivElement  {
+	connectedCallback() {
+		this.addEventListener('dragstart', (e) => {
+				this.style.opacity = '0.4';
+				dragSrcEl = this;
+				e.dataTransfer.effectAllowed = 'move';
+				e.dataTransfer.setData('text/html', this.innerHTML);
+		});
+		this.addEventListener('dragenter', (e) => {
+			this.classList.add('over');
+		});
+		this.addEventListener('dragover', (e) => {
+				if (e.preventDefault) {
+					e.preventDefault();
+				}
+				e.dataTransfer.dropEffect = 'move';
+				if (dragSrcEl != this) {
+					console.log("dragover");
+					console.log("destino:"+this.dataset.orden);
+					console.log("idSUbactividad:"+dragSrcEl.id);
+
+
+					dragSrcEl.innerHTML = this.innerHTML;
+					this.innerHTML = e.dataTransfer.getData('text/html');
+
+					let idx = dragSrcEl.id.split("_");
+
+					let formData = new FormData();
+					formData.append("destino",this.dataset.orden);
+					formData.append("id",idx[1]);
+					formData.append("function","orden_subact");
+
+					let xhr = new XMLHttpRequest();
+					xhr.open('POST',"a_actividades/db_.php");
+					xhr.addEventListener('load',(data)=>{
+						console.log(data.target.response);
+					});
+					xhr.onerror =  ()=>{
+						console.log("error");
+					};
+					xhr.send(formData);
+				}
+				return false;
+		});
+		this.addEventListener('dragleave', (e) => {
+				this.classList.remove('over');
+		});
+		this.addEventListener('drop', (e) => {
+			if (e.stopPropagation) {
+				e.stopPropagation(); // stops the browser from redirecting.
+			}
+			if (dragSrcEl != this) {
+				//console.log("destino:"+this.dataset.orden);
+				//console.log("idSUbactividad:"+dragSrcEl.id);
+			}
+			return false;
+		});
+		this.addEventListener('dragend', (e) => {
+				this.style.opacity = '1';
+		});
+	}
+}
+customElements.define("b-card", Divlink, { extends: "div" });
+
+function insertAfter(e,i){
+    if(e.nextSibling){
+        e.parentNode.insertBefore(i,e.nextSibling);
+    } else {
+        e.parentNode.appendChild(i);
+    }
+}

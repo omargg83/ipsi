@@ -877,6 +877,35 @@ class Cuest extends ipsi{
 		}
 		return $x;
 	}
+	public function orden_subact(){
+		$orden=$_REQUEST['destino'];
+		$idsubactividad=$_REQUEST['id'];
+
+		$sql="select * from subactividad where idsubactividad=$idsubactividad";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		$subac=$sth->fetch(PDO::FETCH_OBJ);
+
+
+		$sql="select * from subactividad where idactividad=$subac->idactividad order by orden asc";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		$subact=$sth->fetchall(PDO::FETCH_OBJ);
+		$contar=1;
+		echo "orden:".$orden;
+		foreach($subact as $v2){
+
+			$arreglo =array();
+			if($v2->idsubactividad==$idsubactividad){
+				$arreglo+=array('orden'=>$orden);
+			}
+			else{
+				$arreglo+=array('orden'=>$contar);
+				$contar++;
+			}
+			$this->update('subactividad',array('idsubactividad'=>$v2->idsubactividad), $arreglo);
+		}
+	}
 }
 
 $db = new Cuest();
