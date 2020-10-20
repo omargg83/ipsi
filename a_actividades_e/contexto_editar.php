@@ -67,10 +67,8 @@
 			echo "<label>Orden:</label>";
 			echo "<input type='text' class='form-control' id='orden' name='orden'  value='$orden'>";
 
-			if($tipo_actividad=="normal"){
-				echo "<label>Observaciones:</label>";
-				echo "<textarea id='observaciones' name='observaciones' class='form-control'>$observaciones</textarea>";
-			}
+			echo "<label>Observaciones:</label>";
+			echo "<textarea id='observaciones' name='observaciones' class='form-control'>$observaciones</textarea>";
 
 	    if($tipo=="texto"){
 				echo "<label>Texto:</label>";

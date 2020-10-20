@@ -1,5 +1,6 @@
 <?php
 	require_once("db_.php");
+	$idterapia="";
 	$idtrack=$_REQUEST['idtrack'];
 	$idpaciente=$_REQUEST['idpaciente'];
 

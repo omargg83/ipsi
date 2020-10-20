@@ -93,7 +93,11 @@
 
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" db="a_actividades/db_" fun="publicar_actividad" v_idactividad="<?php echo $idactividad; ?>" tp="¿Desea publicar la actividad en el catalogo?" title="Duplicar"><i class="far fa-copy"></i></button>
 
-					<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='<?php echo $idactividad; ?>' v_idpaciente='<?php echo $idpaciente; ?>' omodal='1' v_idescala='0'><i class="fas fa-file-medical-alt"></i></button>
+					<?php
+						if($actividad->tipo=="evaluacion"){
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0'><i class='fas fa-file-medical-alt'></i></button>";
+						}
+					?>
 
 				</div>
 				<div class="col-10 text-left">
@@ -131,9 +135,8 @@
 			$suma=0;
 	?>
 
-    <li is="b-order" draggable="true" >
+    <!--<li is="b-order" draggable="true" >-->
 		<!--<div class="box" draggable="true"  is='b-card' id="sub_<?php echo $key->idsubactividad; ?>" data-orden='<?php echo $posicion; ?>'>-->
-
 
 			<div class="container-fluid mb-1" id="sub_<?php echo $key->idsubactividad; ?>">
 				<div class="card" >
@@ -146,34 +149,35 @@
 
 							<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="subactividad_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' tp="¿Desea eliminar la subactividad?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 							<?php
-								//if($actividad->tipo=="evaluacion"){
+								if($actividad->tipo=="evaluacion"){
 									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0' v_idsubactividad='$key->idsubactividad'><i class='fas fa-chart-line'></i></button>";
-								//}
+								}
 							 ?>
 
 						</div>
 						<div class="col-10 text-center">
 							<button class="btn btn-link" data-toggle="collapse" data-target="#collapsesub<?php echo $key->idsubactividad; ?>" aria-expanded="true" aria-controls="collapsesub<?php echo $key->idsubactividad; ?>">
 								<?php echo $key->orden; ?><?php echo $key->nombre; ?>
-								<?php
-									if($actividad->tipo=="evaluacion"){
-										$total=0;
-										$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = :id and evalua=1";
-										$contx = $db->dbh->prepare($sql);
-										$contx->bindValue(":id",$key->idsubactividad);
-										$contx->execute();
-										$bloques=$contx->fetch(PDO::FETCH_OBJ);
 
-										$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = :id	group by contexto.id";
-										$contx = $db->dbh->prepare($sql);
-										$contx->bindValue(":id",$key->idsubactividad);
-										$contx->execute();
-										if($contx->rowCount()>0 and $bloques->total>0){
-											$total=(100*$contx->rowCount())/$bloques->total;
+								<?php
+										if($actividad->tipo=="evaluacion"){
+											$total=0;
+
+											$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+											$contx = $db->dbh->prepare($sql);
+											$contx->execute();
+											$bloques=$contx->fetch(PDO::FETCH_OBJ);
+
+											$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = :id	group by contexto.id";
+											$contx = $db->dbh->prepare($sql);
+											$contx->bindValue(":id",$key->idsubactividad);
+											$contx->execute();
+											if($contx->rowCount()>0 and $bloques->total>0){
+												$total=(100*$contx->rowCount())/$bloques->total;
+											}
+											echo "(".$contx->rowCount()."/".$bloques->total.")";
+											echo "<progress id='file' value='$total' max='100'> $total %</progress>";
 										}
-										echo "(".$contx->rowCount()."/".$bloques->total.")";
-										echo "<progress id='file' value='$total' max='100'> $total %</progress>";
-								}
 								 ?>
 							</button>
 						</div>
@@ -475,7 +479,7 @@
 				</div>
 			</div>
 			</div>
-		</li>
+		<!--</li>--->
 		<!--</div>-->
 	<?php
 	}

@@ -22,6 +22,7 @@
 	$track=$db->track_editar($idtrack);
 	$idterapia=$track->idterapia;
 	$terapia=$db->terapia_editar($idterapia);
+
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -38,12 +39,12 @@
 		 ?>
 		<li class="breadcrumb-item active" is="li-link" des="a_actividades/actividad_ver" dix="trabajo" v_idactividad="<?php echo $actividad->idactividad; ?>" ><?php echo $actividad->nombre; ?></li>
 		<?php
-		if($inicial==0){
-			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividades' dix='trabajo' v_idmodulo='$modulo->id'>Regresar</button>";
-		}
-		else{
-			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/track' dix='trabajo' v_idterapia='$idterapia' >Regresar</button>";
-		}
+			if($inicial==0){
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividades' dix='trabajo' v_idmodulo='$modulo->id'>Regresar</button>";
+			}
+			else{
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/modulos' dix='trabajo' v_idtrack='$idtrack' >Regresar</button>";
+			}
 		?>
 	</ol>
 </nav>
@@ -58,15 +59,18 @@
 
 						<!---Editar actividad -->
 						<?php
+
 						if($inicial==0){
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idmodulo='$actividad->idmodulo'><i class='fas fa-pencil-alt'></i></button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idmodulo='$actividad->idmodulo' ><i class='fas fa-pencil-alt'></i></button>";
 						}
 						else{
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idterapia='$idterapia'><i class='fas fa-pencil-alt'></i></button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idterapia='$idterapia' ><i class='fas fa-pencil-alt'></i></button>";
+						}
+						if($actividad->tipo=="evaluacion"){
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='$idactividad' omodal='1' v_idescala='0'><i class='fas fa-file-medical-alt'></i></button>";
 						}
 					?>
 
-					<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='<?php echo $idactividad; ?>' omodal='1' v_idescala='0'><i class="fas fa-file-medical-alt"></i></button>
 
 
 					</div>
@@ -108,9 +112,9 @@
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="subactividad_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" tp="¿Desea eliminar la subactividad?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 
 					<?php
-						//if($actividad->tipo=="evaluacion"){
+						if($actividad->tipo=="evaluacion"){
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' omodal='1' v_idescala='0' v_idsubactividad='$key->idsubactividad'><i class='fas fa-chart-line'></i></button>";
-						//}
+						}
 					 ?>
 
 				</div>

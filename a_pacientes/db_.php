@@ -6,6 +6,8 @@ if($_SESSION['des']==1 and strlen($function)==0)
 	echo "<div class='alert alert-primary' role='alert'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
+	echo "<hr>";
+	echo print_r($_REQUEST);
 	echo "</div>";
 }
 
@@ -588,31 +590,6 @@ class Cliente extends ipsi{
 		catch(PDOException $e){
 			return "Database access FAILED!".$e->getMessage();
 		}
-
-		//////////////clonar
-		/*
-		$idactividad=clean_var($_REQUEST['idactividad']);
-		$idpaciente=clean_var($_REQUEST['idpaciente']);
-		$sql="select * from actividad_per where idactividad=:idactividad and idpaciente=:idpaciente";
-		$sth = $this->dbh->prepare($sql);
-		$sth->bindValue(":idactividad",$idactividad);
-		$sth->bindValue(":idpaciente",$idpaciente);
-		$sth->execute();
-		if ($sth->rowCount()==0){
-			$arreglo=array();
-			$arreglo+=array('idpaciente'=>$idpaciente);
-			$arreglo+=array('idactividad'=>$idactividad);
-			$x=$this->insert('actividad_per', $arreglo);
-			return $x;
-		}
-		else{
-			$arreglo=array();
-			$arreglo+=array('id1'=>0);
-			$arreglo+=array('error'=>1);
-			$arreglo+=array('terror'=>"La actividad inicial ya existe");
-			return json_encode($arreglo);
-		}
-		*/
 	}
 
 	public function quitar_terapia(){

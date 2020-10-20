@@ -39,6 +39,12 @@
 	$idterapia=$track->idterapia;
 	$terapia=$db->terapia_editar($idterapia);
 
+
+	$origen="";
+	if(isset($_REQUEST['origen'])){
+		$origen=$_REQUEST['origen'];
+		echo $origen;
+	}
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -128,10 +134,16 @@
 							<button class='btn btn-warning'  type='submit'><i class="far fa-save"></i>Guardar</button>
 							<?php
 							if($inicial==0){
-								echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/actividades' v_idmodulo='$idmodulo' dix='trabajo'>Regresar</button>";
+								if($idactividad>0 and strlen($origen)==0){
+									echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/actividad_ver' v_idactividad='$idactividad' dix='trabajo'>Regresar</button>";
+								}
+								else{
+									echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/actividades' v_idmodulo='$idmodulo' dix='trabajo'>Regresar</button>";
+								}
 							}
 							else{
-								echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/track' v_idterapia='$idterapia' dix='trabajo'>Regresar</button>";
+
+								echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/modulos' v_idtrack='$idtrack' dix='trabajo'>Regresar</button>";
 							}
 							?>
 					</div>

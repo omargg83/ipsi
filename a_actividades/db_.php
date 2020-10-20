@@ -6,6 +6,8 @@ if($_SESSION['des']==1 and strlen($function)==0)
 	echo "<div class='alert alert-primary' role='alert'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
+	echo "<hr>";
+	echo print_r($_REQUEST);
 	echo "</div>";
 }
 
@@ -717,6 +719,8 @@ class Cuest extends ipsi{
 				$arreglo+=array('incisos'=>$subkey->incisos);
 				$arreglo+=array('usuario'=>$subkey->usuario);
 				$arreglo+=array('descripcion'=>$subkey->descripcion);
+				$arreglo+=array('orden'=>$subkey->orden);
+
 				$x=$this->insert('contexto', $arreglo);
 				$contexto_array=json_decode($x,true);
 
@@ -732,8 +736,10 @@ class Cuest extends ipsi{
 					$arreglo+=array('orden'=>$cont->orden);
 					$arreglo+=array('nombre'=>$cont->nombre);
 					$arreglo+=array('imagen'=>$cont->imagen);
+					$arreglo+=array('valor'=>$cont->valor);
 					$x=$this->insert('respuestas', $arreglo);
 				}
+
 			}
 			return $x;
 		}

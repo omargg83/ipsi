@@ -175,6 +175,14 @@
 					<div class='row'>
 						<div class='col-12'>
 								<button class='btn btn-warning'  type='submit'>Guardar</button>
+								<?php
+									if($idactividad>0){
+										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+									}
+									else{
+										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividades' v_idmodulo='$idmodulo' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+									}
+								?>
 						</div>
 					</div>
 				</div>
