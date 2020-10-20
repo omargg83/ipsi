@@ -122,6 +122,7 @@
 <!-- Fin de actividad  -->
 <!-- Subactividades  -->
 <section class="containerx" id='subactividades'>
+	<ul>
 	<?php
 		$suma=0;
 		$posicion=0;
@@ -129,7 +130,11 @@
 			$posicion++;
 			$suma=0;
 	?>
-		<div class="box" draggable="true"  is='b-card' id="sub_<?php echo $key->idsubactividad; ?>" data-orden='<?php echo $posicion; ?>'>
+
+    <li is="b-order" draggable="true" >
+		<!--<div class="box" draggable="true"  is='b-card' id="sub_<?php echo $key->idsubactividad; ?>" data-orden='<?php echo $posicion; ?>'>-->
+
+
 			<div class="container-fluid mb-1" id="sub_<?php echo $key->idsubactividad; ?>">
 				<div class="card" >
 				<div class="card-header">
@@ -470,10 +475,12 @@
 				</div>
 			</div>
 			</div>
-		</div>
+		</li>
+		<!--</div>-->
 	<?php
 	}
 	?>
+</ul>
 </section>
 <?php
 	echo "<div class='card'>";

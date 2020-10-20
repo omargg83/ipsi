@@ -534,9 +534,10 @@
 		}
 	}
 
-/* mover
+/*
 
 var dragSrcEl = null;
+var dragdestino = null;
 
 class Divlink extends HTMLDivElement  {
 	connectedCallback() {
@@ -547,15 +548,20 @@ class Divlink extends HTMLDivElement  {
 				e.dataTransfer.setData('text/html', this.innerHTML);
 		});
 		this.addEventListener('dragenter', (e) => {
-			console.log("dragenter");
-
-				this.classList.add('over');
+			this.classList.add('over');
+			if (dragSrcEl != this) {
+				dragdestino=this;
+				let tmp=dragSrcEl.innerHTML;
+				dragSrcEl.innerHTML=this.innerHTML;
+				//dragdestino.innerHTML = tmp.innerHTML;
+				//dragSrcEl.innerHTML=
+				//dragSrcEl.innerHTML = dragdestino.innerHTML;
+			}
 		});
 		this.addEventListener('dragover', (e) => {
 				if (e.preventDefault) {
 					e.preventDefault();
 				}
-				console.log("dragover");
 				e.dataTransfer.dropEffect = 'move';
 				return false;
 		});
@@ -569,15 +575,6 @@ class Divlink extends HTMLDivElement  {
 			if (dragSrcEl != this) {
 				console.log("destino:"+this.dataset.orden);
 				console.log("idSUbactividad:"+dragSrcEl.id);
-
-
-				let padre=document.getElementById("subactividades");
-
-				//padre.replaceChild(dragSrcEl,this);
-				//padre.removeChild(dragSrcEl);
-				//console.log(padre);
-
-				insertAfter(dragSrcEl,this);
 
 				dragSrcEl.innerHTML = this.innerHTML;
 				this.innerHTML = e.dataTransfer.getData('text/html');
@@ -615,78 +612,40 @@ function insertAfter(e,i){
         e.parentNode.appendChild(i);
     }
 }
-*/
 
-var dragSrcEl = null;
 
-class Divlink extends HTMLDivElement  {
+
+let selected = null
+
+class dragli extends HTMLLIElement {
 	connectedCallback() {
 		this.addEventListener('dragstart', (e) => {
-				this.style.opacity = '0.4';
-				dragSrcEl = this;
-				e.dataTransfer.effectAllowed = 'move';
-				e.dataTransfer.setData('text/html', this.innerHTML);
-		});
-		this.addEventListener('dragenter', (e) => {
-			this.classList.add('over');
+			e.dataTransfer.effectAllowed = 'move'
+			e.dataTransfer.setData('text/plain', null)
+			selected = e.target
 		});
 		this.addEventListener('dragover', (e) => {
-				if (e.preventDefault) {
-					e.preventDefault();
-				}
-				e.dataTransfer.dropEffect = 'move';
-				if (dragSrcEl != this) {
-					console.log("dragover");
-					console.log("destino:"+this.dataset.orden);
-					console.log("idSUbactividad:"+dragSrcEl.id);
-
-
-					dragSrcEl.innerHTML = this.innerHTML;
-					this.innerHTML = e.dataTransfer.getData('text/html');
-
-					let idx = dragSrcEl.id.split("_");
-
-					let formData = new FormData();
-					formData.append("destino",this.dataset.orden);
-					formData.append("id",idx[1]);
-					formData.append("function","orden_subact");
-
-					let xhr = new XMLHttpRequest();
-					xhr.open('POST',"a_actividades/db_.php");
-					xhr.addEventListener('load',(data)=>{
-						console.log(data.target.response);
-					});
-					xhr.onerror =  ()=>{
-						console.log("error");
-					};
-					xhr.send(formData);
-				}
-				return false;
-		});
-		this.addEventListener('dragleave', (e) => {
-				this.classList.remove('over');
-		});
-		this.addEventListener('drop', (e) => {
-			if (e.stopPropagation) {
-				e.stopPropagation(); // stops the browser from redirecting.
+			if (isBefore(selected, e.target)) {
+				//e.target.parentNode.insertBefore(selected, e.target)
+			} else {
+				//e.target.parentNode.insertBefore(selected, e.target.nextSibling)
 			}
-			if (dragSrcEl != this) {
-				//console.log("destino:"+this.dataset.orden);
-				//console.log("idSUbactividad:"+dragSrcEl.id);
-			}
-			return false;
 		});
 		this.addEventListener('dragend', (e) => {
-				this.style.opacity = '1';
+			selected = null;
 		});
 	}
 }
-customElements.define("b-card", Divlink, { extends: "div" });
+customElements.define("b-order", dragli, { extends: "li" });
 
-function insertAfter(e,i){
-    if(e.nextSibling){
-        e.parentNode.insertBefore(i,e.nextSibling);
-    } else {
-        e.parentNode.appendChild(i);
+function isBefore(el1, el2) {
+  let cur
+  if (el2.parentNode === el1.parentNode) {
+    for (cur = el1.previousSibling; cur; cur = cur.previousSibling) {
+      if (cur === el2) return true;
     }
+  }
+  return false;
 }
+
+*/
