@@ -1,6 +1,10 @@
 <?php
+<<<<<<< Updated upstream
 $server=2;
 $_SESSION['des']=1;   ///////////////cambiar esta para acceder a modo desarrollador
+=======
+$server=1;
+>>>>>>> Stashed changes
 if($server==1){
   /////////remoto
   define("MYSQLUSER", "wwipsi_wwipsi");
