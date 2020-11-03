@@ -1,9 +1,9 @@
 <?php
   /////////<<<<<<< Updated upstream
-$server=2;
+$server=1;
 $_SESSION['des']=0;   ///////////////cambiar esta para acceder a modo desarrollador
   /////////=======
-$server=1;
+
   /////////>>>>>>> Stashed changes
 if($server==1){
   /////////remoto
