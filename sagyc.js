@@ -1,3 +1,91 @@
+let intval=""
+
+onload = ()=> {
+	loadContent(location.hash.slice(1));
+	if(intval==""){
+		intval=setInterval(function(){ sesion_ver(); }, 60000);
+	}
+	cargando(false);
+};
+let url=window.location.href;
+let hash=url.substring(url.indexOf("#")+1);
+if(hash===url || hash===''){
+	hash='dash/dashboard';
+}
+
+window.addEventListener("hashchange", (e)=>{
+	loadContent(location.hash.slice(1));
+},false);	///////////////////para el hash
+
+function loadContent(hash){
+	cargando(true);
+	let formData = new FormData();
+	let arrayDeCadenas = hash.split("?");
+	let nhash=arrayDeCadenas[0];
+	if(arrayDeCadenas.length>1){
+		let query=arrayDeCadenas[1];
+		var vars = query.split("&");
+		for (var i=0; i < vars.length; i++) {
+		var pair = vars[i].split("=");
+			formData.append(pair[0],pair[1]);
+		}
+	}
+	if(nhash==''){
+		nhash= 'dash/dashboard';
+	}
+	let destino=nhash + '.php';
+	let xhr = new XMLHttpRequest();
+	xhr.open('POST',destino);
+	xhr.addEventListener('load',(data)=>{
+		document.getElementById("contenido").innerHTML =data.target.response;
+		var scripts = document.getElementById("contenido").getElementsByTagName("script");
+		for (var i = 0; i < scripts.length; i++) {
+			eval(scripts[i].innerText);
+		}
+		cargando(false);
+	});
+	xhr.onerror = (e)=>{
+		console.log(e);
+		cargando(false);
+	};
+	xhr.send(formData);
+	cargando(false);
+}
+function salir(){
+	var formData = new FormData();
+	formData.append("function", "salir");
+	formData.append("ctrl", "control");
+	let xhr = new XMLHttpRequest();
+	xhr.open('POST',"control_db.php");
+	xhr.addEventListener('load',(data)=>{
+		location.href ="login/";
+	});
+	xhr.onerror = (e)=>{
+		console.log(e);
+	};
+	xhr.send(formData);
+}
+function sesion_ver(){
+	var formData = new FormData();
+	formData.append("function", "ses");
+	formData.append("ctrl", "control");
+
+	let xhr = new XMLHttpRequest();
+	xhr.open('POST',"control_db.php");
+	xhr.addEventListener('load',(data)=>{
+		var datos = JSON.parse(data.target.response);
+		if (datos.sess=="cerrada"){
+			location.href ="login/";
+		}
+	});
+	xhr.onerror = (e)=>{
+		console.log(e);
+	};
+	xhr.send(formData);
+}
+
+
+
 /*
 	Libreria Propia V.1
 	Ruben Omar García
@@ -19,7 +107,6 @@
 						formData.append(pair[0],pair[1]);
 					}
 				}
-
 				let datos = new Object();
 				datos.des=nhash+".php";
 				datos.dix="contenido";
@@ -305,62 +392,6 @@
 	}
 	customElements.define("f-submit", Formsubmit, { extends: "form" });
 
-	class Formlogin extends HTMLFormElement {
-		connectedCallback() {
-		 this.addEventListener('submit', (e) => {
-				e.preventDefault();
-
-				//////////id del formulario
-				let id=e.currentTarget.attributes.id.nodeValue;
-				let elemento = document.getElementById(id);
-
-				/////////API que procesa el form
-				let db;
-				(elemento.attributes.db !== undefined) ? db=elemento.attributes.db.nodeValue : db="";
-
-				/////////funcion del api que procesa el form
-				let fun;
-				(elemento.attributes.fun !== undefined) ? fun=elemento.attributes.fun.nodeValue : fun="";
-
-				/////////div destino despues de guardar
-				let des;
-				(elemento.attributes.des !== undefined) ? des=elemento.attributes.des.nodeValue : des="";
-
-				let datos = new Object();
-				datos.db=db+".php";
-				datos.fun=fun;
-				datos.des=des+".php";
-
-
-				var formData = new FormData(elemento);
-				formData.append("function", datos.fun);
-
-				let xhr = new XMLHttpRequest();
-				xhr.open('POST',datos.db);
-				xhr.addEventListener('load',(resp)=>{
-					var data = JSON.parse(resp.target.response);
-		      if (data.acceso==1){
-						location.href="../";
-		      }
-		      else{
-		        Swal.fire({
-		            type: 'error',
-		            title: 'Usuario o contraseña incorrecta',
-		            showConfirmButton: false,
-		            timer: 1000
-		        })
-		      }
-				});
-				xhr.onerror =  ()=>{
-					console.log("error");
-				};
-				xhr.send(formData);
-
-		 })
-		}
-	}
-	customElements.define("f-login", Formlogin, { extends: "form" });
-
 	//////////////////////////Solo para un proceso antes del flujo ejem. al borrar que primero borre y luego redirive_div
 	function proceso_db(e){
 		cargando(true);
@@ -512,7 +543,6 @@
 			console.log(e);
 		};
 		xhr.send(formData);
-		cargando(false);
 	}
 	function cargando(valor) {
 		let element = document.getElementById("cargando_div");
@@ -533,119 +563,3 @@
 				return false;
 		}
 	}
-
-/*
-
-var dragSrcEl = null;
-var dragdestino = null;
-
-class Divlink extends HTMLDivElement  {
-	connectedCallback() {
-		this.addEventListener('dragstart', (e) => {
-				this.style.opacity = '0.4';
-				dragSrcEl = this;
-				e.dataTransfer.effectAllowed = 'move';
-				e.dataTransfer.setData('text/html', this.innerHTML);
-		});
-		this.addEventListener('dragenter', (e) => {
-			this.classList.add('over');
-			if (dragSrcEl != this) {
-				dragdestino=this;
-				let tmp=dragSrcEl.innerHTML;
-				dragSrcEl.innerHTML=this.innerHTML;
-				//dragdestino.innerHTML = tmp.innerHTML;
-				//dragSrcEl.innerHTML=
-				//dragSrcEl.innerHTML = dragdestino.innerHTML;
-			}
-		});
-		this.addEventListener('dragover', (e) => {
-				if (e.preventDefault) {
-					e.preventDefault();
-				}
-				e.dataTransfer.dropEffect = 'move';
-				return false;
-		});
-		this.addEventListener('dragleave', (e) => {
-				this.classList.remove('over');
-		});
-		this.addEventListener('drop', (e) => {
-			if (e.stopPropagation) {
-				e.stopPropagation(); // stops the browser from redirecting.
-			}
-			if (dragSrcEl != this) {
-				console.log("destino:"+this.dataset.orden);
-				console.log("idSUbactividad:"+dragSrcEl.id);
-
-				dragSrcEl.innerHTML = this.innerHTML;
-				this.innerHTML = e.dataTransfer.getData('text/html');
-
-				let idx = dragSrcEl.id.split("_");
-
-				let formData = new FormData();
-				formData.append("destino",this.dataset.orden);
-				formData.append("id",idx[1]);
-				formData.append("function","orden_subact");
-
-				let xhr = new XMLHttpRequest();
-				xhr.open('POST',"a_actividades/db_.php");
-				xhr.addEventListener('load',(data)=>{
-					console.log(data.target.response);
-				});
-				xhr.onerror =  ()=>{
-					console.log("error");
-				};
-				xhr.send(formData);
-			}
-			return false;
-		});
-		this.addEventListener('dragend', (e) => {
-				this.style.opacity = '1';
-		});
-	}
-}
-customElements.define("b-card", Divlink, { extends: "div" });
-
-function insertAfter(e,i){
-    if(e.nextSibling){
-        e.parentNode.insertBefore(i,e.nextSibling);
-    } else {
-        e.parentNode.appendChild(i);
-    }
-}
-
-
-
-let selected = null
-
-class dragli extends HTMLLIElement {
-	connectedCallback() {
-		this.addEventListener('dragstart', (e) => {
-			e.dataTransfer.effectAllowed = 'move'
-			e.dataTransfer.setData('text/plain', null)
-			selected = e.target
-		});
-		this.addEventListener('dragover', (e) => {
-			if (isBefore(selected, e.target)) {
-				//e.target.parentNode.insertBefore(selected, e.target)
-			} else {
-				//e.target.parentNode.insertBefore(selected, e.target.nextSibling)
-			}
-		});
-		this.addEventListener('dragend', (e) => {
-			selected = null;
-		});
-	}
-}
-customElements.define("b-order", dragli, { extends: "li" });
-
-function isBefore(el1, el2) {
-  let cur
-  if (el2.parentNode === el1.parentNode) {
-    for (cur = el1.previousSibling; cur; cur = cur.previousSibling) {
-      if (cur === el2) return true;
-    }
-  }
-  return false;
-}
-
-*/

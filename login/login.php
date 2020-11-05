@@ -1,4 +1,6 @@
-<?php @session_start();
+<?php
+	session_name("ipsi_online#&%1");
+	@session_start();
 
 	error_reporting(E_ALL);
 	ini_set('display_errors', '1');
