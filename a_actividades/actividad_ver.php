@@ -2,7 +2,6 @@
 	require_once("db_.php");
 
 	$idactividad=clean_var($_REQUEST['idactividad']);
-
   $actividad = $db->actividad_editar($idactividad);
 	$subactividad = $db->subactividad_ver($idactividad);
 
@@ -22,7 +21,6 @@
 	$track=$db->track_editar($idtrack);
 	$idterapia=$track->idterapia;
 	$terapia=$db->terapia_editar($idterapia);
-
 ?>
 
 <nav aria-label='breadcrumb'>

@@ -18,7 +18,7 @@ window.addEventListener("hashchange", (e)=>{
 },false);	///////////////////para el hash
 
 function loadContent(hash){
-	cargando(true);
+
 	let formData = new FormData();
 	let arrayDeCadenas = hash.split("?");
 	let nhash=arrayDeCadenas[0];
@@ -42,14 +42,14 @@ function loadContent(hash){
 		for (var i = 0; i < scripts.length; i++) {
 			eval(scripts[i].innerText);
 		}
-		cargando(false);
+
 	});
 	xhr.onerror = (e)=>{
 		console.log(e);
-		cargando(false);
+
 	};
 	xhr.send(formData);
-	cargando(false);
+
 }
 function salir(){
 	var formData = new FormData();
@@ -85,7 +85,6 @@ function sesion_ver(){
 }
 
 
-
 /*
 	Libreria Propia V.1
 	Ruben Omar García
@@ -93,7 +92,8 @@ function sesion_ver(){
 
 	class MenuLink extends HTMLAnchorElement {
 		connectedCallback() {
-			this.addEventListener('click', (e) => {cargando(true);
+			this.addEventListener('click', (e) => {
+
 				let formData = new FormData();
 
 				let hash=e.currentTarget.hash.slice(1);
@@ -142,7 +142,6 @@ function sesion_ver(){
 		}
 	}
 	customElements.define("b-link", Buttonlink, { extends: "button" });
-
 
 	//////////////////////////especial submit
 	class Sublink extends HTMLInputElement   {
@@ -200,12 +199,10 @@ function sesion_ver(){
 				}
 
 				if(db.length>4){
-					cargando(true);
 					let xhr = new XMLHttpRequest();
 					xhr.open('POST',datos.db);
 					xhr.addEventListener('load',(data)=>{
 						if (!isJSON(data.target.response)){
-							console.log(data.target.response);
 							Swal.fire({
 								type: 'error',
 								title: "Error favor de verificar",
@@ -217,17 +214,6 @@ function sesion_ver(){
 
 						var respon = JSON.parse(data.target.response);
 						if (respon.error==0){
-							if (datos.desid !== undefined && datos.desid.length>0) {
-								document.getElementById(datos.desid).value=respon.id1;
-								formDestino.append(datos.desid, respon.id1);
-							}
-							if (datos.des !== undefined && datos.des.length>4) {
-								redirige_div(formDestino,datos);
-							}
-							if(datos.cmodal==1){
-								$('#myModal').modal('hide');
-							}
-							cargando(false);
 							Swal.fire({
 								type: 'success',
 								title: "Se guardó correctamente ",
@@ -245,10 +231,8 @@ function sesion_ver(){
 						}
 					});
 					xhr.onerror =  ()=>{
-						console.log("error");
 					};
 					xhr.send(formData);
-					cargando(false);
 				}
 			});
 		}
@@ -321,7 +305,7 @@ function sesion_ver(){
 						confirmButtonText: 'Guardar'
 					}).then((result) => {
 						if (result.value) {
-							cargando(true);
+
 							let xhr = new XMLHttpRequest();
 							xhr.open('POST',datos.db);
 							xhr.addEventListener('load',(data)=>{
@@ -348,7 +332,7 @@ function sesion_ver(){
 									if(datos.cmodal==1){
 										$('#myModal').modal('hide');
 									}
-									cargando(false);
+
 									Swal.fire({
 										type: 'success',
 										title: "Se guardó correctamente ",
@@ -369,13 +353,13 @@ function sesion_ver(){
 								console.log("error");
 							};
 							xhr.send(formData);
-							cargando(false);
+
 						}
 					});
 
 				}
 				else{
-					cargando(true);
+
 					let xhr = new XMLHttpRequest();
 					xhr.open('POST',datos.des);
 					xhr.addEventListener('load',(data)=>{
@@ -385,7 +369,7 @@ function sesion_ver(){
 						console.log("error");
 					};
 					xhr.send(formData);
-					cargando(false);
+
 				}
 		 })
 		}
@@ -394,7 +378,7 @@ function sesion_ver(){
 
 	//////////////////////////Solo para un proceso antes del flujo ejem. al borrar que primero borre y luego redirive_div
 	function proceso_db(e){
-		cargando(true);
+
 
 		let des;	/////////////el destino
 		e.currentTarget.attributes.des!==undefined ? des=e.currentTarget.attributes.des.nodeValue : des="";
@@ -442,12 +426,12 @@ function sesion_ver(){
 		}
 		if(datos.cmodal==1){
 			$('#myModal').modal('hide');
-			cargando(false);
+
 			return;
 		}
 		if(datos.cmodal==2){
 			$('#myModal').modal('hide');
-			cargando(false);
+
 		}
 		//////////////poner aqui proceso en caso de existir funcion
 		if(fun.length>0){
@@ -508,7 +492,7 @@ function sesion_ver(){
 		else{
 			redirige_div(formData,datos);
 		}
-		cargando(false);
+
 	}
 	//////////////////////////redirige si es necesario
 	function redirige_div(formData,datos){
@@ -519,6 +503,7 @@ function sesion_ver(){
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST', datos.des);
 		xhr.addEventListener('load',(datares)=>{
+
 			if(datares.target.status=="404"){
 				Swal.fire({
 						type: 'error',

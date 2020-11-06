@@ -197,9 +197,10 @@
 							}
 						}
 					if($visible){
-						echo "<div class='card mb-4'>";
+						echo "<div class='card mb-2'>";
 							echo "<div class='card-body'>";
-								echo "<form is='f-submit' id='form_g_".$row->id."' db='a_respuesta/db_' des='a_respuesta/actividad_ver' dix='contenido' fun='guarda_respuesta' msg='algo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
+								//echo "<form is='f-submit' id='form_g_".$row->id."' db='a_respuesta/db_' des='a_respuesta/actividad_ver' dix='contenido' fun='guarda_respuesta' msg='algo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
+								echo "<form is='f-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
 
 								echo "<div>";
 									echo $row->observaciones;
@@ -259,7 +260,6 @@
 													$texto_resp=$resp->texto;
 													$valor_resp=$resp->valor;
 												}
-
 
 												echo "<div class='row'>";
 													echo "<div class='col-1'>";
@@ -364,7 +364,7 @@
 
 
 <script type="text/javascript">
-	$(function() {
+	/*$(function() {
 		$('.texto').summernote({
 			lang: 'es-ES',
 			placeholder: 'Texto',
@@ -372,5 +372,5 @@
 			height: 250
 		});
 	});
-
+*/
 </script>

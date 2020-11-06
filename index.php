@@ -183,7 +183,7 @@
 
       <div class="loader loader-default is-active" id='cargando_div' data-text="Cargando"></div>
 
-      <div class="modal animated fadeInDown" tabindex="-1" role="dialog" id="myModal" data-keyboard="false" data-backdrop="static">
+      <div class="modal" tabindex="-1" role="dialog" id="myModal" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered  modal-lg" role="document" id='modal_dispo'>
           <div class="modal-content" id='modal_form'>
 
@@ -214,9 +214,9 @@
 
       <!--   iconos   -->
       <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-
-      <!--   Boostrap   -->
-      <link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2&display=swap" rel="stylesheet">
+			<!--
+				<link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2&display=swap" rel="stylesheet">
+			->
 
       <script src="librerias15/js/bootstrap.js"></script>
 
