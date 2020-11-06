@@ -1,3 +1,9 @@
+
+#contenido{
+  max-height: 85vh!important;
+  overflow-x: hidden!important;
+}
+
 #layoutSidenav,body{background-color: #f4f6fa;}
 .bienvenida,.topcuenta{font-weight: 800;
     color: #00417c;}
