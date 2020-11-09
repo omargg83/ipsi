@@ -72,11 +72,13 @@
 
 	    if($tipo=="texto"){
 				echo "<label>Texto:</label>";
-		    echo "<textarea class='texto' id='texto' name='texto' rows=5>$texto</textarea>";
+				
+				echo "<div id='texto_$idcontexto' name='texto_$idcontexto' onclick='editable(texto_$idcontexto)'>$texto</div>";
+		    //echo "<textarea class='texto form-control' id='texto_$idcontexto' name='texto_$idcontexto' rows=5 onclick='editable(texto_$idcontexto)'><pre>$texto</pre></textarea>";
 	    }
 	    else if($tipo=="imagen"){
 				echo "<label>Adjuntar imagen</label>";
-				echo "<input type='file' id='texto' name='texto' accept='image/png, image/jpeg'>";
+				echo "<input type='file' id='texto_$idcontexto' name='texto_$idcontexto' accept='image/png, image/jpeg'>";
 				echo "<hr>";
 				if(strlen($texto)>0){
 					echo "<img src='".$db->doc.$texto."' width='500px'>";
@@ -145,6 +147,7 @@
 
 
 <script type="text/javascript">
+/*
 	$(function() {
 		$('.texto').summernote({
 			lang: 'es-ES',
@@ -153,4 +156,5 @@
 			height: 250
 		});
 	});
+	*/
 </script>

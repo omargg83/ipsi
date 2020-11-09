@@ -615,9 +615,10 @@ class Cuest extends ipsi{
 				$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
 			}
 
-			if($tipo=="texto"){
-				$arreglo+=array('texto'=>$_REQUEST['texto']);
+			if(isset($_REQUEST["texto_".$id1])){
+				$arreglo+=array('texto'=>$_REQUEST["texto_".$id1]);
 			}
+
 			if($tipo=="video"){
 				$arreglo+=array('texto'=>$_REQUEST['texto']);
 			}
