@@ -606,12 +606,12 @@
 
 <script type="text/javascript">
 
-	/*$(function() {
+	$(function() {
 		$('.texto').summernote({
 			lang: 'es-ES',
 			placeholder: 'Texto',
 			tabsize: 5,
 			height: 250
 		});
-	});*/
+	});
 </script>

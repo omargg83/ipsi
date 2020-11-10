@@ -72,9 +72,10 @@
 
 	    if($tipo=="texto"){
 				echo "<label>Texto:</label>";
-				
-				echo "<div id='texto_$idcontexto' name='texto_$idcontexto' onclick='editable(texto_$idcontexto)'>$texto</div>";
-		    //echo "<textarea class='texto form-control' id='texto_$idcontexto' name='texto_$idcontexto' rows=5 onclick='editable(texto_$idcontexto)'><pre>$texto</pre></textarea>";
+
+				echo "<div id='div_$idcontexto' name='div_$idcontexto' onclick='editable(this)'>$texto</div>";
+				echo "<small>De clic para editar</small>";
+		    //echo "<textarea class='texto form-control' id='texto_$idcontexto' name='texto_$idcontexto' rows=5 onclick='editable(texto_$idcontexto)'>".htmlspecialchars_decode($texto)."</textarea>";
 	    }
 	    else if($tipo=="imagen"){
 				echo "<label>Adjuntar imagen</label>";
@@ -115,7 +116,7 @@
 						echo "<div class='col-4'>";
 							echo "<div class='form-check'>";
 								echo "<input type='checkbox' class='form-check-input' name='usuario' id='usuario'  value='usuario'"; if($usuario=='1'){ echo 'checked'; } echo 	">";
-								echo "<label class='form-check-label' for='usuario'>Texto de usuario despues de insiso</label>";
+								echo "<label class='form-check-label' for='usuario'>Texto de usuario despues de inciso</label>";
 							echo "</div>";
 						echo "</div>";
 				echo "</div>";

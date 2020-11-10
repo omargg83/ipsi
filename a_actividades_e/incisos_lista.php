@@ -3,7 +3,10 @@
 
   $idcontexto=$_REQUEST['idcontexto'];
   $idactividad=$_REQUEST['idactividad'];
-  $idpaciente=$_REQUEST['idpaciente'];
+	$idpaciente=0;
+	if(isset($_REQUEST['idpaciente'])){
+		$idpaciente=$_REQUEST['idpaciente'];
+	}
 
   $sql="select * from contexto where id=$idcontexto";
   $sth = $db->dbh->prepare($sql);
@@ -31,10 +34,16 @@
       echo "<div class='row'>";
         echo "<div class='col-3'>";
 
-          echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='$respuesta->id' v_idcontexto='$idcontexto' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-pencil-alt'></i></button>";
+					if($idpaciente>0){
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='$respuesta->id' v_idcontexto='$idcontexto' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-pencil-alt'></i></button>";
 
-          echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='respuesta_borrar' v_idactividad='<?php echo $idactividad; ?>' v_idrespuesta='<?php echo $respuesta->id; ?>' v_idpaciente='<?php echo $idpaciente; ?>' tp='¿Desea eliminar el inciso selecionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='respuesta_borrar' v_idactividad='$idactividad' v_idrespuesta='$respuesta->id' v_idpaciente='$idpaciente' tp='¿Desea eliminar el inciso selecionado?' title='Borrar' cmodal=2><i class='far fa-trash-alt'></i></button>";
+					}
+					else{
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='$respuesta->id' v_idcontexto='$idcontexto' v_idactividad='$idactividad' omodal='1' ><i class='fas fa-pencil-alt'></i></button>";
 
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='respuesta_borrar' v_idactividad='$idactividad' v_idrespuesta='$respuesta->id' tp='¿Desea eliminar el inciso selecionado?' title='Borrar' cmodal=2><i class='far fa-trash-alt'></i></button>";
+					}
           echo "</div>";
 
         //////////////////para obtener Respuestas
