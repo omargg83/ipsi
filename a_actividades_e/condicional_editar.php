@@ -26,7 +26,6 @@
 	}
 	else{
 		echo "<form is='f-submit' id='form_terapia' db='a_actividades/db_' fun='guardar_condicion' des='a_actividades/actividad_ver' v_idactividad='$idactividad' dix='trabajo' cmodal='1'>";
-
 	}
  ?>
 	 <input type="hidden" name="idcontexto" id="idcontexto" value="<?php echo $idcontexto; ?>" cmodal="1">

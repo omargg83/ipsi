@@ -313,7 +313,8 @@ class Cuest extends ipsi{
 		$arreglo+=array('fecha'=>$fecha);
 		$x=$this->insert('actividad', $arreglo);
 		$idactividad_array=json_decode($x,true);
-
+		$idactividad_nueva=$idactividad_array['id1'];
+		
 		//////////////////clonar escala_sub
 		$sql="select * from escala_actividad where idactividad=$idactividad";
 		$sth = $this->dbh->prepare($sql);
@@ -382,7 +383,6 @@ class Cuest extends ipsi{
 				$x=$this->insert('escala_sub', $arreglo);
 			}
 
-
 			////////////Clonar Contexto
 			$sql="select * from contexto where idsubactividad=:idsubactividad";
 			$sth1 = $this->dbh->prepare($sql);
@@ -398,6 +398,7 @@ class Cuest extends ipsi{
 				$arreglo+=array('incisos'=>$subkey->incisos);
 				$arreglo+=array('usuario'=>$subkey->usuario);
 				$arreglo+=array('descripcion'=>$subkey->descripcion);
+				$arreglo+=array('idcond'=>$subkey->idcond);
 				$x=$this->insert('contexto', $arreglo);
 				$contexto_array=json_decode($x,true);
 
@@ -413,9 +414,32 @@ class Cuest extends ipsi{
 					$arreglo+=array('orden'=>$cont->orden);
 					$arreglo+=array('nombre'=>$cont->nombre);
 					$arreglo+=array('imagen'=>$cont->imagen);
+					$arreglo+=array('valor'=>$cont->valor);
+					$arreglo+=array('pre'=>$cont->id);
 					$x=$this->insert('respuestas', $arreglo);
 				}
 			}
+		}
+
+		$sql="select contexto.* from contexto
+		left outer join subactividad on contexto.idsubactividad=subactividad.idsubactividad
+		where subactividad.idactividad=".$idactividad_nueva." and contexto.idcond is not null";
+		$condix = $this->dbh->prepare($sql);
+		$condix->execute();
+		$shy=$condix->fetchAll(PDO::FETCH_OBJ);
+		foreach($shy as $v1){
+
+			$sql="select respuestas.id as pre, contexto.id from respuestas
+			left outer join contexto on contexto.id=respuestas.idcontexto
+			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+			where idactividad='".$idactividad_nueva."' and pre='".$v1->idcond."'";
+			$inserta = $this->dbh->prepare($sql);
+			$inserta->execute();
+			$inx=$inserta->fetch(PDO::FETCH_OBJ);
+
+			$arreglo=array();
+			$arreglo+=array('idcond'=>$inx->pre);
+			$x=$this->update('contexto',array('id'=>$v1->id), $arreglo);
 		}
 		return $x;
 	}
@@ -615,9 +639,10 @@ class Cuest extends ipsi{
 				$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
 			}
 
-			if($tipo=="texto"){
-				$arreglo+=array('texto'=>$_REQUEST['texto']);
+			if(isset($_REQUEST["texto_".$id1])){
+				$arreglo+=array('texto'=>$_REQUEST["texto_".$id1]);
 			}
+
 			if($tipo=="video"){
 				$arreglo+=array('texto'=>$_REQUEST['texto']);
 			}

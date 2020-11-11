@@ -117,9 +117,11 @@
 
 				</div>
 				<div class="col-10">
-					<button class="btn btn-link" data-toggle="collapse" data-target="#collapsesub<?php echo $key->idsubactividad; ?>" aria-expanded="true" aria-controls="collapsesub<?php echo $key->idsubactividad; ?>">
-						<?php echo $key->orden; ?>- Subactividad: <?php echo $key->nombre; ?>
-					</button>
+					<?php
+						echo "<button class='btn btn-link' data-toggle='collapse' data-target='#collapsesub_$key->idsubactividad' aria-expanded='true' aria-controls='collapsesub_$key->idsubactividad'>";
+							echo $key->orden; echo "- Subactividad: "; echo $key->nombre;
+						echo "</button>";
+					?>
 				</div>
 			</div>
 		</div>
@@ -127,44 +129,45 @@
 	<!-- fin de Subactividad  -->
 
 		<!-- Contexto  -->
-		<div id="collapsesub<?php echo $key->idsubactividad; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-			<div class="card-body" id='bloque'>
+		<?php
+			echo "<div id='collapsesub_$key->idsubactividad' class='collapse show' aria-labelledby='headingOne' data-parent='#accordion'>";
+				echo "<div class='card-body' id='bloque'>";
 
-			<?php
 				$bloq=$db->contexto_ver($key->idsubactividad);
 				foreach($bloq as $row){
-			?>
-				<div class="card mb-4" draggable="true">
-					<div class="card-header">
-						<div class='row'>
-							<div class="col-2">
+					echo "<div class='card m-4' draggable='true'>";
+					echo "<div class='card-header'>";
+						echo "<div class='row'>";
+							echo "<div class='col-3'>";
+								//////////////////<!-- Editar Contexto --->
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='$row->id' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
 
-								<!-- Editar Contexto --->
-								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/contexto_editar" v_idcontexto="<?php echo $row->id; ?>" omodal="1"><i class="fas fa-pencil-alt"></i></button>
+								///////////////editar incisos
+								if($row->tipo=="pregunta"){
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/incisos_lista' v_idcontexto='$row->id' v_idactividad='$idactividad' omodal='1'><i class='fas fa-tasks'></i></button>";
+								}
 
-								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="contexto_duplicar" v_idactividad="<?php echo $idactividad; ?>" v_idcontexto="<?php echo $row->id; ?>" tp="¿Desea duplicar el bloque?" title="Borrar"><i class="far fa-copy"></i></button>
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_duplicar' v_idactividad='$idactividad' v_idcontexto='$row->id' tp='¿Desea duplicar el bloque?' title='Borrar'><i class='far fa-copy'></i></button>";
 
-								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="contexto_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idcontexto="<?php echo $row->id; ?>" tp="¿Desea eliminar el bloque selecionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_borrar' v_idactividad='$idactividad' v_idcontexto='$row->id' tp='¿Desea eliminar el bloque selecionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
-								<button <?php if($row->idcond){ echo "class='btn btn-danger btn-sm'"; } else { echo "class='btn btn-warning btn-sm'"; } ?> type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad="<?php echo $idactividad; ?>" omodal='1' v_idcontexto="<?php echo $row->id; ?>"><i class='fas fa-project-diagram'></i></button>
+								echo "<button "; if($row->idcond){ echo "class='btn btn-danger btn-sm'"; } else { echo "class='btn btn-warning btn-sm'"; } echo "type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad='$idactividad' omodal='1' v_idcontexto='$row->id'><i class='fas fa-project-diagram'></i></button>";
 
-							</div>
-							<div class="col-10 text-center">
-								<button class="btn btn-link" data-toggle="collapse" data-target="#collapsecon<?php echo $row->id; ?>" aria-expanded="true" aria-controls="collapsecon<?php echo $row->id; ?>">
-									Contexto (<?php echo $row->tipo; ?>)
-								</button>
-							</div>
-						</div>
-					</div>
-
-					<div id="collapsecon<?php echo $row->id; ?>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-						<div class="card-body">
-							<div>
-								<?php	echo $row->observaciones; ?>
-							</div>
-							<hr>
-							<div>
-								<?php
+							echo "</div>";
+							echo "<div class='col-9 text-center'>";
+								echo "<button class='btn btn-link' data-toggle='collapse' data-target='#collapsecon_$row->id' aria-expanded='true' aria-controls='collapsecon_$row->id'>";
+									echo "Contexto ($row->tipo)";
+								echo "</button>";
+							echo "</div>";
+						echo "</div>";
+					echo "</div>";
+						echo "<div id='collapsecon_$row->id' class='collapse show' aria-labelledby='headingOne' data-parent=''#accordion'>";
+							echo "<div class='card-body'>";
+								echo "<div>";
+									echo "<p>".$row->observaciones."</p>";
+								echo "</div>";
+								echo "<hr>";
+								echo "<div>";
 									if($row->tipo=="imagen"){
 										echo "<img src='".$db->doc.$row->texto."'/>";
 									}
@@ -192,66 +195,26 @@
 									else if($row->tipo=="archivores"){
 										echo "<input type='file' name='texto' id='texto' class='form-control'>";
 									}
-								?>
-								<hr>
+								echo "<hr>";
+							echo "</div>";
 
-							</div>
+							//////<!-- Fin de contexto  -->
+							//////<!-- Preguntas  -->
+							echo "<div class='container-fluid'>";
 
-							<!-- Fin de contexto  -->
-							<!-- Preguntas  -->
-							<div class="container-fluid">
-
-
-								<?php
 									$rx=$db->respuestas_ver($row->id);
 									foreach ($rx as $respuesta) {
-										?>
-
-												<div class="row">
-													<div class="col-2">
-														<!--Editar respuesta-->
-														<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/inciso_editar" v_idrespuesta="<?php echo $respuesta->id; ?>" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" params='tipo-inciso' omodal="1" ><i class="fas fa-pencil-alt"></i></button>
-
-														<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" db="a_actividades/db_" fun="respuesta_borrar" v_idactividad="<?php echo $idactividad; ?>" v_idrespuesta="<?php echo $respuesta->id; ?>" tp="¿Desea eliminar el inciso selecionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
-
-													</div>
-													<div class="col-1">
-														<?php
-															if($row->incisos==1){
-																echo "<input type='checkbox' name='' value=''>";
-															}
-															else{
-																echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
-															}
-														?>
-													</div>
-													<?php
-														if (strlen($respuesta->imagen)>0){
-															echo "<div class='col-1'>";
-																echo "<img src='".$db->doc.$respuesta->imagen."' width='20px'>";
-															echo "</div>";
-														}
-													?>
-													<div class="col-3">
-														<?php echo $respuesta->nombre;  ?>
-														(<?php echo $respuesta->valor;  ?>)
-													</div>
-													<div class="col-3">
-														<?php
-															if($row->usuario==1){
-																echo "<input type='text' name='' value='' placeholder='Define..' class='form-control'>";
-															}
-														?>
-													</div>
-												</div>
-										<?php
-									}
-									if($row->personalizado==1){
 										echo "<div class='row'>";
-											echo "<div class='col-2'>";
-											echo "</div>";
-											echo "<div class='col-1'>";
+											/*
+												echo "<div class='col-2'>";
+													/////////////////<!--Editar respuesta-->
+													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='$respuesta->id' v_idcontexto='$row->id' v_idactividad='$idactividad' params='tipo-inciso' omodal='1' ><i class='fas fa-pencil-alt'></i></button>";
 
+													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='respuesta_borrar' v_idactividad='$idactividad' v_idrespuesta='$respuesta->id' tp='¿Desea eliminar el inciso selecionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+
+												echo "</div>";
+											*/
+											echo "<div class='col-1'>";
 												if($row->incisos==1){
 													echo "<input type='checkbox' name='' value=''>";
 												}
@@ -259,36 +222,51 @@
 													echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
 												}
 											echo "</div>";
-											//echo "<div class='col-1'>";
-											//echo "</div>";
-
+											if (strlen($respuesta->imagen)>0){
+												echo "<div class='col-1'>";
+													echo "<img src='".$db->doc.$respuesta->imagen."' width='20px'>";
+												echo "</div>";
+											}
+											echo "<div class='col-5'>";
+												echo $respuesta->nombre;
+												echo "(".$respuesta->valor.")";
+											echo "</div>";
+											echo "<div class='col-4'>";
+												if($row->usuario==1){
+													echo "<input type='text' name='' value='' placeholder='Define..' class='form-control'>";
+												}
+											echo "</div>";
+										echo "</div>";
+									}
+									if($row->personalizado==1){
+										echo "<div class='row'>";
+											echo "<div class='col-1'>";
+												if($row->incisos==1){
+													echo "<input type='checkbox' name='' value=''>";
+												}
+												else{
+													echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
+												}
+											echo "</div>";
 											echo "<div class='col-3'>";
 												echo "<input type='text' class='form-control' name='' value=''>";
 											echo "</div>";
 										echo "</div>";
 									}
-								?>
-							</div>
-							<?php
+								echo "</div>";
 								if($row->tipo=="pregunta"){
-							?>
-								<br>
-								<div class="row">
-									<div class="col-12">
-										<button class="btn btn-warning" type="button" is="b-link" des="a_actividades_e/inciso_editar" v_idrespuesta="0" v_idcontexto="<?php echo $row->id; ?>" v_idactividad="<?php echo $idactividad; ?>" params='tipo-imagen' omodal="1" >Agregar inciso</button>
-									</div>
-								</div>
-							<?php
+									echo "<br>";
+									echo "<div class='row'>";
+										echo "<div class='col-12'>";
+											echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='0' v_idcontexto='$row->id' v_idactividad='$idactividad' omodal='1' >Agregar inciso</button>";
+										echo "</div>";
+									echo "</div>";
 								}
-							?>
-							<!-- Fin Preguntas  -->
-					</div>
-				</div>
-			</div>
-			<?php
+							//////////////////<!-- Fin Preguntas  -->
+							echo "</div>";
+						echo "</div>";
+					echo "</div>";
 				}
-			?>
-			<?php
 				if($actividad->tipo=="evaluacion"){
 					$sql="select * from escala_sub where idsubactividad='$key->idsubactividad'";
 					$escala = $db->dbh->prepare($sql);
@@ -301,6 +279,7 @@
 						foreach($escala->fetchAll(PDO::FETCH_OBJ) as $exca){
 							echo "<tr>";
 								echo "<td>";
+
 									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' omodal='1' v_idescala='$exca->id' v_idsubactividad='$key->idsubactividad' >
 									Editar</button>";
 

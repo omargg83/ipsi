@@ -208,7 +208,9 @@
 											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
 
 											///////////////editar incisos
-											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/incisos_lista' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-tasks'></i></button>";
+											if($row->tipo=="pregunta"){
+												echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/incisos_lista' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-tasks'></i></button>";
+											}
 
 											////////////////copiar
 											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_duplicar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea duplicar el bloque?' title='Duplicar'><i class='far fa-copy'></i></button>";
@@ -252,10 +254,11 @@
 													echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
 												}
 												else if($row->tipo=="textores"){
-													echo "<textarea class='texto' id='texto' name='texto' rows=5 placeholder=''>$texto</textarea>";
+
+													echo "<textarea class='texto' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
 												}
 												else if($row->tipo=="textocorto"){
-													echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$texto</textarea>";
+													echo "<textarea class='form-control' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
 												}
 												else if($row->tipo=="fecha"){
 													echo "<input type='date' name='texto' id='texto' value='$fecha' class='form-control'>";
@@ -278,13 +281,13 @@
 															$resp_idrespuesta="";
 
 															echo "<div class='row'>";
-																echo "<div class='col-3'>";
 																/*
+																	echo "<div class='col-3'>";
 																	echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='$respuesta->id' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-pencil-alt'></i></button>";
 
 																	echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='respuesta_borrar' v_idactividad='<?php echo $idactividad; ?>' v_idrespuesta='<?php echo $respuesta->id; ?>' v_idpaciente='<?php echo $idpaciente; ?>' tp='¿Desea eliminar el inciso selecionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
-																*/
 																	echo "</div>";
+																*/
 
 																//////////////////para obtener Respuestas
 																$sql="select * from contexto_resp where idcontexto=:id and idrespuesta=:idrespuesta";
@@ -324,7 +327,7 @@
 																	echo "</div>";
 																}
 
-																echo "<div class='col-3'>";
+																echo "<div class='col-6'>";
 																	echo $respuesta->nombre;
 																echo "</div>";
 
@@ -595,21 +598,20 @@
  	}
 
  ?>
-
-
- <div class="container-fluid mb-3 text-center">
- 	<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_actividades_e/subactividad_editar' v_idsubactividad="0" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' title='editar' omodal="1">Nueva Subactividad</button>
- </div>
+	<div class="container-fluid mb-3 text-center">
+		<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_actividades_e/subactividad_editar' v_idsubactividad="0" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' title='editar' omodal="1">Nueva Subactividad</button>
+	</div>
 </div>
 
 
 <script type="text/javascript">
-	/*$(function() {
+
+	$(function() {
 		$('.texto').summernote({
 			lang: 'es-ES',
 			placeholder: 'Texto',
 			tabsize: 5,
 			height: 250
 		});
-	});*/
+	});
 </script>
