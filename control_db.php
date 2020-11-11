@@ -173,11 +173,6 @@
 
 		////////////////////////////funciones
 
-
-
-
-
-
 		public function recuperar(){
 			$x="";
 			if (isset($_REQUEST['telefono'])){$texto=$_REQUEST['telefono'];}
@@ -261,6 +256,193 @@
 				return json_encode($arreglo);
 			}
 		}
+
+		public function contexto_carga($idcontexto, $actividad){
+
+			$sql="select * from contexto where id=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$idcontexto);
+			$sth->execute();
+			$row=$sth->fetch(PDO::FETCH_OBJ);
+
+			$sql="select * from contexto_resp where idcontexto=:id";
+			$contx = $this->dbh->prepare($sql);
+			$contx->bindValue(":id",$row->id);
+			$contx->execute();
+			$texto="";
+			$fecha="";
+			$archivo="";
+			$marca="";
+			if($contx->rowCount()>0){
+				$contexto_resp=$contx->fetch(PDO::FETCH_OBJ);
+				$texto=$contexto_resp->texto;
+				$fecha=$contexto_resp->fecha;
+				$archivo=$contexto_resp->archivo;
+				$marca=$contexto_resp->marca;
+			}
+
+			if(strlen($marca)!=0){
+				echo "<div class='text-right'>";
+						echo "<i class='fas fa-check'></i>";
+				echo "</div>";
+			}
+
+			if(strlen($row->observaciones)>0){
+				echo "<div class='mb-3'>";
+					echo $row->observaciones;
+				echo "</div>";
+				echo "<hr>";
+			}
+
+			echo "<div class='mb-3'>";
+
+				if($row->tipo=="imagen"){
+					echo "<img src='".$db->doc.$row->texto."'/>";
+				}
+				else if($row->tipo=="texto"){
+					echo $row->texto;
+				}
+				else if($row->tipo=="video"){
+					echo $row->texto;
+				}
+				else if($row->tipo=="archivo"){
+					echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
+				}
+				else if($row->tipo=="textores"){
+					echo "<div id='div_$row->id' name='div_$row->id' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'>$texto</div>";
+					echo "<small>De clic para editar</small>";
+
+					//echo "<textarea class='texto' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
+				}
+				else if($row->tipo=="textocorto"){
+					echo "<textarea class='form-control' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
+				}
+				else if($row->tipo=="fecha"){
+					echo "<input type='date' name='texto' id='texto' value='$fecha' class='form-control'>";
+				}
+				else if($row->tipo=="archivores"){
+					if(strlen($archivo)>0){
+						echo "<a href='".$db->resp.$archivo."' download='$archivo'>Ver</a>";
+					}
+					echo "<input type='file' name='archivo' id='archivo' class='form-control'>";
+				}
+				else if($row->tipo=="pregunta"){
+					echo $row->texto;
+
+					///////////<!-- Respuestas  -->
+					echo "<div class='container-fluid'>";
+						$rx=$this->respuestas_ver($row->id);
+						foreach ($rx as $respuesta) {
+							$texto_resp="";
+							$valor_resp="";
+							$resp_idrespuesta="";
+
+							echo "<div class='row'>";
+
+								//////////////////para obtener Respuestas
+								$sql="select * from contexto_resp where idcontexto=:id and idrespuesta=:idrespuesta";
+								$contx = $this->dbh->prepare($sql);
+								$contx->bindValue(":id",$row->id);
+								$contx->bindValue(":idrespuesta",$respuesta->id);
+								$contx->execute();
+								$resp=$contx->fetch(PDO::FETCH_OBJ);
+								$correcta=0;
+								$texto_resp="";
+								if($contx->rowCount()>0){
+									$correcta=1;
+									$texto_resp=$resp->texto;
+									$valor_resp=$resp->valor;
+								}
+
+								echo "<div class='col-1'>";
+									if($row->incisos==1){
+										$idx="";
+										echo "<input type='checkbox' name='checkbox_".$respuesta->id."' value='$respuesta->id' ";
+										if($correcta){ echo " checked";}
+										echo ">";
+									}
+									else{
+										$idx=$row->id;
+										echo "<input type='radio' name='radio_".$idx."' value='$respuesta->id' ";
+											if($correcta){
+												echo " checked";
+											}
+										echo ">";
+									}
+								echo "</div>";
+
+								if(strlen($respuesta->imagen)>0){
+									echo "<div class='col-1'>";
+											echo "<img src=".$db->doc.$respuesta->imagen." alt='' width='20px'>";
+									echo "</div>";
+								}
+
+								echo "<div class='col-6'>";
+									echo $respuesta->nombre;
+								echo "</div>";
+
+								///////////////////////////////////aca el valor
+								if($actividad->tipo=="evaluacion"){
+									echo "<div class='col-1'>";
+										echo $respuesta->valor;
+									echo "</div>";
+								}
+
+								echo "<div class='col-3'>";
+									if($row->usuario==1){
+										echo "<input type='text' name='resp_".$respuesta->id."' id='resp_".$respuesta->id."' value='$texto_resp' placeholder='Define..' class='form-control form-control-sm'>";
+									}
+								echo "</div>";
+							echo "</div>";
+						}
+
+						if($row->personalizado==1){
+							$texto="";
+							$otro=0;
+
+							$sql="select * from contexto_resp where idcontexto=$row->id and valor='OTRO'";
+							$contx = $db->dbh->prepare($sql);
+							$contx->execute();
+							if($contx->rowCount()>0){
+								$resp=$contx->fetch(PDO::FETCH_OBJ);
+								$texto=$resp->texto;
+								$otro=1;
+							}
+
+							echo "<div class='row'>";
+								echo "<div class='col-3'>";
+								echo "</div>";
+								if($row->incisos==1){
+										echo "<div class='col-1'>";
+											echo "<input type='checkbox' name='checkbox_otro'";
+											if($otro==1){
+												echo " checked";
+											}
+											echo " value='otro'>";
+										echo "</div>";
+										echo "<div class='col-6'>";
+											echo "<input type='text' name='resp_otro' id='resp_otro' value='$texto' class='form-control form-control-sm' placeholder='Otro'>";
+										echo "</div>";
+									}
+									else{
+										echo "<div class='col-1'>";
+											echo "<input type='radio' name='radio_".$idx."' value='otro'";
+											if($otro==1){
+												echo " checked";
+											}
+											echo ">";
+										echo "</div>";
+										echo "<div class='col-6'>";
+											echo "<input type='text' name='resp_otro' id='per_".$row->id."' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
+										echo "</div>";
+								}
+							echo "</div>";
+						}
+					echo "</div>";
+				}
+			echo "</div>";
+		}
+
 	}
 	function clean_var($val){
 		$val=htmlspecialchars(strip_tags(trim($val)));

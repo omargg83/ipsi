@@ -73,7 +73,7 @@
 	    if($tipo=="texto"){
 				echo "<label>Texto:</label>";
 
-				echo "<div id='div_$idcontexto' name='div_$idcontexto' onclick='editable(this)'>$texto</div>";
+				echo "<div id='div_$idcontexto' name='div_$idcontexto' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'>$texto</div>";
 				echo "<small>De clic para editar</small>";
 		    //echo "<textarea class='texto form-control' id='texto_$idcontexto' name='texto_$idcontexto' rows=5 onclick='editable(texto_$idcontexto)'>".htmlspecialchars_decode($texto)."</textarea>";
 	    }

@@ -372,7 +372,7 @@ class Cliente extends ipsi{
 		$idactividad_array=json_decode($x,true);
 		$idactividad_nueva=$idactividad_array['id1'];
 
-		
+
 		//////////////////clonar escala_sub
 		$sql="select * from escala_actividad where idactividad=$idactividad";
 		$sth = $this->dbh->prepare($sql);
@@ -920,6 +920,9 @@ class Cliente extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+
+	
+
 }
 
 $db = new Cliente();

@@ -82,7 +82,6 @@ class Cliente extends ipsi{
 			$idpaciente=$_SESSION['idusuario'];
 			$idcontexto=$_REQUEST['idcontexto'];
 
-
 			$sql="select * from contexto where id=:id";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":id",$idcontexto);
@@ -103,12 +102,12 @@ class Cliente extends ipsi{
 			}
 			else if($contexto->tipo=="textores"){
 				$arreglo+=array('marca'=>"leido");
-				$texto=$_REQUEST['texto'];
+				$texto=$_REQUEST['texto_'.$idcontexto];
 				$arreglo+=array('texto'=>$texto);
 			}
 			else if($contexto->tipo=="textocorto"){
 				$arreglo+=array('marca'=>"leido");
-				$texto=$_REQUEST['texto'];
+				$texto=$_REQUEST['texto_'.$idcontexto];
 				$arreglo+=array('texto'=>$texto);
 			}
 			else if($contexto->tipo=="fecha"){
@@ -217,7 +216,68 @@ class Cliente extends ipsi{
 					$arreglo+=array('idcontexto'=>$idcontexto);
 					$x=$this->insert('contexto_resp', $arreglo);
 				}
-				//$x=$this->update('contexto_resp',array('idactividad'=>$idactividad), $arreglo);
+			}
+			$resp=json_decode($x);
+			if($resp->error==0){
+				$arreglo=array();
+				$arreglo+=array('id1'=>$resp->id1);
+				$arreglo+=array('error'=>$resp->error);
+				$arreglo+=array('idsubactividad'=>$contexto->idsubactividad);
+
+				$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $contexto->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+				$contx = $this->dbh->prepare($sql);
+				$contx->execute();
+				$bloques=$contx->fetch(PDO::FETCH_OBJ);
+
+				$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = :id	group by contexto.id";
+				$contx = $this->dbh->prepare($sql);
+				$contx->bindValue(":id",$contexto->idsubactividad);
+				$contx->execute();
+				$total=0;
+				if($contx->rowCount()){
+					$total=(100*$contx->rowCount())/$bloques->total;
+				}
+				$y= "(".$contx->rowCount()."/".$bloques->total.")<br>";
+				$y.= "<progress id='file' value='$total' max='100'> $total %</progress>";
+
+				$arreglo+=array('progreso'=>$y);
+
+
+
+
+
+				$sql="select * from subactividad where idsubactividad=$contexto->idsubactividad";
+				$sth = $this->dbh->prepare($sql);
+				$sth->execute();
+				$sub=$sth->fetch(PDO::FETCH_OBJ);
+				$arreglo+=array('idactividad'=>$sub->idactividad);
+				$idactividad=$sub->idactividad;
+				//////////////////////
+				$sql="SELECT count(contexto.id) as total from contexto
+				left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+				where subactividad.idactividad=$idactividad and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+				$contx = $this->dbh->prepare($sql);
+				$contx->execute();
+				$bloques=$contx->fetch(PDO::FETCH_OBJ);
+
+				$sql="SELECT count(contexto_resp.id) as total FROM	contexto
+				right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
+				left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+				where subactividad.idactividad=$idactividad
+				group by contexto.id";
+				$contx = $this->dbh->prepare($sql);
+				$contx->execute();
+				$total=0;
+				if($contx->rowCount()){
+					$total=(100*$contx->rowCount())/$bloques->total;
+				}
+
+					$y="(".$contx->rowCount()."/".$bloques->total.")<br>";
+					$y.= "<progress id='file' value='$total' max='100'> $total %</progress>";
+					$arreglo+=array('proact'=>$y);
+				//////////////////////
+
+				$x=json_encode($arreglo);
 			}
 			return $x;
 		}

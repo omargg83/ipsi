@@ -101,10 +101,36 @@
 					?>
 
 				</div>
-				<div class="col-10 text-left">
+				<div class="col-10 text-center">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						Actividad: <?php echo $nombre_act; ?> 	(<?php echo $actividad->tipo; ?>)
 					</button>
+					<?php
+						$sql="SELECT count(contexto.id) as total from contexto
+						left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+						where subactividad.idactividad=:id and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+						$contx = $db->dbh->prepare($sql);
+						$contx->bindValue(":id",$idactividad);
+						$contx->execute();
+						$bloques=$contx->fetch(PDO::FETCH_OBJ);
+
+						$sql="SELECT count(contexto_resp.id) as total FROM	contexto
+						right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
+						left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+						where subactividad.idactividad=:id
+						group by contexto.id";
+						$contx = $db->dbh->prepare($sql);
+						$contx->bindValue(":id",$idactividad);
+						$contx->execute();
+						$total=0;
+						if($contx->rowCount()){
+							$total=(100*$contx->rowCount())/$bloques->total;
+						}
+						echo "<div id='prog_$idactividad'>";
+							echo "(".$contx->rowCount()."/".$bloques->total.")<br>";
+							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
+						echo "</div>";
+					?>
 				</div>
 			</div>
 		</div>
@@ -124,11 +150,12 @@
 		</div>
 	</div>
 </div>
-<!-- Fin de actividad  -->
-<!-- Subactividades  -->
-<section class="containerx" id='subactividades'>
-	<ul>
-		<?php
+
+<?php
+	/////////<!-- Fin de actividad  -->
+	/////////<!-- Subactividades  -->
+	echo "<section class='containerx' id='subactividades'>";
+	echo "<ul>";
 			$suma=0;
 			$posicion=0;
 			foreach($subactividad as $key){
@@ -148,29 +175,33 @@
 										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0' v_idsubactividad='$key->idsubactividad'><i class='fas fa-chart-line'></i></button>";
 									}
 								echo "</div>";
+
 								echo "<div class='col-10 text-center'>";
 									echo "<button class='btn btn-link' data-toggle='collapse' data-target='#collapsesub_".$key->idsubactividad."' aria-expanded='true' aria-controls='collapsesub_".$key->idsubactividad."'>";
 										echo $key->orden." - ".$key->nombre;
-										echo "</button>";
-										echo "<br>";
-										if($actividad->tipo=="evaluacion"){
-											$total=0;
+									echo "</button>";
+									echo "<br>";
+									if($actividad->tipo=="evaluacion"){
+										$total=0;
 
-											$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
-											$contx = $db->dbh->prepare($sql);
-											$contx->execute();
-											$bloques=$contx->fetch(PDO::FETCH_OBJ);
+										$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+										$contx = $db->dbh->prepare($sql);
+										$contx->execute();
+										$bloques=$contx->fetch(PDO::FETCH_OBJ);
 
-											$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = :id	group by contexto.id";
-											$contx = $db->dbh->prepare($sql);
-											$contx->bindValue(':id',$key->idsubactividad);
-											$contx->execute();
-											if($contx->rowCount()>0 and $bloques->total>0){
-												$total=(100*$contx->rowCount())/$bloques->total;
-											}
-											echo "(".$contx->rowCount().'/'.$bloques->total.")";
-											echo "<progress id='file' value='$total' max='100'> $total %</progress>";
+										$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = :id	group by contexto.id";
+										$contx = $db->dbh->prepare($sql);
+										$contx->bindValue(':id',$key->idsubactividad);
+										$contx->execute();
+										if($contx->rowCount()>0 and $bloques->total>0){
+											$total=(100*$contx->rowCount())/$bloques->total;
 										}
+
+										echo "<div id='progreso_$key->idsubactividad'>";
+											echo "(".$contx->rowCount()."/".$bloques->total.")<br>";
+											echo "<progress id='file' value='$total' max='100'> $total %</progress>";
+										echo "</div>";
+									}
 								echo "</div>";
 							echo "</div>";
 						echo "</div>";
@@ -182,241 +213,238 @@
 								$bloq=$db->contexto_ver($key->idsubactividad);
 								foreach($bloq as $row){
 
-									$sql="select * from contexto_resp where idcontexto=:id";
-									$contx = $db->dbh->prepare($sql);
-									$contx->bindValue(":id",$row->id);
-									$contx->execute();
-									$texto="";
-									$fecha="";
-									$archivo="";
-									$marca="";
-									if($contx->rowCount()>0){
-										$contexto_resp=$contx->fetch(PDO::FETCH_OBJ);
-										$texto=$contexto_resp->texto;
-										$fecha=$contexto_resp->fecha;
-										$archivo=$contexto_resp->archivo;
-										$marca=$contexto_resp->marca;
-									}
 
 
-							echo "<div class='card mt-4' >";
-								echo "<div class='card-header'>";
-									echo "<div class='row'>";
-										echo "<div class='col-4'>";
+									echo "<div class='card mt-4' style='border:1px solid silver'>";
+										echo "<div class='card-header'>";
+											echo "<div class='row'>";
+												echo "<div class='col-4'>";
+													///////////////editar contexto
+													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
 
-											///////////////editar contexto
-											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
-
-											///////////////editar incisos
-											if($row->tipo=="pregunta"){
-												echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/incisos_lista' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-tasks'></i></button>";
-											}
-
-											////////////////copiar
-											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_duplicar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea duplicar el bloque?' title='Duplicar'><i class='far fa-copy'></i></button>";
-
-											////////////////eliminar bloque
-											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_borrar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea eliminar el bloque selecionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
-
-											////////////////condiciones
-											echo "<button "; if($row->idcond){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idcontexto='$row->id'><i class='fas fa-project-diagram'></i></button>";
-
-										echo "</div>";
-										echo "<div class='col-8'>";
-											echo "<button class='btn btn-link' data-toggle='collapse' data-target='#collapsecon_".$row->id."' aria-expanded='true' aria-controls='collapsecon_".$row->id."'>";
-												echo "Contexto ";
-											echo "</button>";
-										echo "</div>";
-									echo "</div>";
-								echo "</div>";
-
-
-								echo "<div id='collapsecon_".$row->id." class='collapse show' aria-labelledby='headingOne' data-parent='#accordion'>";
-									echo "<div class='card-body'>";
-										echo "<form is='f-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' des='a_pacientes/actividad_ver' dix='trabajo' msg='algo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
-
-											echo "<div class='mb-3'>";
-												echo $row->observaciones;
-											echo "</div>";
-
-											echo "<div class='mb-3'>";
-
-												if($row->tipo=="imagen"){
-													echo "<img src='".$db->doc.$row->texto."'/>";
-												}
-												else if($row->tipo=="texto"){
-													echo $row->texto;
-												}
-												else if($row->tipo=="video"){
-													echo $row->texto;
-												}
-												else if($row->tipo=="archivo"){
-													echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
-												}
-												else if($row->tipo=="textores"){
-
-													echo "<textarea class='texto' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
-												}
-												else if($row->tipo=="textocorto"){
-													echo "<textarea class='form-control' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
-												}
-												else if($row->tipo=="fecha"){
-													echo "<input type='date' name='texto' id='texto' value='$fecha' class='form-control'>";
-												}
-												else if($row->tipo=="archivores"){
-													if(strlen($archivo)>0){
-														echo "<a href='".$db->resp.$archivo."' download='$archivo'>Ver</a>";
+													///////////////editar incisos
+													if($row->tipo=="pregunta"){
+														echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/incisos_lista' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-tasks'></i></button>";
 													}
-													echo "<input type='file' name='archivo' id='archivo' class='form-control'>";
-												}
-												else if($row->tipo=="pregunta"){
-													echo $row->texto;
 
-													///////////<!-- Respuestas  -->
-													echo "<div class='container-fluid'>";
-														$rx=$db->respuestas_ver($row->id);
-														foreach ($rx as $respuesta) {
-															$texto_resp="";
-															$valor_resp="";
-															$resp_idrespuesta="";
+													////////////////copiar
+													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_duplicar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea duplicar el bloque?' title='Duplicar'><i class='far fa-copy'></i></button>";
 
-															echo "<div class='row'>";
-																/*
-																	echo "<div class='col-3'>";
-																	echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='$respuesta->id' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-pencil-alt'></i></button>";
+													////////////////eliminar bloque
+													echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_borrar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea eliminar el bloque selecionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
-																	echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='respuesta_borrar' v_idactividad='<?php echo $idactividad; ?>' v_idrespuesta='<?php echo $respuesta->id; ?>' v_idpaciente='<?php echo $idpaciente; ?>' tp='¿Desea eliminar el inciso selecionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
-																	echo "</div>";
-																*/
+													////////////////condiciones
+													echo "<button "; if($row->idcond){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idcontexto='$row->id'><i class='fas fa-project-diagram'></i></button>";
 
-																//////////////////para obtener Respuestas
-																$sql="select * from contexto_resp where idcontexto=:id and idrespuesta=:idrespuesta";
-																$contx = $db->dbh->prepare($sql);
-																$contx->bindValue(":id",$row->id);
-																$contx->bindValue(":idrespuesta",$respuesta->id);
-																$contx->execute();
-																$resp=$contx->fetch(PDO::FETCH_OBJ);
-																$correcta=0;
-																$texto_resp="";
-																if($contx->rowCount()>0){
-																	$correcta=1;
-																	$texto_resp=$resp->texto;
-																	$valor_resp=$resp->valor;
+												echo "</div>";
+												echo "<div class='col-8'>";
+													echo "<button class='btn btn-link' data-toggle='collapse' data-target='#collapsecon_".$row->id."' aria-expanded='true' aria-controls='collapsecon_".$row->id."'>";
+														echo "Contexto ";
+													echo "</button>";
+												echo "</div>";
+											echo "</div>";
+										echo "</div>";
+
+										echo "<div id='collapsecon_".$row->id." class='collapse show' aria-labelledby='headingOne' data-parent='#accordion'>";
+											echo "<div class='card-body'>";
+
+												echo "<form is='resp-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
+													$db->contexto_carga($row->id, $actividad);
+													
+													/*
+														echo "<div class='mb-3'>";
+															echo $row->observaciones;
+														echo "</div>";
+														echo "<div class='mb-3'>";
+
+															if($row->tipo=="imagen"){
+																echo "<img src='".$db->doc.$row->texto."'/>";
+															}
+															else if($row->tipo=="texto"){
+																echo $row->texto;
+															}
+															else if($row->tipo=="video"){
+																echo $row->texto;
+															}
+															else if($row->tipo=="archivo"){
+																echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
+															}
+															else if($row->tipo=="textores"){
+																echo "<div id='div_$row->id' name='div_$row->id' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'>$texto</div>";
+																echo "<small>De clic para editar</small>";
+
+																//echo "<textarea class='texto' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
+															}
+															else if($row->tipo=="textocorto"){
+																echo "<textarea class='form-control' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
+															}
+															else if($row->tipo=="fecha"){
+																echo "<input type='date' name='texto' id='texto' value='$fecha' class='form-control'>";
+															}
+															else if($row->tipo=="archivores"){
+																if(strlen($archivo)>0){
+																	echo "<a href='".$db->resp.$archivo."' download='$archivo'>Ver</a>";
 																}
+																echo "<input type='file' name='archivo' id='archivo' class='form-control'>";
+															}
+															else if($row->tipo=="pregunta"){
+																echo $row->texto;
 
-																echo "<div class='col-1'>";
-																	if($row->incisos==1){
-																		$idx="";
-																		echo "<input type='checkbox' name='checkbox_".$respuesta->id."' value='$respuesta->id' ";
-																		if($correcta){ echo " checked";}
-																		echo ">";
-																	}
-																	else{
-																		$idx=$row->id;
-																		echo "<input type='radio' name='radio_".$idx."' value='$respuesta->id' ";
-																			if($correcta){
-																				echo " checked";
+																///////////<!-- Respuestas  -->
+																echo "<div class='container-fluid'>";
+																	$rx=$db->respuestas_ver($row->id);
+																	foreach ($rx as $respuesta) {
+																		$texto_resp="";
+																		$valor_resp="";
+																		$resp_idrespuesta="";
+
+																		echo "<div class='row'>";
+
+																			//////////////////para obtener Respuestas
+																			$sql="select * from contexto_resp where idcontexto=:id and idrespuesta=:idrespuesta";
+																			$contx = $db->dbh->prepare($sql);
+																			$contx->bindValue(":id",$row->id);
+																			$contx->bindValue(":idrespuesta",$respuesta->id);
+																			$contx->execute();
+																			$resp=$contx->fetch(PDO::FETCH_OBJ);
+																			$correcta=0;
+																			$texto_resp="";
+																			if($contx->rowCount()>0){
+																				$correcta=1;
+																				$texto_resp=$resp->texto;
+																				$valor_resp=$resp->valor;
 																			}
-																		echo ">";
+
+																			echo "<div class='col-1'>";
+																				if($row->incisos==1){
+																					$idx="";
+																					echo "<input type='checkbox' name='checkbox_".$respuesta->id."' value='$respuesta->id' ";
+																					if($correcta){ echo " checked";}
+																					echo ">";
+																				}
+																				else{
+																					$idx=$row->id;
+																					echo "<input type='radio' name='radio_".$idx."' value='$respuesta->id' ";
+																						if($correcta){
+																							echo " checked";
+																						}
+																					echo ">";
+																				}
+																			echo "</div>";
+
+																			if(strlen($respuesta->imagen)>0){
+																				echo "<div class='col-1'>";
+																						echo "<img src=".$db->doc.$respuesta->imagen." alt='' width='20px'>";
+																				echo "</div>";
+																			}
+
+																			echo "<div class='col-6'>";
+																				echo $respuesta->nombre;
+																			echo "</div>";
+
+																			///////////////////////////////////aca el valor
+																			if($actividad->tipo=="evaluacion"){
+																				echo "<div class='col-1'>";
+																					echo $respuesta->valor;
+																				echo "</div>";
+																			}
+
+																			echo "<div class='col-3'>";
+																				if($row->usuario==1){
+																					echo "<input type='text' name='resp_".$respuesta->id."' id='resp_".$respuesta->id."' value='$texto_resp' placeholder='Define..' class='form-control form-control-sm'>";
+																				}
+																			echo "</div>";
+																		echo "</div>";
+																	}
+
+
+																	if($row->personalizado==1){
+																		$texto="";
+																		$otro=0;
+
+																		$sql="select * from contexto_resp where idcontexto=$row->id and valor='OTRO'";
+																		$contx = $db->dbh->prepare($sql);
+																		$contx->execute();
+																		if($contx->rowCount()>0){
+																			$resp=$contx->fetch(PDO::FETCH_OBJ);
+																			$texto=$resp->texto;
+																			$otro=1;
+																		}
+
+																		echo "<div class='row'>";
+																			echo "<div class='col-3'>";
+																			echo "</div>";
+																			if($row->incisos==1){
+																					echo "<div class='col-1'>";
+																						echo "<input type='checkbox' name='checkbox_otro'";
+																						if($otro==1){
+																							echo " checked";
+																						}
+																						echo " value='otro'>";
+																					echo "</div>";
+																					echo "<div class='col-6'>";
+																						echo "<input type='text' name='resp_otro' id='resp_otro' value='$texto' class='form-control form-control-sm' placeholder='Otro'>";
+																					echo "</div>";
+																				}
+																				else{
+																					echo "<div class='col-1'>";
+																						echo "<input type='radio' name='radio_".$idx."' value='otro'";
+																						if($otro==1){
+																							echo " checked";
+																						}
+																						echo ">";
+																					echo "</div>";
+																					echo "<div class='col-6'>";
+																						echo "<input type='text' name='resp_otro' id='per_".$row->id."' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
+																					echo "</div>";
+																			}
+																		echo "</div>";
 																	}
 																echo "</div>";
 
-																if(strlen($respuesta->imagen)>0){
-																	echo "<div class='col-1'>";
-																			echo "<img src=".$db->doc.$respuesta->imagen." alt='' width='20px'>";
+																echo "<div class='row mb-3'>";
+																	echo "<div class='col-12'>";
+																		echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='0' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' >Agregar inciso</button>";
 																	echo "</div>";
-																}
-
-																echo "<div class='col-6'>";
-																	echo $respuesta->nombre;
 																echo "</div>";
-
-																///////////////////////////////////aca el valor
-																if($actividad->tipo=="evaluacion"){
-																	echo "<div class='col-1'>";
-																		echo $respuesta->valor;
-																	echo "</div>";
-																}
-
-																echo "<div class='col-3'>";
-																	if($row->usuario==1){
-																		echo "<input type='text' name='resp_".$respuesta->id."' id='resp_".$respuesta->id."' value='$texto_resp' placeholder='Define..' class='form-control form-control-sm'>";
-																	}
-																echo "</div>";
-															echo "</div>";
+															}
+														echo "</div>";
+														//////////<!-- Fin Preguntas  -->
+														if($row->tipo=="textocorto" or $row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores" or $row->tipo=="pregunta"){
+															if(strlen($marca)==0){
+																echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Responder</button>";
+															}
+															else{
+																echo "<button class='btn btn-warning btn-sm' type='submit'><i class='fas fa-check-double'></i>Actualizar respuesta</button>";
+															}
 														}
-
-
-														if($row->personalizado==1){
-															$texto="";
-															$otro=0;
-
-															$sql="select * from contexto_resp where idcontexto=$row->id and valor='OTRO'";
-															$contx = $db->dbh->prepare($sql);
-															$contx->execute();
-															if($contx->rowCount()>0){
-																$resp=$contx->fetch(PDO::FETCH_OBJ);
-																$texto=$resp->texto;
-																$otro=1;
+													*/
+													//////////<!-- Fin Preguntas  -->
+														echo "<div class='row mb-3'>";
+															echo "<div class='col-12'>";
+															if($row->tipo=="pregunta"){
+																echo "<button class='btn btn-warning btn-sm mx-2' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='0' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-plus mx-2'></i>Agregar inciso</button>";
 															}
 
-															echo "<div class='row'>";
-																echo "<div class='col-3'>";
-																echo "</div>";
-																if($row->incisos==1){
-																		echo "<div class='col-1'>";
-																			echo "<input type='checkbox' name='checkbox_otro'";
-																			if($otro==1){
-																				echo " checked";
-																			}
-																			echo " value='otro'>";
-																		echo "</div>";
-																		echo "<div class='col-6'>";
-																			echo "<input type='text' name='resp_otro' id='resp_otro' value='$texto' class='form-control form-control-sm' placeholder='Otro'>";
-																		echo "</div>";
-																	}
-																	else{
-																		echo "<div class='col-1'>";
-																			echo "<input type='radio' name='radio_".$idx."' value='otro'";
-																			if($otro==1){
-																				echo " checked";
-																			}
-																			echo ">";
-																		echo "</div>";
-																		echo "<div class='col-6'>";
-																			echo "<input type='text' name='resp_otro' id='per_".$row->id."' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
-																		echo "</div>";
+																if($row->tipo=="textocorto" or $row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores" or $row->tipo=="pregunta"){
+																	//if(strlen($marca)==0){
+																		//echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Responder</button>";
+																	//}
+																	//else{
+																		echo "<button class='btn btn-warning btn-sm mx-2' type='submit'><i class='far fa-save mx-2'></i>Responder</button>";
+																	//}
 																}
 															echo "</div>";
-														}
-													echo "</div>";
-
-													echo "<div class='row mb-3'>";
-														echo "<div class='col-12'>";
-															echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='0' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' >Agregar inciso</button>";
 														echo "</div>";
-													echo "</div>";
-												}
-											?>
-										</div>
 
-										<!-- Fin Preguntas  -->
-										<?php
-											if($row->tipo=="textocorto" or $row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores" or $row->tipo=="pregunta"){
-												if(strlen($marca)==0){
-													echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Responder</button>";
-												}
-												else{
-													echo "<button class='btn btn-warning btn-sm' type='submit'><i class='fas fa-check-double'></i>Actualizar respuesta</button>";
-												}
-											}
-										?>
-									</form>
-								</div>
-							</div>
-							</div>
+												echo "</form>";
 
-							<?php
+
+
+											echo "</div>";
+										echo "</div>";
+									echo "</div>";
+
 									//////////////para obtener el valor de lo respondido
 									$sql="select sum(valor) as total from contexto_resp where idcontexto='$row->id'";
 									$suma_r = $db->dbh->prepare($sql);
@@ -426,13 +454,12 @@
 										$suma+=$resp_r->total;
 									}
 								}
-							?>
-							<div class="container-fluid mb-3 text-center">
-								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_actividades_e/bloque" v_idactividad="<?php echo $idactividad; ?>" v_idsubactividad="<?php echo $key->idsubactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_tipo="<?php echo $actividad->tipo; ?>" omodal="1" >Nuevo bloque</button>
-							</div>
-						</div>
-						<div class="card-body">
-							<?php
+
+								echo "<div class='container-fluid mb-3 text-center'>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/bloque' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' v_tipo='$actividad->tipo' omodal='1' >Nuevo bloque</button>";
+								echo "</div>";
+							echo "</div>";
+							echo "<div class='card-body'>";
 								if($actividad->tipo=="evaluacion"){
 									$sql="select * from escala_sub where idsubactividad='$key->idsubactividad'";
 									$escala = $db->dbh->prepare($sql);
@@ -473,25 +500,20 @@
 									echo "<br>Suma de respuestas: ".$suma;
 									echo "<br>Resultado: ".$texto_resp;
 								}
-							 ?>
-						</div>
-					</div>
-				</div>
-				</div>
-		<?php
+							echo "</div>";
+						echo "</div>";
+					echo "</div>";
+				echo "</div>";
 		}
-		?>
-	</ul>
-</section>
+	echo "</ul>";
+echo "</section>";
 
-<?php
+
 	echo "<div class='card'>";
 	echo "Suma total:".$gtotal;
 	echo "</div>";
- ?>
 
 
- <?php
 	//////////////////escalas
 	$sql="select * from escala_actividad where idactividad=$idactividad";
  	$sth = $db->dbh->prepare($sql);
@@ -605,13 +627,26 @@
 
 
 <script type="text/javascript">
-
 	$(function() {
-		$('.texto').summernote({
-			lang: 'es-ES',
-			placeholder: 'Texto',
-			tabsize: 5,
-			height: 250
-		});
+		/*
+		setTimeout(function(){ carga_acted(); }, 1000);
+		function carga_acted(){
+			$('.texto').summernote({
+				lang: 'es-ES',
+				placeholder: 'Texto',
+				tabsize: 5,
+				height: 250,
+				toolbar: [
+					// [groupName, [list of button]]
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']]
+				]
+			});
+		}
+		*/
 	});
 </script>

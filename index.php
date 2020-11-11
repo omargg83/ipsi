@@ -7,22 +7,22 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>IPSI - Admin</title>
-        <link href="style.css" rel="stylesheet" />
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <title>IPSI - Admin</title>
+      <link href="style.css" rel="stylesheet" />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
 
-        <link rel="stylesheet" href="librerias15/load/css-loader.css">
-        <link rel="stylesheet" href="librerias15/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
-        <link rel="stylesheet" href="librerias15/swal/dist/sweetalert2.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/css/uikit.min.css" />
-		  <!-- Custom fonts for this template-->
+      <link rel="stylesheet" href="librerias15/load/css-loader.css">
+      <link rel="stylesheet" href="librerias15/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+      <link rel="stylesheet" href="librerias15/swal/dist/sweetalert2.min.css">
+      
+			<!-- Custom fonts for this template-->
 		  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 		  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
@@ -181,7 +181,7 @@
           </div>
       </div>
 
-      <div class="loader loader-default is-active" id='cargando_div' data-text="Cargando"></div>
+      <div class="loader loader-double is-active" id='cargando_div'></div>
 
       <div class="modal" tabindex="-1" role="dialog" id="myModal" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered  modal-lg" role="document" id='modal_dispo'>
@@ -193,7 +193,8 @@
 
       <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+
+      <!---<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>-->
 
       <link rel="stylesheet" href="librerias15/jqueryconfirm/css/jquery-confirm.css">
       <script src="librerias15/jqueryconfirm/js/jquery-confirm.js"></script>
@@ -214,6 +215,7 @@
 
       <!--   iconos   -->
       <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
 			<!--
 				<link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2&display=swap" rel="stylesheet">
 			->
