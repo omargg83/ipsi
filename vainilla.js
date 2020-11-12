@@ -30,7 +30,6 @@ $(document).on('change',"[is*='s-submit']",function(e){
     //////////id del formulario
     let id=e.target.form.id;
     let elemento = document.getElementById(id);
-
     procesar_resp(elemento);
 });
 $(document).on('submit',"[is*='resp-submit']",function(e){
