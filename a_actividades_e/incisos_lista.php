@@ -22,6 +22,12 @@
   $sth = $db->dbh->prepare($sql);
   $sth->execute();
   $actividad=$sth->fetch(PDO::FETCH_OBJ);
+	echo "<div class='card'>";
+		echo "<div class='card-header'>";
+			echo "Editar inciso";
+		echo "</div>";
+
+		echo "<div class='card-body'>";
 
   echo "<div class='container-fluid'>";
     $rx=$db->respuestas_ver($idcontexto);
@@ -147,20 +153,10 @@
       echo "</div>";
     }
   echo "</div>";
+echo "</div>";
 
-
-
-
-
-
-
-
+echo "<div class='card-footer'>";
 ?>
 
-
-
-
-
-
-
-<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
+	<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
+</div>

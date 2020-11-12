@@ -212,9 +212,13 @@
 
 								$bloq=$db->contexto_ver($key->idsubactividad);
 								foreach($bloq as $row){
+									echo "<div id='con_$row->id'>";
+										/////////////////esta en control_db.php
+										$db->contexto_carga($row->id, $idactividad, $idpaciente);
+									echo "</div>";
 
 
-
+									/*
 									echo "<div class='card mt-4' style='border:1px solid silver'>";
 										echo "<div class='card-header'>";
 											echo "<div class='row'>";
@@ -249,9 +253,12 @@
 											echo "<div class='card-body'>";
 
 												echo "<form is='resp-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
+
+
 													$db->contexto_carga($row->id, $actividad);
-													
-													/*
+
+
+													//////////////////////////////////////
 														echo "<div class='mb-3'>";
 															echo $row->observaciones;
 														echo "</div>";
@@ -418,34 +425,27 @@
 																echo "<button class='btn btn-warning btn-sm' type='submit'><i class='fas fa-check-double'></i>Actualizar respuesta</button>";
 															}
 														}
-													*/
+
 													//////////<!-- Fin Preguntas  -->
 														echo "<div class='row mb-3'>";
 															echo "<div class='col-12'>";
-															if($row->tipo=="pregunta"){
-																echo "<button class='btn btn-warning btn-sm mx-2' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='0' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-plus mx-2'></i>Agregar inciso</button>";
-															}
+																if($row->tipo=="pregunta"){
+																	echo "<button class='btn btn-warning btn-sm mx-2' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='0' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-plus mx-2'></i>Agregar inciso</button>";
+																}
 
 																if($row->tipo=="textocorto" or $row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores" or $row->tipo=="pregunta"){
-																	//if(strlen($marca)==0){
-																		//echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Responder</button>";
-																	//}
-																	//else{
-																		echo "<button class='btn btn-warning btn-sm mx-2' type='submit'><i class='far fa-save mx-2'></i>Responder</button>";
-																	//}
+																	echo "<button class='btn btn-warning btn-sm mx-2' type='submit'><i class='far fa-save mx-2'></i>Responder</button>";
 																}
 															echo "</div>";
 														echo "</div>";
 
 												echo "</form>";
-
-
-
 											echo "</div>";
 										echo "</div>";
 									echo "</div>";
-
+									*/
 									//////////////para obtener el valor de lo respondido
+
 									$sql="select sum(valor) as total from contexto_resp where idcontexto='$row->id'";
 									$suma_r = $db->dbh->prepare($sql);
 									$suma_r->execute();

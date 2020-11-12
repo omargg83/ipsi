@@ -75,6 +75,7 @@ class Cliente extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+
   public function guarda_respuesta(){
 		try{
 			$arreglo=array();
@@ -139,7 +140,6 @@ class Cliente extends ipsi{
 				$arreglo+=array('id1'=>1);
 				$arreglo+=array('error'=>0);
 				$x=json_encode($arreglo);
-
 
 				$sql="select * from contexto where id=:id";
 				$sth = $this->dbh->prepare($sql);
@@ -242,10 +242,6 @@ class Cliente extends ipsi{
 
 				$arreglo+=array('progreso'=>$y);
 
-
-
-
-
 				$sql="select * from subactividad where idsubactividad=$contexto->idsubactividad";
 				$sth = $this->dbh->prepare($sql);
 				$sth->execute();
@@ -276,7 +272,6 @@ class Cliente extends ipsi{
 					$y.= "<progress id='file' value='$total' max='100'> $total %</progress>";
 					$arreglo+=array('proact'=>$y);
 				//////////////////////
-
 				$x=json_encode($arreglo);
 			}
 			return $x;
@@ -284,8 +279,6 @@ class Cliente extends ipsi{
 		catch(PDOException $e){
 			return "Database access FAILED!";
 		}
-
-
   }
 }
 
