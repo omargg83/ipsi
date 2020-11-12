@@ -1,4 +1,22 @@
-////////////change para submit de respuesta
+function editable(e, id){
+  let divid=e.id;
+  let arrayDeCadenas = divid.split("_");
+	let idtext=arrayDeCadenas[1];
+
+  $("#"+e.id).after("<textarea class='form-control' name='texto_"+idtext+"' id='texto_"+idtext+"'>"+e.innerHTML+"</textarea>");
+  $("#"+e.id).remove();
+
+  $("#texto_"+idtext).summernote({
+    lang: 'es-ES',
+    placeholder: 'Texto',
+    tabsize: 5,
+    height: 200
+  });
+
+}
+
+
+////////////change para submit de respuesta del paciente
 $(document).on('change',"[is*='s-submit']",function(e){
     e.preventDefault();
 
@@ -26,36 +44,27 @@ $(document).on('submit',"[is*='resp-submit']",function(e){
 });
 function procesar_resp(elemento){
   /////////API que procesa el form
-  let db;
-  (elemento.attributes.db !== undefined) ? db=elemento.attributes.db.nodeValue : db="";
-
-  /////////funcion del api que procesa el form
-  let fun;
-  (elemento.attributes.fun !== undefined) ? fun=elemento.attributes.fun.nodeValue : fun="";
-
-  let datos = new Object();
-  datos.db=db+".php";
-  datos.fun=fun;
+  let db=elemento.attributes.db.value+".php";
+  let fun=elemento.attributes.fun.value;
+  let idactividad=elemento.attributes.v_idactividad.value;
+  let idpaciente=elemento.attributes.v_idpaciente.value;
+  let idcontexto=elemento.attributes.v_idcontexto.value;
 
   var formData = new FormData(elemento);
-  formData.append("function", datos.fun);
-
-  for(let contar=0;contar<elemento.attributes.length; contar++){
-    let arrayDeCadenas = elemento.attributes[contar].name.split("_");
-    if(arrayDeCadenas.length>1){
-      formData.append(arrayDeCadenas[1], elemento.attributes[contar].value);
-    }
-  }
+  formData.append("function",fun);
+  formData.append("idactividad",idactividad);
+  formData.append("idpaciente", idpaciente);
+  formData.append("idcontexto", idcontexto);
 
   let xhr = new XMLHttpRequest();
-  xhr.open('POST',datos.db);
+  xhr.open('POST', db);
   xhr.addEventListener('loadstart',(data)=>{
-    cargando(true);
+    //cargando(true);
   });
   xhr.addEventListener('load',(data)=>{
     if (!isJSON(data.target.response)){
       console.log(data.target.response);
-      cargando(false);
+      //cargando(false);
       Swal.fire({
         type: 'error',
         title: "Error favor de verificar",
@@ -66,15 +75,16 @@ function procesar_resp(elemento){
     }
     var respon = JSON.parse(data.target.response);
     if (respon.error==0){
+      carga_respuesta(idcontexto, idactividad, idpaciente);
       document.getElementById('progreso_'+respon.idsubactividad).innerHTML=respon.progreso;
       document.getElementById('prog_'+respon.idactividad).innerHTML=respon.proact;
       Swal.fire({
         position: 'bottom-start',
         text: "Guardado",
         showConfirmButton: false,
-        timer: 700
+        timer: 100
       });
-      cargando(false);
+      //cargando(false);
     }
     else{
       cargando(false);
@@ -92,7 +102,25 @@ function procesar_resp(elemento){
   };
   xhr.send(formData);
 }
+function carga_respuesta(idcontexto, idactividad, idpaciente){
+  var formData = new FormData();
+	formData.append("idcontexto", idcontexto);
+	formData.append("idactividad", idactividad);
+	formData.append("idpaciente", idpaciente);
+	formData.append("function", "upd");
+	let xhr = new XMLHttpRequest();
+	xhr.open('POST',"a_respuesta/db_.php");
+	xhr.addEventListener('load',(data)=>{
+    document.getElementById("con_"+idcontexto).innerHTML=data.target.response;
+	});
+	xhr.onerror = (e)=>{
+		console.log(e);
+	};
+	xhr.send(formData);
+}
 
+
+////////////change para submit de respuesta del terapeuta
 $(document).on('submit',"[is*='act-submit']",function(e){
   e.preventDefault();
 
@@ -131,19 +159,17 @@ function procesar_act(elemento){
     }
     var respon = JSON.parse(data.target.response);
     if (respon.error==0){
+      cargando(false);
       document.getElementById('progreso_'+respon.idsubactividad).innerHTML=respon.progreso;
       document.getElementById('prog_'+respon.idactividad).innerHTML=respon.proact;
 
       carga_contexto(idcontexto, idactividad, idpaciente);
-
       Swal.fire({
         position: 'bottom-start',
         text: "Guardado",
         showConfirmButton: false,
         timer: 700
       });
-      cargando(false);
-
     }
     else{
       cargando(false);
@@ -161,6 +187,9 @@ function procesar_act(elemento){
   };
   xhr.send(formData);
 }
+
+
+
 function carga_contexto(idcontexto, idactividad, idpaciente){
   var formData = new FormData();
 	formData.append("idcontexto", idcontexto);
@@ -176,25 +205,4 @@ function carga_contexto(idcontexto, idactividad, idpaciente){
 		console.log(e);
 	};
 	xhr.send(formData);
-}
-
-
-
-
-
-function editable(e, id){
-  let divid=e.id;
-  let arrayDeCadenas = divid.split("_");
-	let idtext=arrayDeCadenas[1];
-
-  $("#"+e.id).after("<textarea class='form-control' name='texto_"+idtext+"' id='texto_"+idtext+"'>"+e.innerHTML+"</textarea>");
-  $("#"+e.id).remove();
-
-  $("#texto_"+idtext).summernote({
-    lang: 'es-ES',
-    placeholder: 'Texto',
-    tabsize: 5,
-    height: 200
-  });
-
 }

@@ -21,7 +21,7 @@
       <link rel="stylesheet" href="librerias15/css/bootstrap.min.css">
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
       <link rel="stylesheet" href="librerias15/swal/dist/sweetalert2.min.css">
-      
+
 			<!-- Custom fonts for this template-->
 		  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 		  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -214,6 +214,7 @@
       <script src="librerias15/VentanaCentrada.js" type="text/javascript"></script>
 
       <!--   iconos   -->
+			<link rel="preconnect" href="https://pro.fontawesome.com">
       <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
 			<!--

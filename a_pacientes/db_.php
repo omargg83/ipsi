@@ -921,7 +921,7 @@ class Cliente extends ipsi{
 		}
 	}
 
-	public function contexto_carga($idcontexto, $idactividad, $idpaciente){
+	public function contexto_pacientes($idcontexto, $idactividad, $idpaciente){
 
 		$sql="select * from actividad where idactividad=:idactividad";
 		$sth = $this->dbh->prepare($sql);
@@ -952,7 +952,7 @@ class Cliente extends ipsi{
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
-			echo "<div class='card mt-4' style='border:1px solid silver'>";
+			echo "<div class='card mt-2' style='border:1px solid silver'>";
 				echo "<div class='card-header'>";
 					echo "<div class='row'>";
 						echo "<div class='col-4'>";
@@ -991,8 +991,6 @@ class Cliente extends ipsi{
 					echo "<div class='card-body'>";
 
 						echo "<form is='act-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
-
-
 
 						if(strlen($row->observaciones)>0){
 							echo "<div class='mb-3'>";
@@ -1174,7 +1172,7 @@ class Cliente extends ipsi{
 		$idcontexto=$_REQUEST['idcontexto'];
 		$idactividad=$_REQUEST['idactividad'];
 		$idpaciente=$_REQUEST['idpaciente'];
-		$x=$this->contexto_carga($idcontexto, $idactividad, $idpaciente);
+		$x=$this->contexto_pacientes($idcontexto, $idactividad, $idpaciente);
 		return $x;
 	}
 

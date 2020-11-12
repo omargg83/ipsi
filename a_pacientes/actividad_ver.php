@@ -162,7 +162,7 @@
 				$posicion++;
 				$suma=0;
 				echo "<div class='container-fluid mb-1' id='sub_".$key->idsubactividad."'>";
-					echo "<div class='card' >";
+					echo "<div class='card'>";
 						echo "<div class='card-header'>";
 							echo "<div class='row'>";
 								echo "<div class='col-2'>";
@@ -212,9 +212,11 @@
 
 								$bloq=$db->contexto_ver($key->idsubactividad);
 								foreach($bloq as $row){
+
+									/////////////////esta en control_db.php
+
 									echo "<div id='con_$row->id'>";
-										/////////////////esta en control_db.php
-										$db->contexto_carga($row->id, $idactividad, $idpaciente);
+										$db->contexto_pacientes($row->id, $idactividad, $idpaciente);
 									echo "</div>";
 
 

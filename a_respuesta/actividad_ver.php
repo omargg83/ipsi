@@ -168,6 +168,11 @@
 			echo "<div class='card-body' id='bloque'>";
 				$bloq=$db->contexto_ver($key->idsubactividad);
 				foreach($bloq as $row){
+
+					echo "<div id='con_$row->id'>";
+						$db->contexto_respuesta($row->id, $idactividad, $idpaciente);
+					echo "</div>";
+					/*
 					$sql="select * from contexto_resp where idcontexto=$row->id";
 					$contx = $db->dbh->prepare($sql);
 					$contx->execute();
@@ -199,7 +204,6 @@
 						echo "<div class='card mb-2 cond_$row->idcond'>";
 							echo "<div class='card-body'>";
 								echo "<form is='resp-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
-								//$db->contexto_carga($row->id, $actividad);
 
 								echo "<div>";
 									echo $row->observaciones;
@@ -352,6 +356,7 @@
 							echo "</div>";
 						echo "</div>";
 					//} //////////fin condicional
+					*/
 				}
 				echo "</div>";
 			echo "</div>";
