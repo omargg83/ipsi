@@ -1,6 +1,6 @@
 <?php
   /////////<<<<<<< Updated upstream
-  $server=2;
+  $server=1;
   $_SESSION['des']=1;   ///////////////cambiar esta para acceder a modo desarrollador
   /////////=======
 
