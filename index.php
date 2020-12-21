@@ -75,12 +75,13 @@
 																}
 															}
 													?>
-														<!--
+													<!--
 														<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Expediente</a>
 														<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Relaciones</a>
 														<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Agenda</a>
 													-->
 														<a class="nav-link" is='menu-link' href='#a_paciente_perfil/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi cuenta</a>
+														
 													<?php
 														}
 														if($_SESSION['tipo_user'] == "Psicólogo" and $_SESSION['nivel']==2){
@@ -104,6 +105,7 @@
 													<?php
 														}
 													?>
+													<a class="nav-link" is='menu-link' href='#a_ticket/index' title='Ticket'><div class="sb-nav-link-icon"><i class="fas fa-ticket-alt"></i></div>Tickets</a>
 
 
                       </div>
