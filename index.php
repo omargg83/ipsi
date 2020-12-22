@@ -106,6 +106,7 @@
 														}
 													?>
 													<a class="nav-link" is='menu-link' href='#a_ticket/index' title='Ticket'><div class="sb-nav-link-icon"><i class="fas fa-ticket-alt"></i></div>Tickets</a>
+													<a class="nav-link" is='menu-link' href='#a_sucursal/index' title='Ticket'><div class="sb-nav-link-icon"><i class="fas fa-ticket-alt"></i></div>sucursal</a>
 
 
                       </div>
