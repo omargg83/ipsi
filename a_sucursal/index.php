@@ -11,11 +11,9 @@
 			<ul class='navbar-nav mr-auto'>
 
 				<li class='nav-item active'><a class='nav-link barranav' is='a-link' title='Mostrar todo' id='lista_comision' des='a_sucursal/lista' dix='trabajo'><i class='fas fa-list-ul'></i><span>Lista</span></a></li>
-				<?php
-
-				/*<li class='nav-item active'><a class='nav-link barranav izq' is='a-link' title='Nuevo' id='new_personal' des='a_sucursal/editar' v_idsucursal='0' dix='trabajo'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>*/
-
-				?>
+				
+				<li class='nav-item active'><a class='nav-link barranav izq' is='a-link' title='Nuevo' id='new_personal' des='a_sucursal/editar' v_idsucursal='0' dix='trabajo'><i class='fas fa-plus'></i><span>Nuevo</span></a></li>
+				
 			</ul>
 	  </div>
 	</nav>

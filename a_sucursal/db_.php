@@ -45,23 +45,7 @@ class Sucursal extends ipsi{
 		$x="";
 		$arreglo =array();
 		$idsucursal=$_REQUEST['idsucursal'];
-		$matriz=$_REQUEST['matriz'];
-		$arreglo+=array('matriz'=>$matriz);
-
-		if($matriz==1){
-			$sql="select * from sucursal where idsucursal!=$idsucursal and idtienda='".$_SESSION['idtienda']."' and matriz=1";
-			$sth = $this->dbh->prepare($sql);
-			$sth->execute();
-			$matriz=$sth->fetch(PDO::FETCH_OBJ);
-			if ($sth->rowCount()>0){
-				$arreglo =array();
-				$arreglo+=array('error'=>1);
-				$arreglo+=array('terror'=>"Solo puede existir una matriz");
-				return json_encode($arreglo);
-			}
-		}
-
-
+	
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}
@@ -91,7 +75,6 @@ class Sucursal extends ipsi{
 		}
 
 		if($idsucursal==0){
-			$arreglo+=array('idtienda'=>$_SESSION['idtienda']);
 			$x=$this->insert('sucursal', $arreglo);
 		}
 		else{

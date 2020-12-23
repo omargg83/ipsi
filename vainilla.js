@@ -65,7 +65,7 @@ function procesar_resp(elemento){
       console.log(data.target.response);
       //cargando(false);
       Swal.fire({
-        type: 'error',
+        icon: 'error',
         title: "Error favor de verificar",
         showConfirmButton: false,
         timer: 1000
@@ -88,7 +88,7 @@ function procesar_resp(elemento){
     else{
       cargando(false);
       Swal.fire({
-        type: 'info',
+        icon: 'info',
         title: respon.terror,
         showConfirmButton: false,
         timer: 1000
@@ -149,7 +149,7 @@ function procesar_act(elemento){
     if (!isJSON(data.target.response)){
       cargando(false);
       Swal.fire({
-        type: 'error',
+        icon: 'error',
         title: "Error favor de verificar",
         showConfirmButton: false,
         timer: 1000
@@ -173,7 +173,7 @@ function procesar_act(elemento){
     else{
       cargando(false);
       Swal.fire({
-        type: 'info',
+        icon: 'info',
         title: respon.terror,
         showConfirmButton: false,
         timer: 1000
