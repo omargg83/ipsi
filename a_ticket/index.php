@@ -9,12 +9,12 @@
 		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
 			<ul class='navbar-nav mr-auto'>
 			<li class='nav-item active'>
-				<a class='nav-link barranav' is="a-link" des='a_ticket/lista' dix='trabajo' tp="router"><i class='fas fa-plus'></i>Lista</a>
+				<a class='nav-link barranav' is="a-link" des='a_ticket/lista' dix='trabajo' tp="router"><i class='fas fa-list-ul'></i>Lista</a>
 			</li>
 			<?php
 				if($_SESSION['nivel']==1){
 			?>
-				<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal'  is='a-link' des='a_ticket/editar' dix='trabajo' v_idticket='0'>Nuevo</a></li>
+				<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal'  is='a-link' des='a_ticket/editar' dix='trabajo' v_idticket='0'><i class='fas fa-plus'></i>Nuevo</a></li>
 			<?php
 			}
 			?>
