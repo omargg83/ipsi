@@ -4,6 +4,7 @@
 	$idpaciente=$_REQUEST['idpaciente'];
 	$pd = $db->cliente_editar($idpaciente);
 	$nombre=$pd->nombre;
+	$edad=$pd->edad;
 	$apellidop=$pd->apellidop;
 	$apellidom=$pd->apellidom;
 	$telefono=$pd->telefono;
@@ -14,7 +15,7 @@
 
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
-		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
+		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/index" dix="trabajo">Pacientes</li>
 		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
 		<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/index" dix="trabajo">Regresar</button>
 	</ol>
@@ -79,17 +80,65 @@
 					<div class='card-body'>
 						<div class='row'>
 							<div class='col-12'>
-								<h5>información personal (Escrita por el terapeuta)</h5>
-								<p><?php echo $observaciones;?></p>
+								<h5>Información básica</h5>
+							</div>
+							<div class='col-4'>
+								<?php
+									echo "<label>Edad</label>";
+									echo "<input class='form-control form-control-sm' value='$edad' readonly/>";
+								?>
+							</div>
+							<div class='col-4'>
+								<?php
+									echo "<label>Correo</label>";
+									echo "<input class='form-control form-control-sm' value='$correo' readonly/>";
+								?>
+							</div>
+							<div class='col-4'>
+								<?php
+									echo "<label>Teléfono</label>";
+									echo "<input class='form-control form-control-sm' value='$telefono' readonly/>";
+								?>
 							</div>
 						</div>
 						<div class='row'>
-							<div class='col-4'>
-								<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/editar" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ficha de registro</button>
+							<div class='col-12'>
+								<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/editar" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
 							</div
-							<div class='col-4'>
-								<button class='btn btn-warning'>Agenda</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='row p-3'>
+				<div class='card col-12'>
+					<div class='card-body'>
+						<div class='row'>
+							<div class='col-12'>
+								<h5>Relaciones</h5>
 							</div>
+							<div class='col-4'>
+								<?php
+									echo "<label>Edad</label>";
+									echo "<input class='form-control form-control-sm' value='$edad' readonly/>";
+								?>
+							</div>
+							<div class='col-4'>
+								<?php
+									echo "<label>Correo</label>";
+									echo "<input class='form-control form-control-sm' value='$correo' readonly/>";
+								?>
+							</div>
+							<div class='col-4'>
+								<?php
+									echo "<label>Teléfono</label>";
+									echo "<input class='form-control form-control-sm' value='$telefono' readonly/>";
+								?>
+							</div>
+						</div>
+						<div class='row'>
+							<div class='col-12'>
+								<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/relaciones" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
+							</div
 						</div>
 					</div>
 				</div>

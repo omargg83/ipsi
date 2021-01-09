@@ -3,9 +3,11 @@ require_once("../control_db.php");
 
 if($_SESSION['des']==1 and strlen($function)==0)
 {
-	echo "<div class='alert alert-primary' role='alert'>";
+	echo "<div class='alert alert-primary' role='alert' style='font-size:10px'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
+	echo "<br>";
+	echo print_r($_REQUEST);
 	echo "</div>";
 }
 
@@ -41,7 +43,7 @@ class Ticket extends ipsi{
 		$arreglo+=array('mensaje'=>$_REQUEST['texto_ticket']);
 		$extension = '';
 		$ruta = '../a_archivos/ticket/';
-		
+
 		$archivo = $_FILES['foto1']['tmp_name'];
 		$nombrearchivo = $_FILES['foto1']['name'];
 		$tmp=$_FILES['foto1']['tmp_name'];
@@ -127,7 +129,7 @@ class Ticket extends ipsi{
 	public function guardar_hijo(){
 		$x="";
 
-		
+
 
 		$arreglo =array();
 
@@ -137,8 +139,8 @@ class Ticket extends ipsi{
 		$arreglo+=array('mensaje'=>$_REQUEST['texto_hijo']);
 		$extension = '';
 		$ruta = '../a_archivos/ticket/';
-		
-		
+
+
 		$archivo = $_FILES['foto1']['tmp_name'];
 		$nombrearchivo = $_FILES['foto1']['name'];
 		$tmp=$_FILES['foto1']['tmp_name'];
@@ -208,7 +210,7 @@ class Ticket extends ipsi{
 		$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
 		$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
 		$x=$this->insert('ticket', $arreglo);
-		
+
 		$arreglo=array();
 		$arreglo+=array('id1'=>$idticket);
 		$arreglo+=array('error'=>0);
@@ -230,4 +232,3 @@ $db = new Ticket();
 if(strlen($function)>0){
 	echo $db->$function();
 }
-

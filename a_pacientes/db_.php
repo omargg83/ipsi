@@ -3,10 +3,10 @@ require_once("../control_db.php");
 
 if($_SESSION['des']==1 and strlen($function)==0)
 {
-	echo "<div class='alert alert-primary' role='alert'>";
+	echo "<div class='alert alert-primary' role='alert' style='font-size:10px'>";
 	$arrayx=explode('/', $_SERVER['SCRIPT_NAME']);
 	echo print_r($arrayx);
-	echo "<hr>";
+	echo "<br>";
 	echo print_r($_REQUEST);
 	echo "</div>";
 }
@@ -47,20 +47,33 @@ class Cliente extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
-	public function clientes_lista(){
-		try{
 
+	public function pacientes_lista($pagina){
+		try{
+			$pagina=$pagina*$_SESSION['pagina'];
 			if($_SESSION['nivel']==1){
-				$sql="SELECT * FROM clientes";
+				$sql="SELECT * FROM clientes limit $pagina,".$_SESSION['pagina']."";
 			}
 			else{
-				$sql="SELECT * FROM clientes where idusuario='".$_SESSION['idusuario']."'";
+				$sql="SELECT * FROM clientes where idusuario='".$_SESSION['idusuario']."' limit $pagina,".$_SESSION['pagina']."";
 			}
-			$sth = $this->dbh->query($sql);
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
-			return "Database access FAILED!";
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function pacientes_buscar($texto){
+		try{
+			$sql="SELECT * FROM clientes where nombre like '%$texto%'";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
 		}
 	}
 	public function cliente_editar($id){
@@ -91,6 +104,41 @@ class Cliente extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+	public function sucursal($id){
+		try{
+		  $sql="select * from sucursal where idsucursal=:id";
+		  $sth = $this->dbh->prepare($sql);
+		  $sth->bindValue(":id",$id);
+		  $sth->execute();
+		  return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+		  return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function sucursal_lista(){
+		try{
+			$sql="SELECT * FROM sucursal";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function terapeuta($id){
+		try{
+		  $sql="select * from usuarios where idusuario=:id";
+		  $sth = $this->dbh->prepare($sql);
+		  $sth->bindValue(":id",$id);
+		  $sth->execute();
+		  return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+		  return "Database access FAILED!".$e->getMessage();
+		}
+	}
 	public function guardar_cliente(){
 		$x="";
 		$arreglo =array();
@@ -107,18 +155,54 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['telefono'])){
 			$arreglo+=array('telefono'=>clean_var($_REQUEST['telefono']));
 		}
+		if (isset($_REQUEST['edad'])){
+			$arreglo+=array('edad'=>clean_var($_REQUEST['edad']));
+		}
 		if (isset($_REQUEST['correo'])){
 			$arreglo+=array('correo'=>clean_var($_REQUEST['correo']));
 		}
+		if (isset($_REQUEST['civil'])){
+			$arreglo+=array('civil'=>clean_var($_REQUEST['civil']));
+		}
+		if (isset($_REQUEST['hijos'])){
+			$arreglo+=array('hijos'=>clean_var($_REQUEST['hijos']));
+		}
+		if (isset($_REQUEST['direccion'])){
+			$arreglo+=array('direccion'=>clean_var($_REQUEST['direccion']));
+		}
+		if (isset($_REQUEST['ocupacion'])){
+			$arreglo+=array('ocupacion'=>clean_var($_REQUEST['ocupacion']));
+		}
+		if (isset($_REQUEST['escolaridad'])){
+			$arreglo+=array('escolaridad'=>clean_var($_REQUEST['escolaridad']));
+		}
+		if (isset($_REQUEST['religion'])){
+			$arreglo+=array('religion'=>clean_var($_REQUEST['religion']));
+		}
+		if (isset($_REQUEST['vive'])){
+			$arreglo+=array('vive'=>clean_var($_REQUEST['vive']));
+		}
+		if (isset($_REQUEST['nombre_vive'])){
+			$arreglo+=array('nombre_vive'=>clean_var($_REQUEST['nombre_vive']));
+		}
+		if (isset($_REQUEST['telefono_vive'])){
+			$arreglo+=array('telefono_vive'=>clean_var($_REQUEST['telefono_vive']));
+		}
+		if (isset($_REQUEST['idsucursal'])){
+			$arreglo+=array('idsucursal'=>clean_var($_REQUEST['idsucursal']));
+		}
+
+
+
+
+
 		if (isset($_REQUEST['idusuario'])){
 			$arreglo+=array('idusuario'=>clean_var($_REQUEST['idusuario']));
 		}
 		if (isset($_REQUEST['observaciones'])){
 			$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
 		}
-		if (isset($_REQUEST['edad'])){
-			$arreglo+=array('edad'=>clean_var($_REQUEST['edad']));
-		}
+
 		if (isset($_REQUEST['fnacimiento']) and strlen($_REQUEST['fnacimiento'])>4){
 			$arreglo+=array('fnacimiento'=>clean_var($_REQUEST['fnacimiento']));
 		}
@@ -165,9 +249,7 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['altura'])){
 			$arreglo+=array('altura'=>clean_var($_REQUEST['altura']));
 		}
-		if (isset($_REQUEST['direccion'])){
-			$arreglo+=array('direccion'=>clean_var($_REQUEST['direccion']));
-		}
+
 		if (isset($_REQUEST['enfermedades'])){
 			$arreglo+=array('enfermedades'=>clean_var($_REQUEST['enfermedades']));
 		}

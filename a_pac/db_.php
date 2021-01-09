@@ -16,13 +16,13 @@ class Sucursal extends ipsi{
 	public $nivel_captura;
 	public function __construct(){
 		parent::__construct();
-
+		
 	}
-	public function sucursal_lista($pagina){
+	public function pacientes_lista($pagina){
 		try{
 			$pagina=$pagina*$_SESSION['pagina'];
 
-			$sql="SELECT * FROM sucursal limit $pagina,".$_SESSION['pagina']."";
+			$sql="SELECT * FROM clientes limit $pagina,".$_SESSION['pagina']."";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -31,15 +31,27 @@ class Sucursal extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
-	public function sucursal_buscar($texto){
+	public function pacientes_buscar($texto){
 		try{
-			$sql="SELECT * FROM sucursal where nombre like '%$texto%'";
+			$sql="SELECT * FROM clientes where nombre like '%$texto%'";
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function paciente($id){
+		try{
+		  $sql="select * from clientes where id=:id";
+		  $sth = $this->dbh->prepare($sql);
+		  $sth->bindValue(":id",$id);
+		  $sth->execute();
+		  return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+		  return "Database access FAILED!".$e->getMessage();
 		}
 	}
 	public function sucursal($id){
@@ -54,11 +66,26 @@ class Sucursal extends ipsi{
 		  return "Database access FAILED!".$e->getMessage();
 		}
 	}
+	public function terapeuta($id){
+		try{
+		  $sql="select * from usuarios where idusuario=:id";
+		  $sth = $this->dbh->prepare($sql);
+		  $sth->bindValue(":id",$id);
+		  $sth->execute();
+		  return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+		  return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
+
+
 	public function guardar_sucursal(){
 		$x="";
 		$arreglo =array();
 		$idsucursal=$_REQUEST['idsucursal'];
-
+	
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		}

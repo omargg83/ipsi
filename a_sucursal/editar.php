@@ -48,7 +48,7 @@
 						<label>Ciudad:</label>
 						<input type="text" class="form-control " name="ciudad" id="ciudad" value="<?php echo $ciudad;?>" placeholder="Ciudad" required maxlength='145'>
 					</div>
-				
+
 					<div class="col-12 col-sm-4">
 						<label>Estado:</label>
 						<input type="text" class="form-control " name="estado" id="estado" value="<?php echo $estado;?>" placeholder="Estado" required maxlength='45'>
@@ -62,7 +62,7 @@
 						<label>Teléfono 1:</label>
 							<input type="text" class="form-control " name="tel1" id="tel1" value="<?php echo $tel1;?>" placeholder="Teléfono 1" maxlength='15'>
 					</div>
-				
+
 					<div class="col-12 col-sm-4">
 						<label>Teléfono 2:</label>
 							<input type="text" class="form-control " name="tel2" id="tel2" value="<?php echo $tel2;?>" placeholder="Teléfono 2" maxlength='15'>
@@ -74,10 +74,10 @@
 			<div class='card-footer'>
 				<div class="row">
 					<div class='col-12'>
-						<div class="btn-group">
-							<button class="btn btn-warning btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
-							<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_sucursal/lista' dix='trabajo' title='regresar'><i class='fas fa-undo-alt'></i>Regresar</button>
-						</div>
+
+						<button class="btn btn-warning btn-sm" type="submit">Guardar</button>
+						<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_sucursal/lista' dix='trabajo' title='regresar'>Regresar</button>
+
 					</div>
 				</div>
 			</div>
