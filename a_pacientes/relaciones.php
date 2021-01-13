@@ -14,7 +14,9 @@
 	$observaciones=$pd->observaciones;
 
 	/////////////////////Relaciones
-	$sql="select * from clientes_relacion where idcliente=:idcliente";
+	$sql="select * from clientes_relacion
+	left outer join clientes on clientes.id=clientes_relacion.idrel
+	where clientes_relacion.idcliente=:idcliente";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":idcliente",$idpaciente);
 	$sth->execute();
@@ -45,12 +47,13 @@
   	?>
   		<div class='col-4 p-3 w-50 actcard'>
   			<div class='card'>
-					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
+					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="<?php echo $key->foto; ?>">
   				<div class='card-header'>
 						<?php echo $key->nombre; ?>
 
 						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/track" dix="trabajo" db="a_pacientes/db_" fun="quitar_track" v_idtrack="<?php echo $key->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idterapia="<?php echo $idterapia; ?>" tp="¿Desea quitar el track seleccionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 					</div>
+
   				<div class='card-body'>
   					<div class='row'>
   						<div class='col-12'>

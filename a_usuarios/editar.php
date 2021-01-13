@@ -75,14 +75,14 @@
 			<div class='row'>
 				<div class="col-sm-12">
 
-					<button class="btn btn-warning btn-sm" type="submit"><i class='far fa-save'></i>Guardar</button>
+					<button class="btn btn-warning btn-sm" type="submit">Guardar</button>
 					<?php
 						if($idusuario>0){
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1'><i class='fas fa-camera'></i>Foto</button>";
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1'><i class='fas fa-key'></i>Contraseña</button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1'>Foto</button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1'>Contraseña</button>";
 						}
 					?>
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_usuarios/lista" dix="trabajo"><i class="fas fa-undo"></i>Regresar</button>
+					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_usuarios/lista" dix="trabajo">Regresar</button>
 				</div>
 			</div>
 		</div>

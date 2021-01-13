@@ -23,35 +23,38 @@
 		</ol>
 	</nav>
 
-<div class='container'>
-		<div class='row'>
-			<div class='col-2'>#</div>
-			<div class='col-2'>Nombre</div>
-			<div class='col-2'>ID</div>
-			<div class='col-2'>Sucursal</div>
-			<div class='col-2'>Terapeuta</div>
-			<div class='col-2'>Status</div>
+
+	<div class='container'>
+		<div class='tabla_v' id='tabla_css'>
+
+		<div class='header-row'>
+			<div class='cell'>#</div>
+			<div class='cell'>Nombre</div>
+			<div class='cell'>ID</div>
+			<div class='cell'>Sucursal</div>
+			<div class='cell'>Terapeuta</div>
+			<div class='cell'>Status</div>
 		</div>
 
 		<?php
 			foreach($pd as $key){
-				echo "<div class='row'>";
-					echo "<div class='col-2'>";
+				echo "<div class='body-row' draggable='true'>";
+					echo "<div class='cell'>";
 						echo "<div class='btn-group'>";
 
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' dix='trabajo' v_idpaciente='$key->id'><i class='fas fa-pencil-alt'></i></button>";
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' dix='trabajo' v_idpaciente='$key->id'>Editar</button>";
 
 						echo "</div>";
 					echo "</div>";
-					echo "<div class='col-2' >".$key->nombre." ".$key->apellidop." ".$key->apellidom."</div>";
-					echo "<div class='col-2' >".$key->numero."</div>";
+					echo "<div class='cell' data-titulo='Nombre'>".$key->nombre." ".$key->apellidop." ".$key->apellidom."</div>";
+					echo "<div class='cell' data-titulo='ID'>".$key->numero."</div>";
 
 					$sucursal=$db->sucursal($key->idsucursal);
-					echo "<div class='col-2' >".$sucursal->nombre."</div>";
+					echo "<div class='cell' data-titulo='Sucursal'>".$sucursal->nombre."</div>";
 
 					$terapeuta=$db->terapeuta($key->idusuario);
-					echo "<div class='col-2' >".$terapeuta->nombre." ".$terapeuta->apellidop."</div>";
-					echo "<div class='col-2' >".$key->estatus."</div>";
+					echo "<div class='cell' data-titulo='Terapeuta'>".$terapeuta->nombre." ".$terapeuta->apellidop."</div>";
+					echo "<div class='cell' data-titulo='Status'>".$key->estatus."</div>";
 				echo "</div>";
 			}
 		?>

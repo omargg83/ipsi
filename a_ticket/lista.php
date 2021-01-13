@@ -3,24 +3,31 @@
 	$pd = $db->ticket_lista();
 ?>
 
-<div class="container">
 
-	<div class="row">
-		<div class="col-2">#</div>
-		<div class="col-2">Numero</div>
-		<div class="col-3">Asunto</div>
-		<div class="col-3">Estado</div>
+<div class='container'>
+	<div class='tabla_v' id='tabla_css'>
+
+	<div class='header-row'>
+		<div class='cell'>#</div>
+		<div class='cell'>Número</div>
+		<div class='cell'>Asunto</div>
+		<div class='cell'>Estado</div>
 	</div>
+
 			<?php
 				foreach($pd as $key){
+					echo "<div class='body-row' draggable='true'>";
+						echo "<div class='cell'>";
+							echo "<div class='btn-group'>";
+
 			?>
-					<div class='row'>
-						<div class="col-2">
-							<button class='btn btn-warning' type="button" is="b-link" des='a_ticket/editar' dix='trabajo' tp="edit" v_idticket='<?php echo $key->idticket; ?>' title='editar'>Editar</button>
+							<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_ticket/editar' dix='trabajo' tp="edit" v_idticket='<?php echo $key->idticket; ?>' title='editar'>Editar</button>
+							</div>
 						</div>
-						<div class="col-2"><?php echo $key->numero; ?></div>
-						<div class="col-3"><?php echo $key->asunto; ?></div>
-						<div class="col-3"><?php echo $key->estado; ?></div>
+
+						<div class='cell' data-titulo='Número'><?php echo $key->numero; ?></div>
+						<div class='cell' data-titulo='Asunto'><?php echo $key->asunto; ?></div>
+						<div class='cell' data-titulo='Estado'><?php echo $key->estado; ?></div>
 
 					</div>
 			<?php

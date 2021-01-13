@@ -8,23 +8,28 @@
     $pd = $db->relacion_buscar($texto, $idpaciente);
   }
 ?>
+
 <div class='container'>
-		<div class='row'>
-			<div class='col-2'>#</div>
-      <div class='col-3'>Número</div>
-			<div class='col-4'>Nombre</div>
-		</div>
+	<div class='tabla_v' id='tabla_css'>
+
+	<div class='header-row'>
+		<div class='cell'>#</div>
+		<div class='cell'>Número</div>
+		<div class='cell'>Nombre</div>
+	</div>
+
+
 
 		<?php
 			foreach($pd as $key){
-				echo "<div class='row'>";
-					echo "<div class='col-2'>";
+				echo "<div class='body-row' draggable='true'>";
+					echo "<div class='cell'>";
 						echo "<div class='btn-group'>";
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/relacion_editar' dix='trabajo' v_id='$key->id' v_idpaciente='$idpaciente'>Seleccionar</button>";
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/relaciones_editar' dix='trabajo' v_id='$key->id' v_idpaciente='$idpaciente'>Seleccionar</button>";
 						echo "</div>";
 					echo "</div>";
-          echo "<div class='col-3' >".$key->numero."</div>";
-					echo "<div class='col-4' >".$key->nombre." ".$key->apellidop." ".$key->apellidom."</div>";
+          echo "<div class='cell' data-titulo='Número'>".$key->numero."</div>";
+					echo "<div class='cell' data-titulo='Nombre'>".$key->nombre." ".$key->apellidop." ".$key->apellidom."</div>";
 				echo "</div>";
 			}
 		?>

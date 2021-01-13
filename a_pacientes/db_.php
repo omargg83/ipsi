@@ -1268,6 +1268,40 @@ class Cliente extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+
+	public function rol_relacion(){
+		try{
+		  $sql="select * from rol_familiar";
+		  $sth = $this->dbh->query($sql);
+		  return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+		  return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function rol_asignar(){
+		try{
+			$arreglo=array();
+			$x="";
+			$idpaciente=$_REQUEST['idpaciente'];
+			$idrel=$_REQUEST['idrel'];
+			$id=$_REQUEST['id'];
+
+			$arreglo+=array('idrol'=>$_REQUEST['idrol']);
+			if($id>0){
+				$x=$this->update('clientes_relacion',array('idactividad'=>$idactividad), $arreglo);
+			}
+			else{
+				$arreglo+=array('idcliente'=>$_REQUEST['idpaciente']);
+				$arreglo+=array('idrel'=>$_REQUEST['idrel']);
+				$x=$this->insert('clientes_relacion',$arreglo);
+			}
+			return $x;
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
 }
 
 $db = new Cliente();

@@ -2,27 +2,31 @@
 	require_once("db_.php");
 	$pd = $db->usuario_lista();
 ?>
+<div class='container'>
+	<div class='tabla_v' id='tabla_css'>
 
-<div class="container">
-
-	<div class="row">
-		<div class="col-2">Numero</div>
-		<div class="col-3">Nombre</div>
-		<div class="col-2">Nivel</div>
-		<div class="col-3">Correo</div>
-		<div class="col-2">Activo</div>
+	<div class='header-row'>
+		<div class='cell'>#</div>
+		<div class='cell'>Nombre</div>
+		<div class='cell'>Nivel</div>
+		<div class='cell'>Correo</div>
+		<div class='cell'>Activo</div>
 	</div>
+
 			<?php
 				foreach($pd as $key){
-			?>
-					<div class='row'>
-						<div class="col-2">
-							<button class='btn btn-warning' type="button" is="b-link" des='a_usuarios/editar' dix='trabajo' tp="edit" v_idusuario='<?php echo $key->idusuario; ?>' title='editar'>Editar</button>
-						</div>
-						<div class="col-3"><?php echo $key->nombre; ?></div>
-						<div class="col-2"><?php echo $key->nivel; ?></div>
-						<div class="col-3"><?php echo $key->correo; ?></div>
-						<div class="col-2">
+
+					echo "<div class='body-row' draggable='true'>";
+						echo "<div class='cell'>";
+							echo "<div class='btn-group'>";
+					?>
+								<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_usuarios/editar' dix='trabajo' tp="edit" v_idusuario='<?php echo $key->idusuario; ?>' title='editar'>Editar</button>
+								</div>
+							</div>
+						<div class='cell' data-titulo='Nombre'><?php echo $key->nombre; ?></div>
+						<div class='cell' data-titulo='Nivel'><?php echo $key->nivel; ?></div>
+						<div class='cell' data-titulo='Correo'><?php echo $key->correo; ?></div>
+						<div class='cell' data-titulo='Activo'>
 						<?php
 							if ($key->autoriza==0) { echo "Inactivo"; }
 							if ($key->autoriza==1) { echo "Activo"; }

@@ -85,7 +85,15 @@
 			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/index" dix="trabajo">Pacientes</li>
 			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
 			<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/editar" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Ficha de registro</li>
-			<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Regresar</button>
+			<?php
+			if($idpaciente>0){
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+			}
+			else{
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' is='li-link' des='a_pacientes/index' dix='trabajo'>Regresar</button>";
+			}
+
+			?>
 		</ol>
 	</nav>
 
