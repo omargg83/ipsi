@@ -16,6 +16,7 @@
 	/////////////////////Relaciones
 	$sql="select * from clientes_relacion
 	left outer join clientes on clientes.id=clientes_relacion.idrel
+	left outer join rol_familiar on rol_familiar.idrol=clientes_relacion.idrol
 	where clientes_relacion.idcliente=:idcliente";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":idcliente",$idpaciente);
@@ -29,7 +30,7 @@
 		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/index" dix="trabajo">Pacientes</li>
 		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
 		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/relaciones" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Relaciones</li>
-		<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/index" dix="trabajo">Regresar</button>
+		<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Regresar</button>
 	</ol>
 </nav>
 
@@ -48,23 +49,29 @@
   		<div class='col-4 p-3 w-50 actcard'>
   			<div class='card'>
 					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="<?php echo $key->foto; ?>">
-  				<div class='card-header'>
-						<?php echo $key->nombre; ?>
 
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/track" dix="trabajo" db="a_pacientes/db_" fun="quitar_track" v_idtrack="<?php echo $key->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idterapia="<?php echo $idterapia; ?>" tp="¿Desea quitar el track seleccionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/track" dix="trabajo" db="a_pacientes/db_" fun="quitar_track" v_idtrack="<?php echo $key->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idterapia="<?php echo $idterapia; ?>" tp="¿Desea quitar el track seleccionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+
+
+					<div class='card-body'>
+						<div class='row'>
+							<div class='col-12 text-center'>
+								<?php echo $key->nombre; ?>
+							</div>
+						</div>
+						<div class='row'>
+							<div class='col-12 text-center'>
+								<?php echo $key->rol; ?>
+							</div>
+						</div>
 					</div>
 
+
   				<div class='card-body'>
   					<div class='row'>
   						<div class='col-12'>
-  							<?php echo $key->descripcion; ?>
-  						</div>
-  					</div>
-  				</div>
-  				<div class='card-body'>
-  					<div class='row'>
-  						<div class='col-12'>
-  							<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $key->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Ver</button>
+  							<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/relaciones_editar" dix="trabajo" v_idrelacion="<?php echo $key->idrelacion; ?>"
+									v_idpaciente="<?php echo $idpaciente; ?>">Ver</button>
   						</div>
   					</div>
   				</div>

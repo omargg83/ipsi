@@ -1,24 +1,31 @@
 <?php
 		require_once("db_.php");
 
-  	$idpaciente=$_REQUEST['idpaciente'];
-		$pd = $db->cliente_editar($idpaciente);
-		$idrol="";
 
-		$nombre=$pd->nombre;
-		$edad=$pd->edad;
-		$apellidop=$pd->apellidop;
-		$apellidom=$pd->apellidom;
-		$telefono=$pd->telefono;
-		$correo=$pd->correo;
-		$foto=$pd->foto;
-		$observaciones=$pd->observaciones;
+		$idrelacion=$_REQUEST['idrelacion'];
+		if($idrelacion==0){
 
-  	$id=$_REQUEST['id'];
-  	$relacion = $db->cliente_editar($id);
-  	$nombre_rel=$relacion->nombre;
-		$apellidop_rel=$pd->apellidop;
-		$apellidom_rel=$pd->apellidom;
+		}
+		else{
+			$idpaciente=$_REQUEST['idpaciente'];
+			$pd = $db->cliente_editar($idpaciente);
+			$idrol="";
+
+			$nombre=$pd->nombre;
+			$edad=$pd->edad;
+			$apellidop=$pd->apellidop;
+			$apellidom=$pd->apellidom;
+			$telefono=$pd->telefono;
+			$correo=$pd->correo;
+			$foto=$pd->foto;
+			$observaciones=$pd->observaciones;
+
+			$id=$_REQUEST['id'];
+			$relacion = $db->cliente_editar($id);
+			$nombre_rel=$relacion->nombre;
+			$apellidop_rel=$pd->apellidop;
+			$apellidom_rel=$pd->apellidom;
+		}
 
 		$rol=$db->rol_relacion();
   ?>

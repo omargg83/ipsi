@@ -11,6 +11,16 @@
 	$correo=$pd->correo;
 	$foto=$pd->foto;
 	$observaciones=$pd->observaciones;
+
+	/////////////////////Relaciones
+	$sql="select * from clientes_relacion
+	left outer join clientes on clientes.id=clientes_relacion.idrel
+	left outer join rol_familiar on rol_familiar.idrol=clientes_relacion.idrol
+	where clientes_relacion.idcliente=:idcliente";
+	$sth = $db->dbh->prepare($sql);
+	$sth->bindValue(":idcliente",$idpaciente);
+	$sth->execute();
+	$relaciones=$sth->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -101,6 +111,7 @@
 								?>
 							</div>
 						</div>
+						<hr>
 						<div class='row'>
 							<div class='col-12'>
 								<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/editar" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
@@ -109,36 +120,40 @@
 					</div>
 				</div>
 			</div>
-			<div class='row p-3'>
-				<div class='card col-12'>
-					<div class='card-body'>
-						<div class='row'>
-							<div class='col-12'>
-								<h5>Relaciones</h5>
-							</div>
-							<div class='col-4'>
-								<?php
-									echo "<label>Edad</label>";
-									echo "<input class='form-control form-control-sm' value='$edad' readonly/>";
-								?>
-							</div>
-							<div class='col-4'>
-								<?php
-									echo "<label>Correo</label>";
-									echo "<input class='form-control form-control-sm' value='$correo' readonly/>";
-								?>
-							</div>
-							<div class='col-4'>
-								<?php
-									echo "<label>Teléfono</label>";
-									echo "<input class='form-control form-control-sm' value='$telefono' readonly/>";
-								?>
-							</div>
+		</div>
+		<div class='row p-3'>
+			<div class='card col-12'>
+				<div class='card-body'>
+					<div class='row'>
+						<div class='col-12'>
+							<h5>Relaciones</h5>
 						</div>
-						<div class='row'>
-							<div class='col-12'>
-								<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/relaciones" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
-							</div
+					</div>
+					<div class='row'>
+						<div class='col-6'>
+							Nombre
+						</div>
+						<div class='col-6'>
+							Tipo
+						</div>
+					</div>
+					<?php
+						foreach($relaciones as $key){
+							echo "<div class='row'>";
+								echo "<div class='col-6'>";
+									echo "<input class='form-control form-control-sm' value='$key->nombre' readonly/>";
+								echo "</div>";
+								echo "<div class='col-6'>";
+									echo "<input class='form-control form-control-sm' value='$key->rol' readonly/>";
+								echo "</div>";
+							echo "</div>";
+						}
+					?>
+
+					<hr>
+					<div class='row'>
+						<div class='col-12'>
+							<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/relaciones" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
 						</div>
 					</div>
 				</div>
