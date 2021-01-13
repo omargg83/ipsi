@@ -14,11 +14,11 @@
 	$observaciones=$pd->observaciones;
 
 	/////////////////////Relaciones
-	$sql="select * from terapias where id=:idterapia";
+	$sql="select * from clientes_relacion where idcliente=:idcliente";
 	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idterapia",$idterapia);
+	$sth->bindValue(":idcliente",$idpaciente);
 	$sth->execute();
-	$terapia=$sth->fetch(PDO::FETCH_OBJ);
+	$relaciones=$sth->fetchAll(PDO::FETCH_OBJ);
 
 ?>
 
@@ -40,10 +40,8 @@
 <div class='container'>
 	<div class='row'>
 
-
-
   	<?php
-  	foreach($track as $key){
+  	foreach($relaciones as $key){
   	?>
   		<div class='col-4 p-3 w-50 actcard'>
   			<div class='card'>
@@ -76,7 +74,7 @@
 		<div id='' class='col-4 p-3 w-50'>
       <div class="card" style='height:200px;'>
         <div class='card-body text-center'>
-          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes_e\track_agregar" dix="trabajo" v_idtrack="0" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Agregar track</button>
+          <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes\relaciones_agregar" dix="trabajo" v_idpaciente='<?php echo $idpaciente; ?>'>Agregar</button>
         </div>
       </div>
     </div>

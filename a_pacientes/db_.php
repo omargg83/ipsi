@@ -1257,7 +1257,17 @@ class Cliente extends ipsi{
 		$x=$this->contexto_pacientes($idcontexto, $idactividad, $idpaciente);
 		return $x;
 	}
-
+	public function relacion_buscar($texto,$idpaciente){
+		try{
+			$sql="select * from clientes where id!='".$idpaciente."' and (nombre like '$texto' or apellidop like '$texto' or apellidom like '$texto')";
+			$sth = $this->dbh->query($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
 }
 
 $db = new Cliente();
