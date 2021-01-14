@@ -29,17 +29,29 @@ class Usuario extends ipsi{
 			die();
 		}
 	}
-	public function usuario_lista(){
+	public function usuario_lista($pagina){
+		$pagina=$pagina*$_SESSION['pagina'];
 
 		if($_SESSION['nivel']==1){
-			$sql="select * from usuarios";
+			$sql="select * from usuarios limit $pagina,".$_SESSION['pagina']."";
 		}
 		else{
-			$sql="select * from usuarios where idusuario=".$_SESSION['idusuario']."";
+			$sql="select * from usuarios where idusuario=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
 		}
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
+	public function usuario_buscar($texto){
+		try{
+			$sql="SELECT * FROM usuarios where nombre like '%$texto%'";
+			$sth = $this->dbh->query($sql);
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
 	public function usuario_editar($id){
 
 		$sql="select * from usuarios where idusuario='$id'";

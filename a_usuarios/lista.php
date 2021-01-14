@@ -1,6 +1,18 @@
 <?php
 	require_once("db_.php");
-	$pd = $db->usuario_lista();
+	$pag=0;
+	$texto="";
+	if(isset($_REQUEST['buscar'])){
+		$texto=$_REQUEST['buscar'];
+		$pd = $db->usuario_buscar($texto);
+		$texto=1;
+	}
+	else{
+		if(isset($_REQUEST['pag'])){
+			$pag=$_REQUEST['pag'];
+		}
+		$pd = $db->usuario_lista($pag);
+	}
 ?>
 <div class='container'>
 	<div class='tabla_v' id='tabla_css'>
@@ -37,4 +49,16 @@
 				}
 			?>
 	</div>
+
+	<?php
+		if(strlen($texto)==0){
+			$sql="SELECT count(idusuario) as total FROM usuarios";
+			$sth = $db->dbh->query($sql);
+			$contar=$sth->fetch(PDO::FETCH_OBJ);
+			$paginas=ceil($contar->total/$_SESSION['pagina']);
+			$pagx=$paginas-1;
+
+			echo $db->paginar($paginas,$pag,$pagx,"a_usuarios/lista","trabajo");
+		}
+	?>
 </div>
