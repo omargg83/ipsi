@@ -48,15 +48,22 @@
   	?>
   		<div class='col-4 p-3 w-50 actcard'>
   			<div class='card'>
-					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="<?php echo $key->foto; ?>">
+					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="<?php echo $db->pac.trim($key->foto); ?>">
+					<div class='row'>
+						<div class='col-12'>
 
-					<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/track" dix="trabajo" db="a_pacientes/db_" fun="quitar_track" v_idtrack="<?php echo $key->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idterapia="<?php echo $idterapia; ?>" tp="¿Desea quitar el track seleccionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+							<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/relaciones_editar" dix="trabajo" v_idrelacion="<?php echo $key->idrelacion; ?>"
+								v_idpaciente="<?php echo $idpaciente; ?>"><i class="fas fa-pencil-alt"></i></button>
 
+								<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/relaciones" dix="trabajo" db="a_pacientes/db_" fun="rol_quitar" v_idrelacion="<?php echo $key->idrelacion; ?>" v_idpaciente="<?php echo $idpaciente; ?>"  tp="¿Desea eliminar la relacion seleccionada?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+
+						</div>
+					</div>
 
 					<div class='card-body'>
 						<div class='row'>
 							<div class='col-12 text-center'>
-								<?php echo $key->nombre; ?>
+								<?php echo $key->nombre." ".$key->apellidop." ".$key->apellidom; ?>
 							</div>
 						</div>
 						<div class='row'>
@@ -64,17 +71,15 @@
 								<?php echo $key->rol; ?>
 							</div>
 						</div>
+						<div class='row'>
+							<div class='col-12 text-center'>
+								<?php
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_accesos' dix='nueva_sub' tp='edit' v_idrel='$key->idrel' omodal='1'>Accesos</button>";
+								?>
+							</div>
+						</div>
 					</div>
 
-
-  				<div class='card-body'>
-  					<div class='row'>
-  						<div class='col-12'>
-  							<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/relaciones_editar" dix="trabajo" v_idrelacion="<?php echo $key->idrelacion; ?>"
-									v_idpaciente="<?php echo $idpaciente; ?>">Ver</button>
-  						</div>
-  					</div>
-  				</div>
   			</div>
   		</div>
   	<?php

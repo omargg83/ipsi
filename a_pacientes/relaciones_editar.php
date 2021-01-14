@@ -1,32 +1,34 @@
 <?php
 		require_once("db_.php");
 
-
 		$idrelacion=$_REQUEST['idrelacion'];
-		if($idrelacion==0){
 
+		$idpaciente=$_REQUEST['idpaciente'];
+		$pd = $db->cliente_editar($idpaciente);
+		$idrol="";
+
+		$nombre=$pd->nombre;
+		$edad=$pd->edad;
+		$apellidop=$pd->apellidop;
+		$apellidom=$pd->apellidom;
+		$telefono=$pd->telefono;
+		$correo=$pd->correo;
+		$foto=$pd->foto;
+		$observaciones=$pd->observaciones;
+
+		if($idrelacion>0){
+			$editar=$db->relacion_editar($idrelacion);
+			$id=$editar->idrel;
+			$idrol=$editar->idrol;
 		}
 		else{
-			$idpaciente=$_REQUEST['idpaciente'];
-			$pd = $db->cliente_editar($idpaciente);
-			$idrol="";
-
-			$nombre=$pd->nombre;
-			$edad=$pd->edad;
-			$apellidop=$pd->apellidop;
-			$apellidom=$pd->apellidom;
-			$telefono=$pd->telefono;
-			$correo=$pd->correo;
-			$foto=$pd->foto;
-			$observaciones=$pd->observaciones;
-
 			$id=$_REQUEST['id'];
-			$relacion = $db->cliente_editar($id);
-			$nombre_rel=$relacion->nombre;
-			$apellidop_rel=$pd->apellidop;
-			$apellidom_rel=$pd->apellidom;
 		}
 
+		$relacion = $db->cliente_editar($id);
+		$nombre_rel=$relacion->nombre;
+		$apellidop_rel=$pd->apellidop;
+		$apellidom_rel=$pd->apellidom;
 		$rol=$db->rol_relacion();
   ?>
 
@@ -42,10 +44,10 @@
   </nav>
 
 	<div class='container'>
-		<form is="f-submit" id="form_relacion" db="a_pacientes/db_" fun="rol_asignar" cmodal="1">
+		<form is="f-submit" id="form_relacion" db="a_pacientes/db_" fun="rol_asignar" des="a_pacientes/relaciones" v_idpaciente='<?php echo $idpaciente;?>' cmodal="1">
 			<input type="hidden" name="idpaciente" id="idpaciente" value="<?php echo $idpaciente;?>" readonly>
 			<input type="hidden" name="idrel" id="idrel" value="<?php echo $id;?>" readonly>
-			<input type="hidden" name="id" id="id" value="0" readonly>
+			<input type="hidden" name="idrelacion" id="idrelacion" value="<?php echo $idrelacion;?>" readonly>
 			<div class="card">
 				<div class="card-header">
 					Asignar relacion

@@ -98,16 +98,24 @@
 														if($_SESSION['tipo_user'] == "Psicólogo" and $_SESSION['nivel']==1){
 													?>
 														<a class="nav-link" is='menu-link' href='#a_pacientes/index' title='Pacientes' ><div class="sb-nav-link-icon"><i class="far fa-file-alt"></i></div>Pacientes</a>
+
 														<!--<a class="nav-link" is='menu-link' href='#a_pac/index' title='Pacientes' ><div class="sb-nav-link-icon"><i class="far fa-file-alt"></i></div>Pacientes</a>-->
 														<!-- <a class="nav-link" is='menu-link' href='#a_usuarios/editar_p' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi Cuenta</a>-->
+
 														<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Cuentas</a>
+
+
 														<div class="sb-sidenav-menu-heading">Terapias</div>
+
 														<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Catalogo Terapias</a>
 													<?php
 														}
 													?>
 													<a class="nav-link" is='menu-link' href='#a_ticket/index' title='Ticket'><div class="sb-nav-link-icon"><i class="fas fa-ticket-alt"></i></div>Tickets</a>
-													<a class="nav-link" is='menu-link' href='#a_sucursal/index' title='Ticket'><div class="sb-nav-link-icon"><i class="fas fa-store"></i></div>Sucursal</a>
+
+													<a class="nav-link" is='menu-link' href='#a_sucursal/index' title='Sucursal'><div class="sb-nav-link-icon"><i class="fas fa-store"></i></div>Sucursal</a>
+
+													<a class="nav-link" is='menu-link' href='#a_consultorios/index' title='Consultorios'><div class="sb-nav-link-icon"><i class="fas fa-store"></i></div>Consultorios</a>
 
 
                       </div>
@@ -198,7 +206,6 @@
       <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
-      <!---<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>-->
 
       <link rel="stylesheet" href="librerias15/jqueryconfirm/css/jquery-confirm.css">
       <script src="librerias15/jqueryconfirm/js/jquery-confirm.js"></script>

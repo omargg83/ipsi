@@ -1281,15 +1281,30 @@ class Cliente extends ipsi{
 	}
 	public function rol_asignar(){
 		try{
-			$arreglo=array();
+
 			$x="";
 			$idpaciente=$_REQUEST['idpaciente'];
 			$idrel=$_REQUEST['idrel'];
-			$id=$_REQUEST['id'];
+			$idrelacion=$_REQUEST['idrelacion'];
 
+			if($idrelacion==0){
+				$sql="select * from clientes_relacion where idcliente='$idpaciente' and idrel='$idrel'";
+				$sth = $this->dbh->prepare($sql);
+				$sth->execute();
+				if ($sth->rowCount()>0){
+					$arreglo=array();
+					$arreglo+=array('id1'=>0);
+					$arreglo+=array('error'=>1);
+					$arreglo+=array('terror'=>"La relación ya existe");
+					return json_encode($arreglo);
+				}
+			}
+
+
+			$arreglo=array();
 			$arreglo+=array('idrol'=>$_REQUEST['idrol']);
-			if($id>0){
-				$x=$this->update('clientes_relacion',array('idactividad'=>$idactividad), $arreglo);
+			if($idrelacion>0){
+				$x=$this->update('clientes_relacion',array('idrelacion'=>$idrelacion), $arreglo);
 			}
 			else{
 				$arreglo+=array('idcliente'=>$_REQUEST['idpaciente']);
@@ -1302,6 +1317,24 @@ class Cliente extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+	public function rol_quitar(){
+		$idpaciente=$_REQUEST['idpaciente'];
+		$idrelacion=$_REQUEST['idrelacion'];
+
+		return $this->borrar('clientes_relacion',"idrelacion",$idrelacion);
+
+	}
+	public function relacion_editar($idrelacion){
+		try{
+		  $sql="select * from clientes_relacion where idrelacion='$idrelacion'";
+		  $sth = $this->dbh->query($sql);
+		  return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+		  return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
 }
 
 $db = new Cliente();
