@@ -111,6 +111,9 @@
 													<?php
 														}
 													?>
+													<a class="nav-link" is='menu-link' href='#a_agenda/index' title='Agenda'><div class="sb-nav-link-icon"><i class="fas fa-ticket-alt"></i></div>Agenda</a>
+
+
 													<a class="nav-link" is='menu-link' href='#a_ticket/index' title='Ticket'><div class="sb-nav-link-icon"><i class="fas fa-ticket-alt"></i></div>Tickets</a>
 
 													<a class="nav-link" is='menu-link' href='#a_sucursal/index' title='Sucursal'><div class="sb-nav-link-icon"><i class="fas fa-store"></i></div>Sucursal</a>
@@ -176,8 +179,6 @@
 													 echo "<a class='topcuenta' is='menu-link' href='#a_paciente_perfil/index'>Mi cuenta</a></span>";
 												 }
 											 ?>
-
-
 											<span class="mr-2 d-none d-lg-inline text-gray-600 small">|</span>
 											<span class="mr-2 d-none d-lg-inline text-gray-600 small"><a onclick='salir()' href="#"class="topcuenta">Salir</a></span>
 			                <img class="img-profile rounded-circle" src="<?php echo $_SESSION['foto']; ?>">

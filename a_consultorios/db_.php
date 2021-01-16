@@ -104,6 +104,58 @@ class Consultorio extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+
+	public function guardar_horario(){
+		$x="";
+
+		$idhorario=$_REQUEST['idhorario'];
+		$idconsultorio=$_REQUEST['idconsultorio'];
+		$arreglo =array();
+
+
+		if (isset($_REQUEST['desde'])){
+			$desde="2021/01/01 ".$_REQUEST['desde'].":00";
+			$arreglo+=array('desde'=>$desde);
+		}
+		if (isset($_REQUEST['hasta'])){
+			$hasta="2021/01/01 ".$_REQUEST['hasta'].":00";
+			$arreglo+=array('hasta'=>$hasta);
+		}
+		if($idhorario==0){
+			$arreglo+=array('idconsultorio'=>$idconsultorio);
+			$x=$this->insert('consultorio_horarios', $arreglo);
+		}
+		else{
+			$x=$this->update('consultorio_horarios',array('idhorario'=>$idhorario), $arreglo);
+		}
+		return $x;
+	}
+	public function lista_horarios($id){
+		try{
+			$sql="SELECT * FROM consultorio_horarios where idconsultorio='$id'";
+			$sth = $this->dbh->query($sql);
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function horario_editar($idhorario){
+		try{
+			$sql="SELECT * FROM consultorio_horarios where idhorario='$idhorario'";
+			$sth = $this->dbh->query($sql);
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function horario_quitar(){
+		$idhorario=$_REQUEST['idhorario'];
+		$x=$this->borrar('consultorio_horarios',"idhorario",$idhorario);
+		return $x;
+	}
+
 }
 
 $db = new Consultorio();
