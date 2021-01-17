@@ -10,13 +10,13 @@
 
 		$desdef = date ( 'Y-m-d' , strtotime($pd->desde));
     $hastaf = date ( 'Y-m-d' , strtotime($pd->hasta));
-    $idconsultorio=$pd->idconsultorio;
+    $idusuario=$pd->idusuario;
 
 		$desde_dia=$pd->desde_dia;
 		$recurrente=$pd->recurrente;
   }
   else{
-    $idconsultorio=$_REQUEST['idconsultorio'];
+    $idusuario=$_REQUEST['idusuario'];
 		$desdef=date("Y-m-d");
 		$hastaf=date("Y-m-d");
 
@@ -30,9 +30,9 @@
 ?>
 
 <div class="container">
-		<form is="f-submit" id="form_cliente" db="a_consultorios/db_" fun="guardar_horario" des="a_consultorios/horarios" desid='idhorario' v_idconsultorio='<?php echo $idconsultorio;?>'>
+		<form is="f-submit" id="form_cliente" db="a_usuarios/db_" fun="guardar_horario" des="a_usuarios/horarios" desid='idhorario' v_idusuario='<?php echo $idusuario;?>'>
 			<input type="hidden" name="idhorario" id="idhorario" value="<?php echo $idhorario;?>">
-			<input type="hidden" name="idconsultorio" id="idconsultorio" value="<?php echo $idconsultorio;?>">
+			<input type="hidden" name="idusuario" id="idusuario" value="<?php echo $idusuario;?>">
 			<div class="card">
 				<div class='card-header'>
 					Horarios
@@ -77,7 +77,7 @@
 						<div class='col-12'>
 								<button class="btn btn-warning btn-sm" type="submit">Guardar</button>
 
-                <button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_consultorios/horarios' dix='trabajo' title='regresar' v_idconsultorio='<?php echo $idconsultorio;?>'>Regresar</button>
+                <button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/horarios' dix='trabajo' title='regresar' v_idusuario='<?php echo $idusuario;?>'>Regresar</button>
 						</div>
 					</div>
 

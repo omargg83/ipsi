@@ -112,15 +112,23 @@ class Consultorio extends ipsi{
 		$idconsultorio=$_REQUEST['idconsultorio'];
 		$arreglo =array();
 
+		if (isset($_REQUEST['desde_dia'])){
+			$arreglo+=array('desde_dia'=>$_REQUEST['desde_dia']);
+		}
 
-		if (isset($_REQUEST['desde'])){
-			$desde="2021/01/01 ".$_REQUEST['desde'].":00";
-			$arreglo+=array('desde'=>$desde);
+		if (isset($_REQUEST['recurrente'])){
+			$arreglo+=array('recurrente'=>$_REQUEST['recurrente']);
 		}
-		if (isset($_REQUEST['hasta'])){
-			$hasta="2021/01/01 ".$_REQUEST['hasta'].":00";
-			$arreglo+=array('hasta'=>$hasta);
+		else{
+			$arreglo+=array('recurrente'=>null);
 		}
+
+		$desde="2021/01/01 ".$_REQUEST['desde'].":00";
+		$arreglo+=array('desde'=>$desde);
+
+		$hasta="2021/01/01 "." ".$_REQUEST['hasta'].":00";
+		$arreglo+=array('hasta'=>$hasta);
+
 		if($idhorario==0){
 			$arreglo+=array('idconsultorio'=>$idconsultorio);
 			$x=$this->insert('consultorio_horarios', $arreglo);

@@ -52,6 +52,17 @@ class Usuario extends ipsi{
 		}
 	}
 
+	public function usuario_horarios($id){
+		try{
+			$sql="SELECT * FROM usuarios_horarios where idusuario='$id'";
+			$sth = $this->dbh->query($sql);
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
 	public function usuario_editar($id){
 
 		$sql="select * from usuarios where idusuario='$id'";
@@ -128,6 +139,57 @@ class Usuario extends ipsi{
 		}
 		return $this->update('usuarios',array('idusuario'=>$id1), $arreglo);
 	}
+
+	public function guardar_horario(){
+		$x="";
+
+		$idusuario=$_REQUEST['idusuario'];
+		$idhorario=$_REQUEST['idhorario'];
+
+		$arreglo =array();
+
+		if (isset($_REQUEST['desde_dia'])){
+			$arreglo+=array('desde_dia'=>$_REQUEST['desde_dia']);
+		}
+
+		if (isset($_REQUEST['recurrente'])){
+			$arreglo+=array('recurrente'=>$_REQUEST['recurrente']);
+		}
+		else{
+			$arreglo+=array('recurrente'=>null);
+		}
+
+		$desde="2021/01/01 ".$_REQUEST['desde'].":00";
+		$arreglo+=array('desde'=>$desde);
+
+		$hasta="2021/01/01 "." ".$_REQUEST['hasta'].":00";
+		$arreglo+=array('hasta'=>$hasta);
+
+		if($idhorario==0){
+			$arreglo+=array('idusuario'=>$idusuario);
+			$x=$this->insert('usuarios_horarios', $arreglo);
+		}
+		else{
+			$x=$this->update('usuarios_horarios',array('idhorario'=>$idhorario), $arreglo);
+		}
+		return $x;
+	}
+	public function horario_editar($idhorario){
+		try{
+			$sql="SELECT * FROM usuarios_horarios where idhorario='$idhorario'";
+			$sth = $this->dbh->query($sql);
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function horario_quitar(){
+		$idhorario=$_REQUEST['idhorario'];
+		$x=$this->borrar('usuarios_horarios',"idhorario",$idhorario);
+		return $x;
+	}
+
 }
 
 $db = new Usuario();

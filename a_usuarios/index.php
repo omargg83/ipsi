@@ -13,7 +13,7 @@
 				</form>
 			<ul class='navbar-nav mr-auto'>
 			<li class='nav-item active'>
-				<a class='nav-link barranav' is="a-link" des='a_usuarios/lista' dix='trabajo' tp="router"><i class='fas fa-plus'></i>Lista</a>
+				<a class='nav-link barranav' is="a-link" des='a_usuarios/lista' dix='trabajo' tp="router">Lista</a>
 			</li>
 			<?php
 				if($_SESSION['nivel']==1){
