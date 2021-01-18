@@ -4,14 +4,14 @@
 	$texto="";
 	if(isset($_REQUEST['buscar'])){
 		$texto=$_REQUEST['buscar'];
-		$pd = $db->usuario_buscar($texto);
+		$pd = $db->agenda_buscar($texto);
 		$texto=1;
 	}
 	else{
 		if(isset($_REQUEST['pag'])){
 			$pag=$_REQUEST['pag'];
 		}
-		$pd = $db->usuario_lista($pag);
+		$pd = $db->agenda_lista($pag);
 	}
 ?>
 <div class='container'>

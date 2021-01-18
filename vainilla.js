@@ -205,3 +205,24 @@ function carga_contexto(idcontexto, idactividad, idpaciente){
 	};
 	xhr.send(formData);
 }
+
+$(document).on('change',"#fecha_cita",function(e){
+    e.preventDefault();
+
+    let fecha=document.getElementById("fecha_cita").value;
+    alert("entra:"+fecha);
+
+    var formData = new FormData();
+    formData.append("fecha", fecha);
+    
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST',"a_agenda/agenda_fecha.php");
+    xhr.addEventListener('load',(data)=>{
+      document.getElementById("fechas_disponibles").innerHTML =data.target.response;
+      cargando(false);
+    });
+    xhr.onerror =  ()=>{
+      cargando(false);
+    };
+    xhr.send(formData);
+});
