@@ -16,11 +16,9 @@
 
 			<ul class='navbar-nav mr-auto'>
 
-				<li class='nav-item active'><a class='nav-link barranav' is='a-link' title='Mostrar todo' id='lista_comision' des='a_agenda/lista' dix='lista'><span>Pacientes</span></a></li>
+				<li class='nav-item active'><a class='nav-link barranav' is='a-link' title='Mostrar todo' id='lista_comision' des='a_agenda/lista' dix='lista'><span>Citas</span></a></li>
 
-				<li class='nav-item active'><a class='nav-link barranav izq' is='a-link' title='Nuevo' id='new_personal' des='a_agenda/editar' v_idpaciente='0' dix='trabajo'><span>Agregar usuario</span></a></li>
-
-				<li class='nav-item active'><a class='nav-link barranav' is='a-link' title='Mostrar todo' id='lista_comision' des='a_roles/lista' dix='lista'><span>Roles</span></a></li>
+				<li class='nav-item active'><a class='nav-link barranav izq' is='a-link' title='Nuevo' id='new_personal' des='a_agenda/editar' v_idpaciente='0' dix='trabajo'><span>Agendar  cita</span></a></li>
 
 			</ul>
 	  </div>
