@@ -42,16 +42,16 @@
 					</div>
 					<div class="col-12 col-sm-6">
 						<label>Ubicación:</label>
-						<input type="text" class="form-control " name="ubicacion" id="ubicacion" value="<?php echo $ubicacion;?>" placeholder="Ubicación" required maxlength='155'>
+						<input type="text" class="form-control " name="ubicacion" id="ubicacion" value="<?php echo $ubicacion;?>" placeholder="Ubicación" maxlength='155'>
 					</div>
 					<div class="col-12 col-sm-4">
 						<label>Ciudad:</label>
-						<input type="text" class="form-control " name="ciudad" id="ciudad" value="<?php echo $ciudad;?>" placeholder="Ciudad" required maxlength='145'>
+						<input type="text" class="form-control " name="ciudad" id="ciudad" value="<?php echo $ciudad;?>" placeholder="Ciudad" maxlength='145'>
 					</div>
 
 					<div class="col-12 col-sm-4">
 						<label>Estado:</label>
-						<input type="text" class="form-control " name="estado" id="estado" value="<?php echo $estado;?>" placeholder="Estado" required maxlength='45'>
+						<input type="text" class="form-control " name="estado" id="estado" value="<?php echo $estado;?>" placeholder="Estado" maxlength='45'>
 					</div>
 
 					<div class="col-12 col-sm-4">
