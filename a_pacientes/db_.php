@@ -1342,7 +1342,7 @@ class Cliente extends ipsi{
 			$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
 			$arreglo+=array('idcliente'=>$_REQUEST['idpaciente']);
 			$this->insert('cliente_terapeuta',$arreglo);
-			
+
 			$arreglo=array();
 			$arreglo+=array('id1'=>$_REQUEST['idpaciente']);
 			$arreglo+=array('error'=>0);
@@ -1353,6 +1353,14 @@ class Cliente extends ipsi{
 			return "Database access FAILED!";
 		}
 	}
+	public function terapeuta_quitar(){
+		$idpaciente=$_REQUEST['idpaciente'];
+		$idterapeuta=$_REQUEST['idterapeuta'];
+
+		return $this->borrar('cliente_terapeuta',"idterapeuta",$idterapeuta);
+
+	}
+
 }
 
 $db = new Cliente();

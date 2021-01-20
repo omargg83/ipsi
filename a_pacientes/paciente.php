@@ -92,23 +92,19 @@
 							</div>
 						</div>
 					</div>
-
-
 					<?php
 						$sql="SELECT * FROM cliente_terapeuta LEFT OUTER JOIN usuarios ON cliente_terapeuta.idusuario = usuarios.idusuario WHERE cliente_terapeuta.idcliente =$idpaciente";
 						$sth = $db->dbh->prepare($sql);
 						$sth->execute();
 						$terap=$sth->fetchAll(PDO::FETCH_OBJ);
 						foreach($terap as $key){
-							echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/track' dix='trabajo' v_idpaciente='$idpaciente' v_idterapeuta='$key->idterapeuta'>$key->nombre</button>";
+							echo "<button class='btn btn-warning btn-block' type='button' >$key->nombre $key->apellidop $key->apellidom</button>";
 						}
 					?>
-
-
 					<div class='card-body'>
 						<div class='col-12 text-center'>
 							<?php
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/terapeutas_agregar' dix='trabajo' v_idpaciente='$idpaciente' >Agregar</button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/terapeutas' dix='trabajo' v_idpaciente='$idpaciente' >Ver mas</button>";
 							?>
 						</div>
 					</div>
@@ -145,7 +141,7 @@
 						<hr>
 						<div class='row'>
 							<div class='col-12'>
-								<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/editar" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
+								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/editar" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
 							</div>
 						</div>
 					</div>
@@ -183,7 +179,7 @@
 						<hr>
 						<div class='row'>
 							<div class='col-12'>
-								<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/relaciones" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
+								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/relaciones" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
 							</div>
 						</div>
 					</div>
