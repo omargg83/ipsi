@@ -1335,6 +1335,24 @@ class Cliente extends ipsi{
 		}
 	}
 
+	public function agregar_ter(){
+		try{
+			$arreglo=array();
+			$x="";
+			$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
+			$arreglo+=array('idcliente'=>$_REQUEST['idpaciente']);
+			$this->insert('cliente_terapeuta',$arreglo);
+			
+			$arreglo=array();
+			$arreglo+=array('id1'=>$_REQUEST['idpaciente']);
+			$arreglo+=array('error'=>0);
+			$arreglo+=array('terror'=>"La terapia ya existe");
+			return json_encode($arreglo);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
 }
 
 $db = new Cliente();

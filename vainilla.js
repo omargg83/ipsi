@@ -188,7 +188,6 @@ function procesar_act(elemento){
 }
 
 
-
 function carga_contexto(idcontexto, idactividad, idpaciente){
   var formData = new FormData();
 	formData.append("idcontexto", idcontexto);
@@ -205,7 +204,6 @@ function carga_contexto(idcontexto, idactividad, idpaciente){
 	};
 	xhr.send(formData);
 }
-
 $(document).on('change',"#fecha_cita",function(e){
     e.preventDefault();
 
@@ -214,7 +212,7 @@ $(document).on('change',"#fecha_cita",function(e){
 
     var formData = new FormData();
     formData.append("fecha", fecha);
-    
+
     let xhr = new XMLHttpRequest();
     xhr.open('POST',"a_agenda/agenda_fecha.php");
     xhr.addEventListener('load',(data)=>{
