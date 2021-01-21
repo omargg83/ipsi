@@ -29,7 +29,19 @@ class Agenda extends ipsi{
 			die();
 		}
 	}
-	
+	public function pacientes(){
+		try{
+
+			$sql="SELECT * FROM clientes";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
 
 }
 

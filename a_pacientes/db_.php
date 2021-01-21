@@ -32,7 +32,6 @@ class Cliente extends ipsi{
 
 	public function personal(){
 		try{
-
 			if($_SESSION['nivel']==1){
 				$sql="select * from usuarios";
 			}
