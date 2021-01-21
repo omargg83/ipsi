@@ -8,9 +8,10 @@
 	  </button>
 		  <div class='collapse navbar-collapse' id='navbarSupportedContent'>
 
-				<form class='form-inline my-2 my-lg-0' is="f-submit" id="form_busca" des="a_usuarios/lista" dix='trabajo' action='' >
-					<input type="search" id="buscar" name='buscar' placeholder="Buscar" class='form-control'/>
-				</form>
+			<form class='form-inline my-2 my-lg-0' is="f-submit" id="form_busca" des="a_usuarios/lista" dix='trabajo' action='' >
+				<input type="search" id="buscar" name='buscar' placeholder="Buscar" class='form-control'/>
+			</form>
+
 			<ul class='navbar-nav mr-auto'>
 			<li class='nav-item active'>
 				<a class='nav-link barranav' is="a-link" des='a_usuarios/lista' dix='trabajo' tp="router">Lista</a>

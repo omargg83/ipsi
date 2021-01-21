@@ -41,8 +41,31 @@ class Agenda extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+	public function sucursal(){
+		try{
+			$sql="SELECT * FROM sucursal";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function terapueutas(){
+		$sql="select * from usuarios";
+		$sth = $this->dbh->query($sql);
+		return $sth->fetchAll(PDO::FETCH_OBJ);
+	}
+	public function agregar_cita(){
+
+		$idpaciente=$_REQUEST['idpaciente'];
+		$idsucursal=$_REQUEST['idsucursal'];
+		
 
 
+		return "algo";
+	}
 }
 
 $db = new Agenda();

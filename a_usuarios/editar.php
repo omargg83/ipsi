@@ -2,6 +2,7 @@
 	require_once("db_.php");
 
 	$idusuario=$_REQUEST['idusuario'];
+	$sucursal = $db->sucursal();
 
 	$nombre="";
 	$apellidop="";
@@ -10,6 +11,7 @@
 	$nivel="";
 	$correo="";
 	$foto="";
+	$idsucursal="";
 	if($idusuario>0){
 		$pd = $db->usuario_editar($idusuario);
 		$nombre=$pd->nombre;
@@ -19,6 +21,7 @@
 		$nivel=$pd->nivel;
 		$correo=$pd->correo;
 		$foto=$pd->foto;
+		$idsucursal=$pd->idsucursal;
 	}
 ?>
 
@@ -42,16 +45,17 @@
 					<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre ;?>" placeholder="Nombre" required>
 				</div>
 
-				<div class="col-3">
+				<div class="col-4">
 					<label for="">Apellido Paterno:</label>
 					<input type="text" class="form-control form-control-sm" name="apellidop" id="apellidop" value="<?php echo $apellidop ;?>" placeholder="Apellido Paterno" required>
 				</div>
 
-				<div class="col-3">
+				<div class="col-4">
 					<label for="">Apellido Materno:</label>
 					<input type="text" class="form-control form-control-sm" name="apellidom" id="apellidom" value="<?php echo $apellidom;?>" placeholder="Apellido Materno">
 				</div>
-
+			</div>
+			<div class='row'>
 				<div class="col-4">
 					<label for="">Correo:</label>
 					<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo ;?>" placeholder="Usuario" >
@@ -67,6 +71,21 @@
 						 ?>
 					  <option value="2"<?php if($nivel=="2") echo "selected"; ?> >2 Terapeuta</option>
 					</select>
+				</div>
+				<div class="col-4">
+					<label for='nombre'>Sucursal</label>
+					<select name='idsucursal' id='idsucursal' class='form-control form-control-sm'>
+					<?php
+						foreach($sucursal as $key){
+							echo  "<option value=".$key->idsucursal;
+							if ($key->idsucursal==$idsucursal){
+								echo  " selected ";
+							}
+							echo  ">".$key->nombre."</option>";
+						}
+					?>
+					</select>
+
 				</div>
 			</div>
 		</div>

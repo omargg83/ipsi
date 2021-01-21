@@ -29,6 +29,17 @@ class Usuario extends ipsi{
 			die();
 		}
 	}
+	public function sucursal(){
+		try{
+			$sql="SELECT * FROM sucursal";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
 	public function usuario_lista($pagina){
 		$pagina=$pagina*$_SESSION['pagina'];
 
@@ -85,6 +96,9 @@ class Usuario extends ipsi{
 		}
 		if (isset($_REQUEST['nivel'])){
 			$arreglo+=array('nivel'=>$_REQUEST['nivel']);
+		}
+		if (isset($_REQUEST['idsucursal'])){
+			$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
 		}
 
 		$_SESSION['nombrec']=$_REQUEST['nombre']." ".$_REQUEST['apellidop'];
