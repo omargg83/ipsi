@@ -21,6 +21,7 @@
 		$idpara=$pd->idpara;
 	}
 
+
 ?>
 
 <div class="container">
@@ -63,6 +64,14 @@
 
 										echo  "<optgroup label='Administrador de sucursal'>";
 
+										$sql="select * from sucursal_administracion left outer join usuarios on usuarios.idusuario=sucursal_administracion.idusuario where sucursal_administracion.idsucursal='".$_SESSION['idsucursal']."'";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='$key->idusuario'";
+											if ($key->idusuario==$idpara)	echo  " selected ";
+											echo  ">".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
 
 									}
 									if($_SESSION['nivel']==0){

@@ -24,6 +24,11 @@
 	if($_SESSION['nivel']==4){
 		$_SESSION['tipo_user'] = "Secretaria";
 	}
+
+	if($key->nivel==1) echo "Admin General";
+	if($key->nivel==2) echo "Terapeuta";
+	if($key->nivel==3) echo "Admin Sucursal";
+	if($key->nivel==4) echo "Secretaria";
 	*/
 
 	require_once("init.php");

@@ -100,6 +100,30 @@ class Sucursal extends ipsi{
 		$x=$this->borrar('sucursal',"idsucursal",$idsucursal);
 		return $x;
 	}
+
+	public function relacion_buscar($texto,$idsucursal){
+		try{
+			$sql="select * from usuarios where (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
+			$sth = $this->dbh->query($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function asignar_admin(){
+		$arreglo =array();
+		$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
+		$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
+		return $this->insert('sucursal_administracion', $arreglo);
+	}
+	public function quitar_admin(){
+		$idsucursal=$_REQUEST['idsucursal'];
+		$idadmi=$_REQUEST['idadmi'];
+		return $this->borrar('sucursal_administracion',"idadmi",$idadmi);
+	}
+
 }
 
 $db = new Sucursal();

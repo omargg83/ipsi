@@ -62,7 +62,7 @@
 					if($_SESSION['nivel']==3){
 						$_SESSION['tipo_user'] = "Secretaria";
 					}
-
+					$_SESSION['idsucursal']=$CLAVE->idsucursal;
 					$_SESSION['pagnivel']=40;
 					$_SESSION['idusuario']=$CLAVE->idusuario;
 					$_SESSION['cfondo']="#fff";
@@ -90,6 +90,7 @@
 						$_SESSION['pagnivel']=40;
 						$_SESSION['idusuario']=$CLAVE->id;
 						$_SESSION['cfondo']="#fff";
+						$_SESSION['idsucursal']=$CLAVE->idsucursal;
 						$_SESSION['foto']="a_archivos/clientes/".$CLAVE->foto;
 						$arr=array();
 						$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idusuario']);

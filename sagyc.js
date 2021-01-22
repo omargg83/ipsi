@@ -324,7 +324,6 @@ function sesion_ver(){
 						let xhr = new XMLHttpRequest();
 						xhr.open('POST',datos.db);
 						xhr.addEventListener('load',(data)=>{
-							console.log(data.target.response);
 							if (!isJSON(data.target.response)){
 								Swal.fire({
 									type: 'error',

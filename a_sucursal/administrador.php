@@ -42,12 +42,7 @@
 					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="<?php echo $db->pac.trim($key->foto); ?>">
 					<div class='row'>
 						<div class='col-12'>
-
-							<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/relaciones_editar" dix="trabajo" v_idrelacion="<?php echo $key->idrelacion; ?>"
-								v_idpaciente="<?php echo $idpaciente; ?>"><i class="fas fa-pencil-alt"></i></button>
-
-								<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/relaciones" dix="trabajo" db="a_pacientes/db_" fun="rol_quitar" v_idrelacion="<?php echo $key->idrelacion; ?>" v_idpaciente="<?php echo $idpaciente; ?>"  tp="¿Desea eliminar la relacion seleccionada?" title="Borrar"><i class="far fa-trash-alt"></i></button>
-
+							<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_sucursal/administrador" dix="trabajo" db="a_sucursal/db_" fun="quitar_admin" v_idadmi="<?php echo $key->idadmi; ?>" v_idsucursal="<?php echo $idsucursal; ?>"  tp="¿Desea eliminar el administrador seleccionado?"><i class="far fa-trash-alt"></i></button>
 						</div>
 					</div>
 
@@ -55,18 +50,6 @@
 						<div class='row'>
 							<div class='col-12 text-center'>
 								<?php echo $key->nombre." ".$key->apellidop." ".$key->apellidom; ?>
-							</div>
-						</div>
-						<div class='row'>
-							<div class='col-12 text-center'>
-								<?php echo $key->rol; ?>
-							</div>
-						</div>
-						<div class='row'>
-							<div class='col-12 text-center'>
-								<?php
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_accesos' dix='nueva_sub' tp='edit' v_idrel='$key->idrel' omodal='1'>Accesos</button>";
-								?>
 							</div>
 						</div>
 					</div>
@@ -80,7 +63,7 @@
 				echo "<div id='' class='col-4 p-3 w-50'>";
 		      echo "<div class='card' style='height:200px;'>";
 		        echo "<div class='card-body text-center'>";
-		          echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_sucursales\admin_agregar' dix='trabajo' v_idsucursal='$idsucursal'>Agregar</button>";
+		          echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_sucursal\administrador_agregar' dix='trabajo' v_idsucursal='$idsucursal'>Agregar</button>";
 		        echo "</div>";
 		      echo "</div>";
 		    echo "</div>";
