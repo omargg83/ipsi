@@ -1,44 +1,34 @@
 <?php
 	require_once("db_.php");
 
-	$idpaciente=$_REQUEST['idpaciente'];
-	$pd = $db->cliente_editar($idpaciente);
+	$idsucursal=$_REQUEST['idsucursal'];
+	$pd = $db->sucursal($idsucursal);
 
 	$nombre=$pd->nombre;
-	$edad=$pd->edad;
-	$apellidop=$pd->apellidop;
-	$apellidom=$pd->apellidom;
-	$telefono=$pd->telefono;
-	$correo=$pd->correo;
-	$foto=$pd->foto;
-	$observaciones=$pd->observaciones;
+	$ubicacion=$pd->ubicacion;
+	$ciudad=$pd->ciudad;
 
 	/////////////////////Relaciones
-	$sql="select * from clientes_relacion
-	left outer join clientes on clientes.id=clientes_relacion.idrel
-	left outer join rol_familiar on rol_familiar.idrol=clientes_relacion.idrol
-	where clientes_relacion.idcliente=:idcliente";
+	$sql="select * from sucursal_administracion
+	left outer join usuarios on usuarios.idusuario=sucursal_administracion.idusuario
+	where sucursal_administracion.idsucursal=:idsucursal";
 	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idcliente",$idpaciente);
+	$sth->bindValue(":idsucursal",$idsucursal);
 	$sth->execute();
 	$relaciones=$sth->fetchAll(PDO::FETCH_OBJ);
 
-
-	if($_SESSION['nivel']!=666){
 		echo "<nav aria-label='breadcrumb'>";
 			echo "<ol class='breadcrumb'>";
-				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/index' dix='trabajo'>Pacientes</li>";
-				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'><?php echo $nombre.' '.$apellidop.' '.$apellidom; ?></li>";
-				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/relaciones' v_idpaciente='$idpaciente' dix='trabajo'>Relaciones</li>";
-				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_sucursal/index' dix='trabajo'>Sucursales</li>";
+				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_sucursal/administrador' v_idsucursal='$idsucursal' dix='trabajo'>$nombre</li>";
+				echo "<button class='btn btn-warning btn-sm' is='b-link' des='a_sucursal/lista' dix='trabajo'>Regresar</button>";
 			echo "</ol>";
 		echo "</nav>";
-	}
+
 ?>
 
-
 <div class="alert alert-warning text-center tituloventana" role="alert">
-	Relaciones
+	Administradores
 </div>
 
 <div class='container'>
@@ -90,7 +80,7 @@
 				echo "<div id='' class='col-4 p-3 w-50'>";
 		      echo "<div class='card' style='height:200px;'>";
 		        echo "<div class='card-body text-center'>";
-		          echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes\relaciones_agregar' dix='trabajo' v_idpaciente='$idpaciente'>Agregar</button>";
+		          echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_sucursales\admin_agregar' dix='trabajo' v_idsucursal='$idsucursal'>Agregar</button>";
 		        echo "</div>";
 		      echo "</div>";
 		    echo "</div>";

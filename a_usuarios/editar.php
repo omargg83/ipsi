@@ -23,10 +23,18 @@
 		$foto=$pd->foto;
 		$idsucursal=$pd->idsucursal;
 	}
+
+
+	if($_SESSION['nivel']==1){
+		$dix='trabajo';
+	}
+	if($_SESSION['nivel']==2){
+		$dix='contenido';
+	}
 ?>
 
 <div class="container">
-	<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des="a_usuarios/editar" desid="idusuario" v_idusuario="<?php echo $idusuario; ?>">
+	<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des="a_usuarios/editar" dix='<?php echo $dix;?>' desid="idusuario" v_idusuario="<?php echo $idusuario; ?>">
 		<input type="hidden" class="form-control form-control-sm" name="idusuario" id="idusuario" value="<?php echo $idusuario ;?>" placeholder="No" readonly>
 		<div class='card'>
 		<div class='card-header'>
@@ -61,32 +69,35 @@
 					<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo ;?>" placeholder="Usuario" >
 				</div>
 
-				<div class="col-4">
-					<label for="">Nivel:</label>
-					<select class="form-control form-control-sm" name="nivel" id="nivel">
-						<?php
-							if($_SESSION['nivel']==1){
+				<?php
+					if($_SESSION['nivel']==1){
+						echo "<div class='col-4'>";
+							echo "<label for=''>Nivel:</label>";
+							echo "<select class='form-control form-control-sm' name='nivel' id='nivel'>";
 								echo "<option value='1'"; if($nivel=="1") echo "selected"; echo ">1 Administrador</option>";
-							}
-						 ?>
-					  <option value="2"<?php if($nivel=="2") echo "selected"; ?> >2 Terapeuta</option>
-					</select>
-				</div>
-				<div class="col-4">
-					<label for='nombre'>Sucursal</label>
-					<select name='idsucursal' id='idsucursal' class='form-control form-control-sm'>
-					<?php
-						foreach($sucursal as $key){
-							echo  "<option value=".$key->idsucursal;
-							if ($key->idsucursal==$idsucursal){
-								echo  " selected ";
-							}
-							echo  ">".$key->nombre."</option>";
-						}
-					?>
-					</select>
+								echo "<option value='2'"; if($nivel=="2") echo "selected"; echo ">2 Terapeuta</option>";
+								echo "<option value='3'"; if($nivel=="3") echo "selected"; echo ">3 Admin Sucursal</option>";
+								echo "<option value='4'"; if($nivel=="4") echo "selected"; echo ">4 Secretaria</option>";
+								echo "</select>";
+						echo "</div>";
 
-				</div>
+						echo "<div class='col-4'>";
+							echo "<label for='nombre'>Sucursal</label>";
+							echo "<select name='idsucursal' id='idsucursal' class='form-control form-control-sm'>";
+
+								foreach($sucursal as $key){
+									echo  "<option value=".$key->idsucursal;
+									if ($key->idsucursal==$idsucursal){
+										echo  " selected ";
+									}
+									echo  ">".$key->nombre."</option>";
+								}
+							echo "</select>";
+						echo "</div>";
+					}
+
+					?>
+
 			</div>
 		</div>
 
@@ -98,13 +109,14 @@
 					<?php
 						if($idusuario>0){
 							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1'>Foto</button>";
-
 							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1'>Contraseña</button>";
-
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/horarios' v_idusuario='$idusuario' dix='trabajo'>Horarios</button>";
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/horarios' v_idusuario='$idusuario' dix='$dix'>Horarios</button>";
+						}
+						if($_SESSION['nivel']==1){
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/lista' dix='$dix'>Regresar</button>";
 						}
 					?>
-					<button class="btn btn-warning" type="button" is="b-link" des="a_usuarios/lista" dix="trabajo">Regresar</button>
+
 				</div>
 			</div>
 		</div>

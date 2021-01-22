@@ -1,8 +1,15 @@
 <?php
 	require_once("db_.php");
 	$idpaciente=$_SESSION['idusuario'];
+
+	if($_SESSION['nivel']==1){
+		$dix='trabajo';
+	}
+	if($_SESSION['nivel']==2){
+		$dix='contenido';
+	}
 ?>
-<form is="f-submit" id="form_foto" db="a_usuarios/db_" fun="foto" cmodal="1" des="a_usuarios/editar_p" cmodal='1' dix='contenido'>
+<form is="f-submit" id="form_foto" db="a_usuarios/db_" fun="foto" cmodal="1" des="a_usuarios/editar_p" dix='<?php echo $dix;?>' cmodal='1' dix='contenido'>
 <div class='modal-header'>
 	<h5 class='modal-title'>Actualizar foto</h5>
 </div>

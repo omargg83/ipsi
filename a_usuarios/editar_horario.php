@@ -27,10 +27,17 @@
     $hasta = strtotime ( '+59 minute' , strtotime ($desde) ) ;
     $hasta = date ( 'h:i' , $hasta);
   }
+
+	if($_SESSION['nivel']==1){
+		$dix='trabajo';
+	}
+	if($_SESSION['nivel']==2){
+		$dix='contenido';
+	}
 ?>
 
 <div class="container">
-		<form is="f-submit" id="form_cliente" db="a_usuarios/db_" fun="guardar_horario" des="a_usuarios/horarios" desid='idhorario' v_idusuario='<?php echo $idusuario;?>'>
+		<form is="f-submit" id="form_cliente" db="a_usuarios/db_" fun="guardar_horario" des="a_usuarios/horarios" desid='idhorario' dix='<?php echo $dix;?>' v_idusuario='<?php echo $idusuario;?>'>
 			<input type="hidden" name="idhorario" id="idhorario" value="<?php echo $idhorario;?>">
 			<input type="hidden" name="idusuario" id="idusuario" value="<?php echo $idusuario;?>">
 			<div class="card">
@@ -75,9 +82,15 @@
 					</div>
 					<div class="row">
 						<div class='col-12'>
-								<button class="btn btn-warning btn-sm" type="submit">Guardar</button>
-
-                <button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/horarios' dix='trabajo' title='regresar' v_idusuario='<?php echo $idusuario;?>'>Regresar</button>
+							<?php
+								echo "<button class='btn btn-warning btn-sm' type='submit'>Guardar</button>";
+								if($_SESSION['nivel']==1){
+                	echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/horarios' dix='$dix' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
+								}
+								else{
+									echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/horarios' dix='$dix' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
+								}
+							?>
 						</div>
 					</div>
 

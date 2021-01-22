@@ -32,8 +32,8 @@
 			<div class='cell'>Nombre</div>
 			<div class='cell'>ID</div>
 			<div class='cell'>Sucursal</div>
-			<div class='cell'>Terapeuta</div>
 			<div class='cell'>Status</div>
+			<div class='cell'>Correo</div>
 		</div>
 
 		<?php
@@ -52,9 +52,8 @@
 					$sucursal=$db->sucursal($key->idsucursal);
 					echo "<div class='cell' data-titulo='Sucursal'>".$sucursal->nombre."</div>";
 
-					$terapeuta=$db->terapeuta($key->idusuario);
-					echo "<div class='cell' data-titulo='Terapeuta'>".$terapeuta->nombre." ".$terapeuta->apellidop."</div>";
 					echo "<div class='cell' data-titulo='Status'>".$key->estatus."</div>";
+					echo "<div class='cell' data-titulo='correo'>".$key->correo."</div>";
 				echo "</div>";
 			}
 		?>

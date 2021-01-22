@@ -30,9 +30,10 @@
 			foreach($pd as $key){
 				echo "<div class='body-row' draggable='true'>";
 					echo "<div class='cell'>";
-						echo "<div class='btn-group'>";
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_sucursal/editar' dix='trabajo' v_idsucursal='$key->idsucursal'><i class='fas fa-pencil-alt' ></i></button>";
-						echo "</div>";
+
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_sucursal/editar' dix='trabajo' v_idsucursal='$key->idsucursal'>Editar</button>";
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_sucursal/administrador' dix='trabajo' v_idsucursal='$key->idsucursal'>Administrador</button>";
+
 					echo "</div>";
 					echo "<div class='cell' data-titulo='Nombre'>".$key->nombre."</div>";
 					echo "<div class='cell' data-titulo='Ubicación'>".$key->ubicacion."</div>";

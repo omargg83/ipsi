@@ -29,12 +29,8 @@
 			foreach($pd as $key){
 				echo "<div class='body-row' draggable='true'>";
 					echo "<div class='cell'>";
-						echo "<div class='btn-group'>";
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/editar' dix='trabajo' v_idconsultorio='$key->idconsultorio'><i class='fas fa-pencil-alt' ></i></button>";
-
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/horarios' dix='trabajo' v_idconsultorio='$key->idconsultorio'><i class='far fa-clock'></i></button>";
-
-						echo "</div>";
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/editar' dix='trabajo' v_idconsultorio='$key->idconsultorio'>Editar</button>";
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/horarios' dix='trabajo' v_idconsultorio='$key->idconsultorio'>Horarios</button>";
 					echo "</div>";
 					echo "<div class='cell' data-titulo='Nombre'>".$key->nombre."</div>";
 					echo "<div class='cell' data-titulo='Sucursal'>".$key->sucursal."</div>";

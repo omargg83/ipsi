@@ -11,13 +11,9 @@
 			<li class='nav-item active'>
 				<a class='nav-link barranav' is="a-link" des='a_ticket/lista' dix='trabajo' tp="router"><i class='fas fa-list-ul'></i>Lista</a>
 			</li>
-			<?php
-				if($_SESSION['nivel']==1){
-			?>
+
 				<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal'  is='a-link' des='a_ticket/editar' dix='trabajo' v_idticket='0'><i class='fas fa-plus'></i>Nuevo</a></li>
-			<?php
-			}
-			?>
+		
 			</ul>
 
 	  </div>

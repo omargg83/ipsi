@@ -204,3 +204,8 @@ function carga_contexto(idcontexto, idactividad, idpaciente){
 	};
 	xhr.send(formData);
 }
+
+function ver_img(div){
+  var x = document.getElementById(div);
+  x.style.display = "flex";
+}

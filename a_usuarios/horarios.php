@@ -5,6 +5,12 @@
 	$pd = $db->usuario_editar($idusuario);
 	$nombre=$pd->nombre;
 
+	if($_SESSION['nivel']==1){
+		$dix='trabajo';
+	}
+	if($_SESSION['nivel']==2){
+		$dix='contenido';
+	}
 ?>
 
 <div class="container">
@@ -24,11 +30,12 @@
 			<div class='card-footer'>
 				<div class="row">
 					<div class='col-12'>
+						<?php
 
-						<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar_horario' dix='trabajo' title='regresar' v_idusuario='<?php echo $idusuario;?>' v_idhorario='0'>Agregar horario</button>
+							echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar_horario' dix='$dix' title='regresar' v_idusuario='$idusuario' v_idhorario='0'>Agregar horario</button>";
+							echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar' dix='$dix' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
 
-						<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar' dix='trabajo' title='regresar' v_idusuario='<?php echo $idusuario;?>'>Regresar</button>
-
+						?>
 					</div>
 				</div>
 			</div>
@@ -55,9 +62,9 @@
 								echo "<div class='cell'>";
 									echo "<div class='btn-group'>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/editar_horario' dix='trabajo' v_idhorario='$key->idhorario'>Editar</button>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/editar_horario' dix='$dix' v_idhorario='$key->idhorario'>Editar</button>";
 
-									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_usuarios/horarios' dix='trabajo' db='a_consultorios/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idusuario='$idusuario' tp='¿Desea eliminar el horario seleccionado?' title='Borrar'>Eliminar</button>";
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_usuarios/horarios' dix='$dix' db='a_consultorios/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idusuario='$idusuario' tp='¿Desea eliminar el horario seleccionado?' title='Borrar'>Eliminar</button>";
 									echo "</div>";
 
 								echo "</div>";

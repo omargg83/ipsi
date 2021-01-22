@@ -39,6 +39,8 @@ class Ticket extends ipsi{
 		$arreglo =array();
 		$idticket=$_REQUEST['idticket'];
 
+		$arreglo+=array('idpara'=>$_REQUEST['idpara']);
+
 		$arreglo+=array('asunto'=>$_REQUEST['asunto']);
 		$arreglo+=array('mensaje'=>$_REQUEST['texto_ticket']);
 		$extension = '';
@@ -128,14 +130,12 @@ class Ticket extends ipsi{
 	}
 	public function guardar_hijo(){
 		$x="";
-
-
-
 		$arreglo =array();
-
 		$idticket=$_REQUEST['idticket'];
 		$arreglo+=array('idpadre'=>$idticket);
-		$arreglo+=array('asunto'=>$_REQUEST['asunto']);
+		if (isset($_REQUEST['asunto'])){
+			$arreglo+=array('asunto'=>$_REQUEST['asunto']);
+		}
 		$arreglo+=array('mensaje'=>$_REQUEST['texto_hijo']);
 		$extension = '';
 		$ruta = '../a_archivos/ticket/';
@@ -208,7 +208,12 @@ class Ticket extends ipsi{
 
 
 		$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
-		$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
+		if($_SESSION['nivel']==666){
+			$arreglo+=array('idcliente'=>$_SESSION['idusuario']);
+		}
+		else{
+			$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
+		}
 		$x=$this->insert('ticket', $arreglo);
 
 		$arreglo=array();
@@ -221,11 +226,52 @@ class Ticket extends ipsi{
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
-	public function ticket_lista(){
-		$sql="select * from ticket where idusuario=".$_SESSION['idusuario']." and idpadre is null";
+	public function ticket_lista($pagina){
+		$pagina=$pagina*$_SESSION['pagina'];
+		$sql="select * from ticket where (idusuario=".$_SESSION['idusuario']." or idpara='".$_SESSION['idusuario']."') and idpadre is null order by estado, numero desc limit $pagina,".$_SESSION['pagina']."";
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
+
+	public function personal_e(){
+		$sql="select * from usuarios where idusuario!='".$_SESSION['idusuario']."'";
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetchAll(PDO::FETCH_OBJ);
+	}
+
+	public function cliente_editar($id){
+		try{
+			$sql="select * from clientes where id=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function usuarios_editar($id){
+		try{
+			$sql="select * from usuarios where idusuario=$id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function cerrar_ticket(){
+		$x="";
+		$arreglo =array();
+		$idticket=$_REQUEST['idticket'];
+		$arreglo+=array('estado'=>"Finalizado");
+		$x=$this->update('ticket',array('idticket'=>$idticket), $arreglo);
+		return $x;
+	}
+
 }
 
 $db = new Ticket();

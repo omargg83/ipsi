@@ -99,6 +99,14 @@ function sesion_ver(){
 				formData.append(pair[0],pair[1]);
 			}
 		}
+
+		for(let contar=0;contar<e.currentTarget.attributes.length; contar++){
+			let arrayDeCadenas = e.currentTarget.attributes[contar].name.split("_");
+			if(arrayDeCadenas.length>1){
+				formData.append(arrayDeCadenas[1], e.currentTarget.attributes[contar].value);
+			}
+		}
+
 		let datos = new Object();
 		datos.des=nhash+".php";
 		datos.dix="contenido";
