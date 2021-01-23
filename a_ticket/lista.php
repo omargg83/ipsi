@@ -11,7 +11,6 @@
 
 ?>
 
-
 <div class='container'>
 	<div class='tabla_v' id='tabla_css'>
 

@@ -48,16 +48,16 @@ class Usuario extends ipsi{
 		$pagina=$pagina*$_SESSION['pagina'];
 
 		if($_SESSION['nivel']==1){
-			$sql="select * from usuarios limit $pagina,".$_SESSION['pagina']."";
+			$sql="select * from usuarios where idusuario!=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
 		}
 		if($_SESSION['nivel']==2){
 			$sql="select * from usuarios where idusuario=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
 		}
 		if($_SESSION['nivel']==3){
-			$sql="select * from usuarios where idsucursal=".$_SESSION['idsucursal']." and nivel=2 limit $pagina,".$_SESSION['pagina']."";
+			$sql="select * from usuarios where idsucursal=".$_SESSION['idsucursal']." and nivel=2 and idusuario!=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
 		}
 		if($_SESSION['nivel']==4){
-			$sql="select * from usuarios where nivel>1 limit $pagina,".$_SESSION['pagina']."";
+			$sql="select * from usuarios where nivel>1 and idusuario!=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
 		}
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -239,7 +239,10 @@ class Usuario extends ipsi{
 	}
 	public function horario_quitar(){
 		$idhorario=$_REQUEST['idhorario'];
+		$idusuario=$_REQUEST['idusuario'];
+
 		$x=$this->borrar('usuarios_horarios',"idhorario",$idhorario);
+
 		return $x;
 	}
 	public function sucursal_ver($id){

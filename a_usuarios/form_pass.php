@@ -2,18 +2,23 @@
 	require_once("db_.php");
 	$id=$_REQUEST['idusuario'];
 
-	if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
-		$dix='trabajo';
+	$mi="";
+	if (isset($_REQUEST['mi'])){
+		$mi="1";
 	}
-	if($_SESSION['nivel']==2 or $_SESSION['nivel']==3){
-		$dix='contenido';
+	if(strlen($mi)==0){
+		echo "<form is='f-submit' id='form_clientepass' db='a_usuarios/db_' fun='password' cmodal='1' des='a_usuarios/editar' desid='idusuario' cmodal='1' dix='trabajo'>";
+	}
+	else{
+		echo "<form is='f-submit' id='form_clientepass' db='a_usuarios/db_' fun='password' cmodal='1' des='a_usuarios/editar_p' desid='idusuario' cmodal='1' dix='contenido'>";
 	}
 ?>
-<div class='modal-header'>
-	<h5 class='modal-title'>Cambiar contraseña</h5>
-</div>
+
+	<div class='modal-header'>
+		<h5 class='modal-title'>Cambiar contraseña</h5>
+	</div>
+
   <div class='modal-body' >
-	<form is="f-submit" id="form_clientepass" db="a_usuarios/db_" dix='<?php echo $dix;?>' fun="password" cmodal="1">
 	<?php
 		echo "<input  type='hidden' id='id' NAME='id' value='$id'>";
 	?>
@@ -22,7 +27,7 @@
 			<div class='input-group-prepend'>
 				<span class='input-group-text'> <i class='fas fa-user-circle'></i>
 			</div>
-			<input class='form-control' placeholder='pass1' type='password'  id='pass1' name='pass1' required>
+			<input class='form-control' placeholder='pass1' type='password'  id='pass1' name='pass1' new-password required>
 		</div>
 
 		<p class='input_title'>Contraseña:</p>
@@ -30,11 +35,13 @@
 			<div class='input-group-prepend'>
 				<span class='input-group-text'> <i class='fa fa-lock'></i>
 			</div>
-			<input class='form-control' placeholder='pass2' type='password'  id='pass2' name='pass2' required>
+			<input class='form-control' placeholder='pass2' type='password'  id='pass2' name='pass2' new-password required>
 		</div>
-		<div class='btn-group'>
-		<button class='btn btn-warning btn-sm' type='submit' id='acceso' title='Guardar'><i class='far fa-save'></i>Guardar</button>
-		<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" title='Cancelar'><i class="fas fa-sign-out-alt"></i>Cancelar</button>
-		</div>
-		</form>
+	</div>
+	<div class='modal-footer' >
+		<button class='btn btn-warning' type='submit' id='acceso' title='Guardar'>Guardar</button>
+		<button type="button" class="btn btn-warning" data-dismiss="modal" title='Cancelar'>Cancelar</button>
+
   </div>
+
+	</form>

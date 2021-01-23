@@ -1,4 +1,5 @@
 <?php
+	require_once("db_.php");
 	$idpaciente=$_REQUEST['idpaciente'];
 ?>
 <form is="f-submit" id="form_pass" db="a_pacientes/db_" fun="password" cmodal="1">
@@ -14,7 +15,7 @@
 			<div class='input-group-prepend'>
 				<span class='input-group-text'> <i class='fas fa-user-circle'></i>
 			</div>
-			<input class='form-control' placeholder='Contraseña' type='password'  id='pass1' name='pass1' required>
+			<input class='form-control' placeholder='Contraseña' type='password'  id='pass1' name='pass1' required new-password>
 		</div>
 
 		<label class='input_title'>Confirmar Contraseña:</label>
@@ -22,7 +23,7 @@
 			<div class='input-group-prepend'>
 				<span class='input-group-text'> <i class='fa fa-lock'></i>
 			</div>
-			<input class='form-control' placeholder='Repetir contraseña' type='password'  id='pass2' name='pass2' required>
+			<input class='form-control' placeholder='Repetir contraseña' type='password'  id='pass2' name='pass2' required new-password>
 		</div>
 	</div>
 	<div class="modal-footer">

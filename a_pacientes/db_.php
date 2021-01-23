@@ -92,8 +92,6 @@ class Cliente extends ipsi{
 		}
 	}
 
-
-
 	public function cliente_editar($id){
 		try{
 			$sql="select * from clientes where id=:id";
@@ -266,6 +264,10 @@ class Cliente extends ipsi{
 		}
 		if (isset($_REQUEST['medicamentos'])){
 			$arreglo+=array('medicamentos'=>clean_var($_REQUEST['medicamentos']));
+		}
+
+		if (isset($_REQUEST['autoriza'])){
+			$arreglo+=array('autoriza'=>clean_var($_REQUEST['autoriza']));
 		}
 
 		if($idpaciente==0){

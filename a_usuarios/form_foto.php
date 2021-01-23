@@ -2,14 +2,21 @@
 	require_once("db_.php");
 	$idusuario=$_REQUEST['idusuario'];
 
-	if($_SESSION['nivel']==1  or $_SESSION['nivel']==4){
-		$dix='trabajo';
+
+	$mi="";
+	if (isset($_REQUEST['mi'])){
+		$mi="1";
 	}
-	if($_SESSION['nivel']==2 or $_SESSION['nivel']==3){
-		$dix='contenido';
+
+	if(strlen($mi)==0){
+		echo "<form is='f-submit' id='form_foto' db='a_usuarios/db_' fun='foto' cmodal='1' des='a_usuarios/editar' desid='idusuario' cmodal='1' dix='trabajo'>";
+	}
+	else{
+		echo "<form is='f-submit' id='form_foto' db='a_usuarios/db_' fun='foto' cmodal='1' des='a_usuarios/editar_p' desid='idusuario' cmodal='1' dix='contenido'>";
 	}
 ?>
-<form is="f-submit" id="form_foto" db="a_usuarios/db_" fun="foto" cmodal="1" des="a_usuarios/editar" dix='<?php echo $dix;?>' desid='idusuario' cmodal='1' dix='contenido'>
+
+
 <div class='modal-header'>
 	<h5 class='modal-title'>Actualizar foto</h5>
 </div>
@@ -25,7 +32,7 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class='btn btn-warning btn-sm' type='submit'>Guardar</button>
-		<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" title='Cancelar'>Cancelar</button>
+		<button class='btn btn-warning' type='submit'>Guardar</button>
+		<button type="button" class="btn btn-warning" data-dismiss="modal" title='Cancelar'>Cancelar</button>
   </div>
 </form>

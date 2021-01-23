@@ -36,6 +36,7 @@
 	$parentesco="";
 	$telparentesco="";
 	$idsucursal="";
+	$autoriza="0";
 	$per = $db->personal();
 	$sucursal = $db->sucursal_lista();
 
@@ -76,6 +77,7 @@
 		$contacto=$pd->contacto;
 		$parentesco=$pd->parentesco;
 		$telparentesco=$pd->telparentesco;
+		$autoriza=$pd->autoriza;
 	}
 	?>
 	<nav aria-label='breadcrumb'>
@@ -214,6 +216,17 @@
 						?>
 						</select>
 					</div>
+
+				<?php
+					echo "<div class='col-4'>";
+						echo "<label for=''>Activo:</label>";
+						echo "<select class='form-control form-control-sm' name='autoriza' id='autoriza'>";
+						echo "<option value='1'"; if($autoriza=="1") echo "selected"; echo ">Activo</option>";
+						echo "<option value='0'"; if($autoriza=="0") echo "selected"; echo ">Inactivo</option>";
+						echo "</select>";
+					echo "</div>";
+				?>
+
 				</div>
 				<hr>
 

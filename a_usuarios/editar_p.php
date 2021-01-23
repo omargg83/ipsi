@@ -26,16 +26,10 @@
 		$autoriza=$pd->autoriza;
 	}
 
-	if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
-		$dix='trabajo';
-	}
-	if($_SESSION['nivel']==2 or $_SESSION['nivel']==3){
-		$dix='contenido';
-	}
 ?>
 
 <div class="container">
-	<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des="a_usuarios/editar" dix='<?php echo $dix;?>' desid="idusuario" v_idusuario="<?php echo $idusuario; ?>">
+	<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des="a_usuarios/editar" dix='contenido' desid="idusuario" v_idusuario="<?php echo $idusuario; ?>">
 		<input type="hidden" class="form-control form-control-sm" name="idusuario" id="idusuario" value="<?php echo $idusuario ;?>" placeholder="No" readonly>
 		<div class='card'>
 		<div class='card-header'>
@@ -86,15 +80,16 @@
 								if($_SESSION['nivel']==1)
 								echo "<option value='1'"; if($nivel=="1") echo "selected"; echo ">1 Administrador</option>";
 
-								if($_SESSION['nivel']==1 or ($_SESSION['nivel']==3 and $idusuario!=$_SESSION['idusuario']) or $_SESSION['nivel']==4)
+								if($_SESSION['nivel']==1 or ($_SESSION['nivel']==3 and $idusuario!=$_SESSION['idusuario']) or ($_SESSION['nivel']==4 and $idusuario!=$_SESSION['idusuario']))
 								echo "<option value='2'"; if($nivel=="2") echo "selected"; echo ">2 Terapeuta</option>";
 
-								if(($_SESSION['nivel']==1 or ($_SESSION['nivel']==3 and $idusuario==$_SESSION['idusuario'])or $_SESSION['nivel']==4)){
+								if(($_SESSION['nivel']==1
+								or ($_SESSION['nivel']==3 and $idusuario==$_SESSION['idusuario'])
+								or ($_SESSION['nivel']==4 and $idusuario!=$_SESSION['idusuario']))){
 									echo "<option value='3'"; if($nivel=="3") echo "selected"; echo ">3 Admin Sucursal</option>";
 								}
 
-
-								if($_SESSION['nivel']==1 or $_SESSION['nivel']==4)
+								if($_SESSION['nivel']==1 or ($_SESSION['nivel']==4 and $idusuario==$_SESSION['idusuario']))
 								echo "<option value='4'"; if($nivel=="4") echo "selected"; echo ">4 Secretaria</option>";
 								echo "</select>";
 						echo "</div>";
@@ -126,12 +121,9 @@
 					<button class="btn btn-warning" type="submit">Guardar</button>
 					<?php
 						if($idusuario>0){
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1'>Foto</button>";
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1'>Contraseña</button>";
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/horarios' v_idusuario='$idusuario' dix='$dix'>Horarios</button>";
-						}
-						if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/lista' dix='$dix'>Regresar</button>";
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' v_mi='1' omodal='1'>Foto</button>";
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1' v_mi='1'>Contraseña</button>";
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/horarios' v_idusuario='$idusuario' dix='contenido' v_mi='1'>Horarios</button>";
 						}
 					?>
 

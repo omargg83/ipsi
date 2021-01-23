@@ -100,20 +100,98 @@
 											echo  "<option value='us_$key->idusuario'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
 											echo "</option>";
 										}
-									}
-									if($_SESSION['nivel']==0){
-										$personal=$db->personal_e();
-										foreach($personal as $key){
-											echo  "<option value='$key->idusuario'";
-											if ($key->idusuario==$idpara)	echo  " selected ";
-											echo  ">".$key->nombre." ".$key->apellidop." ".$key->apellidom;
-												if($key->nivel==1) echo " - (Admin General)";
-												if($key->nivel==2) echo " - (Terapeuta)";
-												if($key->nivel==3) echo " - (Admin Sucursal)";
-												if($key->nivel==4) echo " - (Secretaria)";
+
+										echo  "<optgroup label='Secretaria'>";
+										$sql="select * from usuarios where nivel=4 and idusuario!='".$_SESSION['idusuario']."'";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='us_$key->idusuario'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
 											echo "</option>";
 										}
 									}
+									if($_SESSION['nivel']==3){
+										echo  "<optgroup label='Pacientes'>";
+										$sql="select * from clientes where idsucursal='".$_SESSION['idsucursal']."'";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='cl_$key->id'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
+
+										echo  "<optgroup label='Terapeutas'>";
+										$sql="select * from usuarios where idsucursal='".$_SESSION['idsucursal']."' and nivel=2 and idusuario!='".$_SESSION['idusuario']."'";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='us_$key->idusuario'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
+
+										echo  "<optgroup label='Directores'>";
+										$sql="select * from usuarios where nivel=3 and idusuario!='".$_SESSION['idusuario']."'";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='us_$key->idusuario'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
+
+										echo  "<optgroup label='Director general'>";
+										$sql="select * from usuarios where nivel=1 and idusuario!='".$_SESSION['idusuario']."'";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='us_$key->idusuario'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
+
+										echo  "<optgroup label='Secretaria'>";
+										$sql="select * from usuarios where nivel=4 and idusuario!='".$_SESSION['idusuario']."'";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='us_$key->idusuario'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
+									}
+									if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
+										echo  "<optgroup label='Pacientes'>";
+										$sql="select * from clientes order by nombre";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='cl_$key->id'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
+
+										echo  "<optgroup label='Terapeutas'>";
+										$sql="select * from usuarios where nivel=2 order by nombre";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='us_$key->idusuario'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
+
+										echo  "<optgroup label='Directores'>";
+										$sql="select * from usuarios where nivel=3 order by nombre";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='us_$key->idusuario'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
+
+										echo  "<optgroup label='Secretaria'>";
+										$sql="select * from usuarios where nivel=4";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='us_$key->idusuario'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
+
+										echo  "<optgroup label='Admin General'>";
+										$sql="select * from usuarios where nivel=1 and idusuario!='".$_SESSION['idusuario']."'";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='us_$key->idusuario'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
+									}
+
 								echo "</select>";
 							}
 							else{

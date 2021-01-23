@@ -80,6 +80,7 @@
 
 					if ($sth->rowCount()>0){
 						$suma=1;
+
 						$CLAVE=$sth->fetch(PDO::FETCH_OBJ);
 						$_SESSION['autoriza']=1;
 						$_SESSION['admin']=0;

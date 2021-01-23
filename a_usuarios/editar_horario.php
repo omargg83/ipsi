@@ -28,16 +28,22 @@
     $hasta = date ( 'h:i' , $hasta);
   }
 
-	if($_SESSION['nivel']==1  or $_SESSION['nivel']==4){
-		$dix='trabajo';
+	$mi="";
+	if (isset($_REQUEST['mi'])){
+		$mi="1";
 	}
-	if($_SESSION['nivel']==2 or $_SESSION['nivel']==3){
-		$dix='contenido';
-	}
+
 ?>
 
 <div class="container">
-		<form is="f-submit" id="form_cliente" db="a_usuarios/db_" fun="guardar_horario" des="a_usuarios/horarios" desid='idhorario' dix='<?php echo $dix;?>' v_idusuario='<?php echo $idusuario;?>'>
+	<?php
+		if($mi!=1){
+			echo "<form is='f-submit' id='form_cliente' db='a_usuarios/db_' fun='guardar_horario' des='a_usuarios/horarios' desid='idhorario' dix='trabajo' v_idusuario='$idusuario'>";
+		}
+		else{
+			echo "<form is='f-submit' id='form_cliente' db='a_usuarios/db_' fun='guardar_horario' des='a_usuarios/horarios' desid='idhorario' dix='contenido' v_idusuario='$idusuario' v_mi='1'>";
+		}
+		?>
 			<input type="hidden" name="idhorario" id="idhorario" value="<?php echo $idhorario;?>">
 			<input type="hidden" name="idusuario" id="idusuario" value="<?php echo $idusuario;?>">
 			<div class="card">
@@ -84,11 +90,11 @@
 						<div class='col-12'>
 							<?php
 								echo "<button class='btn btn-warning btn-sm' type='submit'>Guardar</button>";
-								if($_SESSION['nivel']==1){
-                	echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/horarios' dix='$dix' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
+								if($mi!=1){
+	                echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/horarios' dix='trabajo' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
 								}
 								else{
-									echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/horarios' dix='$dix' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
+									echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/horarios' dix='contenido' title='regresar' v_idusuario='$idusuario' v_mi='1'>Regresar</button>";
 								}
 							?>
 						</div>

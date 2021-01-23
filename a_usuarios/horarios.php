@@ -4,13 +4,13 @@
 	$idusuario=$_REQUEST['idusuario'];
 	$pd = $db->usuario_editar($idusuario);
 	$nombre=$pd->nombre;
+	$dix='trabajo';
 
-	if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
-		$dix='trabajo';
+	$mi="";
+	if (isset($_REQUEST['mi'])){
+		$mi="1";
 	}
-	if($_SESSION['nivel']==2 or $_SESSION['nivel']==3 ){
-		$dix='contenido';
-	}
+
 ?>
 
 <div class="container">
@@ -32,9 +32,16 @@
 					<div class='col-12'>
 						<?php
 
-							echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar_horario' dix='$dix' title='regresar' v_idusuario='$idusuario' v_idhorario='0'>Agregar horario</button>";
-							echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar' dix='$dix' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
+							if($mi!=1){
+								echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar_horario' dix='trabajo' title='regresar' v_idusuario='$idusuario' v_idhorario='0'>Agregar horario</button>";
 
+								echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar' dix='trabajo' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
+							}
+							else{
+								echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar_horario' dix='contenido' title='regresar' v_idusuario='$idusuario' v_idhorario='0' v_mi='1'>Agregar horario</button>";
+
+								echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar_p' dix='contenido' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
+							}
 						?>
 					</div>
 				</div>
@@ -60,12 +67,17 @@
 						foreach($horarios as $key){
 							echo "<div class='body-row' draggable='true'>";
 								echo "<div class='cell'>";
-									echo "<div class='btn-group'>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/editar_horario' dix='$dix' v_idhorario='$key->idhorario'>Editar</button>";
+								if($mi!=1){
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/editar_horario' dix='trabajo' v_idhorario='$key->idhorario'>Editar</button>";
 
-									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_usuarios/horarios' dix='$dix' db='a_consultorios/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idusuario='$idusuario' tp='¿Desea eliminar el horario seleccionado?' title='Borrar'>Eliminar</button>";
-									echo "</div>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/horarios' dix='trabajo' db='a_usuarios/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idusuario='$idusuario' tp='¿Desea eliminar el horario seleccionado?' title='Borrar'>Eliminar</button>";
+								}
+								else{
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/editar_horario' dix='contenido' v_idhorario='$key->idhorario' v_mi='1'>Editar</button>";
+
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/horarios' dix='contenido' db='a_usuarios/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idusuario='$idusuario' tp='¿Desea eliminar el horario seleccionado?' title='Borrar' v_mi='1'>Eliminar</button>";
+								}
 
 								echo "</div>";
 								echo "<div class='cell' data-titulo='Dia'>".$key->desde_dia."</div>";

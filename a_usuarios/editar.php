@@ -26,12 +26,7 @@
 		$autoriza=$pd->autoriza;
 	}
 
-	if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
-		$dix='trabajo';
-	}
-	if($_SESSION['nivel']==2 or $_SESSION['nivel']==3){
-		$dix='contenido';
-	}
+	$dix='trabajo';
 ?>
 
 <div class="container">
@@ -130,9 +125,9 @@
 							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1'>Contraseña</button>";
 							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/horarios' v_idusuario='$idusuario' dix='$dix'>Horarios</button>";
 						}
-						if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/lista' dix='$dix'>Regresar</button>";
-						}
+
+						echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/lista' dix='$dix'>Regresar</button>";
+
 					?>
 
 				</div>
