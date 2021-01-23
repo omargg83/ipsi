@@ -22,11 +22,6 @@
 						echo "<li class='nav-item active'><a class='nav-link barranav' is='a-link' title='Mostrar todo' id='lista_comision' des='a_roles/lista' dix='lista'><span>Roles</span></a></li>";
 					}
 				?>
-
-
-
-
-
 			</ul>
 	  </div>
 	</nav>

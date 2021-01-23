@@ -51,7 +51,7 @@ class Cliente extends ipsi{
 		try{
 			$pagina=$pagina*$_SESSION['pagina'];
 
-			if($_SESSION['nivel']==1){
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
 				$sql="SELECT * FROM clientes limit $pagina,".$_SESSION['pagina']."";
 			}
 
@@ -59,6 +59,10 @@ class Cliente extends ipsi{
 				$sql="SELECT * FROM clientes
 				left outer join cliente_terapeuta on cliente_terapeuta.idcliente=clientes.id where cliente_terapeuta.idusuario='".$_SESSION['idusuario']."' limit $pagina,".$_SESSION['pagina']."";
 			}
+			if($_SESSION['nivel']==3){
+				$sql="SELECT * FROM clientes where idsucursal='".$_SESSION['idsucursal']."' limit $pagina,".$_SESSION['pagina']."";
+			}
+
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -69,11 +73,14 @@ class Cliente extends ipsi{
 	}
 	public function pacientes_buscar($texto){
 		try{
-			if($_SESSION['nivel']==1){
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
 				$sql="SELECT * FROM clientes where nombre like '%$texto%'";
 			}
 			if($_SESSION['nivel']==2){
 				$sql="SELECT * FROM clientes left outer join cliente_terapeuta on cliente_terapeuta.idcliente=clientes.id where cliente_terapeuta.idusuario='".$_SESSION['idusuario']."' and clientes.nombre like '%$texto%'";
+			}
+			if($_SESSION['nivel']==3){
+				$sql="SELECT * FROM clientes where idsucursal='".$_SESSION['idsucursal']."' and nombre like '%$texto%'";
 			}
 
 			$sth = $this->dbh->prepare($sql);
@@ -203,13 +210,6 @@ class Cliente extends ipsi{
 			$arreglo+=array('idsucursal'=>clean_var($_REQUEST['idsucursal']));
 		}
 
-
-
-
-
-		if (isset($_REQUEST['idusuario'])){
-			$arreglo+=array('idusuario'=>clean_var($_REQUEST['idusuario']));
-		}
 		if (isset($_REQUEST['observaciones'])){
 			$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
 		}

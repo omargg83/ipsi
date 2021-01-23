@@ -39,7 +39,21 @@ class Ticket extends ipsi{
 		$arreglo =array();
 		$idticket=$_REQUEST['idticket'];
 
-		$arreglo+=array('idpara'=>$_REQUEST['idpara']);
+		if(!isset($_REQUEST['asunto']) or strlen(trim($_REQUEST['asunto']))==0){
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"Falta asunto");
+			return json_encode($arreglo);
+		}
+
+		if(!isset($_REQUEST['texto_ticket']) or strlen(trim($_REQUEST['texto_ticket']))==0){
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"Falta mensaje");
+			return json_encode($arreglo);
+		}
+
+
 
 		$arreglo+=array('asunto'=>$_REQUEST['asunto']);
 		$arreglo+=array('mensaje'=>$_REQUEST['texto_ticket']);
@@ -119,7 +133,22 @@ class Ticket extends ipsi{
 
 			$arreglo+=array('numero'=>$numero);
 			$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
-			$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
+			$para=explode("_",$_REQUEST['idpara']);
+
+			if($para[0]=="us"){
+				$arreglo+=array('idpara_usuario'=>$para[1]);
+			}
+			else{
+				$arreglo+=array('idpara_cliente'=>$para[1]);
+			}
+
+			if($_SESSION['nivel']==666){
+				$arreglo+=array('idde_cliente'=>$_SESSION['idusuario']);
+			}
+			else{
+				$arreglo+=array('idde_usuario'=>$_SESSION['idusuario']);
+			}
+
 			$arreglo+=array('estado'=>"Abierto");
 			$x=$this->insert('ticket', $arreglo);
 		}
@@ -133,6 +162,7 @@ class Ticket extends ipsi{
 		$arreglo =array();
 		$idticket=$_REQUEST['idticket'];
 		$arreglo+=array('idpadre'=>$idticket);
+
 		if (isset($_REQUEST['asunto'])){
 			$arreglo+=array('asunto'=>$_REQUEST['asunto']);
 		}
@@ -205,14 +235,13 @@ class Ticket extends ipsi{
 				$arreglo+=array('imagen5'=>$nombreFile);
 			}
 		}
-
-
 		$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
+
 		if($_SESSION['nivel']==666){
-			$arreglo+=array('idcliente'=>$_SESSION['idusuario']);
+			$arreglo+=array('idde_cliente'=>$_SESSION['idusuario']);
 		}
 		else{
-			$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
+			$arreglo+=array('idde_usuario'=>$_SESSION['idusuario']);
 		}
 		$x=$this->insert('ticket', $arreglo);
 
@@ -228,7 +257,22 @@ class Ticket extends ipsi{
 	}
 	public function ticket_lista($pagina){
 		$pagina=$pagina*$_SESSION['pagina'];
-		$sql="select * from ticket where (idusuario=".$_SESSION['idusuario']." or idpara='".$_SESSION['idusuario']."') and idpadre is null order by estado, numero desc limit $pagina,".$_SESSION['pagina']."";
+		if($_SESSION['nivel']==666){
+			$sql="select * from ticket where
+			(idde_cliente=".$_SESSION['idusuario']." or idpara_cliente=".$_SESSION['idusuario'].")
+			and idpadre is null order by estado, numero desc limit $pagina,".$_SESSION['pagina']."";
+		}
+		if($_SESSION['nivel']==2){
+			$sql="select * from ticket where
+			(idde_usuario=".$_SESSION['idusuario']." or idpara_usuario=".$_SESSION['idusuario'].")
+			and idpadre is null order by estado, numero desc limit $pagina,".$_SESSION['pagina']."";
+		}
+		if($_SESSION['nivel']==3){
+			$sql="select * from ticket where
+			(idde_usuario=".$_SESSION['idusuario']." or idpara_usuario=".$_SESSION['idusuario'].")
+			and idpadre is null order by estado, numero desc limit $pagina,".$_SESSION['pagina']."";
+		}
+		//echo $sql;
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
@@ -242,10 +286,8 @@ class Ticket extends ipsi{
 
 	public function cliente_editar($id){
 		try{
-			$sql="select * from clientes where id=:id";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":id",$id);
-			$sth->execute();
+			$sql="select * from clientes where id=$id";
+			$sth = $this->dbh->query($sql);
 			return $sth->fetch(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
@@ -255,8 +297,7 @@ class Ticket extends ipsi{
 	public function usuarios_editar($id){
 		try{
 			$sql="select * from usuarios where idusuario=$id";
-			$sth = $this->dbh->prepare($sql);
-			$sth->execute();
+			$sth = $this->dbh->query($sql);
 			return $sth->fetch(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){

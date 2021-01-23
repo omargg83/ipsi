@@ -59,7 +59,7 @@
 					if($_SESSION['nivel']==3){
 						$_SESSION['tipo_user'] = "Admin Sucursal";
 					}
-					if($_SESSION['nivel']==3){
+					if($_SESSION['nivel']==4){
 						$_SESSION['tipo_user'] = "Secretaria";
 					}
 					$_SESSION['idsucursal']=$CLAVE->idsucursal;

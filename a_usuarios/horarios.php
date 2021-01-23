@@ -5,7 +5,7 @@
 	$pd = $db->usuario_editar($idusuario);
 	$nombre=$pd->nombre;
 
-	if($_SESSION['nivel']==1){
+	if($_SESSION['nivel']==1 or $_SESSION['nivel']==3){
 		$dix='trabajo';
 	}
 	if($_SESSION['nivel']==2){

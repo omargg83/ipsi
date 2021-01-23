@@ -43,7 +43,12 @@
 
 	<?php
 		if(strlen($texto)==0){
-			$sql="SELECT count(idconsultorio) as total FROM consultorio";
+			if($_SESSION['nivel']==1)
+				$sql="SELECT count(idconsultorio) as total FROM consultorio";
+
+			if($_SESSION['nivel']==3)
+			$sql="SELECT count(idconsultorio) as total FROM consultorio where idsucursal='".$_SESSION['idsucursal']."'";
+
 			$sth = $db->dbh->query($sql);
 			$contar=$sth->fetch(PDO::FETCH_OBJ);
 			$paginas=ceil($contar->total/$_SESSION['pagina']);

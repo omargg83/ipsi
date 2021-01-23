@@ -17,7 +17,7 @@
 				<a class='nav-link barranav' is="a-link" des='a_usuarios/lista' dix='trabajo' tp="router">Lista</a>
 			</li>
 			<?php
-				if($_SESSION['nivel']==1){
+				if($_SESSION['nivel']==1 or $_SESSION['nivel']==3){
 			?>
 				<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal'  is='a-link' des='a_usuarios/editar' dix='trabajo' v_idusuario='0'>Nuevo</a></li>
 			<?php

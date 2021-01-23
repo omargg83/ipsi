@@ -26,7 +26,7 @@
 
 			<?php
 				foreach($pd as $key){
-					echo "<div class='body-row' draggable='true'>";
+					echo "<div class='body-row'>";
 						echo "<div class='cell'>";
 							echo "<div class='btn-group'>";
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_ticket/editar' dix='trabajo' v_idticket='$key->idticket' title='editar'>Ver</button>";
@@ -35,19 +35,30 @@
 
 						echo "<div class='cell' data-titulo='Número'>$key->numero</div>";
 						echo "<div class='cell' data-titulo='De'>";
-							if($key->idusuario>0){
-								$de=$db->usuarios_editar($key->idusuario);
+						/*
+						echo "<br>usuario:".$key->idde_usuario;
+						echo "<br>cliente:".$key->idde_cliente;
+						*/
+							if($key->idde_usuario>0){
+								$de=$db->usuarios_editar($key->idde_usuario);
 							}
 							else{
-								$de=$db->cliente_editar($key->idcliente);
+								$de=$db->cliente_editar($key->idde_cliente);
 							}
 							echo $de->nombre." ".$de->apellidop." ".$de->apellidop;
 						echo "</div>";
 						echo "<div class='cell' data-titulo='Para'>";
-							if($key->idpara>0){
-								$per=$db->usuarios_editar($key->idpara);
+						/*
+						echo "<br>usuario:".$key->idpara_usuario;
+						echo "<br>cliente:".$key->idpara_cliente;
+						*/
+							if($key->idpara_usuario>0){
+								$para=$db->usuarios_editar($key->idpara_usuario);
 							}
-							echo $per->nombre." ".$per->apellidop." ".$per->apellidop;
+							else{
+								$para=$db->cliente_editar($key->idpara_cliente);
+							}
+							echo $para->nombre." ".$para->apellidop." ".$para->apellidop;
 						echo "</div>";
 						echo "<div class='cell' data-titulo='Asunto'>$key->asunto</div>";
 						echo "<div class='cell' data-titulo='Estado'>$key->estado</div>";
@@ -56,6 +67,7 @@
 			?>
 	</div>
 	<?php
+	/*
 		if(strlen($texto)==0){
 			$sql="select count(idticket) as total from ticket where (idusuario=".$_SESSION['idusuario']." or idpara='".$_SESSION['idusuario']."') and idpadre is null order by estado, numero desc";
 			$sth = $db->dbh->query($sql);
@@ -65,5 +77,6 @@
 
 			echo $db->paginar($paginas,$pag,$pagx,"a_ticket/lista","trabajo");
 		}
+		*/
 	?>
 </div>

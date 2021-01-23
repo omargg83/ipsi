@@ -6,6 +6,10 @@
 	$numero="";
 	$asunto="";
 	$mensaje="";
+	$idpara_cliente="";
+	$idpara_usuario="";
+	$idde_cliente="";
+	$idde_usuario="";
 	$idpara="";
 	if($idticket>0){
 		$pd = $db->ticket_editar($idticket);
@@ -18,7 +22,11 @@
 		$imagen3=$pd->imagen3;
 		$imagen4=$pd->imagen4;
 		$imagen5=$pd->imagen5;
-		$idpara=$pd->idpara;
+		$idpara_cliente=$pd->idpara_cliente;
+		$idpara_usuario=$pd->idpara_usuario;
+
+		$idde_cliente=$pd->idde_cliente;
+		$idde_usuario=$pd->idde_usuario;
 	}
 
 
@@ -50,34 +58,50 @@
 								echo "<label>Enviar a:</label>";
 								echo $_SESSION['nivel'];
 								echo "<select name='idpara' id='idpara' class='form-control form-control-sm' >";
-
-
 									if($_SESSION['nivel']==666){
 										echo  "<optgroup label='Terapeutas'>";
 										$sth = $db->dbh->query("select * from cliente_terapeuta left outer join usuarios on usuarios.idusuario=cliente_terapeuta.idusuario where idcliente='".$_SESSION['idusuario']."'");
 										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
-											echo  "<option value='$key->idusuario'";
+											echo  "<option value='us_$key->idusuario'";
 											if ($key->idusuario==$idpara)	echo  " selected ";
 											echo  ">".$key->nombre." ".$key->apellidop." ".$key->apellidom;
 											echo "</option>";
 										}
-
 										echo  "<optgroup label='Administrador de sucursal'>";
-
 										$sql="select * from sucursal_administracion left outer join usuarios on usuarios.idusuario=sucursal_administracion.idusuario where sucursal_administracion.idsucursal='".$_SESSION['idsucursal']."'";
 										$sth = $db->dbh->query($sql);
 										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
-											echo  "<option value='$key->idusuario'";
+											echo  "<option value='us_$key->idusuario'";
 											if ($key->idusuario==$idpara)	echo  " selected ";
 											echo  ">".$key->nombre." ".$key->apellidop." ".$key->apellidom;
 											echo "</option>";
 										}
+									}
+									if($_SESSION['nivel']==2){
+										echo  "<optgroup label='Pacientes'>";
+										$sql="select * from cliente_terapeuta left outer join clientes on clientes.id=cliente_terapeuta.idcliente where cliente_terapeuta.idusuario='".$_SESSION['idusuario']."'";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='cl_$key->id'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
+										echo  "<optgroup label='Administrador'>";
+										$sql="select * from usuarios where idsucursal='".$_SESSION['idsucursal']."' and nivel=3 and idusuario!='".$_SESSION['idusuario']."'";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='us_$key->idusuario'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
 
+										echo  "<optgroup label='Terapeutas'>";
+										$sql="select * from usuarios where idsucursal='".$_SESSION['idsucursal']."' and nivel=2 and idusuario!='".$_SESSION['idusuario']."'";
+										$sth = $db->dbh->query($sql);
+										foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+											echo  "<option value='us_$key->idusuario'>".$key->nombre." ".$key->apellidop." ".$key->apellidom;
+											echo "</option>";
+										}
 									}
 									if($_SESSION['nivel']==0){
-
-
-
 										$personal=$db->personal_e();
 										foreach($personal as $key){
 											echo  "<option value='$key->idusuario'";
@@ -90,15 +114,17 @@
 											echo "</option>";
 										}
 									}
-
-
-
 								echo "</select>";
 							}
 							else{
 								echo "<label>Enviar a:</label>";
-								$per=$db->usuarios_editar($idpara);
-								echo "<input value='$per->nombre $per->apellidop $per->apellidom' class='form-control form-control-sm' readonly>";
+								if(strlen($idpara_usuario)>0){
+									$para=$db->usuarios_editar($idpara_usuario);
+								}
+								else{
+									$para=$db->cliente_editar($idpara_cliente);
+								}
+								echo "<input value='$para->nombre $para->apellidop $para->apellidom' class='form-control form-control-sm' readonly>";
 							}
 						?>
 					</div>
@@ -212,12 +238,11 @@
 	foreach($reg as $v2){
 		echo "<div class='card mb-3'>";
 			echo "<div class='card-header'>";
-
-				if($v2->idusuario>0){
-					$de=$db->usuarios_editar($v2->idusuario);
+				if($v2->idde_usuario>0){
+					$de=$db->usuarios_editar($v2->idde_usuario);
 				}
 				else{
-					$de=$db->cliente_editar($v2->idcliente);
+					$de=$db->cliente_editar($v2->idde_cliente);
 				}
 				echo $de->nombre." ".$de->apellidop." ".$de->apellidop;
 

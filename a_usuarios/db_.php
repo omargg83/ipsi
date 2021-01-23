@@ -31,9 +31,13 @@ class Usuario extends ipsi{
 	}
 	public function sucursal(){
 		try{
+			if($_SESSION['nivel']==1)
 			$sql="SELECT * FROM sucursal";
-			$sth = $this->dbh->prepare($sql);
-			$sth->execute();
+
+			if($_SESSION['nivel']==2 or $_SESSION['nivel']==3)
+			$sql="SELECT * FROM sucursal where idsucursal=".$_SESSION['idsucursal'];
+
+			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
@@ -46,15 +50,26 @@ class Usuario extends ipsi{
 		if($_SESSION['nivel']==1){
 			$sql="select * from usuarios limit $pagina,".$_SESSION['pagina']."";
 		}
-		else{
+		if($_SESSION['nivel']==2){
 			$sql="select * from usuarios where idusuario=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
+		}
+		if($_SESSION['nivel']==3){
+			$sql="select * from usuarios where idsucursal=".$_SESSION['idsucursal']." and nivel=2 limit $pagina,".$_SESSION['pagina']."";
 		}
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
 	public function usuario_buscar($texto){
 		try{
+			if($_SESSION['nivel']==1)
 			$sql="SELECT * FROM usuarios where nombre like '%$texto%'";
+
+			if($_SESSION['nivel']==2)
+			$sql="SELECT * FROM usuarios where idusuario=".$_SESSION['idusuario']." and nombre like '%$texto%'";
+
+			if($_SESSION['nivel']==3)
+			$sql="SELECT * FROM usuarios where idsucursal=".$_SESSION['idsucursal']." and nivel=2 and nombre like '%$texto%'";
+
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
@@ -75,7 +90,6 @@ class Usuario extends ipsi{
 	}
 
 	public function usuario_editar($id){
-
 		$sql="select * from usuarios where idusuario='$id'";
 		$sth = $this->dbh->query($sql);
 		return $sth->fetch(PDO::FETCH_OBJ);
@@ -84,6 +98,7 @@ class Usuario extends ipsi{
 		$x="";
 		$arreglo =array();
 		$idusuario=$_REQUEST['idusuario'];
+		$correo=trim($_REQUEST['correo']);
 
 		$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		$arreglo+=array('apellidop'=>$_REQUEST['apellidop']);
@@ -91,19 +106,37 @@ class Usuario extends ipsi{
 		if (isset($_REQUEST['apellidom'])){
 			$arreglo+=array('apellidom'=>$_REQUEST['apellidom']);
 		}
-		if (isset($_REQUEST['correo'])){
-			$arreglo+=array('correo'=>$_REQUEST['correo']);
-		}
+
+		$arreglo+=array('correo'=>$correo);
+
 		if (isset($_REQUEST['nivel'])){
 			$arreglo+=array('nivel'=>$_REQUEST['nivel']);
 		}
-		if (isset($_REQUEST['idsucursal'])){
-			$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
+		if (isset($_REQUEST['autoriza'])){
+			$arreglo+=array('autoriza'=>$_REQUEST['autoriza']);
 		}
 
+		if($_SESSION['nivel']==1){
+			if (isset($_REQUEST['idsucursal'])){
+				$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
+			}
+		}
 		$_SESSION['nombrec']=$_REQUEST['nombre']." ".$_REQUEST['apellidop'];
-
 		if($idusuario==0){
+
+			$sql="select * from usuarios where correo='$correo'";
+			$sth = $this->dbh->prepare($sql);
+			$a=$sth->execute();
+			if($sth->rowCount()>0){
+				$arreglo+=array('id1'=>0);
+				$arreglo+=array('error'=>1);
+				$arreglo+=array('terror'=>"Ya existe el usuario favor de verificar");
+				return json_encode($arreglo);
+			}
+
+			if($_SESSION['nivel']==3){
+				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
+			}
 			$x=$this->insert('usuarios', $arreglo);
 		}
 		else{
@@ -203,7 +236,16 @@ class Usuario extends ipsi{
 		$x=$this->borrar('usuarios_horarios',"idhorario",$idhorario);
 		return $x;
 	}
-
+	public function sucursal_ver($id){
+		try{
+			$sql="select * from sucursal where idsucursal=$id";
+			$sth = $this->dbh->query($sql);
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
 }
 
 $db = new Usuario();

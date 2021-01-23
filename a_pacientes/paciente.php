@@ -49,40 +49,38 @@
 					</div>
 				</div>
 			</div>
-			<div class='row p-3'>
-				<div class='card col-12'>
-					<div class='card-body'>
-						<div class='row'>
-							<div class='col-12 text-center'>
-								<h5>Terapias</h5>
-							</div>
-						</div>
-						<div class='row'>
-							<div class='col-12'>
-							<?php
-								$resp=$db->terapias_paciente($idpaciente);
-								foreach($resp as $key){
-									echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/track' dix='trabajo' v_idpaciente='$idpaciente' v_idterapia='$key->id'>$key->nombre</button>";
-								}
-							?>
-							</div>
-							<div class='col-4'>
-
-							</div>
-							<div class='col-4'>
-
-							</div>
-						</div>
-					</div>
-					<div class='card-body'>
-						<div class='col-12 text-center'>
-							<?php
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/terapias_agregar' dix='trabajo' v_idpaciente='$idpaciente' >Nueva terapia</button>";
-							?>
-						</div>
-					</div>
-				</div>
-			</div>
+			<?php
+				if($_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3){
+					echo "<div class='row p-3'>";
+						echo "<div class='card col-12'>";
+							echo "<div class='card-body'>";
+								echo "<div class='row'>";
+									echo "<div class='col-12 text-center'>";
+										echo "<h5>Terapias</h5>";
+									echo "</div>";
+								echo "</div>";
+								echo "<div class='row'>";
+									echo "<div class='col-12'>";
+										$resp=$db->terapias_paciente($idpaciente);
+										foreach($resp as $key){
+											echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/track' dix='trabajo' v_idpaciente='$idpaciente' v_idterapia='$key->id'>$key->nombre</button>";
+										}
+									echo "</div>";
+									echo "<div class='col-4'>";
+									echo "</div>";
+									echo "<div class='col-4'>";
+									echo "</div>";
+								echo "</div>";
+							echo "</div>";
+							echo "<div class='card-body'>";
+								echo "<div class='col-12 text-center'>";
+										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/terapias_agregar' dix='trabajo' v_idpaciente='$idpaciente' >Nueva terapia</button>";
+								echo "</div>";
+							echo "</div>";
+						echo "</div>";
+					echo "</div>";
+				}
+			?>
 			<div class='row p-3'>
 				<div class='card col-12'>
 					<div class='card-body'>
@@ -175,7 +173,6 @@
 								echo "</div>";
 							}
 						?>
-
 						<hr>
 						<div class='row'>
 							<div class='col-12'>

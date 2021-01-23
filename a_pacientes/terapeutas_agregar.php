@@ -8,7 +8,7 @@
 
 
   /////////////////////Relaciones
-	$sql="select * from usuarios";
+	$sql="select * from usuarios where idsucursal=$paciente->idsucursal and nivel=2";
 	$sth = $db->dbh->prepare($sql);
 	$sth->execute();
 	$relaciones=$sth->fetchAll(PDO::FETCH_OBJ);

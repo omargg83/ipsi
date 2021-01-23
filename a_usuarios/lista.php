@@ -22,6 +22,7 @@
 		<div class='cell'>Nombre</div>
 		<div class='cell'>Nivel</div>
 		<div class='cell'>Correo</div>
+		<div class='cell'>Sucursal</div>
 		<div class='cell'>Activo</div>
 	</div>
 
@@ -36,8 +37,17 @@
 								</div>
 							</div>
 						<div class='cell' data-titulo='Nombre'><?php echo $key->nombre; ?></div>
-						<div class='cell' data-titulo='Nivel'><?php echo $key->nivel; ?></div>
+						<div class='cell' data-titulo='Nivel'><?php
+							if($key->nivel==1) echo "Admin General";
+							if($key->nivel==2) echo "Terapeuta";
+							if($key->nivel==3) echo "Admin Sucursal";
+							if($key->nivel==4) echo "Secretaria";
+
+						 ?></div>
 						<div class='cell' data-titulo='Correo'><?php echo $key->correo; ?></div>
+						<div class='cell' data-titulo='Sucursal'><?php
+							$suc=$db->sucursal_ver($key->idsucursal);
+							echo $suc->nombre; ?></div>
 						<div class='cell' data-titulo='Activo'>
 						<?php
 							if ($key->autoriza==0) { echo "Inactivo"; }
