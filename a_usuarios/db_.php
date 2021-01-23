@@ -31,7 +31,7 @@ class Usuario extends ipsi{
 	}
 	public function sucursal(){
 		try{
-			if($_SESSION['nivel']==1)
+			if($_SESSION['nivel']==1 OR $_SESSION['nivel']==4)
 			$sql="SELECT * FROM sucursal";
 
 			if($_SESSION['nivel']==2 or $_SESSION['nivel']==3)
@@ -56,6 +56,9 @@ class Usuario extends ipsi{
 		if($_SESSION['nivel']==3){
 			$sql="select * from usuarios where idsucursal=".$_SESSION['idsucursal']." and nivel=2 limit $pagina,".$_SESSION['pagina']."";
 		}
+		if($_SESSION['nivel']==4){
+			$sql="select * from usuarios where nivel>1 limit $pagina,".$_SESSION['pagina']."";
+		}
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
@@ -69,6 +72,9 @@ class Usuario extends ipsi{
 
 			if($_SESSION['nivel']==3)
 			$sql="SELECT * FROM usuarios where idsucursal=".$_SESSION['idsucursal']." and nivel=2 and nombre like '%$texto%'";
+
+			if($_SESSION['nivel']==4)
+			$sql="SELECT * FROM usuarios where nivel>1 and nombre like '%$texto%'";
 
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);

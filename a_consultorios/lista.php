@@ -43,7 +43,7 @@
 
 	<?php
 		if(strlen($texto)==0){
-			if($_SESSION['nivel']==1)
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4)
 				$sql="SELECT count(idconsultorio) as total FROM consultorio";
 
 			if($_SESSION['nivel']==3)

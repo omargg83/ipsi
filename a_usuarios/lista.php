@@ -62,7 +62,18 @@
 
 	<?php
 		if(strlen($texto)==0){
-			$sql="SELECT count(idusuario) as total FROM usuarios";
+			if($_SESSION['nivel']==1 OR $_SESSION['nivel']==4){
+				$sql="SELECT count(idusuario) as total FROM usuarios";
+			}
+			if($_SESSION['nivel']==2){
+				$sql="SELECT count(idusuario) as total FROM usuarios where idusuario=".$_SESSION['idusuario']."";
+			}
+			if($_SESSION['nivel']==3){
+				$sql="SELECT count(idusuario) as total from usuarios where idsucursal=".$_SESSION['idsucursal']." and nivel=2";
+			}
+			if($_SESSION['nivel']==4){
+				$sql="SELECT count(idusuario) as total from usuarios where nivel>1";
+			}
 			$sth = $db->dbh->query($sql);
 			$contar=$sth->fetch(PDO::FETCH_OBJ);
 			$paginas=ceil($contar->total/$_SESSION['pagina']);

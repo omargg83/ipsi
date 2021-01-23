@@ -103,7 +103,7 @@ class Sucursal extends ipsi{
 
 	public function relacion_buscar($texto,$idsucursal){
 		try{
-			$sql="select * from usuarios where (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
+			$sql="select * from usuarios where nivel=3 and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
 			$sth = $this->dbh->query($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
