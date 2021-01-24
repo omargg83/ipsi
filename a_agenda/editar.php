@@ -5,15 +5,18 @@
 	$id="";
 	$idsucursal="";
 	$idusuario="";
-	$pacientes=$db->pacientes();
+
 	$sucursal=$db->sucursal();
 	$terapueutas=$db->terapueutas();
+	$pacientes=$db->pacientes();
+	
 	$fecha=date("Y-m-d");
 	$fecha_min=date("Y-m-d");
 ?>
 
 <div class="container">
 	<form is="f-submit" id="form_personal" des="a_agenda/resultados" dix='resultados' action='' >
+		<input type="hidden" name="idcita" id="idcita" value="<?php echo $idcita;?>">
   	<div class="card">
 	  	<div class="card-header">
 				Solicitar cita
@@ -24,20 +27,7 @@
 					<label for="">Fecha</label>
 					<input type="date" name="fecha_cita" id="fecha_cita" value="<?php echo $fecha;?>" min='<?php echo $fecha_min;?>' class='form-control' required>
 				</div>
-				<div class="col-3">
-					<label for="">Pacientes</label>
-					<select name='idpaciente' id='idpaciente' class='form-control' >
-					<?php
-						foreach($pacientes as $key){
-							echo  "<option value=".$key->id;
-							if ($key->id==$id){
-								echo  " selected ";
-							}
-							echo  ">$key->nombre $key->apellidop $key->apellidom</option>";
-						}
-					?>
-					</select>
-				</div>
+
 				<div class="col-3">
 					<label for="">Sucursal</label>
 					<select name='idsucursal' id='idsucursal' class='form-control'>
@@ -52,6 +42,22 @@
 					?>
 					</select>
 				</div>
+
+				<div class="col-3">
+					<label for="">Pacientes</label>
+					<select name='idpaciente' id='idpaciente' class='form-control' >
+					<?php
+						foreach($pacientes as $key){
+							echo  "<option value=".$key->id;
+							if ($key->id==$id){
+								echo  " selected ";
+							}
+							echo  ">$key->nombre $key->apellidop $key->apellidom</option>";
+						}
+					?>
+					</select>
+				</div>
+
 				<div class="col-3">
 					<label for="">Terapeuta</label>
 					<select name='idusuario' id='idusuario' class='form-control'>
@@ -61,7 +67,7 @@
 							if ($key->idusuario==$idusuario){
 								echo  " selected ";
 							}
-							echo  ">$key->nombre</option>";
+							echo  ">$key->nombre $key->apellidop $key->apellidom</option>";
 						}
 					?>
 					</select>

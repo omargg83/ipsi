@@ -110,6 +110,23 @@ text-align: center;
   background-color:#fff;
   margin:10px;
 }
+.tabla_v .body-filter{
+  display: table-caption;
+  flex-direction:inherit;
+  justify-content:flex-end;
+  text-align: center;
+  font-weight: bold;
+  font-size: larger;
+
+  background-color:#fff4dc;
+  padding: 10px;
+  border-radius:10px;
+}
+.tabla_v  .filtro{
+  display:flex;
+  flex-grow:2;
+  justify-content:flex-end;
+}
 .tabla_v .body-row:hover{
   background-color:#fbf9f4;
   -webkit-box-shadow: 0px 0px 22px -2px rgba(0,0,0,0.75);

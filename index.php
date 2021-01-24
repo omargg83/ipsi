@@ -78,6 +78,9 @@
 															echo "<a class='nav-link' is='menu-link' href='#a_pacientes/index' title='Pacientes'><div class='sb-nav-link-icon'><i class='far fa-file-alt'></i></div>Pacientes</a>";
 														}
 														if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
+															echo "<a class='nav-link' is='menu-link' href='#a_terapeutas/index' title='Terapeutas'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Terapeutas</a>";
+														}
+														if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
 															echo "<a class='nav-link' is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Cuentas</a>";
 														}
 														if($_SESSION['nivel']==666 or $_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){

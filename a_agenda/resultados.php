@@ -33,7 +33,7 @@
       echo "<div class='body-row' draggable='true'>";
         echo "<div class='cell'>";
 
-        	echo "<button class='btn btn-warning btn-sm' type='button' id='can_$key->idhorario' is='b-link'  db='a_agenda/db_' des='a_comision/lista' dix='trabajo' fun='agregar_cita' tp='¿Desea solicitar cita la fecha seleccionada?' v_idpaciente='$idpaciente' v_idsucursal='$idsucursal'>Solicitar</button>";
+        	echo "<button class='btn btn-warning btn-sm' type='button' id='can_$key->idhorario' is='b-link'  db='a_agenda/db_' des='a_agenda/lista' dix='trabajo' fun='agregar_cita' tp='¿Desea solicitar cita la fecha seleccionada?' v_idpaciente='$idpaciente' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fdesde='$key->desde' v_fhasta='$key->hasta' v_fecha='$fecha_cita'>Solicitar</button>";
 
         echo "</div>";
 

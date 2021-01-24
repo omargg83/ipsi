@@ -6,6 +6,4 @@
   echo $fecha;
 
 
-	$sql
-
 ?>

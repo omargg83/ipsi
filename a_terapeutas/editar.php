@@ -30,7 +30,7 @@
 ?>
 
 <div class="container">
-	<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des="a_usuarios/editar" dix='<?php echo $dix;?>' desid="idusuario" v_idusuario="<?php echo $idusuario; ?>">
+	<form is="f-submit" id="form_personal" db="a_terapeutas/db_" fun="guardar_usuario" des="a_terapeutas/editar" dix='<?php echo $dix;?>' desid="idusuario" v_idusuario="<?php echo $idusuario; ?>">
 		<input type="hidden" class="form-control form-control-sm" name="idusuario" id="idusuario" value="<?php echo $idusuario ;?>" placeholder="No" readonly>
 		<div class='card'>
 		<div class='card-header'>
@@ -74,22 +74,7 @@
 					echo "</select>";
 				echo "</div>";
 
-					if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
-						echo "<div class='col-4'>";
-							echo "<label for=''>Nivel:</label>";
-							echo "<select class='form-control form-control-sm' name='nivel' id='nivel'>";
-								if($_SESSION['nivel']==1)
-								echo "<option value='1'"; if($nivel=="1") echo "selected"; echo ">1 Administrador</option>";
-
-								if(($_SESSION['nivel']==1 or ($_SESSION['nivel']==3 and $idusuario==$_SESSION['idusuario'])or $_SESSION['nivel']==4)){
-									echo "<option value='3'"; if($nivel=="3") echo "selected"; echo ">3 Admin Sucursal</option>";
-								}
-
-								if($_SESSION['nivel']==1 or $_SESSION['nivel']==4)
-								echo "<option value='4'"; if($nivel=="4") echo "selected"; echo ">4 Secretaria</option>";
-								echo "</select>";
-						echo "</div>";
-					}
+				
 					if($_SESSION['nivel']==1){
 						echo "<div class='col-4'>";
 							echo "<label for='nombre'>Sucursal</label>";
@@ -117,10 +102,13 @@
 					<button class="btn btn-warning" type="submit">Guardar</button>
 					<?php
 						if($idusuario>0){
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1'>Foto</button>";
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1'>Contraseña</button>";
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_terapeutas/form_foto' v_idusuario='$idusuario' omodal='1'>Foto</button>";
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_terapeutas/form_pass' v_idusuario='$idusuario' omodal='1'>Contraseña</button>";
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_terapeutas/horarios' v_idusuario='$idusuario' dix='$dix'>Horarios</button>";
 						}
-						echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/lista' dix='$dix'>Regresar</button>";
+
+						echo "<button class='btn btn-warning' type='button' is='b-link' des='a_terapeutas/lista' dix='$dix'>Regresar</button>";
+
 					?>
 
 				</div>
