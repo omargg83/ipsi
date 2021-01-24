@@ -1,14 +1,20 @@
 <?php
 	require_once("db_.php");
 
+
 	$pag=0;
 	$texto="";
-
-	if(isset($_REQUEST['pag'])){
-		$pag=$_REQUEST['pag'];
+	if(isset($_REQUEST['buscar'])){
+		$texto=$_REQUEST['buscar'];
+		$pd = $db->ticket_buscar($texto);
+		$texto=1;
 	}
-	$pd = $db->ticket_lista($pag);
-
+	else{
+		if(isset($_REQUEST['pag'])){
+			$pag=$_REQUEST['pag'];
+		}
+		$pd = $db->ticket_lista($pag);
+	}
 ?>
 
 <div class='container'>

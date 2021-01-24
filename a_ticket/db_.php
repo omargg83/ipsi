@@ -264,11 +264,11 @@ class Ticket extends ipsi{
 		}
 
 		//if($key->nivel==1) echo "Admin General";
+
 		if($_SESSION['nivel']==1){
 			$sql="select ticket.* from ticket
 			where
-			(ticket.idde_usuario=".$_SESSION['idusuario']." or ticket.idpara_usuario=".$_SESSION['idusuario']."
-			or (ticket.idde_cliente is not null))
+			(ticket.idde_usuario=".$_SESSION['idusuario']." or ticket.idpara_usuario=".$_SESSION['idusuario']." or ticket.idde_cliente is not null)
 			and ticket.idpadre is null and ticket.estado='Abierto' order by ticket.estado, ticket.numero desc limit $pagina,".$_SESSION['pagina']."";
 		}
 		//if($key->nivel==2) echo "Terapeuta";
@@ -281,15 +281,58 @@ class Ticket extends ipsi{
 		if($_SESSION['nivel']==3){
 			$sql="select ticket.* from ticket
 			LEFT OUTER JOIN clientes ON clientes.id = ticket.idde_cliente
-			where (ticket.idde_usuario=".$_SESSION['idusuario']." or ticket.idpara_usuario=".$_SESSION['idusuario']." or clientes.idsucursal=".$_SESSION['idsucursal'].")
+			where
+			(ticket.idde_usuario=".$_SESSION['idusuario']." or ticket.idpara_usuario=".$_SESSION['idusuario']." or clientes.idsucursal=".$_SESSION['idsucursal'].")
 			and ticket.idpadre is null and ticket.estado='Abierto' order by ticket.estado, ticket.numero desc limit $pagina,".$_SESSION['pagina']."";
 		}
 		//if($key->nivel==4) echo "Secretaria";
 		if($_SESSION['nivel']==4){
 			$sql="select ticket.* from ticket
 			where
-			(ticket.idde_usuario=".$_SESSION['idusuario']." or ticket.idpara_usuario=".$_SESSION['idusuario']." or (ticket.idde_cliente is not null))
+			(ticket.idde_usuario=".$_SESSION['idusuario']." or ticket.idpara_usuario=".$_SESSION['idusuario']." or ticket.idde_cliente is not null)
 			and ticket.idpadre is null and ticket.estado='Abierto' order by ticket.estado, ticket.numero desc limit $pagina,".$_SESSION['pagina']."";
+		}
+
+		//echo $sql;
+		$sth = $this->dbh->query($sql);
+		return $sth->fetchAll(PDO::FETCH_OBJ);
+	}
+	public function ticket_buscar($texto){
+
+		if($_SESSION['nivel']==666){
+			$sql="select * from ticket where
+			(idde_cliente=".$_SESSION['idusuario']." or idpara_cliente=".$_SESSION['idusuario'].")
+			and idpadre is null order by estado, numero desc ";
+		}
+
+		//if($key->nivel==1) echo "Admin General";
+
+		if($_SESSION['nivel']==1){
+			$sql="select ticket.* from ticket
+			where
+			(ticket.idde_usuario=".$_SESSION['idusuario']." or ticket.idpara_usuario=".$_SESSION['idusuario']." or ticket.idde_cliente is not null)
+			and ticket.idpadre is null and (ticket.) order by ticket.estado, ticket.numero desc";
+		}
+		//if($key->nivel==2) echo "Terapeuta";
+		if($_SESSION['nivel']==2){
+			$sql="select ticket.* from ticket where
+			(idde_usuario=".$_SESSION['idusuario']." or idpara_usuario=".$_SESSION['idusuario'].")
+			and idpadre is null order by estado, numero desc";
+		}
+		//if($key->nivel==3) echo "Admin Sucursal";
+		if($_SESSION['nivel']==3){
+			$sql="select ticket.* from ticket
+			LEFT OUTER JOIN clientes ON clientes.id = ticket.idde_cliente
+			where
+			(ticket.idde_usuario=".$_SESSION['idusuario']." or ticket.idpara_usuario=".$_SESSION['idusuario']." or clientes.idsucursal=".$_SESSION['idsucursal'].")
+			and ticket.idpadre is null order by ticket.estado, ticket.numero desc ";
+		}
+		//if($key->nivel==4) echo "Secretaria";
+		if($_SESSION['nivel']==4){
+			$sql="select ticket.* from ticket
+			where
+			(ticket.idde_usuario=".$_SESSION['idusuario']." or ticket.idpara_usuario=".$_SESSION['idusuario']." or ticket.idde_cliente is not null)
+			and ticket.idpadre is null order by ticket.estado, ticket.numero desc";
 		}
 
 		//echo $sql;
