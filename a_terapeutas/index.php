@@ -1,6 +1,7 @@
 <?php
 	require_once("db_.php");
 ?>
+<div id='trabajo'>
 	<nav class='navbar navbar-expand-sm'>
 	<a class='navbar-brand' ><i class='fas fa-user-check'></i> Terapeutas</a>
 	  <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>
@@ -14,7 +15,7 @@
 
 			<ul class='navbar-nav mr-auto'>
 			<li class='nav-item active'>
-				<a class='nav-link barranav' is="a-link" des='a_terapeutas/lista' dix='trabajo' tp="router">Lista</a>
+				<a class='nav-link barranav' is="a-link" des='a_terapeutas/lista' dix='lista' tp="router">Lista</a>
 			</li>
 			<?php
 				if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
@@ -28,8 +29,9 @@
 	  </div>
 	</nav>
 
-<div id='trabajo'>
-	<?php
-		include 'lista.php';
-	?>
+	<div id='lista'>
+		<?php
+			include 'lista.php';
+		?>
+	</div>
 </div>

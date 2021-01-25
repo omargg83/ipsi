@@ -112,6 +112,48 @@ class Usuario extends ipsi{
 		if (isset($_REQUEST['apellidom'])){
 			$arreglo+=array('apellidom'=>$_REQUEST['apellidom']);
 		}
+		if (isset($_REQUEST['edad'])){
+			$arreglo+=array('edad'=>$_REQUEST['edad']);
+		}
+		if (isset($_REQUEST['telefono'])){
+			$arreglo+=array('telefono'=>$_REQUEST['telefono']);
+		}
+		if (isset($_REQUEST['edo_civil'])){
+			$arreglo+=array('edo_civil'=>$_REQUEST['edo_civil']);
+		}
+		if (isset($_REQUEST['n_hijos'])){
+			$arreglo+=array('n_hijos'=>$_REQUEST['n_hijos']);
+		}
+		if (isset($_REQUEST['direccion'])){
+			$arreglo+=array('direccion'=>$_REQUEST['direccion']);
+		}
+		if (isset($_REQUEST['ocupacion'])){
+			$arreglo+=array('ocupacion'=>$_REQUEST['ocupacion']);
+		}
+		if (isset($_REQUEST['escolaridad'])){
+			$arreglo+=array('escolaridad'=>$_REQUEST['escolaridad']);
+		}
+		if (isset($_REQUEST['religion'])){
+			$arreglo+=array('religion'=>$_REQUEST['religion']);
+		}
+		if (isset($_REQUEST['vive'])){
+			$arreglo+=array('vive'=>$_REQUEST['vive']);
+		}
+		if (isset($_REQUEST['c_emergencia'])){
+			$arreglo+=array('c_emergencia'=>$_REQUEST['c_emergencia']);
+		}
+		if (isset($_REQUEST['c_telefono'])){
+			$arreglo+=array('c_telefono'=>$_REQUEST['c_telefono']);
+		}
+		if (isset($_REQUEST['enfermedad'])){
+			$arreglo+=array('enfermedad'=>$_REQUEST['enfermedad']);
+		}
+		if (isset($_REQUEST['medicamento'])){
+			$arreglo+=array('medicamento'=>$_REQUEST['medicamento']);
+		}
+		if (isset($_REQUEST['terapia'])){
+			$arreglo+=array('terapia'=>$_REQUEST['terapia']);
+		}
 
 		$arreglo+=array('correo'=>$correo);
 
