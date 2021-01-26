@@ -16,7 +16,6 @@
 
 
 	/////////////////////Relaciones
-
 ?>
 
   <nav aria-label='breadcrumb'>
@@ -68,7 +67,7 @@
   					<div class='card-body'>
   						<div class='col-12 text-center'>
   							<?php
-  								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/terapeutas' dix='trabajo' v_idusuario='$idusuario' >Ver mas</button>";
+  								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/pacientes' dix='trabajo' v_idusuario='$idusuario' >Ver mas</button>";
   							?>
   						</div>
   					</div>

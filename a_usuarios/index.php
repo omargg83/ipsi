@@ -2,7 +2,7 @@
 	require_once("db_.php");
 ?>
 	<nav class='navbar navbar-expand-sm'>
-	<a class='navbar-brand' ><i class='fas fa-user-check'></i> Usuarios</a>
+	<a class='navbar-brand' >Usuarios</a>
 	  <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>
 		<span class='navbar-toggler-icon'></span>
 	  </button>
@@ -19,7 +19,7 @@
 			<?php
 				if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
 			?>
-				<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal'  is='a-link' des='a_usuarios/editar' dix='trabajo' v_idusuario='0'>Nuevo</a></li>
+				<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal'  is='a-link' des='a_usuarios/editar' dix='contenido' v_idusuario='0'>Nuevo</a></li>
 			<?php
 			}
 			?>

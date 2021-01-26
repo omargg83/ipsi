@@ -81,12 +81,13 @@ function sesion_ver(){
 }
 
 	/*
-		Libreria Propia V.1
+		Libreria Propia V.2
 		Ruben Omar García
 	*/
 
-	$(document).on('click',"[is*='menu-link']",function(e){
+	$(document).on('click',"[is='menu-link']",function(e){
 		e.preventDefault();
+
 		let formData = new FormData();
 		let hash=e.currentTarget.hash.slice(1);
 		let arrayDeCadenas = hash.split("?");

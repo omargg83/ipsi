@@ -11,6 +11,9 @@
 	$correo=$pd->correo;
 	$foto=$pd->foto;
 	$observaciones=$pd->observaciones;
+	$numero=$pd->numero;
+
+	$suc=$db->sucursal($pd->idsucursal);
 
 	/////////////////////Relaciones
 	$sql="select * from clientes_relacion
@@ -43,6 +46,8 @@
 									echo "<img src='".$db->pac.trim($foto)."' class='img-thumbnail' width='200px'>";
 									echo "<div class='text-center'>".$nombre." ".$apellidop." ".$apellidom."</div>";
 									echo "<div class='text-center'>Paciente</div>";
+									echo "<div class='text-center'>ID: $numero</div>";
+									echo "<div class='text-center'>Sucursal: $suc->nombre</div>";
 								echo "</div>";
 							?>
 						</div>

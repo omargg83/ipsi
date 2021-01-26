@@ -45,7 +45,6 @@
 												</div>
 
 													<?php
-
 														if($_SESSION['nivel']==666){
 															$sql="SELECT * from terapias_per left outer join terapias on terapias.id=terapias_per.idterapia where terapias_per.idpaciente=:id";
 														  $sth_te = $db->dbh->prepare($sql);
@@ -109,7 +108,7 @@
 															echo "<a class='nav-link' is='menu-link' href='#a_consultorios/index' title='Consultorios'><div class='sb-nav-link-icon'><i class='fas fa-store'></i></div>Consultorios</a>";
 														}
 														if ($_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
-															echo "<a class='nav-link' is='menu-link' href='#a_usuarios/editar_p' v_idusuario='".$_SESSION['idusuario']."' title='Mi cuenta'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Mi cuenta</a>";
+															echo "<a class='nav-link' is='menu-link' href='#a_usuarios/editar_p' title='Mi cuenta'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Mi cuenta</a>";
 														}
 													?>
                       </div>
@@ -163,11 +162,11 @@
 			              <span class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			               <span class="mr-2 d-none d-lg-inline text-gray-600 small">
 											 <?php
-												 if($_SESSION['tipo_user'] == "Psicólogo"){
-													 echo "<a class='topcuenta' is='menu-link' href='#a_usuarios/editar_p'>Mi cuenta</a></span>";
+												 if($_SESSION['nivel']==666){
+													 echo "<a class='topcuenta' id='cuenta' is='menu-link' href='#a_paciente_perfil/index' title='Mi cuenta'>Mi cuenta</a>";
 												 }
-												 else{
-													 echo "<a class='topcuenta' is='menu-link' href='#a_paciente_perfil/index'>Mi cuenta</a></span>";
+												 if ($_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
+													 echo "<a class='topcuenta' id='cuenta' is='menu-link' href='#a_usuarios/editar_p' title='Mi cuenta'>Mi cuenta</a>";
 												 }
 											 ?>
 											<span class="mr-2 d-none d-lg-inline text-gray-600 small">|</span>
@@ -177,10 +176,10 @@
 			            </li>
 			          </ul>
 	        	</nav>
+
             <main>
-								<!---DIV PRINCIPAL--->
-                <div id="contenido" class="container-fluid">
-                </div>
+              <div id="contenido" class="container-fluid">
+              </div>
             </main>
           </div>
       </div>
@@ -222,9 +221,12 @@
 
 			<!--
 				<link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2&display=swap" rel="stylesheet">
-			->
 
-      <script src="librerias15/js/bootstrap.js"></script>
+
+			-->
+
+
+
 
       <!--   Propios   -->
 			<script src="vainilla.js"></script>

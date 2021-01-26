@@ -3,7 +3,7 @@
 ?>
 <div id='trabajo'>
 	<nav class='navbar navbar-expand-sm'>
-	<a class='navbar-brand' ><i class='fas fa-user-check'></i> Terapeutas</a>
+	<a class='navbar-brand'>Terapeutas</a>
 	  <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>
 		<span class='navbar-toggler-icon'></span>
 	  </button>

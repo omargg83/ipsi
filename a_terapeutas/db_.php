@@ -295,6 +295,70 @@ class Usuario extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+
+	public function paciente_buscar($texto,$idsucursal){
+		try{
+			if($_SESSION['nivel']==1 or$_SESSION['nivel']==4)
+			$sql="select * from clientes where (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%') limit 50";
+
+			if($_SESSION['nivel']==2)
+			$sql="select * from clientes where nombre='x' limit 50";
+
+			if($_SESSION['nivel']==3)
+			$sql="select * from clientes where (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%') and idsucursal='".$_SESSION['idsucursal']."' limit 50";
+
+			$sth = $this->dbh->query($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function sucursal_($id){
+		try{
+		  $sql="select * from sucursal where idsucursal=:id";
+		  $sth = $this->dbh->prepare($sql);
+		  $sth->bindValue(":id",$id);
+		  $sth->execute();
+		  return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+		  return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function asignar_paciente(){
+
+		$idcliente=$_REQUEST['idpaciente'];
+		$idusuario=$_REQUEST['idusuario'];
+
+		$sql="select * from cliente_terapeuta where idcliente=:idcliente and idusuario=:idusuario";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idcliente",$idcliente);
+		$sth->bindValue(":idusuario",$idusuario);
+		$sth->execute();
+		if ($sth->rowCount()!=0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"Ya tiene asignado el paciente");
+			return json_encode($arreglo);
+		}
+		else{
+			$arreglo =array();
+			$arreglo+=array('idcliente'=>$idcliente);
+			$arreglo+=array('idusuario'=>$idusuario);
+			return $this->insert('cliente_terapeuta', $arreglo);
+		}
+	}
+
+	public function paciente_quitar(){
+		$idusuario=$_REQUEST['idusuario'];
+		$idterapeuta=$_REQUEST['idterapeuta'];
+
+		return $this->borrar('cliente_terapeuta',"idterapeuta",$idterapeuta);
+
+	}
 }
 
 $db = new Usuario();
