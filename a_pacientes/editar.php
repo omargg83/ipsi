@@ -20,7 +20,6 @@
 
 	$foto="";
 	$observaciones="";
-	$idusuario="";
 	$sexo="";
 	$peso="";
 	$altura="";
@@ -37,6 +36,7 @@
 	$parentesco="";
 	$telparentesco="";
 	$idsucursal="";
+	$autoriza="0";
 	$per = $db->personal();
 	$sucursal = $db->sucursal_lista();
 
@@ -62,7 +62,6 @@
 		$telefono=$pd->telefono;
 		$foto=$pd->foto;
 		$observaciones=$pd->observaciones;
-		$idusuario=$pd->idusuario;
 		$sexo=$pd->sexo;
 		$peso=$pd->peso;
 		$altura=$pd->altura;
@@ -78,6 +77,7 @@
 		$contacto=$pd->contacto;
 		$parentesco=$pd->parentesco;
 		$telparentesco=$pd->telparentesco;
+		$autoriza=$pd->autoriza;
 	}
 	?>
 	<nav aria-label='breadcrumb'>
@@ -216,6 +216,17 @@
 						?>
 						</select>
 					</div>
+
+				<?php
+					echo "<div class='col-4'>";
+						echo "<label for=''>Activo:</label>";
+						echo "<select class='form-control form-control-sm' name='autoriza' id='autoriza'>";
+						echo "<option value='1'"; if($autoriza=="1") echo "selected"; echo ">Activo</option>";
+						echo "<option value='0'"; if($autoriza=="0") echo "selected"; echo ">Inactivo</option>";
+						echo "</select>";
+					echo "</div>";
+				?>
+
 				</div>
 				<hr>
 
@@ -289,26 +300,6 @@
 						<input type="text" class="form-control form-control-sm" name="telparentesco" id="telparentesco" value="<?php echo $telparentesco;?>" placeholder="Telefono"  maxlength="150">
 					</div>
 				</div>
-
-				<div class='row'>
-					<div class='col-sm-4'>
-						<label for='nombre'>Nombre del Psicólogo</label>
-						<select name='idusuario' id='idusuario' class='form-control form-control-sm'>
-						<?php
-							foreach($per as $key){
-								echo  "<option value=".$key->idusuario;
-								if ($key->idusuario==$idusuario){
-									echo  " selected ";
-								}
-								echo  ">".$key->nombre."</option>";
-							}
-						?>
-						</select>
-					</div>
-				</div>
-
-
-
 
 				<div class='row'>
 					<div class="col-12">

@@ -49,7 +49,20 @@
 					$_SESSION['nombre']=$CLAVE->nombre;
 					$_SESSION['nombrec']=$CLAVE->nombre." ".$CLAVE->apellidop;
 					$_SESSION['nivel'] = $CLAVE->nivel;
-					$_SESSION['tipo_user'] = "Psicólogo";
+
+					if($_SESSION['nivel']==1){
+						$_SESSION['tipo_user'] = "Admin General";
+					}
+					if($_SESSION['nivel']==2){
+						$_SESSION['tipo_user'] = "Terapeuta";
+					}
+					if($_SESSION['nivel']==3){
+						$_SESSION['tipo_user'] = "Admin Sucursal";
+					}
+					if($_SESSION['nivel']==4){
+						$_SESSION['tipo_user'] = "Secretaria";
+					}
+					$_SESSION['idsucursal']=$CLAVE->idsucursal;
 					$_SESSION['pagnivel']=40;
 					$_SESSION['idusuario']=$CLAVE->idusuario;
 					$_SESSION['cfondo']="#fff";
@@ -67,6 +80,7 @@
 
 					if ($sth->rowCount()>0){
 						$suma=1;
+
 						$CLAVE=$sth->fetch(PDO::FETCH_OBJ);
 						$_SESSION['autoriza']=1;
 						$_SESSION['admin']=0;
@@ -77,6 +91,7 @@
 						$_SESSION['pagnivel']=40;
 						$_SESSION['idusuario']=$CLAVE->id;
 						$_SESSION['cfondo']="#fff";
+						$_SESSION['idsucursal']=$CLAVE->idsucursal;
 						$_SESSION['foto']="a_archivos/clientes/".$CLAVE->foto;
 						$arr=array();
 						$arr=array('acceso'=>1,'idpersona'=>$_SESSION['idusuario']);

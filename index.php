@@ -40,15 +40,13 @@
                       <div class="nav">
 
 												<div class="sb-sidenav-menu-heading">
-
 													<div style="width: 36%;display: inline-block;"> <img style="vertical-align: bottom;border-radius: 10px; max-width: 50px;" src="<?php echo $_SESSION['foto']; ?>"> </div>
 													<div style="padding-left: 5px;width: 46%;display: inline-block;color:#fff;">  <strong><?php echo $_SESSION['nombrec']; ?> </strong> <br><?php echo $_SESSION['tipo_user']; ?></div>
-
 												</div>
 
-
 													<?php
-														if($_SESSION['tipo_user'] == "Paciente"){
+
+														if($_SESSION['nivel']==666){
 															$sql="SELECT * from terapias_per left outer join terapias on terapias.id=terapias_per.idterapia where terapias_per.idpaciente=:id";
 														  $sth_te = $db->dbh->prepare($sql);
 														  $sth_te->bindValue(":id",$_SESSION['idusuario']);
@@ -74,53 +72,46 @@
 																	echo "</div>";
 																}
 															}
-													?>
-													<!--
-														<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Expediente</a>
-														<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Relaciones</a>
-														<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Agenda</a>
-													-->
-														<a class="nav-link" is='menu-link' href='#a_paciente_perfil/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi cuenta</a>
-
-													<?php
 														}
-														if($_SESSION['tipo_user'] == "Psicólogo" and $_SESSION['nivel']==2){
-													?>
-															<a class="nav-link" is='menu-link' href='#a_pacientes/index' title='Pacientes'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Mis Pacientes</a>
-															<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Agenda</a>
-															<a class="nav-link" is='menu-link' href='#a_usuarios/editar_p' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi cuenta</a>
 
-															<div class="sb-sidenav-menu-heading">Terapias</div>
-															<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Catalogo Terapias</a>
-
-													<?php
+														if($_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
+															echo "<a class='nav-link' is='menu-link' href='#a_pacientes/index' title='Pacientes'><div class='sb-nav-link-icon'><i class='far fa-file-alt'></i></div>Pacientes</a>";
 														}
-														if($_SESSION['tipo_user'] == "Psicólogo" and $_SESSION['nivel']==1){
-													?>
-														<a class="nav-link" is='menu-link' href='#a_pacientes/index' title='Pacientes' ><div class="sb-nav-link-icon"><i class="far fa-file-alt"></i></div>Pacientes</a>
+														if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
+															echo "<a class='nav-link' is='menu-link' href='#a_terapeutas/index' title='Terapeutas'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Terapeutas</a>";
+														}
+														if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
+															echo "<a class='nav-link' is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Cuentas</a>";
+														}
+														if($_SESSION['nivel']==666 or $_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
+															echo "<a class='nav-link' is='menu-link' href='#a_agenda/index' title='Agenda'><div class='sb-nav-link-icon'><i class='fas fa-ticket-alt'></i></div>Agenda</a>";
+														}
+														if($_SESSION['nivel']==2){
+															echo "<a class='nav-link' is='menu-link' href='#a_actividades/index' title='Actividades'><div class='sb-nav-link-icon'><i class='far fa-file-alt'></i></div>Catalogo Terapias</a>";
+														}
+														if($_SESSION['nivel']==666){
+															echo "<a class='nav-link' is='menu-link' href='#a_pacientes/relaciones' v_idpaciente='".$_SESSION['idusuario']."' title='Usuarios'><div class='sb-nav-link-icon'><i class='far fa-file-alt'></i></div>Relaciones</a>";
+														}
+														if($_SESSION['nivel']==666){
+															echo "<a class='nav-link' is='menu-link' href='#a_paciente_perfil/index' title='Usuarios'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Mi cuenta</a>";
+														}
 
-														<!--<a class="nav-link" is='menu-link' href='#a_pac/index' title='Pacientes' ><div class="sb-nav-link-icon"><i class="far fa-file-alt"></i></div>Pacientes</a>-->
-														<!-- <a class="nav-link" is='menu-link' href='#a_usuarios/editar_p' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Mi Cuenta</a>-->
-
-														<a class="nav-link" is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>Cuentas</a>
-
-
-														<div class="sb-sidenav-menu-heading">Terapias</div>
-
-														<a class="nav-link" is='menu-link' href='#a_actividades/index' title='Actividades'><div class="sb-nav-link-icon"><i class='far fa-file-alt'></i></div>Catalogo Terapias</a>
-													<?php
+														if($_SESSION['nivel']==2 or $_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
+															echo "<a class='nav-link' is='menu-link' href='#a_reportes/index' title='Reportes'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Reportes</a>";
+														}
+														if($_SESSION['nivel']==666 or $_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3  or $_SESSION['nivel']==4){
+															echo "<a class='nav-link' is='menu-link' href='#a_ticket/index' title='Ticket'><div class='sb-nav-link-icon'><i class='fas fa-ticket-alt'></i></div>Soporte</a>";
+														}
+														if ($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
+															echo "<a class='nav-link' is='menu-link' href='#a_sucursal/index' title='Sucursal'><div class='sb-nav-link-icon'><i class='fas fa-store'></i></div>Sucursal</a>";
+														}
+														if ($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
+															echo "<a class='nav-link' is='menu-link' href='#a_consultorios/index' title='Consultorios'><div class='sb-nav-link-icon'><i class='fas fa-store'></i></div>Consultorios</a>";
+														}
+														if ($_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
+															echo "<a class='nav-link' is='menu-link' href='#a_usuarios/editar_p' v_idusuario='".$_SESSION['idusuario']."' title='Mi cuenta'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Mi cuenta</a>";
 														}
 													?>
-													<a class="nav-link" is='menu-link' href='#a_agenda/index' title='Agenda'><div class="sb-nav-link-icon"><i class="fas fa-ticket-alt"></i></div>Agenda</a>
-
-
-													<a class="nav-link" is='menu-link' href='#a_ticket/index' title='Ticket'><div class="sb-nav-link-icon"><i class="fas fa-ticket-alt"></i></div>Tickets</a>
-
-													<a class="nav-link" is='menu-link' href='#a_sucursal/index' title='Sucursal'><div class="sb-nav-link-icon"><i class="fas fa-store"></i></div>Sucursal</a>
-
-													<a class="nav-link" is='menu-link' href='#a_consultorios/index' title='Consultorios'><div class="sb-nav-link-icon"><i class="fas fa-store"></i></div>Consultorios</a>
-
-
                       </div>
                   </div>
                   <div class="sb-sidenav-footer">

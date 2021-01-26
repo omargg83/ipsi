@@ -32,8 +32,8 @@
 			<div class='cell'>Nombre</div>
 			<div class='cell'>ID</div>
 			<div class='cell'>Sucursal</div>
-			<div class='cell'>Terapeuta</div>
 			<div class='cell'>Status</div>
+			<div class='cell'>Correo</div>
 		</div>
 
 		<?php
@@ -52,9 +52,8 @@
 					$sucursal=$db->sucursal($key->idsucursal);
 					echo "<div class='cell' data-titulo='Sucursal'>".$sucursal->nombre."</div>";
 
-					$terapeuta=$db->terapeuta($key->idusuario);
-					echo "<div class='cell' data-titulo='Terapeuta'>".$terapeuta->nombre." ".$terapeuta->apellidop."</div>";
 					echo "<div class='cell' data-titulo='Status'>".$key->estatus."</div>";
+					echo "<div class='cell' data-titulo='correo'>".$key->correo."</div>";
 				echo "</div>";
 			}
 		?>
@@ -62,7 +61,16 @@
 
 	<?php
 		if(strlen($texto)==0){
-			$sql="SELECT count(id) as total FROM clientes";
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
+				$sql="SELECT count(id) as total FROM clientes";
+			}
+			if($_SESSION['nivel']==2){
+				$sql="SELECT count(id) as total FROM clientes
+				left outer join cliente_terapeuta on cliente_terapeuta.idcliente=clientes.id where cliente_terapeuta.idusuario='".$_SESSION['idusuario']."'";
+			}
+			if($_SESSION['nivel']==3){
+				$sql="SELECT count(id) as total FROM clientes where idsucursal='".$_SESSION['idsucursal']."'";
+			}
 			$sth = $db->dbh->query($sql);
 			$contar=$sth->fetch(PDO::FETCH_OBJ);
 			$paginas=ceil($contar->total/$_SESSION['pagina']);
@@ -71,53 +79,4 @@
 			echo $db->paginar($paginas,$pag,$pagx,"a_pacientes/lista","lista");
 		}
 	?>
-
-
 </div>
-
-
-<!--
-
-	<div class='container'>
-
-		<div class='row'>
-
-				foreach($pd as $key){
-					echo "<div id='".$key->id."' class='col-4 edit-t mb-3'>";
-						echo "<div class='card '>";
-						echo "<div class='card-body'>";
-								echo "<div class='text-center'><img src='".$db->pac.$key->foto."' class='img-fluid img-thumbnail' alt='foto' width='100px'></div>";
-								echo "<div class='text-center'>".$key->nombre." ".$key->apellidop." ".$key->apellidom."</div>";
-								echo "<div class='text-center'>Paciente</div>";
-
-								echo "<div class='row'>";
-									echo "<div class='col-12  text-center'>";
-										echo "<div class='btn-group'>";
-											echo "<button class='btn btn-warning btn-block' is='b-link' id='edit_persona' title='Editar' des='a_pacientes/paciente' dix='trabajo' v_idpaciente='".$key->id."'>Ver perfil</button>";
-										echo "</div>";
-									echo "</div>";
-								echo "</div>";
-							echo "</div>";
-						echo "</div>";
-					echo "</div>";
-				}
-
-
-			<div id='".$key->id."' class='col-4 edit-t mb-3'>
-				<div class='card '>
-				<div class='card-body'>
-						<div class='text-center'></div>
-						<div class='text-center'>Agregar</div>
-						<div class='text-center'><br><br></div>
-
-						<div class='row'>
-							<div class="col-12">
-								<button class='btn btn-warning btn-block' type="button" is="b-link" des='a_pacientes/editar' dix='trabajo' v_idpaciente='0'>Nuevo</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
--->

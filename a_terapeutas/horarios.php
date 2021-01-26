@@ -33,14 +33,14 @@
 						<?php
 
 							if($mi!=1){
-								echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar_horario' dix='trabajo' title='regresar' v_idusuario='$idusuario' v_idhorario='0'>Agregar horario</button>";
+								echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/editar_horario' dix='trabajo' title='regresar' v_idusuario='$idusuario' v_idhorario='0'>Agregar horario</button>";
 
-								echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar' dix='trabajo' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
+								echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/editar' dix='trabajo' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
 							}
 							else{
-								echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar_horario' dix='contenido' title='regresar' v_idusuario='$idusuario' v_idhorario='0' v_mi='1'>Agregar horario</button>";
+								echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/editar_horario' dix='contenido' title='regresar' v_idusuario='$idusuario' v_idhorario='0' v_mi='1'>Agregar horario</button>";
 
-								echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar_p' dix='contenido' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
+								echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/editar_p' dix='contenido' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
 							}
 						?>
 					</div>
@@ -69,14 +69,14 @@
 								echo "<div class='cell'>";
 
 								if($mi!=1){
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/editar_horario' dix='trabajo' v_idhorario='$key->idhorario'>Editar</button>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/editar_horario' dix='trabajo' v_idhorario='$key->idhorario'>Editar</button>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/horarios' dix='trabajo' db='a_usuarios/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idusuario='$idusuario' tp='¿Desea eliminar el horario seleccionado?' title='Borrar'>Eliminar</button>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/horarios' dix='trabajo' db='a_terapeutas/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idusuario='$idusuario' tp='¿Desea eliminar el horario seleccionado?' title='Borrar'>Eliminar</button>";
 								}
 								else{
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/editar_horario' dix='contenido' v_idhorario='$key->idhorario' v_mi='1'>Editar</button>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/editar_horario' dix='contenido' v_idhorario='$key->idhorario' v_mi='1'>Editar</button>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/horarios' dix='contenido' db='a_usuarios/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idusuario='$idusuario' tp='¿Desea eliminar el horario seleccionado?' title='Borrar' v_mi='1'>Eliminar</button>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/horarios' dix='contenido' db='a_terapeutas/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idusuario='$idusuario' tp='¿Desea eliminar el horario seleccionado?' title='Borrar' v_mi='1'>Eliminar</button>";
 								}
 
 								echo "</div>";

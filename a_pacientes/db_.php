@@ -32,7 +32,6 @@ class Cliente extends ipsi{
 
 	public function personal(){
 		try{
-
 			if($_SESSION['nivel']==1){
 				$sql="select * from usuarios";
 			}
@@ -51,12 +50,19 @@ class Cliente extends ipsi{
 	public function pacientes_lista($pagina){
 		try{
 			$pagina=$pagina*$_SESSION['pagina'];
-			if($_SESSION['nivel']==1){
+
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
 				$sql="SELECT * FROM clientes limit $pagina,".$_SESSION['pagina']."";
 			}
-			else{
-				$sql="SELECT * FROM clientes where idusuario='".$_SESSION['idusuario']."' limit $pagina,".$_SESSION['pagina']."";
+
+			if($_SESSION['nivel']==2){
+				$sql="SELECT * FROM clientes
+				left outer join cliente_terapeuta on cliente_terapeuta.idcliente=clientes.id where cliente_terapeuta.idusuario='".$_SESSION['idusuario']."' limit $pagina,".$_SESSION['pagina']."";
 			}
+			if($_SESSION['nivel']==3){
+				$sql="SELECT * FROM clientes where idsucursal='".$_SESSION['idsucursal']."' limit $pagina,".$_SESSION['pagina']."";
+			}
+
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -67,7 +73,16 @@ class Cliente extends ipsi{
 	}
 	public function pacientes_buscar($texto){
 		try{
-			$sql="SELECT * FROM clientes where nombre like '%$texto%'";
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
+				$sql="SELECT * FROM clientes where nombre like '%$texto%'";
+			}
+			if($_SESSION['nivel']==2){
+				$sql="SELECT * FROM clientes left outer join cliente_terapeuta on cliente_terapeuta.idcliente=clientes.id where cliente_terapeuta.idusuario='".$_SESSION['idusuario']."' and clientes.nombre like '%$texto%'";
+			}
+			if($_SESSION['nivel']==3){
+				$sql="SELECT * FROM clientes where idsucursal='".$_SESSION['idsucursal']."' and nombre like '%$texto%'";
+			}
+
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -76,6 +91,7 @@ class Cliente extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+
 	public function cliente_editar($id){
 		try{
 			$sql="select * from clientes where id=:id";
@@ -192,13 +208,6 @@ class Cliente extends ipsi{
 			$arreglo+=array('idsucursal'=>clean_var($_REQUEST['idsucursal']));
 		}
 
-
-
-
-
-		if (isset($_REQUEST['idusuario'])){
-			$arreglo+=array('idusuario'=>clean_var($_REQUEST['idusuario']));
-		}
 		if (isset($_REQUEST['observaciones'])){
 			$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
 		}
@@ -255,6 +264,10 @@ class Cliente extends ipsi{
 		}
 		if (isset($_REQUEST['medicamentos'])){
 			$arreglo+=array('medicamentos'=>clean_var($_REQUEST['medicamentos']));
+		}
+
+		if (isset($_REQUEST['autoriza'])){
+			$arreglo+=array('autoriza'=>clean_var($_REQUEST['autoriza']));
 		}
 
 		if($idpaciente==0){
@@ -1333,6 +1346,32 @@ class Cliente extends ipsi{
 		catch(PDOException $e){
 		  return "Database access FAILED!".$e->getMessage();
 		}
+	}
+
+	public function agregar_ter(){
+		try{
+			$arreglo=array();
+			$x="";
+			$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
+			$arreglo+=array('idcliente'=>$_REQUEST['idpaciente']);
+			$this->insert('cliente_terapeuta',$arreglo);
+
+			$arreglo=array();
+			$arreglo+=array('id1'=>$_REQUEST['idpaciente']);
+			$arreglo+=array('error'=>0);
+			$arreglo+=array('terror'=>"La terapia ya existe");
+			return json_encode($arreglo);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function terapeuta_quitar(){
+		$idpaciente=$_REQUEST['idpaciente'];
+		$idterapeuta=$_REQUEST['idterapeuta'];
+
+		return $this->borrar('cliente_terapeuta',"idterapeuta",$idterapeuta);
+
 	}
 
 }

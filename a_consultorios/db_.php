@@ -21,10 +21,17 @@ class Consultorio extends ipsi{
 	public function consultorio_lista($pagina){
 		try{
 			$pagina=$pagina*$_SESSION['pagina'];
+			if($_SESSION['nivel']==1  or $_SESSION['nivel']==4){
+				$sql="SELECT consultorio.*, sucursal.nombre as sucursal, sucursal.ubicacion FROM consultorio
+				left outer join sucursal on sucursal.idsucursal=consultorio.idsucursal
+				limit $pagina,".$_SESSION['pagina']."";
+			}
+			if($_SESSION['nivel']==3){
+				$sql="SELECT consultorio.*, sucursal.nombre as sucursal, sucursal.ubicacion FROM consultorio
+				left outer join sucursal on sucursal.idsucursal=consultorio.idsucursal where sucursal.idsucursal='".$_SESSION['idsucursal']."'
+				limit $pagina,".$_SESSION['pagina']."";
+			}
 
-			$sql="SELECT consultorio.*, sucursal.nombre as sucursal, sucursal.ubicacion FROM consultorio
-			left outer join sucursal on sucursal.idsucursal=consultorio.idsucursal
-			limit $pagina,".$_SESSION['pagina']."";
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
@@ -34,9 +41,16 @@ class Consultorio extends ipsi{
 	}
 	public function consultorio_buscar($texto){
 		try{
-			$sql="SELECT consultorio.*, sucursal.nombre as sucursal, sucursal.ubicacion FROM consultorio
-			left outer join sucursal on sucursal.idsucursal=consultorio.idsucursal
-			where consultorio.nombre like '%$texto%'";
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
+				$sql="SELECT consultorio.*, sucursal.nombre as sucursal, sucursal.ubicacion FROM consultorio
+				left outer join sucursal on sucursal.idsucursal=consultorio.idsucursal
+				where consultorio.nombre like '%$texto%'";
+			}
+			if($_SESSION['nivel']==3){
+				$sql="SELECT consultorio.*, sucursal.nombre as sucursal, sucursal.ubicacion FROM consultorio
+				left outer join sucursal on sucursal.idsucursal=consultorio.idsucursal
+				where sucursal.idsucursal='".$_SESSION['idsucursal']."' and consultorio.nombre like '%$texto%'";
+			}
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
@@ -84,7 +98,13 @@ class Consultorio extends ipsi{
 	}
 	public function sucursal_lista(){
 		try{
-			$sql="SELECT * FROM sucursal";
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
+				$sql="SELECT * FROM sucursal";
+			}
+			if($_SESSION['nivel']==3){
+				$sql="SELECT * FROM sucursal where idsucursal='".$_SESSION['idsucursal']."'";
+			}
+
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);

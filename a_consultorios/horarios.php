@@ -64,13 +64,11 @@
 						foreach($horarios as $key){
 							echo "<div class='body-row' draggable='true'>";
 								echo "<div class='cell'>";
-									echo "<div class='btn-group'>";
 
 									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/editar_horario' dix='trabajo' v_idhorario='$key->idhorario'>Editar</button>";
 
-									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_consultorios/horarios' dix='trabajo' db='a_consultorios/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idconsultorio='$idconsultorio' tp='¿Desea eliminar el horario seleccionado?' title='Borrar'>Eliminar</button>";
-									echo "</div>";
-
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/horarios' dix='trabajo' db='a_consultorios/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idconsultorio='$idconsultorio' tp='¿Desea eliminar el horario seleccionado?' title='Borrar'>Eliminar</button>";
+									
 								echo "</div>";
 								echo "<div class='cell' data-titulo='Dia'>".$key->desde_dia."</div>";
 								echo "<div class='cell' data-titulo='Desde'>".date ( 'h:i' , strtotime($key->desde))."</div>";

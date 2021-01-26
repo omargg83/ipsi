@@ -20,7 +20,6 @@
 	<div class='header-row'>
 		<div class='cell'>#</div>
 		<div class='cell'>Nombre</div>
-		<div class='cell'>Nivel</div>
 		<div class='cell'>Correo</div>
 		<div class='cell'>Sucursal</div>
 		<div class='cell'>Activo</div>
@@ -33,17 +32,11 @@
 						echo "<div class='cell'>";
 							echo "<div class='btn-group'>";
 					?>
-								<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_usuarios/editar' dix='trabajo' tp="edit" v_idusuario='<?php echo $key->idusuario; ?>' title='editar'>Editar</button>
+								<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_terapeutas/terapeuta' dix='trabajo' tp="edit" v_idusuario='<?php echo $key->idusuario; ?>' title='editar'>Editar</button>
 								</div>
 							</div>
 						<div class='cell' data-titulo='Nombre'><?php echo $key->nombre; ?></div>
-						<div class='cell' data-titulo='Nivel'><?php
-							if($key->nivel==1) echo "Admin General";
-							if($key->nivel==2) echo "Terapeuta";
-							if($key->nivel==3) echo "Admin Sucursal";
-							if($key->nivel==4) echo "Secretaria";
 
-						 ?></div>
 						<div class='cell' data-titulo='Correo'><?php echo $key->correo; ?></div>
 						<div class='cell' data-titulo='Sucursal'><?php
 							$suc=$db->sucursal_ver($key->idsucursal);
@@ -79,7 +72,7 @@
 			$paginas=ceil($contar->total/$_SESSION['pagina']);
 			$pagx=$paginas-1;
 
-			echo $db->paginar($paginas,$pag,$pagx,"a_usuarios/lista","trabajo");
+			echo $db->paginar($paginas,$pag,$pagx,"a_terapeutas/lista","trabajo");
 		}
 	?>
 </div>

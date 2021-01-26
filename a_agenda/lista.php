@@ -13,41 +13,93 @@
 		}
 		$pd = $db->agenda_lista($pag);
 	}
+
+	$pacientes=$db->pacientes();
+	$sucursal=$db->sucursal();
+	$terapueutas=$db->terapueutas();
+
+	$fecha="";
 ?>
 <div class='container'>
 	<div class='tabla_v' id='tabla_css'>
+	<div class='body-filter'>
+		<div class='filtro'>
+			<?php
+				echo "<select name='idsucursal' id='idsucursal' class='form-control form-control-sm'>";
+					echo "<option value=''>Sucursal</option>";
+					foreach($sucursal as $key){
+						echo  "<option value=".$key->idsucursal.">$key->nombre</option>";
+					}
+				echo "</select>";
+
+				echo "<select name='idusuario' id='idusuario' class='form-control form-control-sm'>";
+					echo "<option value=''>Terapeuta</option>";
+					foreach($terapueutas as $key){
+						echo  "<option value=".$key->idusuario.">$key->nombre $key->apellidop $key->apellidom</option>";
+					}
+				echo "</select>";
+				echo "<input type='date' name='fecha_cita' id='fecha_cita' value='$fecha' class='form-control form-control-sm'>";
+
+				echo "<select name='idpaciente' id='idpaciente' class='form-control form-control-sm' >";
+					echo "<option value=''>Paciente</option>";
+					foreach($pacientes as $key){
+						echo  "<option value=".$key->id.">$key->nombre $key->apellidop $key->apellidom</option>";
+					}
+				echo "</select>";
+			?>
+		</div>
+	</div>
 
 	<div class='header-row'>
 		<div class='cell'>#</div>
-		<div class='cell'>Nombre</div>
-		<div class='cell'>Nivel</div>
-		<div class='cell'>Correo</div>
-		<div class='cell'>Activo</div>
+		<div class='cell'>Sucursal</div>
+		<div class='cell'>Terapeuta</div>
+		<div class='cell'>Hora</div>
+		<div class='cell'>Fecha</div>
+		<div class='cell'>Paciente</div>
+		<div class='cell'>status</div>
 	</div>
 
-			<?php
-				foreach($pd as $key){
+		<?php
+			foreach($pd as $key){
+				echo "<div class='body-row' draggable='true'>";
+					echo "<div class='cell'>";
 
-					echo "<div class='body-row' draggable='true'>";
-						echo "<div class='cell'>";
-							echo "<div class='btn-group'>";
-					?>
-								<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_usuarios/editar' dix='trabajo' tp="edit" v_idusuario='<?php echo $key->idusuario; ?>' title='editar'>Editar</button>
-								</div>
-							</div>
-						<div class='cell' data-titulo='Nombre'><?php echo $key->nombre; ?></div>
-						<div class='cell' data-titulo='Nivel'><?php echo $key->nivel; ?></div>
-						<div class='cell' data-titulo='Correo'><?php echo $key->correo; ?></div>
-						<div class='cell' data-titulo='Activo'>
-						<?php
-							if ($key->autoriza==0) { echo "Inactivo"; }
-							if ($key->autoriza==1) { echo "Activo"; }
-						?>
-						</div>
-					</div>
-			<?php
-				}
-			?>
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/editar' dix='trabajo' tp='edit' v_idcita='$key->idcita' title='editar'>Editar</button>";
+
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='cita_quitar' v_idcita='$key->idcita' tp='¿Desea eliminar la cita seleccionada?' title='Borrar'>Eliminar</button>";
+
+					echo "</div>";
+
+					echo "<div class='cell' data-titulo='Sucursal'>";
+						echo $db->sucursal_($key->idsucursal)->nombre;
+					echo "</div>";
+
+					echo "<div class='cell' data-titulo='Terapeuta'>";
+						$ter=$db->terapueuta_($key->idusuario);
+						echo $ter->nombre." ".$ter->apellidop." ".$ter->apellidom;
+					echo "</div>";
+
+					echo "<div class='cell' data-titulo='Hora'>";
+						$hora = new DateTime($key->desde);
+						echo $hora->format("h:i");
+					echo "</div>";
+
+					echo "<div class='cell' data-titulo='Fecha'>";
+						echo $hora->format("d-m-Y");
+					echo "</div>";
+
+					echo "<div class='cell' data-titulo='Paciente'>";
+						$ter=$db->cliente_($key->idpaciente);
+						echo $ter->nombre." ".$ter->apellidop." ".$ter->apellidom;
+					echo "</div>";
+
+					echo "<div class='cell' data-titulo='Status'>";
+						echo $key->estatus;
+					echo "</div>";
+				echo "</div>";
+			}
+		?>
 	</div>
 
 	<?php

@@ -48,16 +48,16 @@ class Usuario extends ipsi{
 		$pagina=$pagina*$_SESSION['pagina'];
 
 		if($_SESSION['nivel']==1){
-			$sql="select * from usuarios where nivel!=2 and idusuario!=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
+			$sql="select * from usuarios where idusuario!=".$_SESSION['idusuario']." and nivel=2 limit $pagina,".$_SESSION['pagina']."";
 		}
 		if($_SESSION['nivel']==2){
-			$sql="select * from usuarios where nivel!=2 and idusuario=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
+			$sql="select * from usuarios where idusuario=".$_SESSION['idusuario']." and nivel=2 limit $pagina,".$_SESSION['pagina']."";
 		}
 		if($_SESSION['nivel']==3){
 			$sql="select * from usuarios where idsucursal=".$_SESSION['idsucursal']." and nivel=2 and idusuario!=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
 		}
 		if($_SESSION['nivel']==4){
-			$sql="select * from usuarios where nivel>1 and nivel!=2 and idusuario!=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
+			$sql="select * from usuarios where nivel=2 and idusuario!=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
 		}
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -65,16 +65,16 @@ class Usuario extends ipsi{
 	public function usuario_buscar($texto){
 		try{
 			if($_SESSION['nivel']==1)
-			$sql="SELECT * FROM usuarios where nivel!=2 and nombre like '%$texto%'";
+			$sql="SELECT * FROM usuarios where nivel=2 and nombre like '%$texto%'";
 
 			if($_SESSION['nivel']==2)
-			$sql="SELECT * FROM usuarios where nivel!=2 and idusuario=".$_SESSION['idusuario']." and nombre like '%$texto%'";
+			$sql="SELECT * FROM usuarios where nivel=2 and idusuario=".$_SESSION['idusuario']." and nombre like '%$texto%'";
 
 			if($_SESSION['nivel']==3)
-			$sql="SELECT * FROM usuarios where nivel!=2 and idsucursal=".$_SESSION['idsucursal']." and nivel=2 and nombre like '%$texto%'";
+			$sql="SELECT * FROM usuarios where nivel=2 and idsucursal=".$_SESSION['idsucursal']." and nombre like '%$texto%'";
 
 			if($_SESSION['nivel']==4)
-			$sql="SELECT * FROM usuarios where nivel!=2 and nivel>1 and nombre like '%$texto%'";
+			$sql="SELECT * FROM usuarios where nivel=2 and nombre like '%$texto%'";
 
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -112,12 +112,51 @@ class Usuario extends ipsi{
 		if (isset($_REQUEST['apellidom'])){
 			$arreglo+=array('apellidom'=>$_REQUEST['apellidom']);
 		}
+		if (isset($_REQUEST['edad'])){
+			$arreglo+=array('edad'=>$_REQUEST['edad']);
+		}
+		if (isset($_REQUEST['telefono'])){
+			$arreglo+=array('telefono'=>$_REQUEST['telefono']);
+		}
+		if (isset($_REQUEST['edo_civil'])){
+			$arreglo+=array('edo_civil'=>$_REQUEST['edo_civil']);
+		}
+		if (isset($_REQUEST['n_hijos'])){
+			$arreglo+=array('n_hijos'=>$_REQUEST['n_hijos']);
+		}
+		if (isset($_REQUEST['direccion'])){
+			$arreglo+=array('direccion'=>$_REQUEST['direccion']);
+		}
+		if (isset($_REQUEST['ocupacion'])){
+			$arreglo+=array('ocupacion'=>$_REQUEST['ocupacion']);
+		}
+		if (isset($_REQUEST['escolaridad'])){
+			$arreglo+=array('escolaridad'=>$_REQUEST['escolaridad']);
+		}
+		if (isset($_REQUEST['religion'])){
+			$arreglo+=array('religion'=>$_REQUEST['religion']);
+		}
+		if (isset($_REQUEST['vive'])){
+			$arreglo+=array('vive'=>$_REQUEST['vive']);
+		}
+		if (isset($_REQUEST['c_emergencia'])){
+			$arreglo+=array('c_emergencia'=>$_REQUEST['c_emergencia']);
+		}
+		if (isset($_REQUEST['c_telefono'])){
+			$arreglo+=array('c_telefono'=>$_REQUEST['c_telefono']);
+		}
+		if (isset($_REQUEST['enfermedad'])){
+			$arreglo+=array('enfermedad'=>$_REQUEST['enfermedad']);
+		}
+		if (isset($_REQUEST['medicamento'])){
+			$arreglo+=array('medicamento'=>$_REQUEST['medicamento']);
+		}
+		if (isset($_REQUEST['terapia'])){
+			$arreglo+=array('terapia'=>$_REQUEST['terapia']);
+		}
 
 		$arreglo+=array('correo'=>$correo);
 
-		if (isset($_REQUEST['nivel'])){
-			$arreglo+=array('nivel'=>$_REQUEST['nivel']);
-		}
 		if (isset($_REQUEST['autoriza'])){
 			$arreglo+=array('autoriza'=>$_REQUEST['autoriza']);
 		}
@@ -143,6 +182,7 @@ class Usuario extends ipsi{
 			if($_SESSION['nivel']==3){
 				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
 			}
+			$arreglo+=array('nivel'=>2);  ///terapeuta
 			$x=$this->insert('usuarios', $arreglo);
 		}
 		else{

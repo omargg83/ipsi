@@ -38,10 +38,10 @@
 <div class="container">
 	<?php
 		if($mi!=1){
-			echo "<form is='f-submit' id='form_cliente' db='a_usuarios/db_' fun='guardar_horario' des='a_usuarios/horarios' desid='idhorario' dix='trabajo' v_idusuario='$idusuario'>";
+			echo "<form is='f-submit' id='form_cliente' db='a_terapeutas/db_' fun='guardar_horario' des='a_terapeutas/horarios' desid='idhorario' dix='trabajo' v_idusuario='$idusuario'>";
 		}
 		else{
-			echo "<form is='f-submit' id='form_cliente' db='a_usuarios/db_' fun='guardar_horario' des='a_usuarios/horarios' desid='idhorario' dix='contenido' v_idusuario='$idusuario' v_mi='1'>";
+			echo "<form is='f-submit' id='form_cliente' db='a_terapeutas/db_' fun='guardar_horario' des='a_terapeutas/horarios' desid='idhorario' dix='contenido' v_idusuario='$idusuario' v_mi='1'>";
 		}
 		?>
 			<input type="hidden" name="idhorario" id="idhorario" value="<?php echo $idhorario;?>">
@@ -91,10 +91,10 @@
 							<?php
 								echo "<button class='btn btn-warning btn-sm' type='submit'>Guardar</button>";
 								if($mi!=1){
-	                echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/horarios' dix='trabajo' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
+	                echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/horarios' dix='trabajo' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
 								}
 								else{
-									echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/horarios' dix='contenido' title='regresar' v_idusuario='$idusuario' v_mi='1'>Regresar</button>";
+									echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/horarios' dix='contenido' title='regresar' v_idusuario='$idusuario' v_mi='1'>Regresar</button>";
 								}
 							?>
 						</div>

@@ -11,6 +11,26 @@
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\SMTP;
 
+	/*
+	if($_SESSION['nivel']==1){
+		$_SESSION['tipo_user'] = "Admin General";
+	}
+	if($_SESSION['nivel']==2){
+		$_SESSION['tipo_user'] = "Terapeuta";
+	}
+	if($_SESSION['nivel']==3){
+		$_SESSION['tipo_user'] = "Admin Sucursal";
+	}
+	if($_SESSION['nivel']==4){
+		$_SESSION['tipo_user'] = "Secretaria";
+	}
+
+	if($key->nivel==1) echo "Admin General";
+	if($key->nivel==2) echo "Terapeuta";
+	if($key->nivel==3) echo "Admin Sucursal";
+	if($key->nivel==4) echo "Secretaria";
+	*/
+
 	require_once("init.php");
 	$_SESSION['pagina']=50;
 	class ipsi{
@@ -257,10 +277,10 @@
 				return json_encode($arreglo);
 			}
 		}
-		
+
 		public function paginar($paginas,$pag,$pagx,$des,$div){
 			echo "<div class='pag_sagyc'>";
-			  
+
 			    echo "<a is='b-link' title='Editar' des='$des' dix='$div'><i class='fas fa-angle-double-left'></i></a>";
 					$max=$pag+4;
 					$min=$pag-4;
@@ -273,7 +293,7 @@
 						$desp=$pag+1;
 
 						$b=$i+1;
-						
+
 							if($i==0 or $i==($paginas-1) or $ant==$i or $desp==$i or $pag==$i or $paginas<7){
 								echo "<a class='"; if($pag==$i){ echo " active";} echo "' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$i'>$b</a>";
 							}
@@ -292,8 +312,8 @@
 			    echo "<a class='paginacion-item' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$pagx'><i class='fas fa-angle-double-right'></i></a>";
 			echo "</div>";
 		}
-		
-		
+
+
 	}
 	function clean_var($val){
 		$val=htmlspecialchars(strip_tags(trim($val)));
