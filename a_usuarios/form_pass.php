@@ -7,7 +7,7 @@
 		$mi="1";
 	}
 	if(strlen($mi)==0){
-		echo "<form is='f-submit' id='form_clientepass' db='a_usuarios/db_' fun='password' cmodal='1' des='a_usuarios/editar' desid='idusuario' cmodal='1' dix='trabajo'>";
+		echo "<form is='f-submit' id='form_clientepass' db='a_usuarios/db_' fun='password' cmodal='1' des='a_usuarios/editar' desid='idusuario' cmodal='1' dix='contenido'>";
 	}
 	else{
 		echo "<form is='f-submit' id='form_clientepass' db='a_usuarios/db_' fun='password' cmodal='1' des='a_usuarios/editar_p' desid='idusuario' cmodal='1' dix='contenido'>";

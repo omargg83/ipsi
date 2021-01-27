@@ -112,6 +112,48 @@ class Usuario extends ipsi{
 		if (isset($_REQUEST['apellidom'])){
 			$arreglo+=array('apellidom'=>$_REQUEST['apellidom']);
 		}
+		if (isset($_REQUEST['edad'])){
+			$arreglo+=array('edad'=>$_REQUEST['edad']);
+		}
+		if (isset($_REQUEST['telefono'])){
+			$arreglo+=array('telefono'=>$_REQUEST['telefono']);
+		}
+		if (isset($_REQUEST['edo_civil'])){
+			$arreglo+=array('edo_civil'=>$_REQUEST['edo_civil']);
+		}
+		if (isset($_REQUEST['n_hijos'])){
+			$arreglo+=array('n_hijos'=>$_REQUEST['n_hijos']);
+		}
+		if (isset($_REQUEST['direccion'])){
+			$arreglo+=array('direccion'=>$_REQUEST['direccion']);
+		}
+		if (isset($_REQUEST['ocupacion'])){
+			$arreglo+=array('ocupacion'=>$_REQUEST['ocupacion']);
+		}
+		if (isset($_REQUEST['escolaridad'])){
+			$arreglo+=array('escolaridad'=>$_REQUEST['escolaridad']);
+		}
+		if (isset($_REQUEST['religion'])){
+			$arreglo+=array('religion'=>$_REQUEST['religion']);
+		}
+		if (isset($_REQUEST['vive'])){
+			$arreglo+=array('vive'=>$_REQUEST['vive']);
+		}
+		if (isset($_REQUEST['c_emergencia'])){
+			$arreglo+=array('c_emergencia'=>$_REQUEST['c_emergencia']);
+		}
+		if (isset($_REQUEST['c_telefono'])){
+			$arreglo+=array('c_telefono'=>$_REQUEST['c_telefono']);
+		}
+		if (isset($_REQUEST['enfermedad'])){
+			$arreglo+=array('enfermedad'=>$_REQUEST['enfermedad']);
+		}
+		if (isset($_REQUEST['medicamento'])){
+			$arreglo+=array('medicamento'=>$_REQUEST['medicamento']);
+		}
+		if (isset($_REQUEST['terapia'])){
+			$arreglo+=array('terapia'=>$_REQUEST['terapia']);
+		}
 
 		$arreglo+=array('correo'=>$correo);
 
@@ -252,6 +294,70 @@ class Usuario extends ipsi{
 		catch(PDOException $e){
 			return "Database access FAILED!".$e->getMessage();
 		}
+	}
+
+	public function paciente_buscar($texto,$idsucursal){
+		try{
+			if($_SESSION['nivel']==1 or$_SESSION['nivel']==4)
+			$sql="select * from clientes where (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%') limit 50";
+
+			if($_SESSION['nivel']==2)
+			$sql="select * from clientes where nombre='x' limit 50";
+
+			if($_SESSION['nivel']==3)
+			$sql="select * from clientes where (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%') and idsucursal='".$_SESSION['idsucursal']."' limit 50";
+
+			$sth = $this->dbh->query($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function sucursal_($id){
+		try{
+		  $sql="select * from sucursal where idsucursal=:id";
+		  $sth = $this->dbh->prepare($sql);
+		  $sth->bindValue(":id",$id);
+		  $sth->execute();
+		  return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+		  return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function asignar_paciente(){
+
+		$idcliente=$_REQUEST['idpaciente'];
+		$idusuario=$_REQUEST['idusuario'];
+
+		$sql="select * from cliente_terapeuta where idcliente=:idcliente and idusuario=:idusuario";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idcliente",$idcliente);
+		$sth->bindValue(":idusuario",$idusuario);
+		$sth->execute();
+		if ($sth->rowCount()!=0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"Ya tiene asignado el paciente");
+			return json_encode($arreglo);
+		}
+		else{
+			$arreglo =array();
+			$arreglo+=array('idcliente'=>$idcliente);
+			$arreglo+=array('idusuario'=>$idusuario);
+			return $this->insert('cliente_terapeuta', $arreglo);
+		}
+	}
+
+	public function paciente_quitar(){
+		$idusuario=$_REQUEST['idusuario'];
+		$idterapeuta=$_REQUEST['idterapeuta'];
+
+		return $this->borrar('cliente_terapeuta',"idterapeuta",$idterapeuta);
+
 	}
 }
 

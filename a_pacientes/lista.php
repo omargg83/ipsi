@@ -33,6 +33,7 @@
 			<div class='cell'>ID</div>
 			<div class='cell'>Sucursal</div>
 			<div class='cell'>Status</div>
+			<div class='cell'>Terapeuta</div>
 			<div class='cell'>Correo</div>
 		</div>
 
@@ -53,6 +54,16 @@
 					echo "<div class='cell' data-titulo='Sucursal'>".$sucursal->nombre."</div>";
 
 					echo "<div class='cell' data-titulo='Status'>".$key->estatus."</div>";
+
+					echo "<div class='cell' data-titulo='Terapeuta'>";
+
+					$sql="SELECT * FROM cliente_terapeuta LEFT OUTER JOIN usuarios ON cliente_terapeuta.idusuario = usuarios.idusuario WHERE cliente_terapeuta.idcliente =$key->id";
+					$sth = $db->dbh->query($sql);
+					$terap=$sth->fetchAll(PDO::FETCH_OBJ);
+					foreach($terap as $key){
+						echo "$key->nombre $key->apellidop $key->apellidom, ";
+					}
+					echo "</div>";
 					echo "<div class='cell' data-titulo='correo'>".$key->correo."</div>";
 				echo "</div>";
 			}
