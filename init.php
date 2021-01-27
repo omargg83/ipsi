@@ -1,9 +1,9 @@
 <?php
   /////////<<<<<<< Updated upstream
 
-  $server=1;
+  $server=2;
   $_SESSION['des']=1;   ///////////////cambiar esta para acceder a modo desarrollador
-
+	$_SESSION['pagina']=50;
   /////////>>>>>>> Stashed changes
 if($server==1){
   /////////remoto
@@ -22,14 +22,6 @@ else if($server==2){
   define("PORT", "3306");
 }
 else if($server==3){
-  //////////localhost 2
-  define("MYSQLUSER", "saludpublica");
-  define("MYSQLPASS", "saludp123$");
-  define("SERVIDOR", "192.168.100.15");
-  define("BDD", "wwipsi_actividades");
-  define("PORT", "3306");
-}
-else if($server==4){
   //////////localhost 2
   define("MYSQLUSER", "root");
   define("MYSQLPASS", "root");

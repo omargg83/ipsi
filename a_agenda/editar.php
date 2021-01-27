@@ -9,7 +9,7 @@
 	$sucursal=$db->sucursal();
 	$terapueutas=$db->terapueutas();
 	$pacientes=$db->pacientes();
-	
+
 	$fecha=date("Y-m-d");
 	$fecha_min=date("Y-m-d");
 ?>

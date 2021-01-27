@@ -31,7 +31,7 @@
 	*/
 
 	require_once("init.php");
-	$_SESSION['pagina']=50;
+
 	class ipsi{
 		public $nivel_personal;
 		public $nivel_captura;

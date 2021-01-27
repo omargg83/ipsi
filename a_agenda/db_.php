@@ -29,10 +29,32 @@ class Agenda extends ipsi{
 			die();
 		}
 	}
-	public function agenda_lista($pagina){
+	public function agenda_lista($pagina,$idsucursal,$idusuario,$fecha_cita,$idpaciente){
 		try{
 			$pagina=$pagina*$_SESSION['pagina'];
 			$sql="SELECT * FROM citas";
+			$ac=0;
+			$query="";
+
+			if(strlen($idsucursal)>0){
+				if($ac==1) $query.=" and ";
+				$query.=" idsucursal=$idsucursal";
+				$ac=1;
+			}
+			if(strlen($idusuario)>0){
+				if($ac==1) $query.=" and ";
+				$query.=" idusuario=$idusuario";
+				$ac=1;
+			}
+			if(strlen($idpaciente)>0){
+				if($ac==1) $query.=" and ";
+				$query.=" idpaciente=$idpaciente";
+				$ac=1;
+			}
+			if($ac==1){
+				$sql=$sql." where ".$query;
+			}
+			
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -64,7 +86,7 @@ class Agenda extends ipsi{
 		}
 	}
 	public function terapueutas(){
-		$sql="select * from usuarios where idsucursal='".$_SESSION['idsucursal']."' and nivel=2";
+		$sql="select * from usuarios where nivel=2";
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
