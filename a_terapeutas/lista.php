@@ -35,7 +35,7 @@
 								<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_terapeutas/terapeuta' dix='trabajo' tp="edit" v_idusuario='<?php echo $key->idusuario; ?>' title='editar'>Editar</button>
 								</div>
 							</div>
-						<div class='cell' data-titulo='Nombre'><?php echo $key->nombre; ?></div>
+						<div class='cell' data-titulo='Nombre'><?php echo "$key->nombre $key->apellidop $key->apellidom"; ?></div>
 
 						<div class='cell' data-titulo='Correo'><?php echo $key->correo; ?></div>
 						<div class='cell' data-titulo='Sucursal'><?php

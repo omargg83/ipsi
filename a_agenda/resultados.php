@@ -16,7 +16,6 @@
   $sth = $db->dbh->query($sql);
   $citas=$sth->fetchAll(PDO::FETCH_OBJ);
 
-
   echo "<div class='container'>";
   	echo "<div class='tabla_v' id='tabla_css'>";
 
@@ -27,26 +26,31 @@
   	echo "</div>";
 
     foreach($citas as $key){
-      $fdesde = new DateTime($key->desde);
+			$fdesde = new DateTime($key->desde);
       $fhasta = new DateTime($key->hasta);
 
-      echo "<div class='body-row' draggable='true'>";
-        echo "<div class='cell'>";
+			$sql="select * from citas where idusuario=$idusuario and desde='$fecha_cita ".$fdesde->format("H:i:s")."'";
+			$ver = $db->dbh->query($sql);
+			if($ver->rowCount()==0){
+      	echo "<div class='body-row'>";
 
-        	echo "<button class='btn btn-warning btn-sm' type='button' id='can_$key->idhorario' is='b-link'  db='a_agenda/db_' des='a_agenda/lista' dix='trabajo' fun='agregar_cita' tp='¿Desea solicitar cita la fecha seleccionada?' v_idpaciente='$idpaciente' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fdesde='$key->desde' v_fhasta='$key->hasta' v_fecha='$fecha_cita' v_idcita='0'>Solicitar</button>";
+	        echo "<div class='cell'>";
 
-        echo "</div>";
+	        	echo "<button class='btn btn-warning btn-sm' type='button' id='can_$key->idhorario' is='b-link'  db='a_agenda/db_' des='a_agenda/lista' dix='trabajo' fun='agregar_cita' tp='¿Desea solicitar cita la fecha seleccionada?' v_idpaciente='$idpaciente' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fdesde='$key->desde' v_fhasta='$key->hasta' v_fecha='$fecha_cita' v_idcita='0'>Solicitar</button>";
 
-        echo "<div class='cell'>";
-          echo $fecha->format("d-m-Y");
-        echo "</div>";
+	        echo "</div>";
 
-        echo "<div class='cell'>";
-          echo $fdesde->format("h:i");
-          echo " - ";
-          echo $fhasta->format("h:i");
-        echo "</div>";
-      echo "</div>";
+	        echo "<div class='cell'>";
+	          echo $fecha->format("d-m-Y");
+	        echo "</div>";
+
+	        echo "<div class='cell'>";
+	          echo $fdesde->format("h:i A");
+	          echo " - ";
+	          echo $fhasta->format("h:i A");
+	        echo "</div>";
+	      echo "</div>";
+			}
     }
     echo "</div>";
  ?>

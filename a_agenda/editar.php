@@ -2,15 +2,26 @@
 	require_once("db_.php");
 
   $idcita=$_REQUEST['idcita'];
-	$id="";
+	$idpaciente="";
 	$idsucursal="";
 	$idusuario="";
+	$fecha=date("Y-m-d");
+
+	if($idcita>0){
+		$cita=$db->cita($idcita);
+		$idsucursal=$cita->idsucursal;
+		$idpaciente=$cita->idpaciente;
+		$idusuario=$cita->idusuario;
+
+		$h_desde = new DateTime($cita->desde);
+		$fecha=$h_desde->format("Y-m-d");
+	}
 
 	$sucursal=$db->sucursal();
 	$terapueutas=$db->terapueutas();
 	$pacientes=$db->pacientes();
 
-	$fecha=date("Y-m-d");
+
 	$fecha_min=date("Y-m-d");
 ?>
 
@@ -49,7 +60,7 @@
 					<?php
 						foreach($pacientes as $key){
 							echo  "<option value=".$key->id;
-							if ($key->id==$id){
+							if ($key->id==$idpaciente){
 								echo  " selected ";
 							}
 							echo  ">$key->nombre $key->apellidop $key->apellidom</option>";

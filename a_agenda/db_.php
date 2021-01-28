@@ -46,15 +46,20 @@ class Agenda extends ipsi{
 				$query.=" idusuario=$idusuario";
 				$ac=1;
 			}
+			if(strlen($fecha_cita)>0){
+
+				if($ac==1) $query.=" and ";
+				$query.=" (desde>='$fecha_cita 00:00:00' and hasta<='$fecha_cita 23:59:59')";
+				$ac=1;
+			}
 			if(strlen($idpaciente)>0){
 				if($ac==1) $query.=" and ";
 				$query.=" idpaciente=$idpaciente";
 				$ac=1;
 			}
 			if($ac==1){
-				$sql=$sql." where ".$query;
+				$sql=$sql." where ".$query." order by desde asc";
 			}
-			
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -63,6 +68,19 @@ class Agenda extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+	public function cita($id){
+		try{
+			$sql="select * from citas where idcita=:id";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":id",$id);
+			$sth->execute();
+			return $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
 	public function pacientes(){
 		try{
 			$sql="SELECT * FROM clientes";
@@ -107,8 +125,8 @@ class Agenda extends ipsi{
 		$h_desde = new DateTime($fdesde);
 		$h_hasta = new DateTime($fhasta);
 
-		$total_desde=$fecha." ".$h_desde->format("h:i");
-		$total_hasta=$fecha." ".$h_hasta->format("h:i");
+		$total_desde=$fecha." ".$h_desde->format("H:i");
+		$total_hasta=$fecha." ".$h_hasta->format("H:i");
 
 		$arreglo+=array('desde'=>$total_desde);
 		$arreglo+=array('hasta'=>$total_hasta);

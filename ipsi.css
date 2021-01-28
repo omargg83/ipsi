@@ -142,7 +142,14 @@ text-align: center;
   align-items:center;
   border-bottom: .5px solid #e3e5e4;
   padding: 5px;
+}
+.tabla_v .cell2{
+  display: flex;
+  align-items:center;
   padding: 5px;
+}
+.tabla_v .form_tablev{
+  display: contents;
 }
 
 
