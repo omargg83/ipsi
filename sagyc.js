@@ -34,7 +34,7 @@ onload = ()=> {
 			}
 		}
 		if(nhash==''){
-			nhash= 'dash/index';
+			nhash= 'dash/dashboard';
 		}
 		let destino=nhash + '.php';
 		let xhr = new XMLHttpRequest();

@@ -279,7 +279,7 @@
 
 		public function paginar($paginas,$pag,$pagx,$des,$div){
 			echo "<div class='pag_sagyc'>";
-
+				echo "<div class='paginas'>";
 			    echo "<a is='b-link' title='Editar' des='$des' dix='$div'><i class='fas fa-angle-double-left'></i></a>";
 					$max=$pag+4;
 					$min=$pag-4;
@@ -309,6 +309,7 @@
 
 					}
 			    echo "<a class='paginacion-item' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$pagx'><i class='fas fa-angle-double-right'></i></a>";
+				echo "</div>";
 			echo "</div>";
 		}
 

@@ -58,8 +58,27 @@ class Agenda extends ipsi{
 				$ac=1;
 			}
 			if($ac==1){
-				$sql=$sql." where ".$query." order by desde asc";
+				$sql=$sql." where ".$query." ";
 			}
+			$sql.=" order by desde asc";
+			$sql.=" limit $pagina,".$_SESSION['pagina']."";
+			$sth = $this->dbh->prepare($sql);
+			$sth->execute();
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+	public function agenda_buscar(){
+		try{
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4)
+			$sql="SELECT * FROM citas";
+
+			if($_SESSION['nivel']==666)
+			$sql="SELECT * FROM citas where idpaciente='".$_SESSION['idusuario']."'";
+
+			echo $sql;
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -83,7 +102,26 @@ class Agenda extends ipsi{
 
 	public function pacientes(){
 		try{
+			/*
+			if($key->nivel==1) echo "Admin General";
+			if($key->nivel==2) echo "Terapeuta";
+			if($key->nivel==3) echo "Admin Sucursal";
+			if($key->nivel==4) echo "Secretaria";
+			*/
+
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4)
 			$sql="SELECT * FROM clientes";
+
+			if($_SESSION['nivel']==2)
+			$sql="select * from cliente_terapeuta left outer join clientes on clientes.id=cliente_terapeuta.idcliente where idsucursal='".$_SESSION['idsucursal']."' and cliente_terapeuta.idusuario='".$_SESSION['idusuario']."'";
+
+
+			if($_SESSION['nivel']==3)
+			$sql="SELECT * FROM clientes where idsucursal='".$_SESSION['idsucursal']."'";
+
+			if($_SESSION['nivel']==666)
+			$sql="SELECT * FROM clientes where id='".$_SESSION['idusuario']."'";
+
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -104,7 +142,19 @@ class Agenda extends ipsi{
 		}
 	}
 	public function terapueutas(){
+		if($_SESSION['nivel']==666){
+			$sql="select * from cliente_terapeuta left outer join usuarios on usuarios.idusuario=cliente_terapeuta.idusuario where nivel=2 and cliente_terapeuta.idcliente='".$_SESSION['idusuario']."'";
+		}
+
+		if($_SESSION['nivel']==1 or $_SESSION['nivel']==4)
 		$sql="select * from usuarios where nivel=2";
+
+		if($_SESSION['nivel']==2)
+		$sql="select * from usuarios where idusuario='".$_SESSION['idusuario']."'";
+
+		if($_SESSION['nivel']==3)
+		$sql="select * from usuarios where nivel=2 and idsucursal='".$_SESSION['idsucursal']."'";
+
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
@@ -113,14 +163,9 @@ class Agenda extends ipsi{
 
 		$idcita=$_REQUEST['idcita'];
 
-
-		$idpaciente=$_REQUEST['idpaciente'];
-		$idsucursal=$_REQUEST['idsucursal'];
-		$idusuario=$_REQUEST['idusuario'];
-
-		$fdesde=$_REQUEST['fdesde'];
-		$fhasta=$_REQUEST['fhasta'];
-		$fecha=$_REQUEST['fecha'];
+		$fdesde=$_REQUEST['fdesden'];
+		$fhasta=$_REQUEST['fhastan'];
+		$fecha=$_REQUEST['fechan'];
 
 		$h_desde = new DateTime($fdesde);
 		$h_hasta = new DateTime($fhasta);
@@ -131,25 +176,22 @@ class Agenda extends ipsi{
 		$arreglo+=array('desde'=>$total_desde);
 		$arreglo+=array('hasta'=>$total_hasta);
 
-		if (isset($_REQUEST['idusuario'])){
-			$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
-		}
-		if (isset($_REQUEST['idpaciente'])){
-			$arreglo+=array('idpaciente'=>$_REQUEST['idpaciente']);
-		}
-
-		if (isset($_REQUEST['idsucursal'])){
-
-			$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
-		}
 		if($idcita==0){
+			if (isset($_REQUEST['idusuarion'])){
+				$arreglo+=array('idusuario'=>$_REQUEST['idusuarion']);
+			}
+			if (isset($_REQUEST['idpacienten'])){
+				$arreglo+=array('idpaciente'=>$_REQUEST['idpacienten']);
+			}
+			if (isset($_REQUEST['idsucursaln'])){
+				$arreglo+=array('idsucursal'=>$_REQUEST['idsucursaln']);
+			}
 			$arreglo+=array('estatus'=>"Pendiente");
 			$x=$this->insert('citas', $arreglo);
 		}
 		else{
-			$x=$this->insert('citas', $arreglo);
+			$x=$this->update('citas',array('idcita'=>$idcita), $arreglo);
 		}
-
 		return $x;
 	}
 	public function sucursal_($id){
@@ -177,7 +219,17 @@ class Agenda extends ipsi{
 		$x=$this->borrar('citas',"idcita",$idcita);
 		return $x;
 	}
-
+	public function consultorios($desde,$hasta){
+		try{
+			$sql="select * from consultorio_horarios left outer join consultorio on consultorio.idconsultorio=consultorio_horarios.idconsultorio";
+			echo $sql;
+			$sth = $this->dbh->query($sql);
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
 }
 
 
