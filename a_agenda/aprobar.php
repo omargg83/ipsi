@@ -2,19 +2,23 @@
 	require_once("db_.php");
 
   $idcita=$_REQUEST['idcita'];
+	$nombresDias = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado" );
 
 	$cita=$db->cita($idcita);
 	$idsucursal=$cita->idsucursal;
 	$idpaciente=$cita->idpaciente;
 	$idusuario=$cita->idusuario;
+	$estatus=$cita->estatus;
 
 	$h_desde = new DateTime($cita->desde);
 	$fecha=$h_desde->format("Y-m-d");
 
+	$dia_prog = $nombresDias[$h_desde->format("w")];
+
 	$horad=$h_desde->format("h:i A");
 
-  $horad = date ('H:i' , strtotime($cita->desde));
-  $horah = date ('H:i' , strtotime($cita->hasta));
+  $horad = date ('h:i A' , strtotime($cita->desde));
+  $horah = date ('h:i A' , strtotime($cita->hasta));
 
 
 	$suc=$db->sucursal_($cita->idsucursal);
@@ -26,9 +30,9 @@
 	$cli=$db->cliente_($cita->idpaciente);
 	$cliente_nombre=$cli->nombre." ".$cli->apellidop." ".$cli->apellidom;
 
-	$estatus=$cita->estatus;
-
-	$consultorios=$db->consultorios($cita->desde,$cita->hasta);
+	///////////////////////////////////
+	$nombreDia = $nombresDias[$h_desde->format("w")];
+	$consultorios=$db->consultorios($cita->desde,$cita->hasta, $nombreDia);
  ?>
 
  <nav aria-label='breadcrumb'>
@@ -48,14 +52,22 @@
  					<label for="">Fecha</label>
  					<input type="date" name="fecha_cita" id="fecha_cita" value="<?php echo $fecha;?>"  class='form-control' readonly>
  				</div>
+
  				<div class="col-3">
  					<label for="">Inicio</label>
- 					<input type="time" name="hora" id="hora" value="<?php echo $horad;?>"  class='form-control' readonly>
+ 					<input type="text" name="hora" id="hora" value="<?php echo $horad;?>"  class='form-control' readonly>
  				</div>
+
  				<div class="col-3">
  					<label for="">Fin</label>
- 					<input type="time" name="hora" id="hora" value="<?php echo $horah;?>"  class='form-control' readonly>
+ 					<input type="text" name="hora" id="hora" value="<?php echo $horah;?>"  class='form-control' readonly>
  				</div>
+
+				<div class="col-3">
+ 					<label for="">Dia</label>
+ 					<input type="text" name="dia_prog" id="dia_prog" value="<?php echo $dia_prog;?>"  class='form-control' readonly>
+ 				</div>
+
  				<div class="col-3">
  					<label for="">Sucursal</label>
  					<input type="text" name="sx" id="sx" value="<?php echo $sucursal_nombre;?>"  class='form-control' readonly>
@@ -82,6 +94,7 @@
 
 			echo "<div class='header-row'>";
 				echo "<div class='cell'>Consultorio</div>";
+				echo "<div class='cell'>Dia</div>";
 				echo "<div class='cell'>Disponible</div>";
 				echo "<div class='cell'>Fin</div>";
 			echo "</div>";
@@ -92,10 +105,15 @@
 						echo $v2->nombre;
 					echo "</div>";
 					echo "<div class='cell'>";
-						echo $v2->desde;
+						echo $v2->desde_dia;
 					echo "</div>";
 					echo "<div class='cell'>";
-						echo $v2->hasta;
+						$fdesde = new DateTime($v2->desde);
+						echo $fdesde->format("h:i A");
+					echo "</div>";
+					echo "<div class='cell'>";
+						$fdesde = new DateTime($v2->hasta);
+						echo $fdesde->format("h:i A");
 					echo "</div>";
 				echo "</div>";
 			}

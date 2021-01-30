@@ -135,7 +135,7 @@
 
 				$bloq=$db->contexto_ver($key->idsubactividad);
 				foreach($bloq as $row){
-					echo "<div class='card m-4' draggable='true'>";
+					echo "<div class='card m-4' >";
 					echo "<div class='card-header'>";
 						echo "<div class='row'>";
 							echo "<div class='col-3'>";

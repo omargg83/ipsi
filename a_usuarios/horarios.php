@@ -65,7 +65,7 @@
 					<?php
 						$horarios=$db->usuario_horarios($idusuario);
 						foreach($horarios as $key){
-							echo "<div class='body-row' draggable='true'>";
+							echo "<div class='body-row' >";
 								echo "<div class='cell'>";
 
 								if($mi!=1){

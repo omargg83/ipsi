@@ -28,7 +28,7 @@
 
 		<?php
 			foreach($pd as $key){
-				echo "<div class='body-row' draggable='true'>";
+				echo "<div class='body-row' >";
 					echo "<div class='cell'>";
 
 						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_sucursal/editar' dix='trabajo' v_idsucursal='$key->idsucursal'>Editar</button>";

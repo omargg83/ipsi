@@ -274,10 +274,10 @@ class Usuario extends ipsi{
 			$arreglo+=array('recurrente'=>null);
 		}
 
-		$desde="0000-00-00 ".$_REQUEST['desde'].":00";
+		$desde="2021-01-01 ".$_REQUEST['desde'].":00";
 		$arreglo+=array('desde'=>$desde);
 
-		$hasta="0000-00-00 ".$_REQUEST['hasta'].":00";
+		$hasta="2021-01-01 ".$_REQUEST['hasta'].":00";
 		$arreglo+=array('hasta'=>$hasta);
 
 		$fecha_desde = strtotime($desde);

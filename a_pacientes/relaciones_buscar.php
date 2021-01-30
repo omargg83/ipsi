@@ -22,7 +22,7 @@
 
 		<?php
 			foreach($pd as $key){
-				echo "<div class='body-row' draggable='true'>";
+				echo "<div class='body-row' >";
 					echo "<div class='cell'>";
 						echo "<div class='btn-group'>";
 						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/relaciones_editar' dix='trabajo' v_idrelacion='0' v_id='$key->id' v_idpaciente='$idpaciente'>Seleccionar</button>";

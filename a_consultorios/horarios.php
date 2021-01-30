@@ -12,44 +12,27 @@
 
 ?>
 
+<nav aria-label='breadcrumb'>
+ <ol class='breadcrumb'>
+	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_consultorios/index" dix="contenido">Citas</li>
+
+	 <li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_consultorios/editar" v_idconsultorio="<?php echo $idconsultorio; ?>" dix="contenido"><?php echo $nombre;?></li>
+
+	 <li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_consultorios/horarios" v_idconsultorio="<?php echo $idconsultorio; ?>" dix="contenido">Horarios</li>
+
+	 <button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_consultorios/index" dix="contenido">Regresar</button>
+ </ol>
+</nav>
+
+
 <div class="container">
-		<div class='card'>
-			<div class='card-header'>
-				Consultorio
-			</div>
-			<div class='card-body'>
-				<div class='row'>
-					<div class="col-6">
-						<label>Nombre:</label>
-							<input type="text" class="form-control " name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" required maxlength='100' readonly>
-					</div>
-
-					<div class='col-6'>
-						<label for='nombre'>Sucursal</label>
-            <input type="text" class="form-control " name="sucursal" id="sucursal" value="<?php echo $snombre;?>" placeholder="Nombre" required maxlength='100' readonly>
-
-					</div>
-				</div>
-			</div>
-
-			<div class='card-footer'>
-				<div class="row">
-					<div class='col-12'>
-
-						<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_consultorios/editar_horario' dix='trabajo' title='regresar' v_idconsultorio='<?php echo $idconsultorio;?>' v_idhorario='0'>Agregar horario</button>
-
-						<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_consultorios/lista' dix='trabajo' title='regresar'>Regresar</button>
-
-					</div>
-				</div>
-			</div>
-		</div>
-		<hr>
 		<div class='card'>
 			<div class='card-header'>
 				Horarios
 			</div>
 			<div class='card-body'>
+				<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_consultorios/editar_horario' dix='contenido' title='regresar' v_idconsultorio='<?php echo $idconsultorio;?>' v_idhorario='0'>Agregar horario</button>
+
 				<div class='tabla_v' id='tabla_css'>
 
 					<div class='header-row'>
@@ -57,27 +40,21 @@
 						<div class='cell'>Dia</div>
 						<div class='cell'>Desde</div>
 						<div class='cell'>Hasta</div>
-						<div class='cell'>Recurrente</div>
 					</div>
 					<?php
 						$horarios=$db->lista_horarios($idconsultorio);
 						foreach($horarios as $key){
-							echo "<div class='body-row' draggable='true'>";
+							echo "<div class='body-row' >";
 								echo "<div class='cell'>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/editar_horario' dix='trabajo' v_idhorario='$key->idhorario'>Editar</button>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/editar_horario' dix='contenido' v_idhorario='$key->idhorario' v_idconsultorio='$idconsultorio'>Editar</button>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/horarios' dix='trabajo' db='a_consultorios/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idconsultorio='$idconsultorio' tp='¿Desea eliminar el horario seleccionado?' title='Borrar'>Eliminar</button>";
-									
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/horarios' dix='contenido' db='a_consultorios/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idconsultorio='$idconsultorio' tp='¿Desea eliminar el horario seleccionado?' title='Borrar'>Eliminar</button>";
+
 								echo "</div>";
 								echo "<div class='cell' data-titulo='Dia'>".$key->desde_dia."</div>";
-								echo "<div class='cell' data-titulo='Desde'>".date ( 'h:i' , strtotime($key->desde))."</div>";
-								echo "<div class='cell' data-titulo='Hasta'>".date ( 'h:i' , strtotime($key->hasta))."</div>";
-								echo "<div class='cell' data-titulo='Recurrente'>";
-									if($key->recurrente){
-										echo "Recurrente";
-									}
-								echo "</div>";
+								echo "<div class='cell' data-titulo='Desde'>".date ( 'h:i A' , strtotime($key->desde))."</div>";
+								echo "<div class='cell' data-titulo='Hasta'>".date ( 'h:i A' , strtotime($key->hasta))."</div>";
 							echo "</div>";
 						}
 					 ?>

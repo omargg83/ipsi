@@ -78,7 +78,6 @@ class Agenda extends ipsi{
 			if($_SESSION['nivel']==666)
 			$sql="SELECT * FROM citas where idpaciente='".$_SESSION['idusuario']."'";
 
-			echo $sql;
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -219,10 +218,13 @@ class Agenda extends ipsi{
 		$x=$this->borrar('citas',"idcita",$idcita);
 		return $x;
 	}
-	public function consultorios($desde,$hasta){
+	public function consultorios($desde,$hasta,$dia){
 		try{
-			$sql="select * from consultorio_horarios left outer join consultorio on consultorio.idconsultorio=consultorio_horarios.idconsultorio";
-			echo $sql;
+			$fdesde = new DateTime($desde);
+			$xdesde="2021-01-01 ".$fdesde->format("H:i").":00";
+
+			$sql="select * from consultorio_horarios left outer join consultorio on consultorio.idconsultorio=consultorio_horarios.idconsultorio
+			where consultorio_horarios.desde_dia='$dia' and desde='$xdesde'";
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}

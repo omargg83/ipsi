@@ -27,16 +27,30 @@
     $hasta = strtotime ( '+59 minute' , strtotime ($desde) ) ;
     $hasta = date ( 'h:i' , $hasta);
   }
+
+	$pd = $db->consultorio($idconsultorio);
+	$nombre=$pd->nombre;
 ?>
 
+<nav aria-label='breadcrumb'>
+ <ol class='breadcrumb'>
+	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_consultorios/index" dix="contenido">Citas</li>
+
+	 <li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_consultorios/editar" v_idconsultorio="<?php echo $idconsultorio; ?>" dix="contenido"><?php echo $nombre; ?></li>
+
+	 <li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_consultorios/horarios" v_idconsultorio="<?php echo $idconsultorio; ?>" v_idhorario='<?php echo $idhorario; ?>' dix="contenido">Horario</li>
+
+	 <li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_consultorios/editar_horario" v_idconsultorio="<?php echo $idconsultorio; ?>" v_idhorario='<?php echo $idhorario; ?>' dix="contenido">Editar Horario</li>
+
+	 <button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_consultorios/horarios" _idconsultorio="<?php echo $idconsultorio; ?>" v_idhorario='<?php echo $idhorario; ?>' dix="contenido">Regresar</button>
+ </ol>
+</nav>
+
 <div class="container">
-		<form is="f-submit" id="form_cliente" db="a_consultorios/db_" fun="guardar_horario" des="a_consultorios/horarios" desid='idhorario' v_idconsultorio='<?php echo $idconsultorio;?>'>
+		<form is="f-submit" id="form_cliente" db="a_consultorios/db_" fun="guardar_horario" des="a_consultorios/horarios" dix='contenido' desid='idhorario' v_idconsultorio='<?php echo $idconsultorio;?>'>
 			<input type="hidden" name="idhorario" id="idhorario" value="<?php echo $idhorario;?>">
 			<input type="hidden" name="idconsultorio" id="idconsultorio" value="<?php echo $idconsultorio;?>">
 			<div class="card">
-				<div class='card-header'>
-					Horarios
-				</div>
 				<div class='card-body'>
 					<div class='row'>
 						<div class='col-3'>
@@ -65,19 +79,12 @@
 							<input type="time" class="form-control " name="hasta" id="hasta" value="<?php echo $hasta;?>" placeholder="Hasta" required>
 						</div>
 					</div>
-					<div class="row">
-						<div class='col-6'>
-							<div class="form-group form-check">
-						    <input type="checkbox" class="form-check-input" id="recurrente" name='recurrente' value='1' <?php if($recurrente==1){ echo "checked";} ?>>
-						    <label class="form-check-label" for="recurrente">Recurrente</label>
-						  </div>
-						</div>
-					</div>
+
 					<div class="row">
 						<div class='col-12'>
 								<button class="btn btn-warning btn-sm" type="submit">Guardar</button>
 
-                <button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_consultorios/horarios' dix='trabajo' title='regresar' v_idconsultorio='<?php echo $idconsultorio;?>'>Regresar</button>
+                <button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_consultorios/horarios' dix='contenido' title='regresar' v_idconsultorio='<?php echo $idconsultorio;?>'>Regresar</button>
 						</div>
 					</div>
 

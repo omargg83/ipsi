@@ -84,6 +84,8 @@ class Consultorio extends ipsi{
 		}
 
 		if($idconsultorio==0){
+
+
 			$x=$this->insert('consultorio', $arreglo);
 		}
 		else{
@@ -132,9 +134,31 @@ class Consultorio extends ipsi{
 		$idconsultorio=$_REQUEST['idconsultorio'];
 		$arreglo =array();
 
-		if (isset($_REQUEST['desde_dia'])){
-			$arreglo+=array('desde_dia'=>$_REQUEST['desde_dia']);
-		}
+		$desde_dia=$_REQUEST['desde_dia'];
+		$arreglo+=array('desde_dia'=>$desde_dia);
+
+
+		if($desde_dia=="Domingo")
+		$arreglo+=array('hasta_dia'=>0);
+
+		if($desde_dia=="Lunes")
+		$arreglo+=array('hasta_dia'=>1);
+
+		if($desde_dia=="Martes")
+		$arreglo+=array('hasta_dia'=>2);
+
+		if($desde_dia=="Miercoles")
+		$arreglo+=array('hasta_dia'=>3);
+
+		if($desde_dia=="Jueves")
+		$arreglo+=array('hasta_dia'=>4);
+
+		if($desde_dia=="Viernes")
+		$arreglo+=array('hasta_dia'=>5);
+
+		if($desde_dia=="Sabado")
+		$arreglo+=array('hasta_dia'=>6);
+
 
 		if (isset($_REQUEST['recurrente'])){
 			$arreglo+=array('recurrente'=>$_REQUEST['recurrente']);
@@ -149,8 +173,32 @@ class Consultorio extends ipsi{
 		$hasta="2021/01/01 "." ".$_REQUEST['hasta'].":00";
 		$arreglo+=array('hasta'=>$hasta);
 
+		$fecha_desde = strtotime($desde);
+		$fecha_hasta = strtotime($hasta);
+
+		if($fecha_desde > $fecha_hasta){
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"Error, verificar horario");
+			return json_encode($arreglo);
+		}
+
 		if($idhorario==0){
 			$arreglo+=array('idconsultorio'=>$idconsultorio);
+
+			$sql="select * from consultorio_horarios where idconsultorio='$idconsultorio' and desde_dia='$desde_dia' and (
+				('$desde' between desde and hasta) or ('$hasta' between desde and hasta) )";
+			$sth = $this->dbh->prepare($sql);
+			$a=$sth->execute();
+			if($sth->rowCount()>0){
+				$arreglo+=array('id1'=>0);
+				$arreglo+=array('error'=>1);
+				$arreglo+=array('terror'=>"Ya existe el horario favor de verificar");
+				return json_encode($arreglo);
+			}
+
+
+
 			$x=$this->insert('consultorio_horarios', $arreglo);
 		}
 		else{
@@ -160,7 +208,7 @@ class Consultorio extends ipsi{
 	}
 	public function lista_horarios($id){
 		try{
-			$sql="SELECT * FROM consultorio_horarios where idconsultorio='$id'";
+			$sql="SELECT * FROM consultorio_horarios where idconsultorio='$id' order by hasta_dia asc";
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
