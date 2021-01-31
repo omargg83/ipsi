@@ -56,7 +56,7 @@
       	echo "<div class='body-row'>";
 
 	        echo "<div class='cell'>";
-	        	echo "<button class='btn btn-warning btn-sm' type='button' id='can_$key->idhorario' is='b-link'  db='a_agenda/db_' des='a_agenda/index' dix='contenido' fun='agregar_cita' tp='¿Desea solicitar cita la fecha seleccionada?' v_idpacienten='$idpaciente' v_idsucursaln='$idsucursal' v_idusuarion='$idusuario' v_fdesden='$key->desde' v_fhastan='$key->hasta' v_fechan='$fecha_cita' v_idcita='$idcita'>";
+	        	echo "<button class='btn btn-warning btn-sm' type='button' id='can_$key->idhorario' is='b-link'  db='a_agenda/db_' des='a_agenda/index' dix='contenido' fun='agregar_cita' tp='¿Desea solicitar cita la fecha seleccionada?' v_idpacienten='$idpaciente' v_idsucursaln='$idsucursal' v_idusuarion='$idusuario' v_fdesden='$key->desde' v_fhastan='$key->hasta' v_fechan='$fecha_cita' v_idcita='$idcita' v_desdedia='$key->desde_dia'>";
 							if($idcita>0){
 								echo "Reprogramar";
 							}

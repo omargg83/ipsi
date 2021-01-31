@@ -11,7 +11,7 @@
 	$estatus=$cita->estatus;
 
 	$h_desde = new DateTime($cita->desde);
-	$fecha=$h_desde->format("Y-m-d");
+	$fecha_cita=$h_desde->format("Y-m-d");
 
 	$dia_prog = $nombresDias[$h_desde->format("w")];
 
@@ -50,7 +50,7 @@
  			<div class="row">
  				<div class="col-3">
  					<label for="">Fecha</label>
- 					<input type="date" name="fecha_cita" id="fecha_cita" value="<?php echo $fecha;?>"  class='form-control' readonly>
+ 					<input type="date" name="fecha_cita" id="fecha_cita" value="<?php echo $fecha_cita;?>"  class='form-control' readonly>
  				</div>
 
  				<div class="col-3">
@@ -91,8 +91,9 @@
 	<div >
 		<?php
 		echo "<div class='tabla_v' id='tabla_css'>";
-
+			echo "<h5>Consultorios disponibles</h5>";
 			echo "<div class='header-row'>";
+				echo "<div class='cell'>#</div>";
 				echo "<div class='cell'>Consultorio</div>";
 				echo "<div class='cell'>Dia</div>";
 				echo "<div class='cell'>Disponible</div>";
@@ -100,22 +101,35 @@
 			echo "</div>";
 
 			foreach($consultorios as $v2){
-				echo "<div class='body-row'>";
-					echo "<div class='cell'>";
-						echo $v2->nombre;
+
+				$fdesde = new DateTime($v2->desde);
+	      $fhasta = new DateTime($v2->hasta);
+
+
+				$sql="select * from citas where idconsultorio=$v2->idconsultorio and desde='$cita->desde'";
+				$ver = $db->dbh->query($sql);
+				if($ver->rowCount()==0){
+					echo "<div class='body-row'>";
+						echo "<div class='cell'>";
+							echo "<button class='btn btn-warning btn-sm' type='button' id='can_$v2->idhorario' is='b-link'  db='a_agenda/db_' des='a_agenda/index' dix='contenido' fun='agregar_consultorio' tp='¿Desea aprobar la cita en el consultorio seleccionado?' v_idcita='$idcita' v_idconsultorio='$v2->idconsultorio' v_condesde='$v2->desde' v_conhasta='$v2->hasta' v_desdedia='$v2->desde_dia' v_fechan='$cita->desde'>Asignar</button>";
+						echo "</div>";
+
+						echo "<div class='cell'>";
+							echo $v2->nombre;
+						echo "</div>";
+						echo "<div class='cell'>";
+							echo $v2->desde_dia;
+						echo "</div>";
+						echo "<div class='cell'>";
+							$fdesde = new DateTime($v2->desde);
+							echo $fdesde->format("h:i A");
+						echo "</div>";
+						echo "<div class='cell'>";
+							$fdesde = new DateTime($v2->hasta);
+							echo $fdesde->format("h:i A");
+						echo "</div>";
 					echo "</div>";
-					echo "<div class='cell'>";
-						echo $v2->desde_dia;
-					echo "</div>";
-					echo "<div class='cell'>";
-						$fdesde = new DateTime($v2->desde);
-						echo $fdesde->format("h:i A");
-					echo "</div>";
-					echo "<div class='cell'>";
-						$fdesde = new DateTime($v2->hasta);
-						echo $fdesde->format("h:i A");
-					echo "</div>";
-				echo "</div>";
+				}
 			}
 			echo "</div>";
 		 ?>

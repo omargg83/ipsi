@@ -187,6 +187,55 @@
 					</div>
 				</div>
 			</div>
+			<div class='row p-3'>
+				<div class='card col-12'>
+					<div class='card-body'>
+						<div class='row'>
+							<div class='col-12'>
+								<h5>Últimas citas</h5>
+							</div>
+						</div>
+						<div class='row'>
+							<div class='col-4'>
+								Fecha
+							</div>
+							<div class='col-4'>
+								Hora
+							</div>
+							<div class='col-4'>
+								Terapeuta
+							</div>
+						</div>
+						<?php
+							$sql="SELECT * FROM citas where idpaciente=$idpaciente order by estatus asc, desde asc limit 3 ";
+							$sth = $db->dbh->query($sql);
+
+							$citas=$sth->fetchAll(PDO::FETCH_OBJ);
+							foreach($citas as $key){
+								$fecha = new DateTime($key->desde);
+								echo "<div class='row'>";
+									echo "<div class='col-4'>";
+										echo "<input class='form-control form-control-sm' value='".$fecha->format("d-m-Y")."' readonly/>";
+									echo "</div>";
+									echo "<div class='col-4'>";
+										echo "<input class='form-control form-control-sm' value='".$fecha->format("h:i A")."' readonly/>";
+									echo "</div>";
+									echo "<div class='col-4'>";
+										$terapeuta=$db->terapeuta($key->idusuario);
+										echo "<input class='form-control form-control-sm' value='$terapeuta->nombre' readonly/>";
+									echo "</div>";
+								echo "</div>";
+							}
+						?>
+						<hr>
+						<div class='row'>
+							<div class='col-12'>
+								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_agenda/index" dix="contenido">Ver más</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
