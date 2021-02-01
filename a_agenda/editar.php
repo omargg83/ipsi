@@ -76,7 +76,7 @@
 						echo "</select>";
 					echo "</div>";
 				}
-				if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
+				if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4 or $_SESSION['nivel']==666){
 					echo "<div class='col-3'>";
 						echo "<label for=''>Terapeuta</label>";
 						echo "<select name='idusuario' id='idusuario' class='form-control'>";

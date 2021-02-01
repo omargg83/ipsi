@@ -1,5 +1,6 @@
 <?php
 	require_once("db_.php");
+	$nombresDias = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado" );
 
 	$pag=0;
 	$texto="";
@@ -30,13 +31,16 @@
     echo "<div class='cell'>#</div>";
     echo "<div class='cell'>Sucursal</div>";
     echo "<div class='cell'>Paciente</div>";
+		echo "<div class='cell'>Fecha</div>";
     echo "<div class='cell'>Hora</div>";
-    echo "<div class='cell'>Fecha</div>";
+    echo "<div class='cell'>Dia</div>";
 		echo "<div class='cell'>Terapeuta</div>";
     echo "<div class='cell'>status</div>";
   echo "</div>";
 
   foreach($pd as $key){
+		$hora = new DateTime($key->desde);
+
     echo "<div class='body-row'>";
       echo "<div class='cell'>";
 
@@ -58,16 +62,23 @@
         echo $ter->nombre." ".$ter->apellidop." ".$ter->apellidom;
       echo "</div>";
 
-      echo "<div class='cell' data-titulo='Hora'>";
-        $hora = new DateTime($key->desde);
+			echo "<div class='cell' data-titulo='Fecha'>";
+        echo $hora->format("d-m-Y");
+      echo "</div>";
+
+			echo "<div class='cell' data-titulo='Hora'>";
         echo $hora->format("h:i A")." - " ;
 				$hora = new DateTime($key->hasta);
 				echo $hora->format("h:i A");
       echo "</div>";
 
-      echo "<div class='cell' data-titulo='Fecha'>";
-        echo $hora->format("d-m-Y");
+			echo "<div class='cell' data-titulo='Dia'>";
+			$dia_prog = $nombresDias[$hora->format("w")];
+			echo $dia_prog;
       echo "</div>";
+
+
+
 
 			echo "<div class='cell' data-titulo='Terapeuta'>";
         $ter=$db->terapueuta_($key->idusuario);

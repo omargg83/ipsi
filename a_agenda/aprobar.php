@@ -105,7 +105,6 @@
 				$fdesde = new DateTime($v2->desde);
 	      $fhasta = new DateTime($v2->hasta);
 
-
 				$sql="select * from citas where idconsultorio=$v2->idconsultorio and desde='$cita->desde'";
 				$ver = $db->dbh->query($sql);
 				if($ver->rowCount()==0){

@@ -398,7 +398,11 @@ class Usuario extends ipsi{
 			return $this->insert('cliente_terapeuta', $arreglo);
 		}
 	}
-
+	public function cliente_($id){
+		$sql="select * from clientes where id='$id'";
+		$sth = $this->dbh->query($sql);
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
 	public function paciente_quitar(){
 		$idusuario=$_REQUEST['idusuario'];
 		$idterapeuta=$_REQUEST['idterapeuta'];

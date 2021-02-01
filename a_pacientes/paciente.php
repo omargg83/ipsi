@@ -222,7 +222,7 @@
 									echo "</div>";
 									echo "<div class='col-4'>";
 										$terapeuta=$db->terapeuta($key->idusuario);
-										echo "<input class='form-control form-control-sm' value='$terapeuta->nombre' readonly/>";
+										echo "<input class='form-control form-control-sm' value='$terapeuta->nombre $terapeuta->apellidop $terapeuta->apellidom' readonly/>";
 									echo "</div>";
 								echo "</div>";
 							}

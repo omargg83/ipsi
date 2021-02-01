@@ -29,7 +29,7 @@
 							echo "</select>";
 						echo "</div>";
 					}
-					if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
+					if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4  or $_SESSION['nivel']==666){
 						echo "<div class='cell2'>";
 						echo "<select name='idusuario' id='idusuario' class='form-control form-control-sm filter_x' >";
 							echo "<option value='' style='color:#e3e5e4 !important;'>Terapeuta</option>";

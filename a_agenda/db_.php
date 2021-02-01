@@ -237,6 +237,9 @@ class Agenda extends ipsi{
 
 		$idconsultorio=$_REQUEST['idconsultorio'];
 		$idcita=$_REQUEST['idcita'];
+		$cita=$this::cita($idcita);
+		$cliente=$this::cliente_($cita->idusuario);
+
 		$desdedia=$_REQUEST['desdedia'];
 
 		$condesde=$_REQUEST['condesde'];
@@ -256,11 +259,15 @@ class Agenda extends ipsi{
 		$arreglo+=array('con_hasta'=>$phasta);
 		$arreglo+=array('desde_dia'=>$desdedia);
 		$arreglo+=array('estatus'=>"Aprobada");
+		$x=$this->update('citas',array('idcita'=>$idcita), $arreglo);
 
-		return $x=$this->update('citas',array('idcita'=>$idcita), $arreglo);
+		$correo="omargg83@gmail.com";
+		$texto="texto";
+		$asunto="asunto";
+		$this->correo($correo, $texto, $asunto);
+		return $x;
 	}
 }
-
 
 $db = new Agenda();
 if(strlen($function)>0){

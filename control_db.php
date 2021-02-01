@@ -12,22 +12,22 @@
 	use PHPMailer\PHPMailer\SMTP;
 
 	/*
-	if($_SESSION['nivel']==1){
-		$_SESSION['tipo_user'] = "Admin General";
-	}
-	if($_SESSION['nivel']==2){
-		$_SESSION['tipo_user'] = "Terapeuta";
-	}
-	if($_SESSION['nivel']==3){
-		$_SESSION['tipo_user'] = "Admin Sucursal";
-	if($_SESSION['nivel']==4){
-		$_SESSION['tipo_user'] = "Secretaria";
-	}
+		if($_SESSION['nivel']==1){
+			$_SESSION['tipo_user'] = "Admin General";
+		}
+		if($_SESSION['nivel']==2){
+			$_SESSION['tipo_user'] = "Terapeuta";
+		}
+		if($_SESSION['nivel']==3){
+			$_SESSION['tipo_user'] = "Admin Sucursal";
+		if($_SESSION['nivel']==4){
+			$_SESSION['tipo_user'] = "Secretaria";
+		}
 
-	if($key->nivel==1) echo "Admin General";
-	if($key->nivel==2) echo "Terapeuta";
-	if($key->nivel==3) echo "Admin Sucursal";
-	if($key->nivel==4) echo "Secretaria";
+		if($key->nivel==1) echo "Admin General";
+		if($key->nivel==2) echo "Terapeuta";
+		if($key->nivel==3) echo "Admin Sucursal";
+		if($key->nivel==4) echo "Secretaria";
 	*/
 
 	require_once("init.php");
@@ -231,6 +231,8 @@
 		public function genera_random($length = 8) {
 			return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
 		}
+
+
 		public function correo($correo, $texto, $asunto){
 			/////////////////////////////////////////////Correo
 			require '../vendor/autoload.php';
@@ -242,37 +244,37 @@
 			$mail->AltBody = $asunto;
 
 			$mail->isSMTP();
-			$mail->Host = "smtp.gmail.com";						  // Specify main and backup SMTP servers
-			$mail->SMTPAuth = true;                               // Enable SMTP authentication
-			$mail->Username = "tic.shop.adm@gmail.com";       // SMTP username
-			$mail->Password = "ticshop2020";                       // SMTP password
-			$mail->SMTPSecure = "ssl";                            // Enable TLS encryption, `ssl` also accepted
-			$mail->Port = 465;                                    // TCP port to connect to
-			$mail->CharSet = 'UTF-8';
-			//$mail->From = "tic.shop.adm@gmail.com";
-			$mail->From = "ventas@tic-shop.com.mx";
-			$mail->FromName = "TIC-SHOP";
+
+			////////////cambiar esta configuracion
+				$mail->Host = Host_MAIL;						  // Specify main and backup SMTP servers
+				$mail->SMTPAuth = SMTPAuth_MAIL;                               // Enable SMTP authentication
+
+				$mail->Username = Username_MAIL;       // SMTP username
+				$mail->Password = Password_MAIL;                       // SMTP password  <----------- AGREGAR AQUI EL PASSWORDS
+
+				$mail->SMTPSecure = "ssl";                            // Enable TLS encryption, `ssl` also accepted
+				$mail->Port = 465;                                    // TCP port to connect to
+				$mail->CharSet = 'UTF-8';
+
+				$mail->From = From_MAIL;   //////////esto solo muestra el remitente
+				$mail->FromName = FromName_MAIL;			//////////// remitente
+			//////////hasta aca
 
 			$mail->IsHTML(true);
 			$mail->addAddress($correo);
-			$mail->addBCC("ventas@tic-shop.com.mx");
 
 			$mail->msgHTML($texto);
 			$arreglo=array();
-			//send the message, check for errors
+
 			if (!$mail->send()) {
-				$arreglo+=array('id1'=>0);
+				$arreglo+=array('id'=>0);
 				$arreglo+=array('error'=>1);
 				$arreglo+=array('terror'=>$mail->ErrorInfo);
-				$arreglo+=array('id2'=>'');
-				$arreglo+=array('id3'=>'');
 				return json_encode($arreglo);
 			} else {
-				$arreglo+=array('id1'=>0);
+				$arreglo+=array('id'=>0);
 				$arreglo+=array('error'=>0);
-				$arreglo+=array('terror'=>'');
-				$arreglo+=array('id2'=>'');
-				$arreglo+=array('id3'=>'');
+				$arreglo+=array('terror'=>'Se nofiticó al correo: '.$correo.' la nueva contraseña');
 				return json_encode($arreglo);
 			}
 		}

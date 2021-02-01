@@ -1,7 +1,13 @@
 <?php
 	require_once("db_.php");
 
-	$idpaciente=$_REQUEST['idpaciente'];
+	if($_SESSION['nivel']==666){
+		$idpaciente=$_SESSION['idusuario'];
+	}
+	else{
+		$idpaciente=$_REQUEST['idpaciente'];
+	}
+
 	$pd = $db->cliente_editar($idpaciente);
 
 	$nombre=$pd->nombre;
