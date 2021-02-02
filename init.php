@@ -17,7 +17,7 @@ if($server==1){
 else if($server==2){
   //////////localhost
   define("MYSQLUSER", "root");
-  define("MYSQLPASS", "root");
+  define("MYSQLPASS", "");
   define("SERVIDOR", "localhost");
   define("BDD", "wwipsi_actividades");
   define("PORT", "3306");
