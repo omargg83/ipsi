@@ -86,7 +86,7 @@ class Usuario extends ipsi{
 
 	public function usuario_horarios($id){
 		try{
-			$sql="SELECT * FROM usuarios_horarios where idusuario='$id'";
+			$sql="SELECT * FROM usuarios_horarios where idusuario='$id' order by desde_num asc,desde asc";
 			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
@@ -240,10 +240,32 @@ class Usuario extends ipsi{
 		$idhorario=$_REQUEST['idhorario'];
 
 		$arreglo =array();
+		$desde_dia=$_REQUEST['desde_dia'];
 
 		if (isset($_REQUEST['desde_dia'])){
-			$arreglo+=array('desde_dia'=>$_REQUEST['desde_dia']);
+			$arreglo+=array('desde_dia'=>$desde_dia);
 		}
+
+		if($desde_dia=="Domingo")
+		$arreglo+=array('desde_num'=>0);
+
+		if($desde_dia=="Lunes")
+		$arreglo+=array('desde_num'=>1);
+
+		if($desde_dia=="Martes")
+		$arreglo+=array('desde_num'=>2);
+
+		if($desde_dia=="Miercoles")
+		$arreglo+=array('desde_num'=>3);
+
+		if($desde_dia=="Jueves")
+		$arreglo+=array('desde_num'=>4);
+
+		if($desde_dia=="Viernes")
+		$arreglo+=array('desde_num'=>5);
+
+		if($desde_dia=="Sabado")
+		$arreglo+=array('desde_num'=>6);
 
 		if (isset($_REQUEST['recurrente'])){
 			$arreglo+=array('recurrente'=>$_REQUEST['recurrente']);
@@ -252,14 +274,39 @@ class Usuario extends ipsi{
 			$arreglo+=array('recurrente'=>null);
 		}
 
-		$desde="2021/01/01 ".$_REQUEST['desde'].":00";
+		$desde="2021-01-01 ".$_REQUEST['desde'].":00";
 		$arreglo+=array('desde'=>$desde);
 
-		$hasta="2021/01/01 "." ".$_REQUEST['hasta'].":00";
+		$hasta="2021-01-01 ".$_REQUEST['hasta'].":00";
 		$arreglo+=array('hasta'=>$hasta);
+
+		$fecha_desde = strtotime($desde);
+		$fecha_hasta = strtotime($hasta);
+
+		if($fecha_desde > $fecha_hasta){
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"Error, verificar horario");
+			return json_encode($arreglo);
+		}
 
 		if($idhorario==0){
 			$arreglo+=array('idusuario'=>$idusuario);
+
+			$sql="select * from usuarios_horarios where idusuario='$idusuario' and desde_dia='$desde_dia' and (
+				('$desde' between desde and hasta) or ('$hasta' between desde and hasta) )";
+
+			$sth = $this->dbh->prepare($sql);
+			$a=$sth->execute();
+			if($sth->rowCount()>0){
+				echo $sql;
+				$arreglo+=array('id1'=>0);
+				$arreglo+=array('error'=>1);
+				$arreglo+=array('terror'=>"Ya existe el horario favor de verificar");
+				return json_encode($arreglo);
+			}
+
+
 			$x=$this->insert('usuarios_horarios', $arreglo);
 		}
 		else{
@@ -351,7 +398,11 @@ class Usuario extends ipsi{
 			return $this->insert('cliente_terapeuta', $arreglo);
 		}
 	}
-
+	public function cliente_($id){
+		$sql="select * from clientes where id='$id'";
+		$sth = $this->dbh->query($sql);
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
 	public function paciente_quitar(){
 		$idusuario=$_REQUEST['idusuario'];
 		$idterapeuta=$_REQUEST['idterapeuta'];

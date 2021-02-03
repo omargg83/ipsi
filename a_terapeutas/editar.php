@@ -62,7 +62,7 @@
 		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_terapeutas/index" dix="trabajo">Terapeuta</li>
 		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_terapeutas/terapeuta" v_idusuario="<?php echo $idusuario; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
 		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_terapeutas/editar" v_idusuario="<?php echo $idusuario; ?>" dix="trabajo">Editar</li>
-		<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_terapeutas/index" dix="trabajo">Regresar</button>
+		<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_terapeutas/terapeuta" v_idusuario="<?php echo $idusuario; ?>" dix="trabajo">Regresar</button>
 	</ol>
 </nav>
 

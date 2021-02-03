@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.19, for macos10.15 (x86_64)
 --
 -- Host: localhost    Database: wwipsi_actividades
 -- ------------------------------------------------------
--- Server version	8.0.19
+-- Server version	5.7.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,19 +23,19 @@ DROP TABLE IF EXISTS `actividad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `actividad` (
-  `idactividad` int unsigned NOT NULL AUTO_INCREMENT,
-  `idmodulo` int unsigned DEFAULT NULL,
-  `idtrack` int unsigned DEFAULT NULL,
-  `idcreado` int unsigned NOT NULL,
-  `idpaciente` int unsigned DEFAULT NULL,
+  `idactividad` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idmodulo` int(10) unsigned DEFAULT NULL,
+  `idtrack` int(10) unsigned DEFAULT NULL,
+  `idcreado` int(10) unsigned NOT NULL,
+  `idpaciente` int(10) unsigned DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
   `fecha` datetime DEFAULT NULL,
   `indicaciones` text,
   `observaciones` text,
   `tipo` varchar(50) DEFAULT NULL,
   `anotaciones` text,
-  `inicial` int DEFAULT NULL,
-  `visible` int DEFAULT '0',
+  `inicial` int(11) DEFAULT NULL,
+  `visible` int(11) DEFAULT '0',
   PRIMARY KEY (`idactividad`),
   UNIQUE KEY `inx_indxaci` (`idactividad`) USING BTREE,
   KEY `fk_actividadmodulo_idx` (`idmodulo`) USING BTREE,
@@ -67,9 +67,9 @@ DROP TABLE IF EXISTS `actividad_per`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `actividad_per` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idactividad` int unsigned NOT NULL,
-  `idpaciente` int unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idactividad` int(10) unsigned NOT NULL,
+  `idpaciente` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_actividaper_idx` (`idactividad`) USING BTREE,
   KEY `fk_activiclie_idx` (`idpaciente`) USING BTREE,
@@ -96,16 +96,20 @@ DROP TABLE IF EXISTS `citas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `citas` (
-  `idcita` int unsigned NOT NULL AUTO_INCREMENT,
-  `idpaciente` int DEFAULT NULL,
-  `idusuario` int DEFAULT NULL,
-  `idsucursal` int DEFAULT NULL,
+  `idcita` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idpaciente` int(11) DEFAULT NULL,
+  `idusuario` int(11) DEFAULT NULL,
+  `idsucursal` int(11) DEFAULT NULL,
   `desde` datetime DEFAULT NULL,
   `hasta` datetime DEFAULT NULL,
   `estatus` varchar(45) DEFAULT NULL,
+  `idconsultorio` int(10) DEFAULT NULL,
+  `con_desde` datetime DEFAULT NULL,
+  `con_hasta` datetime DEFAULT NULL,
+  `desde_dia` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idcita`),
   UNIQUE KEY `idcitas_UNIQUE` (`idcita`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,7 +118,7 @@ CREATE TABLE `citas` (
 
 LOCK TABLES `citas` WRITE;
 /*!40000 ALTER TABLE `citas` DISABLE KEYS */;
-INSERT INTO `citas` VALUES (7,111,3,1,'2021-01-25 09:00:00','2021-01-25 09:59:00','Pendiente');
+INSERT INTO `citas` VALUES (24,111,3,1,'2021-02-14 14:00:00','2021-02-14 14:59:00','Pendiente',NULL,NULL,NULL,NULL),(23,111,3,1,'2021-02-07 14:00:00','2021-02-07 14:59:00','Aprobada',1,'2021-02-07 14:00:00','2021-02-07 14:59:00','Domingo'),(27,111,3,1,'2021-02-08 09:00:00','2021-02-08 09:59:00','Pendiente',NULL,NULL,NULL,NULL),(28,111,3,1,'2021-03-08 09:00:00','2021-03-08 09:59:00','Pendiente',NULL,NULL,NULL,NULL),(29,111,3,1,'2021-02-12 12:00:00','2021-02-12 12:59:00','Pendiente',NULL,NULL,NULL,NULL),(30,111,3,1,'2021-02-26 12:00:00','2021-02-26 12:59:00','Pendiente',NULL,NULL,NULL,NULL),(31,111,3,1,'2021-02-05 13:00:00','2021-02-05 13:59:00','Pendiente',NULL,NULL,NULL,NULL),(32,111,3,1,'2021-02-21 12:00:00','2021-02-21 12:59:00','Pendiente',NULL,NULL,NULL,NULL),(33,111,3,1,'2021-02-28 12:00:00','2021-02-28 12:59:00','Pendiente',NULL,NULL,NULL,NULL),(36,117,3,1,'2021-02-21 14:00:00','2021-02-21 14:59:00','Pendiente',NULL,NULL,NULL,NULL),(37,111,7,1,'2021-02-08 01:00:00','2021-02-08 01:59:00','Pendiente',NULL,NULL,NULL,NULL),(38,114,3,1,'2021-02-12 13:00:00','2021-02-12 13:59:00','Pendiente',NULL,NULL,NULL,NULL),(39,111,3,1,'2021-02-15 09:00:00','2021-02-15 09:59:00','Pendiente',NULL,NULL,NULL,NULL),(40,111,3,1,'2021-03-07 14:00:00','2021-03-07 14:59:00','Pendiente',NULL,NULL,NULL,NULL),(41,111,3,1,'2021-03-07 13:00:00','2021-03-07 13:59:00','Pendiente',NULL,NULL,NULL,NULL),(43,111,3,1,'2021-03-07 12:00:00','2021-03-07 12:59:00','Pendiente',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `citas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,9 +130,9 @@ DROP TABLE IF EXISTS `cliente_cuestionario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cliente_cuestionario` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idcliente` int DEFAULT NULL,
-  `idcuestionario` int DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idcliente` int(11) DEFAULT NULL,
+  `idcuestionario` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -151,12 +155,12 @@ DROP TABLE IF EXISTS `cliente_terapeuta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cliente_terapeuta` (
-  `idterapeuta` int unsigned NOT NULL AUTO_INCREMENT,
-  `idusuario` int DEFAULT NULL,
-  `idcliente` int DEFAULT NULL,
+  `idterapeuta` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idusuario` int(11) DEFAULT NULL,
+  `idcliente` int(11) DEFAULT NULL,
   PRIMARY KEY (`idterapeuta`),
   UNIQUE KEY `idterapeuta_UNIQUE` (`idterapeuta`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,7 +169,7 @@ CREATE TABLE `cliente_terapeuta` (
 
 LOCK TABLES `cliente_terapeuta` WRITE;
 /*!40000 ALTER TABLE `cliente_terapeuta` DISABLE KEYS */;
-INSERT INTO `cliente_terapeuta` VALUES (2,3,111),(3,3,114),(4,3,115);
+INSERT INTO `cliente_terapeuta` VALUES (5,3,111),(6,3,114),(9,3,115),(10,3,117),(12,6,111);
 /*!40000 ALTER TABLE `cliente_terapeuta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,7 +181,7 @@ DROP TABLE IF EXISTS `clientes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `clientes` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `numero` varchar(255) DEFAULT NULL,
   `nombre` varchar(100) DEFAULT NULL,
   `apellidop` varchar(50) DEFAULT NULL,
@@ -199,15 +203,15 @@ CREATE TABLE `clientes` (
   `sexo` varchar(20) DEFAULT NULL,
   `peso` varchar(20) DEFAULT NULL,
   `altura` varchar(20) DEFAULT NULL,
-  `hermanos` int DEFAULT NULL,
+  `hermanos` int(11) DEFAULT NULL,
   `enfermedades` text,
   `medicamentos` text,
   `galleta` varchar(100) DEFAULT NULL,
   `fechacreado` datetime DEFAULT NULL,
-  `autoriza` int DEFAULT NULL,
+  `autoriza` int(11) DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL,
   `observaciones` text,
-  `idusuario` int DEFAULT NULL,
+  `idusuario` int(11) DEFAULT NULL,
   `facebook` varchar(255) DEFAULT NULL,
   `estudios` varchar(255) DEFAULT NULL,
   `trabajo` varchar(255) DEFAULT NULL,
@@ -216,7 +220,7 @@ CREATE TABLE `clientes` (
   `contacto` varchar(255) DEFAULT NULL,
   `parentesco` varchar(255) DEFAULT NULL,
   `telparentesco` varchar(255) DEFAULT NULL,
-  `idsucursal` int DEFAULT NULL,
+  `idsucursal` int(11) DEFAULT NULL,
   `estatus` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_clienteid` (`id`) USING BTREE
@@ -229,7 +233,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (111,'4654566','German','Prado','Sanchez','27','paciente@correo.com','7711112386',NULL,NULL,'Fresno 106',NULL,NULL,NULL,NULL,NULL,NULL,'202cb962ac59075b964b07152d234b70',NULL,'masculino','80.5','1.83',NULL,'a asdasd asd','','b5RahFL6B0TzAl4','2020-04-11 12:54:56',1,'resp_202008301128251890.jpg','Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore\r\nmagna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl\r\nut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent',3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'EN CURSO'),(114,'5645646','Paciente x','a','asd','12','correo1@gmail.com','','','','','a','a','a','a','a','a','202cb962ac59075b964b07152d234b70',NULL,'masculino','','',0,'','',NULL,NULL,1,'resp_202008062337105428.png','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',1,'','','','','','','','',1,'EN CURSO'),(115,'6545646','Steve','Gutiérez','Torres','27','hola@xpika.com','7711112386',NULL,NULL,'Fresno 106',NULL,NULL,NULL,NULL,NULL,NULL,'202cb962ac59075b964b07152d234b70',NULL,'masculino','80.5','1.83',NULL,'','',NULL,NULL,NULL,'resp_202008310918553320.jpg','Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore\r\nmagna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl\r\nut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent',3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'EN CURSO'),(116,'9878941','Paciente','adas','','','ad','',NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'masculino','','',NULL,'','',NULL,NULL,NULL,NULL,'',4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'EN CURSO'),(117,'3216549','asdf','sadfas','sdfasdf','','saf@gmail.com','',NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'masculino','','',NULL,'','',NULL,NULL,NULL,NULL,'',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'EN CURSO'),(118,'1123165','PAciente x','asad','','','asdfasdf@gmail.com','',NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'masculino','','',NULL,'','',NULL,NULL,NULL,NULL,'',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'EN CURSO');
+INSERT INTO `clientes` VALUES (111,'4654566','German','Prado','Sanchez','27','paciente@correo.com','7711112386','','','Fresno 106','asd','asd','asd','asd','asd','asd','202cb962ac59075b964b07152d234b70',NULL,'masculino','80.5','1.83',0,'a asdasd asd','','b5RahFL6B0TzAl4','2020-04-11 12:54:56',1,'resp_20210131171627169.png','Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore\r\nmagna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl\r\nut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent',3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'EN CURSO'),(114,'5645646','Paciente x','a','asd','12','correo1@gmail.com','','','','','a','a','a','a','a','a','202cb962ac59075b964b07152d234b70',NULL,'masculino','','',0,'','',NULL,NULL,1,'resp_202008062337105428.png','Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',1,'','','','','','','','',1,'EN CURSO'),(115,'6545646','Steve','Gutiérez','Torres','27','hola@xpika.com','7711112386',NULL,NULL,'Fresno 106',NULL,NULL,NULL,NULL,NULL,NULL,'202cb962ac59075b964b07152d234b70',NULL,'masculino','80.5','1.83',NULL,'','',NULL,NULL,NULL,'resp_202008310918553320.jpg','Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore\r\nmagna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl\r\nut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent',3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'EN CURSO'),(116,'9878941','Paciente','adas','','','ad','',NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'masculino','','',NULL,'','',NULL,NULL,NULL,NULL,'',4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'EN CURSO'),(117,'3216549','asdf','sadfas','sdfasdf','','saf@gmail.com','',NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'masculino','','',NULL,'','',NULL,NULL,NULL,NULL,'',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'EN CURSO'),(118,'1123165','PAciente x','asad','','','asdfasdf@gmail.com','',NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'masculino','','',NULL,'','',NULL,NULL,NULL,NULL,'',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'EN CURSO');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,8 +245,8 @@ DROP TABLE IF EXISTS `clientes_direccion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `clientes_direccion` (
-  `iddireccion` int unsigned NOT NULL AUTO_INCREMENT,
-  `idcliente` int DEFAULT NULL,
+  `iddireccion` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idcliente` int(11) DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
   `apellidos` varchar(255) DEFAULT NULL,
   `empresa` varchar(255) DEFAULT NULL,
@@ -255,9 +259,9 @@ CREATE TABLE `clientes_direccion` (
   `pais` varchar(255) DEFAULT NULL,
   `estado` varchar(255) DEFAULT NULL,
   `mail` varchar(255) DEFAULT NULL,
-  `telefono` int DEFAULT NULL,
-  `envio` int DEFAULT NULL,
-  `factura` int DEFAULT NULL,
+  `telefono` int(11) DEFAULT NULL,
+  `envio` int(11) DEFAULT NULL,
+  `factura` int(11) DEFAULT NULL,
   PRIMARY KEY (`iddireccion`)
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -280,10 +284,10 @@ DROP TABLE IF EXISTS `clientes_relacion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `clientes_relacion` (
-  `idrelacion` int unsigned NOT NULL AUTO_INCREMENT,
-  `idcliente` int unsigned DEFAULT NULL,
-  `idrel` int unsigned DEFAULT NULL,
-  `idrol` int unsigned DEFAULT NULL,
+  `idrelacion` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idcliente` int(10) unsigned DEFAULT NULL,
+  `idrel` int(10) unsigned DEFAULT NULL,
+  `idrol` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`idrelacion`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -306,12 +310,12 @@ DROP TABLE IF EXISTS `consultorio`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `consultorio` (
-  `idconsultorio` int unsigned NOT NULL AUTO_INCREMENT,
+  `idconsultorio` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
-  `idsucursal` int unsigned DEFAULT NULL,
+  `idsucursal` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`idconsultorio`),
   UNIQUE KEY `idconsultorio_UNIQUE` (`idconsultorio`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,7 +324,7 @@ CREATE TABLE `consultorio` (
 
 LOCK TABLES `consultorio` WRITE;
 /*!40000 ALTER TABLE `consultorio` DISABLE KEYS */;
-INSERT INTO `consultorio` VALUES (1,'Consultorio 1',1);
+INSERT INTO `consultorio` VALUES (1,'Consultorio 1',1),(2,'Consultorio Tula',2),(3,'Consultorio 2',1),(4,'Consultorio 3',1);
 /*!40000 ALTER TABLE `consultorio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -332,16 +336,16 @@ DROP TABLE IF EXISTS `consultorio_horarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `consultorio_horarios` (
-  `idhorario` int unsigned NOT NULL AUTO_INCREMENT,
+  `idhorario` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `desde` datetime DEFAULT NULL,
   `hasta` datetime DEFAULT NULL,
-  `idconsultorio` int DEFAULT NULL,
-  `recurrente` int DEFAULT NULL,
+  `idconsultorio` int(11) DEFAULT NULL,
+  `recurrente` int(11) DEFAULT NULL,
   `desde_dia` varchar(45) DEFAULT NULL,
   `hasta_dia` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idhorario`),
   UNIQUE KEY `idhorario_UNIQUE` (`idhorario`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -350,7 +354,7 @@ CREATE TABLE `consultorio_horarios` (
 
 LOCK TABLES `consultorio_horarios` WRITE;
 /*!40000 ALTER TABLE `consultorio_horarios` DISABLE KEYS */;
-INSERT INTO `consultorio_horarios` VALUES (1,'2021-01-01 09:00:00','2021-01-01 09:59:00',1,1,'Lunes',NULL);
+INSERT INTO `consultorio_horarios` VALUES (1,'2021-01-01 09:00:00','2021-01-01 09:59:00',1,NULL,'Lunes','1'),(3,'2021-01-01 10:00:00','2021-01-01 10:59:00',1,NULL,'Lunes','1'),(8,'2021-01-01 10:00:00','2021-01-01 10:59:00',1,NULL,'Domingo','0'),(5,'2021-01-01 11:00:00','2021-01-01 11:59:00',1,NULL,'Lunes','1'),(9,'2021-01-01 10:00:00','2021-01-01 10:59:00',3,NULL,'Lunes','1'),(10,'2021-01-01 10:00:00','2021-01-01 10:59:00',3,NULL,'Domingo','0'),(11,'2021-01-01 11:00:00','2021-01-01 11:59:00',3,NULL,'Domingo','0'),(12,'2021-01-01 14:00:00','2021-01-01 14:59:00',1,NULL,'Domingo','0'),(13,'2021-01-01 11:00:00','2021-01-01 11:59:00',4,NULL,'Domingo','0'),(14,'2021-01-01 14:00:00','2021-01-01 14:59:00',3,NULL,'Domingo','0'),(15,'2021-01-01 14:00:00','2021-01-01 14:30:00',4,NULL,'Domingo','0'),(16,'2021-01-01 09:00:00','2021-01-01 09:59:00',3,NULL,'Lunes','1'),(17,'2021-01-01 09:00:00','2021-01-01 09:59:00',4,NULL,'Lunes','1'),(18,'2021-01-01 10:00:00','2021-01-01 22:00:00',1,NULL,'Martes','2'),(19,'2021-01-01 11:00:00','2021-01-01 11:59:00',2,NULL,'Lunes','1'),(20,'2021-01-01 12:00:00','2021-01-01 12:59:00',2,NULL,'Lunes','1');
 /*!40000 ALTER TABLE `consultorio_horarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -362,10 +366,10 @@ DROP TABLE IF EXISTS `contexto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `contexto` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idsubactividad` int unsigned DEFAULT NULL,
-  `idpadre` int DEFAULT NULL,
-  `orden` int DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idsubactividad` int(10) unsigned DEFAULT NULL,
+  `idpadre` int(11) DEFAULT NULL,
+  `orden` int(11) DEFAULT NULL,
   `tipo` varchar(255) DEFAULT NULL,
   `observaciones` text,
   `texto` text,
@@ -373,8 +377,8 @@ CREATE TABLE `contexto` (
   `personalizado` varchar(2) DEFAULT NULL,
   `usuario` varchar(2) DEFAULT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
-  `evalua` int DEFAULT NULL,
-  `idcond` int DEFAULT NULL,
+  `evalua` int(11) DEFAULT NULL,
+  `idcond` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `inx_context_dix` (`id`) USING BTREE,
   KEY `dk_subactcontext_idx` (`idsubactividad`) USING BTREE,
@@ -400,9 +404,9 @@ DROP TABLE IF EXISTS `contexto_resp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `contexto_resp` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idcontexto` int unsigned DEFAULT NULL,
-  `idrespuesta` int unsigned DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idcontexto` int(10) unsigned DEFAULT NULL,
+  `idrespuesta` int(10) unsigned DEFAULT NULL,
   `marca` varchar(255) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `archivo` varchar(255) DEFAULT NULL,
@@ -435,9 +439,9 @@ DROP TABLE IF EXISTS `cuestionario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cuestionario` (
-  `idcuestionario` int unsigned NOT NULL AUTO_INCREMENT,
+  `idcuestionario` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
-  `idcreado` int DEFAULT NULL,
+  `idcreado` int(11) DEFAULT NULL,
   `fecha` datetime DEFAULT NULL,
   `indicaciones` text,
   `observaciones` text,
@@ -465,11 +469,11 @@ DROP TABLE IF EXISTS `escala_act`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `escala_act` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idescala` int unsigned DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idescala` int(10) unsigned DEFAULT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
-  `minimo` int DEFAULT NULL,
-  `maximo` int DEFAULT NULL,
+  `minimo` int(11) DEFAULT NULL,
+  `maximo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`) USING BTREE,
   KEY `escala_act_ibfk_1_idx` (`idescala`),
@@ -495,8 +499,8 @@ DROP TABLE IF EXISTS `escala_actividad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `escala_actividad` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idactividad` int unsigned DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idactividad` int(10) unsigned DEFAULT NULL,
   `nombre` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`) USING BTREE,
@@ -523,9 +527,9 @@ DROP TABLE IF EXISTS `escala_contexto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `escala_contexto` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idescala` int unsigned DEFAULT NULL,
-  `idcontexto` int unsigned DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idescala` int(10) unsigned DEFAULT NULL,
+  `idcontexto` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`) USING BTREE,
   KEY `fk_escalaconxx_idx` (`idescala`) USING BTREE,
@@ -553,11 +557,11 @@ DROP TABLE IF EXISTS `escala_sub`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `escala_sub` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idsubactividad` int unsigned DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idsubactividad` int(10) unsigned DEFAULT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
-  `minimo` int DEFAULT NULL,
-  `maximo` int DEFAULT NULL,
+  `minimo` int(11) DEFAULT NULL,
+  `maximo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_subactesc_idx` (`idsubactividad`) USING BTREE,
   CONSTRAINT `escala_sub_ibfk_1` FOREIGN KEY (`idsubactividad`) REFERENCES `subactividad` (`idsubactividad`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -582,10 +586,10 @@ DROP TABLE IF EXISTS `modulo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `modulo` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idtrack` int unsigned NOT NULL,
-  `nombre` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `descripcion` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idtrack` int(10) unsigned NOT NULL,
+  `nombre` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `descripcion` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`) USING BTREE,
   KEY `fk_trackmodul_idx` (`idtrack`) USING BTREE,
@@ -611,9 +615,9 @@ DROP TABLE IF EXISTS `modulo_per`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `modulo_per` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idmodulo` int unsigned NOT NULL,
-  `idpaciente` int unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idmodulo` int(10) unsigned NOT NULL,
+  `idpaciente` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_permod_idx` (`idmodulo`) USING BTREE,
   KEY `fk_perpamod_idx` (`idpaciente`) USING BTREE,
@@ -640,14 +644,14 @@ DROP TABLE IF EXISTS `respuestas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `respuestas` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idcontexto` int unsigned DEFAULT NULL,
-  `orden` int DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idcontexto` int(10) unsigned DEFAULT NULL,
+  `orden` int(11) DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
   `imagen` varchar(200) DEFAULT NULL,
   `valor` varchar(255) NOT NULL,
-  `res` int DEFAULT NULL,
-  `pre` int DEFAULT NULL,
+  `res` int(11) DEFAULT NULL,
+  `pre` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_respuestascontexto_idx` (`idcontexto`) USING BTREE,
   CONSTRAINT `respuestas_ibfk_1` FOREIGN KEY (`idcontexto`) REFERENCES `contexto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -672,9 +676,9 @@ DROP TABLE IF EXISTS `rol_familiar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `rol_familiar` (
-  `idrol` int unsigned NOT NULL AUTO_INCREMENT,
+  `idrol` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `rol` varchar(255) DEFAULT NULL,
-  `credencial` int DEFAULT NULL,
+  `credencial` int(11) DEFAULT NULL,
   PRIMARY KEY (`idrol`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -697,11 +701,11 @@ DROP TABLE IF EXISTS `subactividad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `subactividad` (
-  `idsubactividad` int unsigned NOT NULL AUTO_INCREMENT,
-  `idactividad` int unsigned DEFAULT NULL,
+  `idsubactividad` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idactividad` int(10) unsigned DEFAULT NULL,
   `nombre` varchar(200) CHARACTER SET latin1 COLLATE latin1_spanish_ci DEFAULT NULL,
-  `orden` int DEFAULT NULL,
-  `pagina` int DEFAULT NULL,
+  `orden` int(11) DEFAULT NULL,
+  `pagina` int(11) DEFAULT NULL,
   PRIMARY KEY (`idsubactividad`),
   UNIQUE KEY `dk_subactividx` (`idsubactividad`) USING BTREE,
   KEY `fk_subactactiv_idx` (`idactividad`) USING BTREE,
@@ -727,19 +731,19 @@ DROP TABLE IF EXISTS `sucursal`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sucursal` (
-  `idsucursal` int unsigned NOT NULL AUTO_INCREMENT,
-  `idtienda` int unsigned DEFAULT NULL,
+  `idsucursal` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idtienda` int(10) unsigned DEFAULT NULL,
   `nombre` varchar(100) DEFAULT NULL,
   `ubicacion` varchar(155) DEFAULT NULL,
-  `activo` int DEFAULT NULL,
+  `activo` int(11) DEFAULT NULL,
   `ciudad` varchar(145) DEFAULT NULL,
   `tel1` varchar(15) DEFAULT NULL,
   `tel2` varchar(15) DEFAULT NULL,
   `cp` varchar(5) DEFAULT NULL,
   `estado` varchar(45) DEFAULT NULL,
-  `tipoticket` int DEFAULT '0',
-  `matriz` int DEFAULT NULL,
-  `etiqueta` int DEFAULT '0',
+  `tipoticket` int(11) DEFAULT '0',
+  `matriz` int(11) DEFAULT NULL,
+  `etiqueta` int(11) DEFAULT '0',
   PRIMARY KEY (`idsucursal`),
   UNIQUE KEY `idtienda_UNIQUE` (`idsucursal`) USING BTREE,
   KEY `fk_tiendasucursal_idx` (`idtienda`) USING BTREE,
@@ -765,9 +769,9 @@ DROP TABLE IF EXISTS `sucursal_administracion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sucursal_administracion` (
-  `idadmi` int unsigned NOT NULL AUTO_INCREMENT,
-  `idsucursal` int DEFAULT NULL,
-  `idusuario` int DEFAULT NULL,
+  `idadmi` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idsucursal` int(11) DEFAULT NULL,
+  `idusuario` int(11) DEFAULT NULL,
   PRIMARY KEY (`idadmi`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -790,7 +794,7 @@ DROP TABLE IF EXISTS `terapias`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `terapias` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
   `descripcion` text,
   PRIMARY KEY (`id`)
@@ -815,9 +819,9 @@ DROP TABLE IF EXISTS `terapias_per`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `terapias_per` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idterapia` int unsigned NOT NULL,
-  `idpaciente` int unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idterapia` int(10) unsigned NOT NULL,
+  `idpaciente` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `flk_perterapias_idx` (`idterapia`) USING BTREE,
   KEY `fk_perclientes_idx` (`idpaciente`) USING BTREE,
@@ -844,13 +848,13 @@ DROP TABLE IF EXISTS `ticket`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ticket` (
-  `idticket` int unsigned NOT NULL AUTO_INCREMENT,
-  `idpadre` int DEFAULT NULL,
-  `numero` int DEFAULT NULL,
-  `idde_usuario` int DEFAULT NULL,
-  `idde_cliente` int DEFAULT NULL,
-  `idpara_usuario` int DEFAULT NULL,
-  `idpara_cliente` int DEFAULT NULL,
+  `idticket` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idpadre` int(11) DEFAULT NULL,
+  `numero` int(11) DEFAULT NULL,
+  `idde_usuario` int(11) DEFAULT NULL,
+  `idde_cliente` int(11) DEFAULT NULL,
+  `idpara_usuario` int(11) DEFAULT NULL,
+  `idpara_cliente` int(11) DEFAULT NULL,
   `asunto` varchar(200) DEFAULT NULL,
   `fecha` datetime DEFAULT NULL,
   `estado` text,
@@ -882,12 +886,12 @@ DROP TABLE IF EXISTS `track`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `track` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idterapia` int unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idterapia` int(10) unsigned NOT NULL,
   `nombre` varchar(100) DEFAULT NULL,
   `video` varchar(255) DEFAULT NULL,
   `descripcion` text,
-  `inicial` int DEFAULT NULL,
+  `inicial` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`) USING BTREE,
   KEY `fk_terapiatracj_idx` (`idterapia`) USING BTREE,
@@ -913,9 +917,9 @@ DROP TABLE IF EXISTS `track_per`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `track_per` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `idtrack` int unsigned NOT NULL,
-  `idpaciente` int unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idtrack` int(10) unsigned NOT NULL,
+  `idpaciente` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_pertracj_idx` (`idtrack`) USING BTREE,
   KEY `fk_pertrapac_idx` (`idpaciente`) USING BTREE,
@@ -942,18 +946,18 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios` (
-  `idusuario` int unsigned NOT NULL AUTO_INCREMENT,
+  `idusuario` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
   `apellidop` varchar(100) DEFAULT NULL,
   `apellidom` varchar(100) DEFAULT NULL,
   `pass` varchar(255) DEFAULT NULL,
-  `autoriza` int DEFAULT NULL,
+  `autoriza` int(11) DEFAULT NULL,
   `idfondo` varchar(255) DEFAULT NULL,
-  `nivel` int DEFAULT NULL,
+  `nivel` int(11) DEFAULT NULL,
   `correo` varchar(255) DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL,
   `observaciones` text,
-  `idsucursal` int unsigned DEFAULT NULL,
+  `idsucursal` int(10) unsigned DEFAULT NULL,
   `numero` varchar(45) DEFAULT NULL,
   `edad` varchar(45) DEFAULT NULL,
   `telefono` varchar(45) DEFAULT NULL,
@@ -970,7 +974,7 @@ CREATE TABLE `usuarios` (
   `medicamento` text,
   `terapia` text,
   PRIMARY KEY (`idusuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -979,7 +983,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Soporte','x soporte','soporte','202cb962ac59075b964b07152d234b70',1,'fondo/27A.jpg',1,'omargg83@gmail.com','resp_202101222311145289.png',NULL,1,'1231231',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'Steve',NULL,NULL,'202cb962ac59075b964b07152d234b70',1,'fondo/Fern_by_aalex04.jpg',1,'steve@gmail.com','20200630003556_0_759.jpg',NULL,1,'2123123',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,'Adrian','Torres','Juarez','202cb962ac59075b964b07152d234b70',1,NULL,2,'terapeuta@correo.com','resp_202101251411042310.png',NULL,1,'123123','34','12312312','soltero','4','Dirección','ama de casa','maestria','ateo','solo','contacto nombre','1231231','Enfermedad fisica','Medicamento','terapia'),(4,'master xxx','master','','202cb962ac59075b964b07152d234b70',1,'fondo/Darkening_Clockwork_by_Matt_Katzenberger.jpg',1,'master@tic-shop.com.mx','20200630003556_0_759.jpg',NULL,1,'123123',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,'Admin','','','202cb962ac59075b964b07152d234b70',1,NULL,3,'adminsucursal@gmail.com',NULL,NULL,1,'4546',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(6,'terapeuta  pachuca','','','202cb962ac59075b964b07152d234b70',1,NULL,2,'prueba5@gmail.com',NULL,NULL,1,'46541623',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,'terapeuta.2 pachuca','','',NULL,1,NULL,2,'omargg83@hotmail.com',NULL,NULL,1,'646254',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(8,'Secretaria','','','202cb962ac59075b964b07152d234b70',1,NULL,4,'secretaria@gmail.com','resp_202101230124068017.png',NULL,1,'1236213',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(9,'admin tula','','',NULL,1,NULL,3,'tula@gmail.com',NULL,NULL,2,'41264213',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `usuarios` VALUES (1,'Soporte','x soporte','soporte','202cb962ac59075b964b07152d234b70',1,'fondo/27A.jpg',1,'omargg83@gmail.com','resp_202101222311145289.png',NULL,1,'1231231',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'Steve','s','a','202cb962ac59075b964b07152d234b70',1,'fondo/Fern_by_aalex04.jpg',1,'steve@gmail.com','resp_202101261350425373.png',NULL,1,'2123123','10','a','a','1','123','123','123','123','123','123','123','','',''),(3,'Adrian','Torres','Juarez','202cb962ac59075b964b07152d234b70',1,NULL,2,'terapeuta@correo.com','resp_202101251411042310.png',NULL,1,'123123','34','12312312','soltero','4','Dirección','ama de casa','maestria','ateo','solo','contacto nombre','1231231','Enfermedad fisica','Medicamento','terapia'),(4,'master xxx','master','','202cb962ac59075b964b07152d234b70',1,'fondo/Darkening_Clockwork_by_Matt_Katzenberger.jpg',1,'master@tic-shop.com.mx','20200630003556_0_759.jpg',NULL,1,'123123',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,'Admin','','','202cb962ac59075b964b07152d234b70',1,NULL,3,'adminsucursal@gmail.com',NULL,NULL,1,'4546',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(6,'terapeuta  pachuca','','','202cb962ac59075b964b07152d234b70',1,NULL,2,'prueba5@gmail.com',NULL,NULL,1,'46541623',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,'terapeuta.2 pachuca','','',NULL,1,NULL,2,'omargg83@hotmail.com',NULL,NULL,1,'646254',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(8,'Secretaria','','','202cb962ac59075b964b07152d234b70',1,NULL,4,'secretaria@gmail.com','resp_202101230124068017.png',NULL,1,'1236213',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(9,'admin tula','','',NULL,1,NULL,3,'tula@gmail.com',NULL,NULL,2,'41264213',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(10,'1','2','3','202cb962ac59075b964b07152d234b70',1,NULL,3,'tula@correo.com','resp_2021012614025053.png',NULL,2,NULL,'4','6','6','6','6','1','6','6','6','6','6','','','');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -991,15 +995,16 @@ DROP TABLE IF EXISTS `usuarios_horarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios_horarios` (
-  `idhorario` int unsigned NOT NULL AUTO_INCREMENT,
+  `idhorario` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `desde` datetime DEFAULT NULL,
   `hasta` datetime DEFAULT NULL,
-  `idusuario` int DEFAULT NULL,
-  `recurrente` int DEFAULT NULL,
+  `idusuario` int(11) DEFAULT NULL,
+  `recurrente` int(11) DEFAULT NULL,
   `desde_dia` varchar(45) DEFAULT NULL,
+  `desde_num` int(11) DEFAULT NULL,
   PRIMARY KEY (`idhorario`),
   UNIQUE KEY `idhorario_UNIQUE` (`idhorario`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1008,7 +1013,7 @@ CREATE TABLE `usuarios_horarios` (
 
 LOCK TABLES `usuarios_horarios` WRITE;
 /*!40000 ALTER TABLE `usuarios_horarios` DISABLE KEYS */;
-INSERT INTO `usuarios_horarios` VALUES (1,'2021-01-01 09:00:00','2021-01-01 09:59:00',3,1,'Lunes'),(4,'2021-01-01 01:00:00','2021-01-01 01:59:00',8,1,'Domingo'),(5,'2021-01-01 01:00:00','2021-01-01 01:59:00',7,1,'Lunes');
+INSERT INTO `usuarios_horarios` VALUES (1,'0000-00-00 09:00:00','0000-00-00 09:59:00',3,1,'Lunes',1),(4,'0000-00-00 01:00:00','0000-00-00 01:59:00',8,1,'Domingo',0),(5,'0000-00-00 01:00:00','0000-00-00 01:59:00',7,1,'Lunes',1),(6,'0000-00-00 01:00:00','0000-00-00 01:59:00',3,1,'Martes',2),(8,'0000-00-00 12:00:00','0000-00-00 12:59:00',3,1,'Viernes',5),(9,'0000-00-00 13:00:00','0000-00-00 13:59:00',3,1,'Viernes',5),(11,'0000-00-00 12:00:00','0000-00-00 12:59:00',3,1,'Martes',2),(12,'0000-00-00 12:00:00','0000-00-00 12:59:00',3,1,'Domingo',0),(13,'0000-00-00 14:00:00','0000-00-00 14:59:00',3,NULL,'Domingo',0),(18,'0000-00-00 13:00:00','0000-00-00 13:59:00',3,NULL,'Domingo',0),(20,'0000-00-00 16:00:00','0000-00-00 16:59:00',3,NULL,'Domingo',0),(21,'0000-00-00 19:00:00','0000-00-00 19:59:00',3,NULL,'Domingo',0),(27,'0000-00-00 17:00:00','0000-00-00 17:59:00',3,NULL,'Domingo',0),(28,'2021-01-01 10:00:00','2021-01-01 20:59:00',3,NULL,'Miercoles',3);
 /*!40000 ALTER TABLE `usuarios_horarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1021,4 +1026,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-25 15:06:03
+-- Dump completed on 2021-01-31 19:16:57

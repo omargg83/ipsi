@@ -209,3 +209,26 @@ function ver_img(div){
   var x = document.getElementById(div);
   x.style.display = "flex";
 }
+
+
+$(document).on('change',".filter_x",function(e){
+  let id=e.currentTarget.form.id;
+  let elemento = document.getElementById(id);
+  let dix;
+  (elemento.attributes.dix !== undefined) ? dix=elemento.attributes.dix.nodeValue : dix="trabajo";
+  let des;
+  (elemento.attributes.des !== undefined) ? des=elemento.attributes.des.nodeValue : des="";
+  var formData = new FormData(elemento);
+  /////////esto es para todas las variables
+  let variables = new Object();
+  for(let contar=0;contar<elemento.attributes.length; contar++){
+    let arrayDeCadenas = elemento.attributes[contar].name.split("_");
+    if(arrayDeCadenas.length>1){
+      formData.append(arrayDeCadenas[1], elemento.attributes[contar].value);
+    }
+  }
+  let datos = new Object();
+  datos.des=des+".php";
+  datos.dix=dix;
+  redirige_div(formData,datos);
+});

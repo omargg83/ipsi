@@ -1,8 +1,17 @@
 <?php
   /////////<<<<<<< Updated upstream
 
-  $server=1;
-  $_SESSION['des']=1;   ///////////////cambiar esta para acceder a modo desarrollador
+$server=2;
+$_SESSION['des']=1;   ///////////////cambiar esta para acceder a modo desarrollador
+$_SESSION['pagina']=50;
+
+//////////////////////configurar correo
+define("Host_MAIL", "smtp.gmail.com"); ////////////server smtp
+define("SMTPAuth_MAIL", true);
+define("Username_MAIL", "soportesagyc@gmail.com");  ///////////direccion de correo
+define("Password_MAIL", "");          ////////////////contraseña
+define("From_MAIL", "soportesagyc@gmail.com"); //////////////from
+define("FromName_MAIL", "IPSI");            //////////////////ASUNTO
 
   /////////>>>>>>> Stashed changes
 if($server==1){
@@ -22,14 +31,6 @@ else if($server==2){
   define("PORT", "3306");
 }
 else if($server==3){
-  //////////localhost 2
-  define("MYSQLUSER", "saludpublica");
-  define("MYSQLPASS", "saludp123$");
-  define("SERVIDOR", "192.168.100.15");
-  define("BDD", "wwipsi_actividades");
-  define("PORT", "3306");
-}
-else if($server==4){
   //////////localhost 2
   define("MYSQLUSER", "root");
   define("MYSQLPASS", "root");

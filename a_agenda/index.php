@@ -2,7 +2,6 @@
 	require_once("db_.php");
 ?>
 
-
 	<nav class='navbar navbar-expand-sm'>
 	<a class='navbar-brand' >Agenda</a>
 	<button class='navbar-toggler navbar-toggler-right' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='principal' aria-expanded='false' aria-label='Toggle navigation'>
@@ -16,7 +15,7 @@
 
 			<ul class='navbar-nav mr-auto'>
 
-				<li class='nav-item active'><a class='nav-link barranav izq' is='a-link' title='Nuevo' id='new_personal' des='a_agenda/editar' v_idcita='0' dix='trabajo'><span>Nueva cita</span></a></li>
+				<li class='nav-item active'><a class='nav-link barranav izq' is='a-link' title='Nuevo' id='new_personal' des='a_agenda/editar' v_idcita='0' dix='contenido'><span>Nueva cita</span></a></li>
 
 				<li class='nav-item active'><a class='nav-link barranav' is='a-link' title='Mostrar todo' id='lista_comision' des='a_agenda/lista' dix='trabajo'><span>Citas</span></a></li>
 

@@ -1,6 +1,13 @@
 <?php
 	require_once("db_.php");
-	$idpaciente=clean_var($_REQUEST['idpaciente']);
+
+	if($_SESSION['nivel']==666){
+		$idpaciente=$_SESSION['idusuario'];
+	}
+	else{
+		$idpaciente=clean_var($_REQUEST['idpaciente']);
+	}
+
 
 	$nombre="";
 	$apellidop="";
@@ -79,26 +86,33 @@
 		$telparentesco=$pd->telparentesco;
 		$autoriza=$pd->autoriza;
 	}
-	?>
-	<nav aria-label='breadcrumb'>
-		<ol class='breadcrumb'>
-			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/index" dix="trabajo">Pacientes</li>
-			<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
-			<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/editar" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Ficha de registro</li>
-			<?php
-			if($idpaciente>0){
-				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
-			}
-			else{
-				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' is='li-link' des='a_pacientes/index' dix='trabajo'>Regresar</button>";
-			}
 
-			?>
-		</ol>
-	</nav>
+	if($_SESSION['nivel']!=666){
+		echo "<nav aria-label='breadcrumb'>";
+			echo "<ol class='breadcrumb'>";
+				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/index' dix='trabajo'>Pacientes</li>";
+				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>$nombre $apellidop $apellidom</li>";
 
-<div class="container">
-	<form is="f-submit" id="form_cliente" db="a_pacientes/db_" fun="guardar_cliente" des="a_pacientes/editar" desid="idpaciente" >
+				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/editar' v_idpaciente='$idpaciente' dix='trabajo'>Ficha de registro</li>";
+
+				if($idpaciente>0){
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+				}
+				else{
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' is='li-link' des='a_pacientes/index' dix='trabajo'>Regresar</button>";
+				}
+			echo "</ol>";
+		echo "</nav>";
+	}
+
+echo "<div class='container'>";
+	if($_SESSION['nivel']!=666){
+		echo "<form is='f-submit' id='form_cliente' db='a_pacientes/db_' fun='guardar_cliente' des='a_pacientes/editar' desid='idpaciente' >";
+	}
+	else{
+		echo "<form is='f-submit' id='form_cliente' db='a_pacientes/db_' fun='guardar_cliente'>";
+	}
+?>
 		<input type="hidden" name="idpaciente" id="idpaciente" value="<?php echo $idpaciente;?>">
 		<div class='card'>
 			<div class='card-header'>
@@ -200,47 +214,44 @@
 						<input type="text" class="form-control form-control-sm" name="telefono_vive" id="telefono_vive" value="<?php echo $telefono_vive;?>" maxlength="100" placeholder="Teléfono o Medio de contacto" required>
 					</div>
 				</div>
-
-				<div class='row'>
-					<div class='col-sm-4'>
-						<label for='nombre'>Sucursal</label>
-						<select name='idsucursal' id='idsucursal' class='form-control form-control-sm'>
-						<?php
-							foreach($sucursal as $key){
-								echo  "<option value=".$key->idsucursal;
-								if ($key->idsucursal==$idsucursal){
-									echo  " selected ";
-								}
-								echo  ">".$key->nombre."</option>";
-							}
-						?>
-						</select>
-					</div>
-
 				<?php
-					echo "<div class='col-4'>";
-						echo "<label for=''>Activo:</label>";
-						echo "<select class='form-control form-control-sm' name='autoriza' id='autoriza'>";
-						echo "<option value='1'"; if($autoriza=="1") echo "selected"; echo ">Activo</option>";
-						echo "<option value='0'"; if($autoriza=="0") echo "selected"; echo ">Inactivo</option>";
-						echo "</select>";
-					echo "</div>";
-				?>
+				if($_SESSION['nivel']!=666){
+					echo "<div class='row'>";
+						echo "<div class='col-sm-4'>";
+							echo "<label for='nombre'>Sucursal</label>";
+							echo "<select name='idsucursal' id='idsucursal' class='form-control form-control-sm'>";
+								foreach($sucursal as $key){
+									echo  "<option value=".$key->idsucursal;
+									if ($key->idsucursal==$idsucursal){
+										echo  " selected ";
+									}
+									echo  ">".$key->nombre."</option>";
+								}
 
-				</div>
+							echo "</select>";
+						echo "</div>";
+
+						echo "<div class='col-4'>";
+							echo "<label for=''>Activo:</label>";
+							echo "<select class='form-control form-control-sm' name='autoriza' id='autoriza'>";
+							echo "<option value='1'"; if($autoriza=="1") echo "selected"; echo ">Activo</option>";
+							echo "<option value='0'"; if($autoriza=="0") echo "selected"; echo ">Inactivo</option>";
+							echo "</select>";
+						echo "</div>";
+					echo "</div>";
+				}
+
+				?>
 				<hr>
 
-
-
-
+			<?php
+			/*
 				<div class='row'>
 					<div class="col-3">
 						<label>Fecha nacimiento:</label>
 							<input type="date" class="form-control form-control-sm" name="fnacimiento" id="fnacimiento" value="<?php echo $fnacimiento;?>"  maxlength="20">
 					</div>
-
-
-					<div class='col-sm-3'>
+					<div class='col-3'>
 						<label for='nombre'>Sexo</label>
 						<select name='sexo' id='sexo' class='form-control form-control-sm'>
 						<?php
@@ -249,22 +260,18 @@
 						?>
 						</select>
 					</div>
-
 					<div class="col-3">
 						<label>Peso:</label>
 							<input type="text" class="form-control form-control-sm" name="peso" id="peso" value="<?php echo $peso;?>" placeholder="Peso" maxlength="20">
 					</div>
-
 					<div class="col-3">
 						<label>Altura:</label>
 							<input type="text" class="form-control form-control-sm" name="altura" id="altura" value="<?php echo $altura;?>" placeholder="Altura" maxlength="20">
 					</div>
-
 					<div class="col-3">
 						<label>Hermanos:</label>
 						<input type="text" class="form-control form-control-sm" name="hermanos" id="hermanos" value="<?php echo $hermanos;?>" placeholder="Numero de hermanos"  maxlength="20">
 					</div>
-
 					<div class="col-3">
 						<label>Facebook:</label>
 						<input type="text" class="form-control form-control-sm" name="facebook" id="facebook" value="<?php echo $facebook;?>" placeholder="Facebook"  maxlength="200">
@@ -300,7 +307,8 @@
 						<input type="text" class="form-control form-control-sm" name="telparentesco" id="telparentesco" value="<?php echo $telparentesco;?>" placeholder="Telefono"  maxlength="150">
 					</div>
 				</div>
-
+				*/
+			?>
 				<div class='row'>
 					<div class="col-12">
 						<label>Información personal:</label>
@@ -327,11 +335,18 @@
 						<?php
 							if($idpaciente>0){
 								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_foto' dix='nueva_sub' tp='edit' v_idpaciente='$idpaciente' omodal='1'>Foto</button>";
+
 								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/form_pass' dix='nueva_sub' tp='edit' v_idpaciente='$idpaciente' omodal='1'>Contraseña</button>";
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+
+								if($_SESSION['nivel']!=666){
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+								}
+
 							}
 							else{
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' dix='trabajo'>Regresar</button>";
+								if($_SESSION['nivel']!=666){
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' dix='trabajo'>Regresar</button>";
+								}
 							}
 						?>
 

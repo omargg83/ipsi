@@ -23,14 +23,35 @@
 		$desde_dia="";
 		$recurrente="";
 
-    $desde=date("h").":00";
+    $desde=date("H").":00";
     $hasta = strtotime ( '+59 minute' , strtotime ($desde) ) ;
-    $hasta = date ( 'h:i' , $hasta);
+    $hasta = date ( 'H:i' , $hasta);
   }
 
 	$mi="";
 	if (isset($_REQUEST['mi'])){
 		$mi="1";
+	}
+
+
+	$pd = $db->usuario_editar($idusuario);
+	$nombre=$pd->nombre;
+	$apellidop=$pd->apellidop;
+	$apellidom=$pd->apellidom;
+
+
+	if($mi!=1){
+		echo "<nav aria-label='breadcrumb'>";
+			echo "<ol class='breadcrumb'>";
+				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_terapeutas/index' dix='trabajo'>Terapeuta</li>";
+				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_terapeutas/terapeuta' v_idusuario='$idusuario' dix='trabajo'>$nombre $apellidop $apellidom</li>";
+				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_terapeutas/editar' v_idusuario='$idusuario' dix='trabajo'>Editar</li>";
+				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_terapeutas/horarios' v_idusuario='$idusuario' dix='trabajo'>Horarios</li>";
+				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_terapeutas/editar_horario' v_idusuario='$idusuario' v_idhorario='$idhorario' dix='trabajo'>Editar horario</li>";
+
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/horarios' v_idusuario='$idusuario' dix='trabajo'>Regresar</button>";
+			echo "</ol>";
+		echo "</nav>";
 	}
 
 ?>
@@ -52,11 +73,7 @@
 				</div>
 				<div class='card-body'>
 					<div class='row'>
-						<div class='col-3'>
-							<label for='nombre'>Desde</label>
-						</div>
-
-						<div class='col-3'>
+						<div class='col-4'>
 							<select class="form-control" name="desde_dia" id="desde_dia">
 								<?php
 									echo "<option value='Domingo'"; if($desde_dia=="Domingo"){ echo "selected"; } echo ">Domingo</option>";
@@ -70,14 +87,16 @@
 							</select>
 						</div>
 
-						<div class='col-3'>
+						<div class='col-4'>
 							<input type="time" class="form-control " name="desde" id="desde" value="<?php echo $desde;?>" placeholder="Desde" required>
 						</div>
 
-						<div class='col-3'>
+						<div class='col-4'>
 							<input type="time" class="form-control " name="hasta" id="hasta" value="<?php echo $hasta;?>" placeholder="Hasta" required>
 						</div>
 					</div>
+					<?php
+					/*
 					<div class="row">
 						<div class='col-6'>
 							<div class="form-group form-check">
@@ -86,6 +105,10 @@
 						  </div>
 						</div>
 					</div>
+					*/
+					?>
+				</div>
+				<div class='card-footer'>
 					<div class="row">
 						<div class='col-12'>
 							<?php
