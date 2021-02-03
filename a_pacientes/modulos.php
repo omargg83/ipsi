@@ -3,6 +3,11 @@
 	$idterapia="";
 	$idtrack=$_REQUEST['idtrack'];
 	$idpaciente=$_REQUEST['idpaciente'];
+	$visible="-1";
+	if(isset($_REQUEST['visible'])){
+		$visible=$_REQUEST['visible'];
+	}
+	$idpaciente=$_REQUEST['idpaciente'];
 
 	/////////////////////breadcrumb
 	$paciente = $db->cliente_editar($idpaciente);
@@ -53,7 +58,24 @@
 		echo "</div>";
 	}
 
- ?>
+	/////////////////filtro
+	if($inicial==1){
+		echo "<div class='container' id='filtro'>";
+			echo "<form id='filtro_form' des='a_pacientes/modulos'>";
+				echo "<input type='hidden' name='idtrack' id='idtrack' value='$idtrack'>";
+				echo "<input type='hidden' name='idpaciente' id='idpaciente' value='$idpaciente'>";
+					echo "<div class='row'>";
+						echo "<div class='col-2'>";
+							echo "<select name='visible' id='visible' class='form-control form-control-sm filter_x' >";
+								echo "<option value='-1' "; if($visible=="-1"){ echo "selected"; } echo ">Todas</option>";
+								echo "<option value='1' "; if($visible==1){ echo "selected"; } echo ">Visibles</option>";
+								echo "<option value='0' "; if($visible==0){ echo "selected"; } echo ">Ocultas</option>";
+							echo "</select>";
+					echo "</div>";
+			echo "</form>";
+		echo "</div>";
+	}
+?>
 
 <div class='container'>
   <div class='row'>
@@ -61,24 +83,31 @@
 		///////////////////////CODIGO
 		 $sql="SELECT * from actividad_per
 		 left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idtrack=:idtrack";
+
+		 if($visible>=0)
+		 $sql.=" and actividad.visible=:visible";
+
 		$sth = $db->dbh->prepare($sql);
 		$sth->bindValue(":id",$idpaciente);
 		$sth->bindValue(":idtrack",$idtrack);
+		$sth->bindValue(":idtrack",$idtrack);
+
+		 if($visible>=0)
+		$sth->bindValue(":visible",$visible);
+
 		$sth->execute();
 		$acinicial=$sth->fetchAll(PDO::FETCH_OBJ);
 
 		foreach($acinicial as $key){
 		?>
-			<div class='col-4 p-3 w-50 actcard'>
-  			<div class='card'>
+			<div class='col-4 p-2 w-50 actcard'>
+  			<div class='card' style='height:400px'>
 					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
 					<div class='card-header'>
 						<?php echo $key->nombre; ?>
-
 						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/modulos" dix="trabajo" db="a_pacientes/db_" fun="quitar_actividad" v_idactividad="<?php echo $key->idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idtrack="<?php echo $idtrack; ?>" tp="¿Desea quitar la actividad inicial seleccionada?" title="Borrar"><i class="far fa-trash-alt"></i></button>
-
 					</div>
-					<div class='card-body'>
+					<div class='card-body' style='overflow:auto; height:220px'>
 						<div class='row'>
 							<div class='col-12'>
 								<?php echo $key->observaciones; ?>

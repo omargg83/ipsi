@@ -42,8 +42,6 @@
 <div class='container'>
 	<div class='row'>
 
-
-
   	<?php
   	foreach($track as $key){
   	?>
