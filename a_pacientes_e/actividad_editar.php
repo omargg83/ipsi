@@ -32,6 +32,7 @@
 		$terapia=$sth->fetch(PDO::FETCH_OBJ);
 	}
 	if(isset($_REQUEST['idtrack'])){
+		$idmodulo="";
 		$idtrack=clean_var($_REQUEST['idtrack']);
 		$inicial=1;
 
@@ -176,12 +177,19 @@
 						<div class='col-12'>
 								<button class='btn btn-warning'  type='submit'>Guardar</button>
 								<?php
+								if($inicial==0){
 									if($idactividad>0){
-										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
-									}
-									else{
 										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividades' v_idmodulo='$idmodulo' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
 									}
+									else{
+										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+									}
+								}
+								else{
+									echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Regresar</button>";
+								}
+
+
 								?>
 						</div>
 					</div>

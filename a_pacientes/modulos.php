@@ -104,8 +104,12 @@
   			<div class='card' style='height:400px'>
 					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
 					<div class='card-header'>
-						<?php echo $key->nombre; ?>
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/modulos" dix="trabajo" db="a_pacientes/db_" fun="quitar_actividad" v_idactividad="<?php echo $key->idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idtrack="<?php echo $idtrack; ?>" tp="¿Desea quitar la actividad inicial seleccionada?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+						<?php echo $key->nombre."<br>";
+
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' tp='¿Desea publicar la actividad en el catalogo?' title='Duplicar'><i class='far fa-clone'></i></button>";
+
+						echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' tp='¿Desea quitar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+					?>
 					</div>
 					<div class='card-body' style='overflow:auto; height:220px'>
 						<div class='row'>
@@ -130,15 +134,15 @@
   <?php
   	foreach($modulos as $key){
   ?>
-  		<div class='col-4 p-3 w-50 actcard'>
-  			<div class='card'>
+			<div class='col-4 p-2 w-50 actcard'>
+				<div class='card' style='height:400px'>
 					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
 					<div class="card-header">
 						<?php echo $key->nombre; ?>
 
 						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/modulos" dix="trabajo" db="a_pacientes/db_" fun="quitar_modulo" v_idmodulo="<?php echo $key->id; ?>" v_idtrack="<?php echo $idtrack; ?>"  v_idpaciente="<?php echo $idpaciente; ?>"  tp="¿Desea quitar el modulo seleccionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
 					</div>
-  				<div class='card-body'>
+  				<div class='card-body' style='overflow:auto; height:220px'>
   					<div class='row'>
   						<div class='col-12'>
   							<?php echo $key->descripcion; ?>

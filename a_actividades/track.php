@@ -22,8 +22,8 @@
   	<?php
   	foreach($track as $key){
   	?>
-  		<div class='col-4 p-3 w-50 actcard'>
-  			<div class='card'>
+		<div class='col-4 p-2 w-50 actcard'>
+			<div class='card' style='height:400px'>
 					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
   				<div class='card-header'>
 						<?php echo $key->nombre; ?>
@@ -32,7 +32,7 @@
 
 						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/track_editar" dix="trabajo" v_idtrack="<?php echo $key->id; ?>" v_idterapia="<?php echo $idterapia; ?>"><i class="fas fa-pencil-alt"></i></button>
 					</div>
-  				<div class='card-body'>
+  				<div class='card-body' style='overflow:auto; height:220px'>
   					<div class='row'>
   						<div class='col-12'>
   							<?php echo $key->descripcion; ?>

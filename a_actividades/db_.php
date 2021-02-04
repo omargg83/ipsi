@@ -296,8 +296,7 @@ class Cuest extends ipsi{
 		$idactividad=$_REQUEST['idactividad'];
 
 		$sql="select * from actividad where idactividad=$idactividad";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
+		$sth = $this->dbh->query($sql);
 		$resp=$sth->fetch(PDO::FETCH_OBJ);
 		$fecha=date("Y-m-d H:i:s");
 
@@ -317,8 +316,7 @@ class Cuest extends ipsi{
 
 		//////////////////clonar escala_sub
 		$sql="select * from escala_actividad where idactividad=$idactividad";
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
+		$sth = $this->dbh->query($sql);
 		$excala_act=$sth->fetchall(PDO::FETCH_OBJ);
 		foreach($excala_act as $v2){
 			$arreglo=array();
@@ -356,10 +354,8 @@ class Cuest extends ipsi{
 		}
 
 		////////////Clonar Subactividad
-		$sql="select * from subactividad where idactividad=:idactividad";
-		$sth = $this->dbh->prepare($sql);
-		$sth->bindValue(":idactividad",$idactividad);
-		$sth->execute();
+		$sql="select * from subactividad where idactividad=$idactividad";
+		$sth = $this->dbh->query($sql);
 
 		foreach($sth->fetchall(PDO::FETCH_OBJ) as $key){
 			$arreglo=array();
@@ -372,8 +368,8 @@ class Cuest extends ipsi{
 
 			/////////////////clonar Escala subactividad
 			$sql="select * from escala_sub where idsubactividad=$key->idsubactividad";
-			$sty = $this->dbh->prepare($sql);
-			$sty->execute();
+			$sty = $this->dbh->query($sql);
+
 			foreach($sty->fetchall(PDO::FETCH_OBJ) as $escala_sub){
 				$arreglo=array();
 				$arreglo+=array('descripcion'=>$escala_sub->descripcion);
@@ -384,10 +380,8 @@ class Cuest extends ipsi{
 			}
 
 			////////////Clonar Contexto
-			$sql="select * from contexto where idsubactividad=:idsubactividad";
-			$sth1 = $this->dbh->prepare($sql);
-			$sth1->bindValue(":idsubactividad",$key->idsubactividad);
-			$sth1->execute();
+			$sql="select * from contexto where idsubactividad=$key->idsubactividad";
+			$sth1 = $this->dbh->query($sql);
 
 			foreach($sth1->fetchall(PDO::FETCH_OBJ) as $subkey){
 				$arreglo=array();
@@ -403,10 +397,8 @@ class Cuest extends ipsi{
 				$contexto_array=json_decode($x,true);
 
 				////////////Clonar respuestas
-				$sql="select * from respuestas where idcontexto=:idcontexto";
-				$sth2 = $this->dbh->prepare($sql);
-				$sth2->bindValue(":idcontexto",$subkey->id);
-				$sth2->execute();
+				$sql="select * from respuestas where idcontexto=$subkey->id";
+				$sth2 = $this->dbh->query($sql);
 
 				foreach($sth2->fetchall(PDO::FETCH_OBJ) as $cont){
 					$arreglo=array();
@@ -424,8 +416,8 @@ class Cuest extends ipsi{
 		$sql="select contexto.* from contexto
 		left outer join subactividad on contexto.idsubactividad=subactividad.idsubactividad
 		where subactividad.idactividad=".$idactividad_nueva." and contexto.idcond is not null";
-		$condix = $this->dbh->prepare($sql);
-		$condix->execute();
+		$condix = $this->dbh->query($sql);
+
 		$shy=$condix->fetchAll(PDO::FETCH_OBJ);
 		foreach($shy as $v1){
 
@@ -433,8 +425,7 @@ class Cuest extends ipsi{
 			left outer join contexto on contexto.id=respuestas.idcontexto
 			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
 			where idactividad='".$idactividad_nueva."' and pre='".$v1->idcond."'";
-			$inserta = $this->dbh->prepare($sql);
-			$inserta->execute();
+			$inserta = $this->dbh->query($sql);
 			$inx=$inserta->fetch(PDO::FETCH_OBJ);
 
 			$arreglo=array();
@@ -937,6 +928,233 @@ class Cuest extends ipsi{
 			$this->update('subactividad',array('idsubactividad'=>$v2->idsubactividad), $arreglo);
 		}
 	}
+
+	public function subactividad_duplicar(){
+		$idsubactividad=$_REQUEST['idsubactividad'];
+		$sql="select * from subactividad where idsubactividad=$idsubactividad order by orden asc";
+		$sth = $this->dbh->query($sql);
+		$sub=$sth->fetch(PDO::FETCH_OBJ);
+
+		///////////clonar subactividad
+		$arreglo=array();
+		$arreglo+=array('pagina'=>$sub->pagina);
+		$arreglo+=array('orden'=>$sub->orden);
+		$arreglo+=array('idactividad'=>$sub->idactividad);
+		$arreglo+=array('nombre'=>$sub->nombre." Duplicada");
+
+		$x=$this->insert('subactividad', $arreglo);
+		$sub_nueva=json_decode($x,true);
+
+		/////////////////clonar Escala subactividad
+		$sql="select * from escala_sub where idsubactividad=$idsubactividad";
+		$sty = $this->dbh->query($sql);
+		foreach($sty->fetchall(PDO::FETCH_OBJ) as $escala_sub){
+			$arreglo=array();
+			$arreglo+=array('idsubactividad'=>$sub_nueva['id1']);
+			$arreglo+=array('descripcion'=>$escala_sub->descripcion);
+			$arreglo+=array('minimo'=>$escala_sub->minimo);
+			$arreglo+=array('maximo'=>$escala_sub->maximo);
+			$x=$this->insert('escala_sub', $arreglo);
+		}
+
+		////////////Clonar Contexto
+		$sql="select * from contexto where idsubactividad=$idsubactividad";
+		$sth1 = $this->dbh->query($sql);
+
+		foreach($sth1->fetchall(PDO::FETCH_OBJ) as $subkey){
+			$arreglo=array();
+			$arreglo+=array('idsubactividad'=>$sub_nueva['id1']);
+			$arreglo+=array('tipo'=>$subkey->tipo);
+			$arreglo+=array('observaciones'=>$subkey->observaciones);
+			$arreglo+=array('texto'=>$subkey->texto);
+			$arreglo+=array('incisos'=>$subkey->incisos);
+			$arreglo+=array('usuario'=>$subkey->usuario);
+			$arreglo+=array('descripcion'=>$subkey->descripcion);
+			$arreglo+=array('idcond'=>$subkey->idcond);
+			$x=$this->insert('contexto', $arreglo);
+			$contexto_nuevo=json_decode($x,true);
+
+			////////////Clonar respuestas
+			$sql="select * from respuestas where idcontexto=$subkey->id";
+			$sth2 = $this->dbh->query($sql);
+
+			foreach($sth2->fetchall(PDO::FETCH_OBJ) as $cont){
+				$arreglo=array();
+				$arreglo+=array('idcontexto'=>$contexto_nuevo['id1']);
+				$arreglo+=array('orden'=>$cont->orden);
+				$arreglo+=array('nombre'=>$cont->nombre);
+				$arreglo+=array('imagen'=>$cont->imagen);
+				$arreglo+=array('valor'=>$cont->valor);
+				$arreglo+=array('pre'=>$cont->id);
+				$x=$this->insert('respuestas', $arreglo);
+			}
+		}
+
+		///////////////////////condicionales
+		$sql="select contexto.* from contexto
+		left outer join subactividad on contexto.idsubactividad=subactividad.idsubactividad
+		where subactividad.idsubactividad='".$sub_nueva['id1']."' and contexto.idcond is not null";
+		$condix = $this->dbh->query($sql);
+		$shy=$condix->fetchAll(PDO::FETCH_OBJ);
+		foreach($shy as $v1){
+
+			$sql="select respuestas.id as pre, contexto.id from respuestas
+			left outer join contexto on contexto.id=respuestas.idcontexto
+			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+			where subactividad.idsubactividad='".$sub_nueva['id1']."' and pre='".$v1->idcond."'";
+			$inserta = $this->dbh->query($sql);
+			$inx=$inserta->fetch(PDO::FETCH_OBJ);
+
+			$arreglo=array();
+			$arreglo+=array('idcond'=>$inx->pre);
+			$x=$this->update('contexto',array('id'=>$v1->id), $arreglo);
+
+		}
+		return $x;
+	}
+	public function actividad_duplicar(){
+			$idactividad=$_REQUEST['idactividad'];
+
+			$sql="select * from actividad where idactividad=$idactividad";
+			$sth = $this->dbh->query($sql);
+			$resp=$sth->fetch(PDO::FETCH_OBJ);
+			$fecha=date("Y-m-d H:i:s");
+
+			////////////Clonar actividad
+			$arreglo=array();
+			$arreglo+=array('idmodulo'=>$resp->idmodulo);
+			$arreglo+=array('idtrack'=>$resp->idtrack);
+			$arreglo+=array('idcreado'=>$resp->idcreado);
+			$arreglo+=array('nombre'=>$resp->nombre);
+			$arreglo+=array('indicaciones'=>$resp->indicaciones);
+			$arreglo+=array('observaciones'=>$resp->observaciones);
+			$arreglo+=array('tipo'=>$resp->tipo);
+			$arreglo+=array('fecha'=>$fecha);
+			$x=$this->insert('actividad', $arreglo);
+			$idactividad_array=json_decode($x,true);
+			$idactividad_nueva=$idactividad_array['id1'];
+
+			//////////////////clonar escala_sub
+			$sql="select * from escala_actividad where idactividad=$idactividad";
+			$sth = $this->dbh->query($sql);
+			$excala_act=$sth->fetchall(PDO::FETCH_OBJ);
+			foreach($excala_act as $v2){
+				$arreglo=array();
+				$arreglo+=array('nombre'=>$v2->nombre);
+				$arreglo+=array('idactividad'=>$idactividad_array['id1']);
+				$x=$this->insert('escala_actividad', $arreglo);
+				$escala_actividad_clon=json_decode($x,true);
+
+				$sql="select * from escala_act where idescala=$v2->id";
+				$sth = $this->dbh->prepare($sql);
+				$sth->execute();
+				$tmp=$sth->fetchall(PDO::FETCH_OBJ);
+				foreach($tmp as $v3){
+					$arreglo=array();
+					$arreglo+=array('descripcion'=>$v3->descripcion);
+					$arreglo+=array('minimo'=>$v3->minimo);
+					$arreglo+=array('maximo'=>$v3->maximo);
+					$arreglo+=array('idescala'=>$escala_actividad_clon['id1']);
+					$x=$this->insert('escala_act', $arreglo);
+					$escala_act_clon=json_decode($x,true);
+				}
+
+				$sql="select * from escala_contexto where idescala=$v2->id";
+				$sth = $this->dbh->prepare($sql);
+				$sth->execute();
+				$tmp=$sth->fetchall(PDO::FETCH_OBJ);
+				foreach($tmp as $v4){
+					$arreglo=array();
+					$arreglo+=array('idcontexto'=>$v4->idcontexto);
+					$arreglo+=array('idescala'=>$escala_actividad_clon['id1']);
+					$x=$this->insert('escala_contexto', $arreglo);
+					$escala_contexto_clon=json_decode($x,true);
+				}
+
+			}
+
+			////////////Clonar Subactividad
+			$sql="select * from subactividad where idactividad=$idactividad";
+			$sth = $this->dbh->query($sql);
+
+			foreach($sth->fetchall(PDO::FETCH_OBJ) as $key){
+				$arreglo=array();
+				$arreglo+=array('nombre'=>$key->nombre);
+				$arreglo+=array('orden'=>$key->orden);
+				$arreglo+=array('pagina'=>$key->pagina);
+				$arreglo+=array('idactividad'=>$idactividad_array['id1']);
+				$x=$this->insert('subactividad', $arreglo);
+				$subactividad_array=json_decode($x,true);
+
+				/////////////////clonar Escala subactividad
+				$sql="select * from escala_sub where idsubactividad=$key->idsubactividad";
+				$sty = $this->dbh->query($sql);
+
+				foreach($sty->fetchall(PDO::FETCH_OBJ) as $escala_sub){
+					$arreglo=array();
+					$arreglo+=array('descripcion'=>$escala_sub->descripcion);
+					$arreglo+=array('minimo'=>$escala_sub->minimo);
+					$arreglo+=array('maximo'=>$escala_sub->maximo);
+					$arreglo+=array('idsubactividad'=>$subactividad_array['id1']);
+					$x=$this->insert('escala_sub', $arreglo);
+				}
+
+				////////////Clonar Contexto
+				$sql="select * from contexto where idsubactividad=$key->idsubactividad";
+				$sth1 = $this->dbh->query($sql);
+
+				foreach($sth1->fetchall(PDO::FETCH_OBJ) as $subkey){
+					$arreglo=array();
+					$arreglo+=array('idsubactividad'=>$subactividad_array['id1']);
+					$arreglo+=array('tipo'=>$subkey->tipo);
+					$arreglo+=array('observaciones'=>$subkey->observaciones);
+					$arreglo+=array('texto'=>$subkey->texto);
+					$arreglo+=array('incisos'=>$subkey->incisos);
+					$arreglo+=array('usuario'=>$subkey->usuario);
+					$arreglo+=array('descripcion'=>$subkey->descripcion);
+					$arreglo+=array('idcond'=>$subkey->idcond);
+					$x=$this->insert('contexto', $arreglo);
+					$contexto_array=json_decode($x,true);
+
+					////////////Clonar respuestas
+					$sql="select * from respuestas where idcontexto=$subkey->id";
+					$sth2 = $this->dbh->query($sql);
+
+					foreach($sth2->fetchall(PDO::FETCH_OBJ) as $cont){
+						$arreglo=array();
+						$arreglo+=array('idcontexto'=>$contexto_array['id1']);
+						$arreglo+=array('orden'=>$cont->orden);
+						$arreglo+=array('nombre'=>$cont->nombre);
+						$arreglo+=array('imagen'=>$cont->imagen);
+						$arreglo+=array('valor'=>$cont->valor);
+						$arreglo+=array('pre'=>$cont->id);
+						$x=$this->insert('respuestas', $arreglo);
+					}
+				}
+			}
+
+			$sql="select contexto.* from contexto
+			left outer join subactividad on contexto.idsubactividad=subactividad.idsubactividad
+			where subactividad.idactividad=".$idactividad_nueva." and contexto.idcond is not null";
+			$condix = $this->dbh->query($sql);
+
+			$shy=$condix->fetchAll(PDO::FETCH_OBJ);
+			foreach($shy as $v1){
+
+				$sql="select respuestas.id as pre, contexto.id from respuestas
+				left outer join contexto on contexto.id=respuestas.idcontexto
+				left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+				where idactividad='".$idactividad_nueva."' and pre='".$v1->idcond."'";
+				$inserta = $this->dbh->query($sql);
+				$inx=$inserta->fetch(PDO::FETCH_OBJ);
+
+				$arreglo=array();
+				$arreglo+=array('idcond'=>$inx->pre);
+				$x=$this->update('contexto',array('id'=>$v1->id), $arreglo);
+			}
+			return $x;
+		}
+
 }
 
 $db = new Cuest();

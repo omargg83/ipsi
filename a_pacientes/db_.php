@@ -1047,7 +1047,7 @@ class Cliente extends ipsi{
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
-			echo "<div class='card mt-2' style='border:1px solid silver'>";
+			echo "<div class='card mt-2 ml-5'>";
 				echo "<div class='card-header'>";
 					echo "<div class='row'>";
 						echo "<div class='col-4'>";

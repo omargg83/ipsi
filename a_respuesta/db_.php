@@ -291,7 +291,6 @@ class Cliente extends ipsi{
 		$sth->execute();
 		$row=$sth->fetch(PDO::FETCH_OBJ);
 
-
 		$sql="select * from contexto_resp where idcontexto=$row->id";
 		$contx = $this->dbh->prepare($sql);
 		$contx->execute();
@@ -318,8 +317,7 @@ class Cliente extends ipsi{
 				$visible=1;
 			}
 		}
-		//if($visible){
-
+		if($visible){
 			echo "<div class='card mb-2 cond_$row->idcond'>";
 				echo "<div class='card-body'>";
 					echo "<form is='resp-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
@@ -475,6 +473,7 @@ class Cliente extends ipsi{
 					echo "</form>";
 				echo "</div>";
 			echo "</div>";
+		}
 	}
 	public function upd(){
 		$idcontexto=$_REQUEST['idcontexto'];
