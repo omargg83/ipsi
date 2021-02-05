@@ -73,10 +73,8 @@
 
 	    if($tipo=="texto"){
 				echo "<label>Texto:</label>";
-
 				echo "<div id='div_$idcontexto' name='div_$idcontexto' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'>$texto</div>";
 				echo "<small>De clic para editar</small>";
-		    //echo "<textarea class='texto form-control' id='texto_$idcontexto' name='texto_$idcontexto' rows=5 onclick='editable(texto_$idcontexto)'>".htmlspecialchars_decode($texto)."</textarea>";
 	    }
 	    else if($tipo=="imagen"){
 				echo "<label>Adjuntar imagen</label>";
@@ -106,14 +104,14 @@
 								echo "<label class='form-check-label' for='incisos'>Selección de varios incisos</label>";
 							echo "</div>";
 						echo "</div>";
-					if($tipo_actividad=="normal"){
-						echo "<div class='col-4'>";
-							echo "<div class='form-check'>";
-								echo "<input type='checkbox' class='form-check-input' name='personalizado' id='personalizado'  value='personalizado'"; if($personalizado=='1'){ echo 'checked'; }	echo ">";
-								echo "<label class='form-check-label' for='personalizado'>Permitir agregar incisos personalizados</label>";
+						if($tipo_actividad=="normal"){
+							echo "<div class='col-4'>";
+								echo "<div class='form-check'>";
+									echo "<input type='checkbox' class='form-check-input' name='personalizado' id='personalizado'  value='personalizado'"; if($personalizado=='1'){ echo 'checked'; }	echo ">";
+									echo "<label class='form-check-label' for='personalizado'>Permitir agregar incisos personalizados</label>";
+								echo "</div>";
 							echo "</div>";
-						echo "</div>";
-					}
+						}
 						echo "<div class='col-4'>";
 							echo "<div class='form-check'>";
 								echo "<input type='checkbox' class='form-check-input' name='usuario' id='usuario'  value='usuario'"; if($usuario=='1'){ echo 'checked'; } echo 	">";
@@ -146,17 +144,3 @@
 	  </div>
 	</div>
 </form>
-
-
-<script type="text/javascript">
-/*
-	$(function() {
-		$('.texto').summernote({
-			lang: 'es-ES',
-			placeholder: 'Texto',
-			tabsize: 5,
-			height: 250
-		});
-	});
-	*/
-</script>

@@ -2,10 +2,25 @@
 	require_once("db_.php");
 	$idmodulo=$_REQUEST['idmodulo'];
 
+	$visible="-1";
+	if(isset($_REQUEST['visible'])){
+		$visible=$_REQUEST['visible'];
+	}
+
 	$modulo=$db->modulo_editar($idmodulo);
 	$track=$db->track_editar($modulo->idtrack);
 	$terapia=$db->terapia_editar($track->idterapia);
-	$pd = $db->actividad_lista($idmodulo);
+
+	$sql="select * from actividad where idmodulo=:id and idpaciente is null";
+	if($visible>=0)
+	$sql.=" and actividad.visible=:visible";
+	$sth = $db->dbh->prepare($sql);
+	$sth->bindValue(":id",$idmodulo);
+	if($visible>=0)
+	$sth->bindValue(":visible",$visible);
+	$sth->execute();
+	$actividad = $sth->fetchAll(PDO::FETCH_OBJ);
+
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -20,18 +35,36 @@
 
 <div class="alert alert-warning text-center tituloventana" role="alert">
 	Actividades
-
 </div>
+
+<?php
+	/////////////////filtro
+
+	echo "<div class='container' id='filtro'>";
+		echo "<form id='filtro_form' des='a_actividades/actividades'>";
+			echo "<input type='hidden' name='idmodulo' id='idmodulo' value='$idmodulo'>";
+				echo "<div class='row justify-content-end'>";
+					echo "<div class='col-2'>";
+						echo "<select name='visible' id='visible' class='form-control form-control-sm filter_x' >";
+							echo "<option value='-1' "; if($visible=="-1"){ echo "selected"; } echo ">Todas</option>";
+							echo "<option value='1' "; if($visible==1){ echo "selected"; } echo ">Visibles</option>";
+							echo "<option value='0' "; if($visible==0){ echo "selected"; } echo ">Ocultas</option>";
+						echo "</select>";
+				echo "</div>";
+		echo "</form>";
+	echo "</div>";
+
+?>
 
 <div class='container'>
 	<div class='row'>
 
 
 	<?php
-		foreach($pd as $key){
+		foreach($actividad as $key){
 	?>
-<div id='<?php echo $key->idactividad; ?>' class='col-4 p-3 w-50 actcard'>
-				<div class='card'>
+		<div class='col-4 p-2 w-50 actcard'>
+			<div class='card' style='height:400px'>
 				<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
 					<div class='card-header'>
 						<?php
@@ -53,7 +86,7 @@
 							echo "</div>";
 						?>
 					</div>
-					<div class='card-body'>
+					<div class='card-body' style='overflow:auto; height:220px'>
 						<div class='row'>
 							<div class='col-12'>
 								<?php echo $key->observaciones; ?>

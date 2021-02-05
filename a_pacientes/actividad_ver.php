@@ -98,6 +98,8 @@
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0'><i class='fas fa-file-medical-alt'></i></button>";
 						}
 					?>
+					<button class="btn btn-warning btn-sm" type="button" is="b-link" db="a_actividades/db_" fun="publicar_actividad" v_idactividad="<?php echo $idactividad; ?>" tp="¿Desea publicar la actividad en el catalogo?" title="Catalogo"><i class="fas fa-user-friends"></i></button>
+					
 				</div>
 				<div class="col-10 text-center">
 						Actividad: <?php echo $nombre_act; ?> 	(<?php echo $actividad->tipo; ?>)
@@ -142,9 +144,7 @@
 					<?php echo $anotaciones; ?>
 				</div>
 		</div>
-
 	</div>
-
 <?php
 	/////////<!-- Fin de actividad  -->
 	/////////<!-- Subactividades  -->

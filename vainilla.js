@@ -157,6 +157,7 @@ function procesar_act(elemento){
       return;
     }
     var respon = JSON.parse(data.target.response);
+
     if (respon.error==0){
       cargando(false);
       document.getElementById('progreso_'+respon.idsubactividad).innerHTML=respon.progreso;

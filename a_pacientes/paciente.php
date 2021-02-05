@@ -17,9 +17,8 @@
 
 	/////////////////////Relaciones
 	$sql="select * from clientes_relacion
-	left outer join clientes on clientes.id=clientes_relacion.idrel
 	left outer join rol_familiar on rol_familiar.idrol=clientes_relacion.idrol
-	where clientes_relacion.idcliente=:idcliente";
+	where clientes_relacion.idcliente=:idcliente or clientes_relacion.idrel=:idcliente";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":idcliente",$idpaciente);
 	$sth->execute();
@@ -168,9 +167,15 @@
 						</div>
 						<?php
 							foreach($relaciones as $key){
+								if($key->idcliente==$idpaciente){
+									$cli=$db->cliente_editar($key->idrel);
+								}
+								else{
+									$cli=$db->cliente_editar($key->idcliente);
+								}
 								echo "<div class='row'>";
 									echo "<div class='col-6'>";
-										echo "<input class='form-control form-control-sm' value='$key->nombre' readonly/>";
+										echo "<input class='form-control form-control-sm' value='$cli->nombre $cli->apellidop $cli->apellidom' readonly/>";
 									echo "</div>";
 									echo "<div class='col-6'>";
 										echo "<input class='form-control form-control-sm' value='$key->rol' readonly/>";

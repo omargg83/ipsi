@@ -1,6 +1,6 @@
 <?php
 	require_once("../a_pacientes/db_.php");
-
+	$idx="";
   $idcontexto=$_REQUEST['idcontexto'];
   $idactividad=$_REQUEST['idactividad'];
 	$idpaciente=0;

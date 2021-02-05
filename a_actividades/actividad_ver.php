@@ -146,6 +146,7 @@
 				echo "</div>";
 
 						echo "<div class='card-body'>";
+
 							if(strlen($row->observaciones)>0){
 								echo "<div>";
 									echo "<p>".$row->observaciones."</p>";
@@ -153,83 +154,73 @@
 								echo "<hr>";
 							}
 
-								if($row->tipo=="imagen"){
-									echo "<div>";
-										echo "<img src='".$db->doc.$row->texto."'/>";
-										echo "<hr>";
-									echo "</div>";
-								}
-								else if($row->tipo=="texto"){
-									echo "<div>";
-										echo $row->texto;
-										echo "<hr>";
-									echo "</div>";
-								}
-								else if($row->tipo=="video"){
-									echo "<div>";
-										echo $row->texto;
-										echo "<hr>";
-									echo "</div>";
-								}
-								else if($row->tipo=="archivo"){
-									echo "<div>";
-										echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
-										echo "<hr>";
-									echo "</div>";
-								}
-								else if($row->tipo=="pregunta"){
-									echo "<div>";
-										echo $row->texto;
-										echo "<hr>";
-									echo "</div>";
-								}
-								else if($row->tipo=="textores"){
-									echo "<div>";
-										echo "<textarea class='texto' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
-										echo "<hr>";
-									echo "</div>";
-								}
-								else if($row->tipo=="textocorto"){
-									echo "<div>";
-										echo "<input type='text' class='form-control' id='texto' name='texto' rows=5 placeholder=''>$row->texto</input>";
-										echo "<hr>";
-									echo "</div>";
-								}
-								else if($row->tipo=="fecha"){
-									echo "<div>";
-										echo "<input type='date' name='texto' id='texto' value='$row->texto' class='form-control'>";
-										echo "<hr>";
-									echo "</div>";
-								}
-								else if($row->tipo=="archivores"){
-									echo "<div>";
-										echo "<input type='file' name='texto' id='texto' class='form-control'>";
-										echo "<hr>";
-									echo "</div>";
-								}
+							if($row->tipo=="imagen"){
+								echo "<div>";
+									echo "<img src='".$db->doc.$row->texto."'/>";
+									echo "<hr>";
+								echo "</div>";
+							}
+							else if($row->tipo=="texto"){
+								echo "<div>";
+									echo $row->texto;
+									echo "<hr>";
+								echo "</div>";
+							}
+							else if($row->tipo=="video"){
+								echo "<div>";
+									echo $row->texto;
+									echo "<hr>";
+								echo "</div>";
+							}
+							else if($row->tipo=="archivo"){
+								echo "<div>";
+									echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
+									echo "<hr>";
+								echo "</div>";
+							}
+							else if($row->tipo=="pregunta"){
+								echo "<div>";
+									echo $row->texto;
+									echo "<hr>";
+								echo "</div>";
+							}
+							else if($row->tipo=="textores"){
+								echo "<div>";
+									echo "<textarea class='texto' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
+									echo "<hr>";
+								echo "</div>";
+							}
+							else if($row->tipo=="textocorto"){
+								echo "<div>";
+									echo "<input type='text' class='form-control' id='texto' name='texto' rows=5 placeholder=''>$row->texto</input>";
+									echo "<hr>";
+								echo "</div>";
+							}
+							else if($row->tipo=="fecha"){
+								echo "<div>";
+									echo "<input type='date' name='texto' id='texto' value='$row->texto' class='form-control'>";
+									echo "<hr>";
+								echo "</div>";
+							}
+							else if($row->tipo=="archivores"){
+								echo "<div>";
+									echo "<input type='file' name='texto' id='texto' class='form-control'>";
+									echo "<hr>";
+								echo "</div>";
+							}
 
 						//////<!-- Fin de contexto  -->
 						//////<!-- Preguntas  -->
 						echo "<div class='container-fluid'>";
 								$rx=$db->respuestas_ver($row->id);
-								foreach ($rx as $respuesta) {
+								if(strlen($row->incisos)==0 and $row->tipo=="pregunta" and strlen($row->personalizado)==0 ){
 									echo "<div class='row'>";
-											echo "<div class='col-1'>";
-											if($row->incisos==1){
-												echo "<input type='checkbox' name='' value=''>";
-											}
-											else{
-												echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
-											}
-										echo "</div>";
-										if (strlen($respuesta->imagen)>0){
-											echo "<div class='col-1'>";
-												echo "<img src='".$db->doc.$respuesta->imagen."' width='20px'>";
-											echo "</div>";
+										echo "<div class='col-8'>";
+										echo "<select class='form-control'>";
+										foreach ($rx as $respuesta) {
+											echo "<option>$respuesta->nombre (".$respuesta->valor.")</option>";
 										}
-										echo "<div class='col-5'>";
-											echo $respuesta->nombre;
-											echo "(".$respuesta->valor.")";
+										echo "</select>";
 										echo "</div>";
 										echo "<div class='col-4'>";
 											if($row->usuario==1){
@@ -238,21 +229,50 @@
 										echo "</div>";
 									echo "</div>";
 								}
-								if($row->personalizado==1){
-									echo "<div class='row'>";
-										echo "<div class='col-1'>";
-											if($row->incisos==1){
-												echo "<input type='checkbox' name='' value=''>";
+								else{
+									foreach ($rx as $respuesta) {
+										echo "<div class='row'>";
+												echo "<div class='col-1'>";
+												if($row->incisos==1){
+													echo "<input type='checkbox' name='' value=''>";
+												}
+												else{
+													echo "<input type='radio' id='resp_".$row->id."' name='resp_".$row->id."' value='1'>";
+												}
+											echo "</div>";
+											if (strlen($respuesta->imagen)>0){
+												echo "<div class='col-1'>";
+													echo "<img src='".$db->doc.$respuesta->imagen."' width='20px'>";
+												echo "</div>";
 											}
-											else{
-												echo "<input type='radio' id='resp_<?php echo $row->id; ?>' name='resp_<?php echo $row->id; ?>' value='1'>";
-											}
+											echo "<div class='col-5'>";
+												echo $respuesta->nombre;
+												echo "(".$respuesta->valor.")";
+											echo "</div>";
+											echo "<div class='col-4'>";
+												if($row->usuario==1){
+													echo "<input type='text' name='' value='' placeholder='Define..' class='form-control'>";
+												}
+											echo "</div>";
 										echo "</div>";
-										echo "<div class='col-3'>";
-											echo "<input type='text' class='form-control' name='' value=''>";
+									}
+									if($row->personalizado==1){
+										echo "<div class='row'>";
+											echo "<div class='col-1'>";
+												if($row->incisos==1){
+													echo "<input type='checkbox' name='' value=''>";
+												}
+												else{
+													echo "<input type='radio' id='resp_".$row->id."' name='resp_".$row->id."' value='1'>";
+												}
+											echo "</div>";
+											echo "<div class='col-3'>";
+												echo "<input type='text' class='form-control' name='' value=''>";
+											echo "</div>";
 										echo "</div>";
-									echo "</div>";
+									}
 								}
+
 							echo "</div>";
 							if($row->tipo=="pregunta"){
 								echo "<br>";

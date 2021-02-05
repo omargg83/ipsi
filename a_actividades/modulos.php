@@ -1,13 +1,15 @@
 <?php
 	require_once("db_.php");
   $idtrack=$_REQUEST['idtrack'];
-
+	$visible="-1";
+	if(isset($_REQUEST['visible'])){
+		$visible=$_REQUEST['visible'];
+	}
 
   $modulos=$db->modulos($idtrack);
 
 	$track=$db->track_editar($idtrack);
 	$inicial=$track->inicial;
-
 	$terapia=$db->terapia_editar($track->idterapia);
 
 ?>
@@ -31,6 +33,23 @@
 			echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
 		   echo "Modulos";
 		 	echo "</div>";
+		}
+
+		/////////////////filtro
+		if($inicial==1){
+			echo "<div class='container' id='filtro'>";
+				echo "<form id='filtro_form' des='a_actividades/modulos'>";
+					echo "<input type='hidden' name='idtrack' id='idtrack' value='$idtrack'>";
+						echo "<div class='row justify-content-end'>";
+							echo "<div class='col-2'>";
+								echo "<select name='visible' id='visible' class='form-control form-control-sm filter_x' >";
+									echo "<option value='-1' "; if($visible=="-1"){ echo "selected"; } echo ">Todas</option>";
+									echo "<option value='1' "; if($visible==1){ echo "selected"; } echo ">Visibles</option>";
+									echo "<option value='0' "; if($visible==0){ echo "selected"; } echo ">Ocultas</option>";
+								echo "</select>";
+						echo "</div>";
+				echo "</form>";
+			echo "</div>";
 		}
 	?>
 
@@ -90,7 +109,20 @@
 	    echo "</div>";
 		}
 
-		$actividad=$db->actividad_inicial($idtrack);
+
+		$sql="select * from actividad where idtrack=:id and idpaciente is null";
+		if($visible>=0)
+		$sql.=" and actividad.visible=:visible";
+
+		$sth = $db->dbh->prepare($sql);
+		$sth->bindValue(":id",$idtrack);
+
+		if($visible>=0)
+		$sth->bindValue(":visible",$visible);
+		
+		$sth->execute();
+		$actividad=$sth->fetchAll(PDO::FETCH_OBJ);
+
 		foreach($actividad as $key){
 		?>
 		<div class='col-4 p-2 w-50 actcard'>
