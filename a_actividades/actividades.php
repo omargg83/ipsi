@@ -34,11 +34,24 @@
 				<div class='card'>
 				<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
 					<div class='card-header'>
-						<?php echo $key->nombre; ?>
+						<?php
+							echo "<div class='row'>";
+								echo "<div class='col-12'>";
+									echo $key->nombre;
+								echo "</div>";
+							echo "</div>";
+							echo "<div class='row justify-content-end'>";
+								echo "<div class='col-5'>";
 
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/actividades" dix="trabajo" db="a_actividades/db_" fun="borrar_actividad" v_idactividad="<?php echo $key->idactividad; ?>" v_idmodulo="<?php echo $idmodulo; ?>" tp="¿Desea eliminar la actividad seleccionada?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$key->idactividad' v_idmodulo='$idmodulo' v_origen='actividades'><i class='fas fa-pencil-alt'></i></button>";
 
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="<?php echo $key->idactividad; ?>" v_idmodulo="<?php echo $idmodulo; ?>" v_origen='actividades'><i class="fas fa-pencil-alt"></i></button>
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idmodulo='$idmodulo' des='a_actividades/actividades' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
+
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividades' dix='trabajo' db='a_actividades/db_' fun='borrar_actividad' v_idactividad='$key->idactividad' v_idmodulo='$idmodulo' tp='¿Desea eliminar la actividad seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+
+								echo "</div>";
+							echo "</div>";
+						?>
 					</div>
 					<div class='card-body'>
 						<div class='row'>

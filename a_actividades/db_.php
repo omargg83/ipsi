@@ -18,7 +18,6 @@ class Cuest extends ipsi{
 
 	}
 
-
 	public function terapias(){
 		try{
 			$sql="select * from terapias order by nombre asc";
@@ -1015,6 +1014,13 @@ class Cuest extends ipsi{
 	public function actividad_duplicar(){
 			$idactividad=$_REQUEST['idactividad'];
 
+			$paciente=0;
+			if(isset($_REQUEST['idpaciente'])){
+				$idpaciente=$_REQUEST['idpaciente'];
+				$paciente=1;
+			}
+
+
 			$sql="select * from actividad where idactividad=$idactividad";
 			$sth = $this->dbh->query($sql);
 			$resp=$sth->fetch(PDO::FETCH_OBJ);
@@ -1025,23 +1031,31 @@ class Cuest extends ipsi{
 			$arreglo+=array('idmodulo'=>$resp->idmodulo);
 			$arreglo+=array('idtrack'=>$resp->idtrack);
 			$arreglo+=array('idcreado'=>$resp->idcreado);
-			$arreglo+=array('nombre'=>$resp->nombre);
+			$arreglo+=array('nombre'=>$resp->nombre." Duplicada");
 			$arreglo+=array('indicaciones'=>$resp->indicaciones);
 			$arreglo+=array('observaciones'=>$resp->observaciones);
 			$arreglo+=array('tipo'=>$resp->tipo);
 			$arreglo+=array('fecha'=>$fecha);
 			$x=$this->insert('actividad', $arreglo);
-			$idactividad_array=json_decode($x,true);
-			$idactividad_nueva=$idactividad_array['id1'];
+			$actividad_nueva=json_decode($x,true);
+			$idactividad_nueva=$actividad_nueva['id1'];
+
+			//////////////para los permisos
+			if($paciente==1){
+				$arreglo=array();
+				$arreglo+=array('idactividad'=>$idactividad_nueva);
+				$arreglo+=array('idpaciente'=>$idpaciente);
+				$x=$this->insert('actividad_per', $arreglo);
+			}
+
 
 			//////////////////clonar escala_sub
 			$sql="select * from escala_actividad where idactividad=$idactividad";
 			$sth = $this->dbh->query($sql);
-			$excala_act=$sth->fetchall(PDO::FETCH_OBJ);
-			foreach($excala_act as $v2){
+			foreach($sth->fetchall(PDO::FETCH_OBJ) as $v2){
 				$arreglo=array();
 				$arreglo+=array('nombre'=>$v2->nombre);
-				$arreglo+=array('idactividad'=>$idactividad_array['id1']);
+				$arreglo+=array('idactividad'=>$actividad_nueva['id1']);
 				$x=$this->insert('escala_actividad', $arreglo);
 				$escala_actividad_clon=json_decode($x,true);
 
@@ -1082,7 +1096,7 @@ class Cuest extends ipsi{
 				$arreglo+=array('nombre'=>$key->nombre);
 				$arreglo+=array('orden'=>$key->orden);
 				$arreglo+=array('pagina'=>$key->pagina);
-				$arreglo+=array('idactividad'=>$idactividad_array['id1']);
+				$arreglo+=array('idactividad'=>$actividad_nueva['id1']);
 				$x=$this->insert('subactividad', $arreglo);
 				$subactividad_array=json_decode($x,true);
 

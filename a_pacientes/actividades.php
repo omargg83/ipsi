@@ -3,6 +3,11 @@
 	$idmodulo=$_REQUEST['idmodulo'];
 	$idpaciente=$_REQUEST['idpaciente'];
 
+	$visible="-1";
+	if(isset($_REQUEST['visible'])){
+		$visible=$_REQUEST['visible'];
+	}
+
   /////////////////////breadcrumb
   $paciente = $db->cliente_editar($idpaciente);
   $nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
@@ -31,9 +36,17 @@
 	where actividad.idpaciente=:id and actividad.idmodulo=:idmodulo";
 
 	$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idmodulo=:idmodulo";
+
+	if($visible>=0)
+	$sql.=" and actividad.visible=:visible";
+
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":id",$idpaciente);
 	$sth->bindValue(":idmodulo",$idmodulo);
+
+	if($visible>=0)
+	$sth->bindValue(":visible",$visible);
+
 	$sth->execute();
 	$actividades=$sth->fetchAll(PDO::FETCH_OBJ);
 
@@ -56,21 +69,50 @@
 <div class="alert alert-warning text-center tituloventana" role="alert">
 	Actividades
 </div>
+<?php
+
+	echo "<div class='container' id='filtro'>";
+		echo "<form id='filtro_form' des='a_pacientes/actividades'>";
+			echo "<input type='hidden' name='idmodulo' id='idmodulo' value='$idmodulo'>";
+			echo "<input type='hidden' name='idpaciente' id='idpaciente' value='$idpaciente'>";
+				echo "<div class='row justify-content-end'>";
+					echo "<div class='col-2'>";
+						echo "<select name='visible' id='visible' class='form-control form-control-sm filter_x' >";
+							echo "<option value='-1' "; if($visible=="-1"){ echo "selected"; } echo ">Todas</option>";
+							echo "<option value='1' "; if($visible==1){ echo "selected"; } echo ">Visibles</option>";
+							echo "<option value='0' "; if($visible==0){ echo "selected"; } echo ">Ocultas</option>";
+						echo "</select>";
+				echo "</div>";
+		echo "</form>";
+	echo "</div>";
+
+?>
 
 <div class='container'>
 	<div class='row'>
 	<?php
 		foreach($actividades as $key){
 	?>
-<div id='<?php echo $key->idactividad; ?>' class='col-4 p-3 w-50 actcard'>
+			<div id='<?php echo $key->idactividad; ?>' class='col-4 p-3 w-50 actcard'>
 				<div class='card'>
-				<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">	
-				
-					<div class='card-header'>
-						<?php echo $key->nombre; ?>
+				<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
 
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/modulos" dix="trabajo" db="a_pacientes/db_" fun="quitar_actividad" v_idactividad="<?php echo $key->idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idtrack="<?php echo $track->id; ?>" tp="¿Desea quitar la actividad inicial seleccionada?" title="Borrar"><i class="far fa-trash-alt"></i></button>
-						
+					<div class='card-header'>
+						<?php
+							echo "<div class='row'>";
+								echo "<div class='col-12'>";
+									echo $key->nombre;
+								echo "</div>";
+							echo "</div>";
+							echo "<div class='row justify-content-end'>";
+								echo "<div class='col-4'>";
+
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$track->id' v_idmodulo='$idmodulo' des='a_pacientes/actividades' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
+
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/actividades' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$track->id' v_idmodulo='$idmodulo' tp='¿Desea quitar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+								echo "</div>";
+							echo "</div>";
+						?>
 					</div>
 					<div class='card-body'>
 						<div class='row'>

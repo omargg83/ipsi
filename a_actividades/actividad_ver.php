@@ -146,40 +146,68 @@
 				echo "</div>";
 
 						echo "<div class='card-body'>";
-							echo "<div>";
-								echo "<p>".$row->observaciones."</p>";
-							echo "</div>";
-							echo "<hr>";
-							echo "<div>";
+							if(strlen($row->observaciones)>0){
+								echo "<div>";
+									echo "<p>".$row->observaciones."</p>";
+								echo "</div>";
+								echo "<hr>";
+							}
+
 								if($row->tipo=="imagen"){
-									echo "<img src='".$db->doc.$row->texto."'/>";
+									echo "<div>";
+										echo "<img src='".$db->doc.$row->texto."'/>";
+										echo "<hr>";
+									echo "</div>";
 								}
 								else if($row->tipo=="texto"){
-									echo $row->texto;
+									echo "<div>";
+										echo $row->texto;
+										echo "<hr>";
+									echo "</div>";
 								}
 								else if($row->tipo=="video"){
-									echo $row->texto;
+									echo "<div>";
+										echo $row->texto;
+										echo "<hr>";
+									echo "</div>";
 								}
 								else if($row->tipo=="archivo"){
-									echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
+									echo "<div>";
+										echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
+										echo "<hr>";
+									echo "</div>";
 								}
 								else if($row->tipo=="pregunta"){
-									echo $row->texto;
+									echo "<div>";
+										echo $row->texto;
+										echo "<hr>";
+									echo "</div>";
 								}
 								else if($row->tipo=="textores"){
-									echo "<textarea class='texto' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
+									echo "<div>";
+										echo "<textarea class='texto' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
+										echo "<hr>";
+									echo "</div>";
 								}
 								else if($row->tipo=="textocorto"){
-									echo "<input type='text' class='form-control' id='texto' name='texto' rows=5 placeholder=''>$row->texto</input>";
+									echo "<div>";
+										echo "<input type='text' class='form-control' id='texto' name='texto' rows=5 placeholder=''>$row->texto</input>";
+										echo "<hr>";
+									echo "</div>";
 								}
 								else if($row->tipo=="fecha"){
-									echo "<input type='date' name='texto' id='texto' value='$row->texto' class='form-control'>";
+									echo "<div>";
+										echo "<input type='date' name='texto' id='texto' value='$row->texto' class='form-control'>";
+										echo "<hr>";
+									echo "</div>";
 								}
 								else if($row->tipo=="archivores"){
-									echo "<input type='file' name='texto' id='texto' class='form-control'>";
+									echo "<div>";
+										echo "<input type='file' name='texto' id='texto' class='form-control'>";
+										echo "<hr>";
+									echo "</div>";
 								}
-							echo "<hr>";
-						echo "</div>";
+
 						//////<!-- Fin de contexto  -->
 						//////<!-- Preguntas  -->
 						echo "<div class='container-fluid'>";
@@ -286,7 +314,7 @@
 		}
 	}
 	 echo "<hr>";
-	 
+
  $sql="select * from escala_actividad where idactividad=$idactividad";
  $sth = $db->dbh->prepare($sql);
  $sth->execute();

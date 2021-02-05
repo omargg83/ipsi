@@ -64,7 +64,7 @@
 			echo "<form id='filtro_form' des='a_pacientes/modulos'>";
 				echo "<input type='hidden' name='idtrack' id='idtrack' value='$idtrack'>";
 				echo "<input type='hidden' name='idpaciente' id='idpaciente' value='$idpaciente'>";
-					echo "<div class='row'>";
+					echo "<div class='row justify-content-end'>";
 						echo "<div class='col-2'>";
 							echo "<select name='visible' id='visible' class='form-control form-control-sm filter_x' >";
 								echo "<option value='-1' "; if($visible=="-1"){ echo "selected"; } echo ">Todas</option>";
@@ -83,7 +83,6 @@
 		///////////////////////CODIGO
 		 $sql="SELECT * from actividad_per
 		 left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idtrack=:idtrack";
-
 		 if($visible>=0)
 		 $sql.=" and actividad.visible=:visible";
 
@@ -92,7 +91,7 @@
 		$sth->bindValue(":idtrack",$idtrack);
 		$sth->bindValue(":idtrack",$idtrack);
 
-		 if($visible>=0)
+		if($visible>=0)
 		$sth->bindValue(":visible",$visible);
 
 		$sth->execute();
@@ -104,12 +103,21 @@
   			<div class='card' style='height:400px'>
 					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
 					<div class='card-header'>
-						<?php echo $key->nombre."<br>";
+						<?php
+							echo "<div class='row'>";
+								echo "<div class='col-12'>";
+									echo $key->nombre;
+								echo "</div>";
+							echo "</div>";
+							echo "<div class='row justify-content-end'>";
+								echo "<div class='col-4'>";
 
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' tp='¿Desea publicar la actividad en el catalogo?' title='Duplicar'><i class='far fa-clone'></i></button>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' des='a_pacientes/modulos' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
 
-						echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' tp='¿Desea quitar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
-					?>
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' tp='¿Desea quitar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+								echo "</div>";
+							echo "</div>";
+						?>
 					</div>
 					<div class='card-body' style='overflow:auto; height:220px'>
 						<div class='row'>

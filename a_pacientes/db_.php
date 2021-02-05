@@ -109,7 +109,6 @@ class Cliente extends ipsi{
 			$arreglo=array();
 			$x="";
 			$idactividad=$_REQUEST['idactividad'];
-
 			if (isset($_REQUEST['anotaciones'])){
 				$arreglo+=array('anotaciones'=>$_REQUEST['anotaciones']);
 			}
@@ -1097,7 +1096,7 @@ class Cliente extends ipsi{
 						echo "<div class='mb-3'>";
 
 							if($row->tipo=="imagen"){
-								echo "<img src='".$db->doc.$row->texto."'/>";
+								echo "<img src='".$this->doc.$row->texto."'/>";
 							}
 							else if($row->tipo=="texto"){
 								echo $row->texto;
@@ -1106,7 +1105,7 @@ class Cliente extends ipsi{
 								echo $row->texto;
 							}
 							else if($row->tipo=="archivo"){
-								echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
+								echo "<a href='".$this->doc.$row->texto."' download='$row->texto'>Descargar</a>";
 							}
 							else if($row->tipo=="textores"){
 								echo "<div id='div_$row->id' name='div_$row->id' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'>$texto</div>";
@@ -1122,7 +1121,7 @@ class Cliente extends ipsi{
 							}
 							else if($row->tipo=="archivores"){
 								if(strlen($archivo)>0){
-									echo "<a href='".$db->resp.$archivo."' download='$archivo'>Ver</a>";
+									echo "<a href='".$this->resp.$archivo."' download='$archivo'>Ver</a>";
 								}
 								echo "<input type='file' name='archivo' id='archivo' class='form-control'>";
 							}
@@ -1173,7 +1172,7 @@ class Cliente extends ipsi{
 
 											if(strlen($respuesta->imagen)>0){
 												echo "<div class='col-1'>";
-														echo "<img src=".$db->doc.$respuesta->imagen." alt='' width='20px'>";
+														echo "<img src=".$this->doc.$respuesta->imagen." alt='' width='20px'>";
 												echo "</div>";
 											}
 
@@ -1201,7 +1200,7 @@ class Cliente extends ipsi{
 										$otro=0;
 
 										$sql="select * from contexto_resp where idcontexto=$row->id and valor='OTRO'";
-										$contx = $db->dbh->prepare($sql);
+										$contx = $this->dbh->prepare($sql);
 										$contx->execute();
 										if($contx->rowCount()>0){
 											$resp=$contx->fetch(PDO::FETCH_OBJ);
