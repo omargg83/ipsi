@@ -1169,6 +1169,9 @@ class Cuest extends ipsi{
 			return $x;
 		}
 
+	public function arriba(){
+		return 1;
+	}
 }
 
 $db = new Cuest();
