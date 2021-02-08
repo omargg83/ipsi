@@ -3,16 +3,25 @@
 
 	$idactividad=$_REQUEST['idactividad'];
 	$idpaciente=$_REQUEST['idpaciente'];
+	if(isset($_REQUEST['pagina'])){
+		$pagina=$_REQUEST['pagina'];
+	}
+	else{
+		$pagina=0;
+	}
 
 	/////////////////////breadcrumb
 	$paciente = $db->cliente_editar($idpaciente);
 	$nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
 	$gtotal=0;
-	$sql="select * from actividad where idactividad=:idactividad";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idactividad",$idactividad);
-	$sth->execute();
+
+	$sql="select * from actividad where idactividad=$idactividad";
+	$sth = $db->dbh->query($sql);
 	$actividad=$sth->fetch(PDO::FETCH_OBJ);
+	$nombre_act=$actividad->nombre;
+	$observaciones=$actividad->observaciones;
+	$indicaciones=$actividad->indicaciones;
+	$anotaciones=$actividad->anotaciones;
 
 	$inicial=0;
 	if($actividad->idtrack){
@@ -20,32 +29,39 @@
 		$idtrack=$actividad->idtrack;
 	}
 	else{
-		$sql="select * from modulo where id=:idmodulo";
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":idmodulo",$actividad->idmodulo);
-		$sth->execute();
+		$sql="select * from modulo where id=$actividad->idmodulo";
+		$sth = $db->dbh->query($sql);
 		$modulo=$sth->fetch(PDO::FETCH_OBJ);
 		$idtrack=$modulo->idtrack;
 	}
-	$sql="select * from track where id=:idtrack";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idtrack",$idtrack);
-	$sth->execute();
+
+	/////////////track
+	$sql="select * from track where id=$idtrack";
+	$sth = $db->dbh->query($sql);
 	$track=$sth->fetch(PDO::FETCH_OBJ);
 	$idterapia=$track->idterapia;
 
-	$sql="select * from terapias where id=:idterapia";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idterapia",$idterapia);
-	$sth->execute();
+	///////////terapias
+	$sql="select * from terapias where id=$idterapia";
+	$sth = $db->dbh->query($sql);
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
-	$nombre_act=$actividad->nombre;
-	$observaciones=$actividad->observaciones;
-	$indicaciones=$actividad->indicaciones;
-	$anotaciones=$actividad->anotaciones;
+	/////////////////subactividades
+	//$sql="select * from subactividad where idactividad=$idactividad order by orden asc";
+	$sql="SELECT subactividad.* FROM contexto
+	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+	where subactividad.idactividad=$idactividad and contexto.pagina=$pagina group by idsubactividad";
+	$sth = $db->dbh->query($sql);
+	$subactividad=$sth->fetchAll(PDO::FETCH_OBJ);
 
-	$subactividad = $db->subactividad_ver($idactividad);
+	///////paginas
+	$sql="SELECT contexto.pagina FROM contexto
+	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+	left outer join actividad on actividad.idactividad=subactividad.idactividad
+	where actividad.idactividad=$idactividad group by pagina";
+	$sth = $db->dbh->query($sql);
+	$no_paginas=$sth->rowCount();
+	$paginas=$sth->fetch(PDO::FETCH_OBJ);
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -169,7 +185,6 @@
 								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0' v_idsubactividad='$key->idsubactividad'><i class='fas fa-chart-line'></i></button>";
 							}
 
-
 						echo "</div>";
 						echo "<div class='col-9 text-center'>";
 							echo $key->orden." - ".$key->nombre;
@@ -202,8 +217,16 @@
 			echo "</div>";
 
 			/////////////////contexto
-				$bloq=$db->contexto_ver($key->idsubactividad);
+				//$bloq=$db->contexto_ver($key->idsubactividad);
+				$sql="select * from contexto where idsubactividad=$key->idsubactividad and pagina=$pagina order by orden asc";
+				$sth = $db->dbh->query($sql);
+				$bloq=$sth->fetchAll(PDO::FETCH_OBJ);
 				foreach($bloq as $row){
+
+					/*$sql="update contexto set orden=$orden where idsubactividad='$key->idsubactividad'";
+					$ordx = $db->dbh->query($sql);
+					$orden++;
+					*/
 					/////////////////esta en control_db.php
 					echo "<div id='con_$row->id'>";
 						$db->contexto_pacientes($row->id, $idactividad, $idpaciente);
@@ -274,7 +297,11 @@
 	echo "<div class='card'>";
 	echo "Suma total:".$gtotal;
 	echo "</div>";
+	//////////////////////////////paginacion
+	$variables['idactividad']=$idactividad;
+	$variables['idpaciente']=$idpaciente;
 
+	echo $db->paginar_x($no_paginas,$pagina,"a_pacientes/actividad_ver","trabajo",$variables);
 
 	//////////////////escalas
 	$sql="select * from escala_actividad where idactividad=$idactividad";

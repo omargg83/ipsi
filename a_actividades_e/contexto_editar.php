@@ -15,6 +15,7 @@
 	$personalizado="0";
 	$usuario="0";
 	$orden="";
+	$pagina="0";
 	if($idcontexto==0){
 		$idactividad=clean_var($_REQUEST['idactividad']);
 		$idsubactividad=clean_var($_REQUEST['idsubactividad']);
@@ -38,6 +39,7 @@
 		$personalizado=$con->personalizado;
 		$usuario=$con->usuario;
 		$orden=$con->orden;
+		$pagina=$con->pagina;
 	}
 
 	$sub=$db->subactividad_editar($idsubactividad);
@@ -67,6 +69,9 @@
 			<?php
 			echo "<label>Orden:</label>";
 			echo "<input type='text' class='form-control' id='orden' name='orden'  value='$orden'>";
+
+			echo "<label>Página:</label>";
+			echo "<input type='text' class='form-control' id='pagina' name='pagina'  value='$pagina'>";
 
 			echo "<label>Observaciones:</label>";
 			echo "<textarea id='observaciones' name='observaciones' class='form-control'>$observaciones</textarea>";

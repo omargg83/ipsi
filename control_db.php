@@ -311,6 +311,57 @@
 				echo "</div>";
 			echo "</div>";
 		}
+		public function paginar_x($paginas,$pag_actual,$des,$div,$var){
+			$pagx=$paginas-1;
+			echo "<div class='pag_sagyc'>";
+				echo "<div class='paginas'>";
+			    echo "<a is='b-link' title='Editar' des='$des' dix='$div'";
+					foreach($var as $key => $value){
+  					$mykey = $key;
+						echo " v_".$key."='".$value."'";
+					}
+					echo "><i class='fas fa-angle-double-left'></i></a>";
+					$max=$pag_actual+4;
+					$min=$pag_actual-4;
+
+					$pre=0;
+					$pos=0;
+					for($i=0;$i<$paginas;$i++){
+						////////para las anteriores a la selecionada
+						$ant=$pag_actual-1;
+						$desp=$pag_actual+1;
+
+						$b=$i+1;
+
+							if($i==0 or $i==($paginas-1) or $ant==$i or $desp==$i or $pag_actual==$i or $paginas<7){
+								echo "<a class='"; if($pag_actual==$i){ echo " active";} echo "' is='b-link' title='Editar' des='$des' dix='$div' v_pagina='$i' ";
+								foreach($var as $key => $value){
+			  					$mykey = $key;
+									echo " v_".$key."='".$value."'";
+								}
+								echo ">$b</a>";
+							}
+							else{
+								if(($pre==0) or ($pos==0 and $pre==1 and $i>$pag_actual)){
+									echo "<a>...</a>";
+									if($pre==0)
+									$pre=1;
+									if ($pos==0 and $pre==1 and $i>$pag_actual){
+										$pos=1;
+									}
+								}
+							}
+
+					}
+			    echo "<a class='paginacion-item' is='b-link' title='Editar' des='$des' dix='$div' v_pagina='$pagx' ";
+					foreach($var as $key => $value){
+  					$mykey = $key;
+						echo " v_".$key."='".$value."'";
+					}
+					echo "><i class='fas fa-angle-double-right'></i></a>";
+				echo "</div>";
+			echo "</div>";
+		}
 
 	}
 	function clean_var($val){

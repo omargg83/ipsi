@@ -90,9 +90,7 @@
 	$orden=0;
 	foreach($subactividad as $key){
 		/////
-		$sql="update subactividad set orden=$orden where idsubactividad='$key->idsubactividad'";
-		$ordx = $db->dbh->query($sql);
-		$orden++;
+	
 
 		//<!-- Subactividad  -->
 		echo "<div class='card mb-1 ml-3'>";
@@ -115,7 +113,7 @@
 					echo "<div class='col-9' >";
 							echo $key->orden; echo '- Subactividad: '; echo $key->nombre;
 					echo "</div>";
-					
+
 					echo "<div class='col-1'>";
 						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='arriba' des='a_actividades/actividad_ver' v_idactividad='$idactividad'><i class='fas fa-sort-up'></i></button>";
 						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='arriba' des='a_actividades/actividad_ver' v_idactividad='$idactividad'><i class='fas fa-sort-down'></i></button>";

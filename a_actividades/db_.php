@@ -629,6 +629,10 @@ class Cuest extends ipsi{
 				$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
 			}
 
+			if(isset($_REQUEST['pagina'])){
+				$arreglo+=array('pagina'=>clean_var($_REQUEST['pagina']));
+			}
+
 			if(isset($_REQUEST["texto_".$id1])){
 				$arreglo+=array('texto'=>$_REQUEST["texto_".$id1]);
 			}
@@ -1171,6 +1175,53 @@ class Cuest extends ipsi{
 
 	public function arriba(){
 		return 1;
+	}
+
+	public function salto_pagina(){
+		$idactividad=$_REQUEST['idactividad'];
+		$idcontexto=$_REQUEST['idcontexto'];
+		$salto=$_REQUEST['salto'];
+		$arreglo =array();
+
+		if($salto==0)
+			$arreglo+=array('salto'=>1);
+		if($salto==1)
+			$arreglo+=array('salto'=>0);
+
+			$x=$this->update('contexto',array('id'=>$idcontexto), $arreglo);
+
+
+
+
+			$sql="SELECT contexto.* FROM contexto
+			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+			left outer join actividad on actividad.idactividad=subactividad.idactividad
+			where actividad.idactividad=$idactividad";
+			$sth = $this->dbh->query($sql);
+			$orden=$sth->fetchAll(PDO::FETCH_OBJ);
+
+			$pagina=0;
+			$registro=0;
+			foreach($orden as $row){
+				if($registro==0){
+					$salto=0;
+					$pagina=0;
+					$arreglo =array();
+					$arreglo+=array('pagina'=>0);
+					$arreglo+=array('salto'=>0);
+					$x=$this->update('contexto',array('id'=>$row->id), $arreglo);
+				}
+				else{
+					if($row->salto==1){
+						$pagina++;
+					}
+					$arreglo =array();
+					$arreglo+=array('pagina'=>$pagina);
+					$x=$this->update('contexto',array('id'=>$row->id), $arreglo);
+				}
+				$registro++;
+			}
+			return $x;
 	}
 }
 

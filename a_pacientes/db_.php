@@ -1067,6 +1067,8 @@ class Cliente extends ipsi{
 							////////////////condiciones
 							echo "<button "; if($row->idcond){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idcontexto='$row->id'><i class='fas fa-project-diagram'></i></button>";
 
+							echo "<button "; if($row->salto){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='salto_pagina' tp='¿desea algo?' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' v_salto='$row->salto' title='Borrar'><i class='far fa-map'></i>Salto</button>";
+
 						echo "</div>";
 						echo "<div class='col-6'>";
 							echo "<button class='btn btn-link' data-toggle='collapse' data-target='#collapsecon_".$row->id."' aria-expanded='true' aria-controls='collapsecon_".$row->id."'>";
