@@ -301,8 +301,8 @@ onload = ()=> {
 		}
 		//////////////poner aqui proceso en caso de existir funcion
 		if(fun.length>0){
+			formData.append("function", datos.fun);
 			if(datos.tp.length>0){
-				formData.append("function", datos.fun);
 				Swal.fire({
 					type: 'warning',
 					title: datos.tp,
@@ -355,6 +355,46 @@ onload = ()=> {
 						xhr.send(formData);
 					}
 				});
+			}
+			else{
+				let variable=0;
+				let xhr = new XMLHttpRequest();
+				xhr.open('POST',datos.db);
+				xhr.addEventListener('load',(data)=>{
+					if (!isJSON(data.target.response)){
+						Swal.fire({
+							type: 'error',
+							title: "Error favor de verificar",
+							showConfirmButton: false,
+							timer: 1000
+						});
+						console.log(data.target.response);
+						return;
+					}
+					var respon = JSON.parse(data.target.response);
+					if (respon.error==0){
+						Swal.fire({
+							type: 'success',
+							title: "Listo",
+							showConfirmButton: false,
+							timer: 1000
+						});
+						if (des.length>0){
+							redirige_div(variables,datos);
+						}
+					}
+					else{
+						Swal.fire({
+							type: 'info',
+							title: respon.terror,
+							showConfirmButton: false,
+							timer: 1000
+						});
+					}
+				});
+				xhr.onerror = (e)=>{
+				};
+				xhr.send(formData);
 			}
 		}
 		else{
@@ -419,7 +459,6 @@ onload = ()=> {
 		}
 	}
 
-
 ///////////////////////////////////////vainija.js
 	function editable(e, id){
 		let divid=e.id;
@@ -437,6 +476,7 @@ onload = ()=> {
 		});
 
 	}
+
 	////////////change para submit de respuesta del paciente
 	$(document).on('change',"[is*='s-submit']",function(e){
 			e.preventDefault();
@@ -455,11 +495,9 @@ onload = ()=> {
 	});
 	$(document).on('submit',"[is*='resp-submit']",function(e){
 		e.preventDefault();
-
 		 //////////id del formulario
 		 let id=e.currentTarget.attributes.id.nodeValue;
 		 let elemento = document.getElementById(id);
-
 		 procesar_resp(elemento);
 	});
 	function procesar_resp(elemento){

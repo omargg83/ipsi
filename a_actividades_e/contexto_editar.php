@@ -65,11 +65,9 @@
 	    Editar contexto
 	  </div>
 	  <div class="card-body">
-
 			<?php
 
-			echo "<label>Observaciones:</label>";
-			echo "<textarea id='observaciones' name='observaciones' class='form-control'>$observaciones</textarea>";
+			echo "<input type='hidden' class='form-control-file' id='orden' name='orden' value='$orden'>";
 
 	    if($tipo=="texto"){
 				echo "<label>Texto:</label>";
@@ -121,21 +119,21 @@
 				echo "</div>";
 	    }
 			else if($tipo=="textores"){
-				//echo "<label>Agregar texto</label>";
-				//echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$texto</textarea>";
+
 			}
 			else if($tipo=="textocorto"){
-				//echo "<label>Agregar texto</label>";
-				//echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$texto</textarea>";
+
 			}
 			else if($tipo=="fecha"){
-				//echo "<label>Fecha</label>";
-				//echo "<input type='date' name='texto' id='texto' value='$texto' class='form-control'>";
+
 			}
 			else if($tipo=="archivores"){
-				//echo "<label>Archivo</label>";
-				//echo "<input type='file' name='texto' id='texto' class='form-control'>";
+
 			}
+
+			echo "<label>Observaciones:</label>";
+			echo "<textarea id='observaciones' name='observaciones' class='form-control'>$observaciones</textarea>";
+
 	    ?>
 	  </div>
 	  <div class="card-footer">

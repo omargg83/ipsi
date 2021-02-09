@@ -37,7 +37,7 @@
 	$idterapia=$track->idterapia;
 	$terapia=$db->terapia_editar($idterapia);
 
-
+	/////////////////ordenar subactividad
 	$sql="SELECT * from subactividad where subactividad.idactividad=$idactividad order by subactividad.orden asc, subactividad.nombre asc";
 	$sth = $db->dbh->query($sql);
 	$respx=$sth->fetchAll(PDO::FETCH_OBJ);

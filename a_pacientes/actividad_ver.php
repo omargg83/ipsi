@@ -10,14 +10,26 @@
 		$pagina=0;
 	}
 
-	/////////////////////////////////////orden
+	/////////////////ordenar subactividad
+	$sql="SELECT * from subactividad where subactividad.idactividad=$idactividad order by subactividad.orden asc, subactividad.nombre asc";
+	$sth = $db->dbh->query($sql);
+	$respx=$sth->fetchAll(PDO::FETCH_OBJ);
+
+	$orden=0;
+	foreach($respx as $row){
+		$arreglo =array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$db->update('subactividad',array('idsubactividad'=>$row->idsubactividad), $arreglo);
+		$orden++;
+	}
+
+	/////////////////////////////////////orden contexto
 	$sql="SELECT contexto.* FROM contexto
 	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
 	left outer join actividad on actividad.idactividad=subactividad.idactividad
 	where actividad.idactividad=$idactividad order by subactividad.orden asc, contexto.orden asc";
 	$sth = $db->dbh->query($sql);
 	$respx=$sth->fetchAll(PDO::FETCH_OBJ);
-
 	$orden=0;
 	$idsubx=0;
 	foreach($respx as $row){
@@ -92,27 +104,17 @@
 	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
 	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
 	 <?php
-	 if($inicial==0){
-		 ?>
-		 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $modulo->nombre; ?></li>
-		<?php
-	 }
+		if($inicial==0){
+			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/actividades' dix='trabajo' v_idmodulo='$modulo->id' v_idpaciente='$idpaciente'>$modulo->nombre</li>";
+		}
+	 	echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/actividad_ver' dix='trabajo' v_idactividad='$idactividad' v_idpaciente='$idpaciente'>$nombre_act</li>";
+		if($inicial==0){
+			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividades' dix='trabajo' v_idmodulo='$modulo->id' v_idpaciente='$idpaciente'>Regresar</button>";
+		}
+		else{
+			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$track->id' v_idpaciente='$idpaciente'>Regresar</button>";
+		}
 	 ?>
-	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes/actividad_ver" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $nombre_act; ?></li>
-
-	 <?php
-	 if($inicial==0){
-	 ?>
-	 <button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
-	 <?php
-	 }
-	 else{
-	 ?>
-		 <button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
-	 <?php
-	 }
-	 ?>
-
  </ol>
 </nav>
 
@@ -183,139 +185,137 @@
 	</div>
 <?php
 	/////////<!-- Fin de actividad  -->
-	/////////<!-- Subactividades  -->
 
+	/////////<!-- Subactividades  -->
 	$suma=0;
 	$posicion=0;
 	foreach($subactividad as $key){
 		$posicion++;
 		$suma=0;
-			echo "<div class='card mb-1 ml-3'>";
-				echo "<div class='card-header' style='background-color:#f9eec1;'>";
-					echo "<div class='row'>";
-						echo "<div class='col-2'>";
-							/////////////////////////////////////////////<!-- Editar subactividad --->
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/subactividad_editar' v_idsubactividad='$key->idsubactividad' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
+		echo "<div class='card mb-1 ml-3'>";
+			echo "<div class='card-header' style='background-color:#f9eec1;'>";
+				echo "<div class='row'>";
+					echo "<div class='col-2'>";
+						/////////////////////////////////////////////<!-- Editar subactividad --->
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/subactividad_editar' v_idsubactividad='$key->idsubactividad' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
 
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='subactividad_duplicar' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea duplicar la subactividad?' title='Duplicar'><i class='far fa-clone'></i></button>";
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='subactividad_duplicar' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea duplicar la subactividad?' title='Duplicar'><i class='far fa-clone'></i></button>";
 
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='subactividad_borrar' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea eliminar la subactividad?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='subactividad_borrar' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea eliminar la subactividad?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
-							if($actividad->tipo=="evaluacion"){
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0' v_idsubactividad='$key->idsubactividad'><i class='fas fa-chart-line'></i></button>";
-							}
+						if($actividad->tipo=="evaluacion"){
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0' v_idsubactividad='$key->idsubactividad'><i class='fas fa-chart-line'></i></button>";
+						}
 
-						echo "</div>";
-						echo "<div class='col-10'>";
-							echo $key->nombre;
-
-							echo "<br>";
-							if($actividad->tipo=="evaluacion"){
-								$total=0;
-
-								$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
-								$contx = $db->dbh->prepare($sql);
-								$contx->execute();
-								$bloques=$contx->fetch(PDO::FETCH_OBJ);
-
-								$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = :id	group by contexto.id";
-								$contx = $db->dbh->prepare($sql);
-								$contx->bindValue(':id',$key->idsubactividad);
-								$contx->execute();
-								if($contx->rowCount()>0 and $bloques->total>0){
-									$total=(100*$contx->rowCount())/$bloques->total;
-								}
-								echo "<div id='progreso_$key->idsubactividad'>";
-									echo "(".$contx->rowCount()."/".$bloques->total.")<br>";
-									echo "<progress id='file' value='$total' max='100'> $total %</progress>";
-								echo "</div>";
-							}
-						echo "</div>";
 					echo "</div>";
-				echo "</div>";
-			echo "</div>";
-
-			/////////////////contexto
-				//$bloq=$db->contexto_ver($key->idsubactividad);
-				$sql="select * from contexto where idsubactividad=$key->idsubactividad and pagina=$pagina order by orden asc";
-				$sth = $db->dbh->query($sql);
-				$bloq=$sth->fetchAll(PDO::FETCH_OBJ);
-				foreach($bloq as $row){
-					/////////////////esta en control_db.php
-					echo "<div id='con_$row->id'>";
-						$db->contexto_pacientes($row->id, $idactividad, $idpaciente);
+					echo "<div class='col-8'>";
+						echo $key->nombre;
 					echo "</div>";
+					if($actividad->tipo=="evaluacion"){
+						$total=0;
+						$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+						$contx = $db->dbh->query($sql);
+						$bloques=$contx->fetch(PDO::FETCH_OBJ);
 
-					$sql="select sum(valor) as total from contexto_resp where idcontexto='$row->id'";
-					$suma_r = $db->dbh->prepare($sql);
-					$suma_r->execute();
-					if($suma_r->rowCount()>0){
-						$resp_r=$suma_r->fetch(PDO::FETCH_OBJ);
-						$suma+=$resp_r->total;
+						$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE idsubactividad = $key->idsubactividad group by contexto.id";
+						$contx = $db->dbh->query($sql);
+						if($contx->rowCount()>0 and $bloques->total>0){
+							$total=(100*$contx->rowCount())/$bloques->total;
+						}
+						echo "<div class='col-2' id='progreso_$key->idsubactividad'>";
+							echo "".$contx->rowCount()."/".$bloques->total."";
+							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
+						echo "</div>";
 					}
-				}
-				echo "<div class='container-fluid mb-5 mt-5 text-center'>";
-					echo "<button class='btn btn-warning btn-sm mb-3' type='button' is='b-link' des='a_actividades_e/bloque' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' v_tipo='$actividad->tipo' omodal='1' >Nuevo bloque de contexto</button>";
 				echo "</div>";
+			echo "</div>";
+		echo "</div>";
 
-			echo "<div >";
+		echo "<div id='subactividad_$key->idsubactividad'>";
+			/////////////////contexto
+			$sql="select * from contexto where idsubactividad=$key->idsubactividad and pagina=$pagina order by orden asc";
+			$sth = $db->dbh->query($sql);
+			$bloq=$sth->fetchAll(PDO::FETCH_OBJ);
+			foreach($bloq as $row){
+				/////////////////esta en control_db.php
+				echo "<div id='con_$row->id'>";
+					$db->contexto_pacientes($row->id, $idactividad, $idpaciente);
+				echo "</div>";
+			}
+		echo "</div>";
 
-			if($actividad->tipo=="evaluacion"){
-				$sql="select * from escala_sub where idsubactividad='$key->idsubactividad'";
-				$escala = $db->dbh->query($sql);
-				$texto_resp="";
-				if($escala->rowCount()>0){
-					echo "<div class='container-fluid mb-5'>";
-						echo "<div class='card'>";
-							echo "<div class='card-body'>";
-								echo "Escala:".$key->nombre;;
-								echo "<table class='table table-sm'>";
-								echo "<tr><td>-</td><td>Descripcion</td><td>Minimo</td><td>Maximo</td></tr>";
-								foreach($escala->fetchAll(PDO::FETCH_OBJ) as $exca){
-									echo "<tr>";
-										echo "<td>";
-											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='$exca->id' v_idsubactividad='$key->idsubactividad' >
-											Editar</button>";
+		echo "<div class='container-fluid mb-5 mt-5 text-center'>";
+			echo "<button class='btn btn-warning btn-sm mb-3' type='button' is='b-link' des='a_actividades_e/bloque' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' v_tipo='$actividad->tipo' omodal='1' >Nuevo bloque de contexto</button>";
+		echo "</div>";
 
-											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='borrar_escala' v_idescala='$exca->id' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea eliminar la escala?' tt='Ya no podrá deshacer el cambio' title='Borrar'>Borrar</button>";
+		if($actividad->tipo=="evaluacion"){
+			$sql="select * from contexto where idsubactividad=$key->idsubactividad order by orden asc";
+			$sth = $db->dbh->query($sql);
+			$bloq=$sth->fetchAll(PDO::FETCH_OBJ);
+			foreach($bloq as $row){
+				$sql="select sum(valor) as total from contexto_resp where idcontexto='$row->id'";
+				$suma_r = $db->dbh->prepare($sql);
+				$suma_r->execute();
+				if($suma_r->rowCount()>0){
+					$resp_r=$suma_r->fetch(PDO::FETCH_OBJ);
+					$suma+=$resp_r->total;
+				}
+			}
 
-										echo "</td>";
-										echo "<td>";
-											echo $exca->descripcion;
-										echo "</td>";
-										echo "<td>";
-											echo $exca->minimo;
-										echo "</td>";
-										echo "<td>";
-											echo $exca->maximo;
-										echo "</td>";
-									echo "</tr>";
-									if($suma>=$exca->minimo and $suma<=$exca->maximo){
-										$texto_resp=$exca->descripcion;
-									}
+			$sql="select * from escala_sub where idsubactividad='$key->idsubactividad'";
+			$escala = $db->dbh->query($sql);
+			$texto_resp="";
+			if($escala->rowCount()>0){
+				echo "<div class='container-fluid mb-5'>";
+					echo "<div class='card'>";
+						echo "<div class='card-body'>";
+							echo "Escala:".$key->nombre;;
+							echo "<table class='table table-sm'>";
+							echo "<tr><td>-</td><td>Descripcion</td><td>Minimo</td><td>Maximo</td></tr>";
+							foreach($escala->fetchAll(PDO::FETCH_OBJ) as $exca){
+								echo "<tr>";
+									echo "<td>";
+										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='$exca->id' v_idsubactividad='$key->idsubactividad' >
+										Editar</button>";
+
+										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='borrar_escala' v_idescala='$exca->id' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea eliminar la escala?' tt='Ya no podrá deshacer el cambio' title='Borrar'>Borrar</button>";
+
+									echo "</td>";
+									echo "<td>";
+										echo $exca->descripcion;
+									echo "</td>";
+									echo "<td>";
+										echo $exca->minimo;
+									echo "</td>";
+									echo "<td>";
+										echo $exca->maximo;
+									echo "</td>";
+								echo "</tr>";
+								if($suma>=$exca->minimo and $suma<=$exca->maximo){
+									$texto_resp=$exca->descripcion;
 								}
-								echo "</table>";
-							echo "</div>";
+							}
+							echo "</table>";
 						echo "</div>";
 					echo "</div>";
-				}
-				echo "<br>Resultados:";
-				$gtotal+=$suma;
-				echo "<br>Suma de respuestas: ".$suma;
-				echo "<br>Resultado: ".$texto_resp;
-				echo "<hr>";
+				echo "</div>";
 			}
-			echo "</div>";
+			echo "<br><b>Resultados</b>";
+			$gtotal+=$suma;
+			echo "<br>Suma de respuestas: ".$suma;
+			echo "<br>Resultado: ".$texto_resp;
+			echo "<hr>";
+		}
 	}
 
 	echo "<div class='card'>";
 	echo "Suma total:".$gtotal;
 	echo "</div>";
-	//////////////////////////////paginacion
-	$variables['idactividad']=$idactividad;
-	$variables['idpaciente']=$idpaciente;
 
-	echo $db->paginar_x($no_paginas,$pagina,"a_pacientes/actividad_ver","trabajo",$variables);
+
+	echo "<div class='container-fluid mb-5 mt-5 text-center'>";
+		echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/subactividad_editar' v_idsubactividad='0' v_idactividad='$idactividad' v_idpaciente='$idpaciente' title='editar' omodal='1'>Nueva Subactividad</button>";
+	echo "</div>";
 
 	//////////////////escalas
 	$sql="select * from escala_actividad where idactividad=$idactividad";
@@ -369,7 +369,6 @@
 	 				echo "</table>";
  				echo "</div>";
 
-
  				echo "<div class='card-body'>";
  					$sql="select * from escala_act where idescala=$escala->id";
  					$sth = $db->dbh->prepare($sql);
@@ -402,7 +401,6 @@
 						}
  					}
  					echo "</table>";
-
  				echo "</div>";
 
  				echo "<div class='card-body'>";
@@ -418,9 +416,10 @@
  			echo "</div>";
  		}
  	}
+echo "</div>";
 
- ?>
-	<div class="container-fluid mb-5 mt-5 text-center">
-		<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_actividades_e/subactividad_editar' v_idsubactividad="0" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente='<?php echo $idpaciente; ?>' title='editar' omodal="1">Nueva Subactividad</button>
-	</div>
-</div>
+	//////////////////////////////paginacion
+	$variables['idactividad']=$idactividad;
+	$variables['idpaciente']=$idpaciente;
+	echo $db->paginar_x($no_paginas,$pagina,"a_pacientes/actividad_ver","trabajo",$variables);
+?>

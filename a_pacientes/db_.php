@@ -1071,6 +1071,10 @@ class Cliente extends ipsi{
 							if(!$row->salto){ echo " insertar ";} else{ echo " quitar el ";}
 							echo "salto de pagina?' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' v_salto='$row->salto' title='Borrar'><i class='far fa-sticky-note'></i></button>";
 
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='contexto_mover' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id' v_dir='0' dix='trabajo'><i class='fas fa-chevron-up'></i></button>";
+
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='contexto_mover' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id' v_dir='1' dix='trabajo'><i class='fas fa-chevron-down'></i></button>";
+
 						echo "</div>";
 						echo "<div class='col-6'>";
 							echo "<button class='btn btn-link' data-toggle='collapse' data-target='#collapsecon_".$row->id."' aria-expanded='true' aria-controls='collapsecon_".$row->id."'>";
@@ -1113,8 +1117,6 @@ class Cliente extends ipsi{
 							else if($row->tipo=="textores"){
 								echo "<div id='div_$row->id' name='div_$row->id' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'>$texto</div>";
 								echo "<small>De clic para editar</small>";
-
-								//echo "<textarea class='texto' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
 							}
 							else if($row->tipo=="textocorto"){
 								echo "<textarea class='form-control' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
@@ -1403,6 +1405,26 @@ class Cliente extends ipsi{
 
 		return $this->borrar('cliente_terapeuta',"idterapeuta",$idterapeuta);
 
+	}
+	public function contexto_mover(){
+		$idcontexto=$_REQUEST['idcontexto'];
+		$dir=$_REQUEST['dir'];
+
+		$sql="select * from contexto where id=$idcontexto";
+		$sth = $this->dbh->query($sql);
+		$contexto=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$contexto->orden-1.5;
+		}
+		else{
+			$orden=$contexto->orden+1.5;
+		}
+
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('contexto',array('id'=>$contexto->id), $arreglo);
+
+		return $x;
 	}
 
 }
