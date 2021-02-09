@@ -8,6 +8,7 @@
   $paciente = $db->cliente_editar($idpaciente);
   $nombre_p=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
 	$inicial=0;
+	
 
 	if(isset($_REQUEST['idmodulo'])){
 		$idmodulo=$_REQUEST['idmodulo'];
@@ -63,6 +64,7 @@
 		$tipo=$actividad->tipo;
 		$visible=$actividad->visible;
 	}
+
 ?>
 
 

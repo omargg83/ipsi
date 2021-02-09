@@ -81,20 +81,22 @@
   <div class='row'>
 		<?php
 		///////////////////////CODIGO
-		 $sql="SELECT * from actividad_per
-		 left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idtrack=:idtrack";
+		$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=$idpaciente and actividad.idtrack=$idtrack order by actividad.orden asc ";
+		$sth = $db->dbh->query($sql);
+		$orden=0;
+		foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
+			$arreglo =array();
+			$arreglo+=array('orden'=>$orden);
+			$x=$db->update('actividad',array('idactividad'=>$key->idactividad), $arreglo);
+			$orden++;
+		}
+
+		$sql="SELECT * from actividad_per
+		 left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=$idpaciente and actividad.idtrack=$idtrack";
 		 if($visible>=0)
-		 $sql.=" and actividad.visible=:visible";
-
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":id",$idpaciente);
-		$sth->bindValue(":idtrack",$idtrack);
-		$sth->bindValue(":idtrack",$idtrack);
-
-		if($visible>=0)
-		$sth->bindValue(":visible",$visible);
-
-		$sth->execute();
+		 $sql.=" and actividad.visible=$visible";
+		 $sql.=" order by actividad.orden asc ";
+		$sth = $db->dbh->query($sql);
 		$acinicial=$sth->fetchAll(PDO::FETCH_OBJ);
 
 		foreach($acinicial as $key){
@@ -110,11 +112,17 @@
 								echo "</div>";
 							echo "</div>";
 							echo "<div class='row justify-content-end'>";
-								echo "<div class='col-4'>";
+								echo "<div class='col-6'>";
 
 									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' des='a_pacientes/modulos' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
 
-									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' tp='¿Desea quitar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' tp='¿Desea quitar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+
+
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' v_dir='0' dix='trabajo' title='Mover arriba'><i class='fas fa-chevron-up'></i></button>";
+
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' v_dir='1' dix='trabajo' title='Mover abajo'><i class='fas fa-chevron-down'></i></button>";
+
 								echo "</div>";
 							echo "</div>";
 						?>

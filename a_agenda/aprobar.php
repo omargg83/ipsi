@@ -38,7 +38,7 @@
  <nav aria-label='breadcrumb'>
  	<ol class='breadcrumb'>
  		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_agenda/index" dix="contenido">Citas</li>
- 		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_agenda/aprobar" v_idcita="<?php echo $idcita; ?>" dix="contenido">Aprobar cita</li>
+ 		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_agenda/aprobar" v_idcita="<?php echo $idcita; ?>" dix="contenido">Aprobar cita: <?php echo "#".$idcita;?></li>
  		<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_agenda/index" dix="contenido">Regresar</button>
  	</ol>
  </nav>

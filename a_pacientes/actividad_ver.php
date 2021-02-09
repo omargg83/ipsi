@@ -130,7 +130,7 @@
 		<div class="card-header" id="headingOne">
 			<div class='row'>
 				<div class="col-2">
-
+					
 					<!---Editar actividad --->
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/actividad_editar" dix="trabajo"
 					v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idtrack="<?php echo $idtrack; ?>"><i class="fas fa-pencil-alt"></i></button>

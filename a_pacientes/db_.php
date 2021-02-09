@@ -1494,6 +1494,27 @@ class Cliente extends ipsi{
 		return $x;
 	}
 
+	public function actividad_mover(){
+		$idactividad=$_REQUEST['idactividad'];
+		$dir=$_REQUEST['dir'];
+
+		$sql="select * from actividad where idactividad=$idactividad";
+		$sth = $this->dbh->query($sql);
+		$actividad=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$actividad->orden-1.5;
+		}
+		else{
+			$orden=$actividad->orden+1.5;
+		}
+
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('actividad',array('idactividad'=>$actividad->idactividad), $arreglo);
+		return $x;
+	}
+
+
 }
 
 $db = new Cliente();

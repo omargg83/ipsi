@@ -29,6 +29,7 @@
 
   echo "<div class='header-row'>";
     echo "<div class='cell'>#</div>";
+    echo "<div class='cell'>#ID</div>";
     echo "<div class='cell'>Sucursal</div>";
     echo "<div class='cell'>Paciente</div>";
 		echo "<div class='cell'>Fecha</div>";
@@ -51,6 +52,10 @@
 				}
 
         echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='cita_quitar' v_idcita='$key->idcita' tp='¿Desea cancelar la cita seleccionada?' title='Borrar'>Cancelar</button>";
+      echo "</div>";
+
+			echo "<div class='cell' data-titulo='Sucursal'>";
+        echo "#".$key->idcita;
       echo "</div>";
 
       echo "<div class='cell' data-titulo='Sucursal'>";
