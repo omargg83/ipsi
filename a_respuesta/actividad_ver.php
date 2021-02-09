@@ -10,6 +10,13 @@
 	else{
 		$pagina=0;
 	}
+	/////////////////paginas
+	$sql="SELECT contexto.pagina FROM contexto
+	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+	left outer join actividad on actividad.idactividad=subactividad.idactividad
+	where actividad.idactividad=$idactividad group by pagina";
+	$sth = $db->dbh->query($sql);
+	$no_paginas=$sth->rowCount();
 
 	/////////////////////breadcrumb
 	$paciente = $db->cliente_editar($idpaciente);
@@ -47,19 +54,20 @@
 
 
 	/////////////////subactividades
-	$sql="SELECT subactividad.* FROM contexto
+	$sql="(SELECT subactividad.* FROM contexto
 	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-	where subactividad.idactividad=$idactividad and contexto.pagina=$pagina group by idsubactividad";
+	where subactividad.idactividad=$idactividad and contexto.pagina=$pagina group by idsubactividad order by subactividad.orden asc)";
+	if($pagina==($no_paginas-1)){
+		$sql.="UNION (
+		SELECT subactividad.* FROM subactividad
+		left outer join contexto on subactividad.idsubactividad=contexto.idsubactividad
+		where subactividad.idactividad=$idactividad and contexto.id is null order by subactividad.orden asc
+		)";
+	}
 	$sth = $db->dbh->query($sql);
 	$subactividad=$sth->fetchAll(PDO::FETCH_OBJ);
 
-	$sql="SELECT contexto.pagina FROM contexto
-	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-	left outer join actividad on actividad.idactividad=subactividad.idactividad
-	where actividad.idactividad=$idactividad group by pagina";
-	$sth = $db->dbh->query($sql);
-	$no_paginas=$sth->rowCount();
-	$paginas=$sth->fetch(PDO::FETCH_OBJ);
+
 ?>
 <nav aria-label='breadcrumb'>
  <ol class='breadcrumb'>

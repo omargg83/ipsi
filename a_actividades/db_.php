@@ -1174,52 +1174,271 @@ class Cuest extends ipsi{
 			return $x;
 		}
 
-	public function arriba(){
-		return 1;
+	public function contexto_actividades($idcontexto, $idactividad){
+		$sql="select * from contexto where id=$idcontexto";
+		$sth = $this->dbh->query($sql);
+		$row=$sth->fetch(PDO::FETCH_OBJ);
+
+		echo "<div class='card mt-2 ml-5'>";
+			echo "<div class='card-header'>";
+				echo "<div class='row'>";
+					echo "<div class='col-4'>";
+						//////////////////<!-- Editar Contexto --->
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='$row->id' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
+
+						///////////////editar incisos
+						if($row->tipo=="pregunta"){
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/incisos_lista' v_idcontexto='$row->id' v_idactividad='$idactividad' omodal='1'><i class='fas fa-tasks'></i></button>";
+						}
+
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_duplicar' v_idactividad='$idactividad' v_idcontexto='$row->id' tp='¿Desea duplicar el bloque?' title='Borrar'><i class='far fa-copy'></i></button>";
+
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_borrar' v_idactividad='$idactividad' v_idcontexto='$row->id' tp='¿Desea eliminar el bloque seleccionado?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+
+						echo "<button "; if($row->idcond){ echo "class='btn btn-danger btn-sm'"; } else { echo "class='btn btn-warning btn-sm'"; } echo "type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad='$idactividad' omodal='1' v_idcontexto='$row->id' title='Condicionar'><i class='fas fa-project-diagram'></i></button>";
+
+						echo "<button "; if($row->salto){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='salto_pagina' tp='¿Desea";
+						if(!$row->salto){ echo " insertar ";} else{ echo " quitar el ";}
+						echo "salto de pagina?' v_idactividad='$idactividad' v_idcontexto='$row->id' v_salto='$row->salto' title='Salto de página'><i class='far fa-sticky-note'></i></button>";
+
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='contexto_mover' des='a_actividades/actividad_ver' v_idactividad='$idactividad' v_idcontexto='$row->id' v_dir='0' dix='trabajo' title='Mover arriba'><i class='fas fa-chevron-up'></i></button>";
+
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='contexto_mover' des='a_actividades/actividad_ver' v_idactividad='$idactividad' v_idcontexto='$row->id' v_dir='1' dix='trabajo' title='Mover abajo'><i class='fas fa-chevron-down'></i></button>";
+
+					echo "</div>";
+					echo "<div class='col-8'>";
+							echo "Contexto ($row->tipo)";
+					echo "</div>";
+				echo "</div>";
+			echo "</div>";
+			echo "<div class='card-body'>";
+
+				if(strlen($row->observaciones)>0){
+					echo "<div>";
+						echo "<p>".$row->observaciones."</p>";
+					echo "</div>";
+					echo "<hr>";
+				}
+				if($row->tipo=="imagen"){
+					echo "<div>";
+						echo "<img src='".$this->doc.$row->texto."'/>";
+						echo "<hr>";
+					echo "</div>";
+				}
+				else if($row->tipo=="texto"){
+					echo "<div>";
+						echo $row->texto;
+						echo "<hr>";
+					echo "</div>";
+				}
+				else if($row->tipo=="video"){
+					echo "<div>";
+						echo $row->texto;
+						echo "<hr>";
+					echo "</div>";
+				}
+				else if($row->tipo=="archivo"){
+					echo "<div>";
+						echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
+						echo "<hr>";
+					echo "</div>";
+				}
+				else if($row->tipo=="pregunta"){
+					echo "<div>";
+						echo $row->texto;
+						echo "<hr>";
+					echo "</div>";
+				}
+				else if($row->tipo=="textores"){
+					echo "<div>";
+						echo "<textarea class='form-control' class='' id='texto' name='texto' rows=5 placeholder=''>$row->texto</textarea>";
+						echo "<hr>";
+					echo "</div>";
+				}
+				else if($row->tipo=="textocorto"){
+					echo "<div>";
+						echo "<input type='text' class='form-control' id='texto' name='texto' rows=5 placeholder=''>$row->texto</input>";
+						echo "<hr>";
+					echo "</div>";
+				}
+				else if($row->tipo=="fecha"){
+					echo "<div>";
+						echo "<input type='date' name='texto' id='texto' value='$row->texto' class='form-control'>";
+						echo "<hr>";
+					echo "</div>";
+				}
+				else if($row->tipo=="archivores"){
+					echo "<div>";
+						echo "<input type='file' name='texto' id='texto' class='form-control'>";
+						echo "<hr>";
+					echo "</div>";
+				}
+
+				//////<!-- Fin de contexto  -->
+				//////<!-- Preguntas  -->
+				echo "<div class='container-fluid'>";
+						$rx=$this::respuestas_ver($row->id);
+						if(strlen($row->incisos)==0 and $row->tipo=="pregunta" and strlen($row->personalizado)==0 ){
+							echo "<div class='row'>";
+								echo "<div class='col-8'>";
+									echo "<select class='form-control'>";
+									foreach ($rx as $respuesta) {
+										echo "<option>$respuesta->nombre (".$respuesta->valor.")</option>";
+									}
+									echo "</select>";
+								echo "</div>";
+								echo "<div class='col-4'>";
+									if($row->usuario==1){
+										echo "<input type='text' name='' value='' placeholder='Define..' class='form-control'>";
+									}
+								echo "</div>";
+							echo "</div>";
+						}
+						else{
+							foreach ($rx as $respuesta) {
+								echo "<div class='row'>";
+									echo "<div class='col-1'>";
+										if($row->incisos==1){
+											echo "<input type='checkbox' name='' value=''>";
+										}
+										else{
+											echo "<input type='radio' id='resp_".$row->id."' name='resp_".$row->id."' value='1'>";
+										}
+									echo "</div>";
+									if (strlen($respuesta->imagen)>0){
+										echo "<div class='col-1'>";
+											echo "<img src='".$db->doc.$respuesta->imagen."' width='20px'>";
+										echo "</div>";
+									}
+									echo "<div class='col-5'>";
+										echo $respuesta->nombre;
+										echo "(".$respuesta->valor.")";
+									echo "</div>";
+									echo "<div class='col-4'>";
+										if($row->usuario==1){
+											echo "<input type='text' name='' value='' placeholder='Define..' class='form-control'>";
+										}
+									echo "</div>";
+								echo "</div>";
+							}
+							if($row->personalizado==1){
+								echo "<div class='row'>";
+									echo "<div class='col-1'>";
+										if($row->incisos==1){
+											echo "<input type='checkbox' name='' value=''>";
+										}
+										else{
+											echo "<input type='radio' id='resp_".$row->id."' name='resp_".$row->id."' value='1'>";
+										}
+									echo "</div>";
+									echo "<div class='col-3'>";
+										echo "<input type='text' class='form-control' name='' value=''>";
+									echo "</div>";
+								echo "</div>";
+							}
+						}
+				echo "</div>";
+				if($row->tipo=="pregunta"){
+					echo "<br>";
+					echo "<div class='row'>";
+						echo "<div class='col-12'>";
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='0' v_idcontexto='$row->id' v_idactividad='$idactividad' omodal='1' >Agregar inciso</button>";
+						echo "</div>";
+					echo "</div>";
+				}
+				//////////////////<!-- Fin Preguntas  -->
+			echo "</div>";
+		echo "</div>";
 	}
 
+
+	public function contexto_mover(){
+		$idcontexto=$_REQUEST['idcontexto'];
+		$dir=$_REQUEST['dir'];
+
+		$sql="select * from contexto where id=$idcontexto";
+		$sth = $this->dbh->query($sql);
+		$contexto=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$contexto->orden-1.5;
+		}
+		else{
+			$orden=$contexto->orden+1.5;
+		}
+
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('contexto',array('id'=>$contexto->id), $arreglo);
+
+		$x=$this->salto_pagina();
+		return $x;
+	}
 	public function salto_pagina(){
 		$idactividad=$_REQUEST['idactividad'];
-		$idcontexto=$_REQUEST['idcontexto'];
-		$salto=$_REQUEST['salto'];
-		$arreglo =array();
 
-		if($salto==0)
-			$arreglo+=array('salto'=>1);
-		if($salto==1)
-			$arreglo+=array('salto'=>0);
+		if(isset($_REQUEST['salto'])){
+			$idcontexto=$_REQUEST['idcontexto'];
+			$salto=$_REQUEST['salto'];
+
+			$arreglo =array();
+
+			if($salto==0)
+				$arreglo+=array('salto'=>1);
+			if($salto==1)
+				$arreglo+=array('salto'=>0);
 
 			$x=$this->update('contexto',array('id'=>$idcontexto), $arreglo);
+		}
 
-			$sql="SELECT contexto.* FROM contexto
-			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-			left outer join actividad on actividad.idactividad=subactividad.idactividad
-			where actividad.idactividad=$idactividad order by subactividad.orden asc, contexto.orden asc";
-			$sth = $this->dbh->query($sql);
-			$orden=$sth->fetchAll(PDO::FETCH_OBJ);
+		$sql="SELECT contexto.* FROM contexto
+		left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+		left outer join actividad on actividad.idactividad=subactividad.idactividad
+		where actividad.idactividad=$idactividad order by subactividad.orden asc, contexto.orden asc";
+		$sth = $this->dbh->query($sql);
+		$orden=$sth->fetchAll(PDO::FETCH_OBJ);
 
-			$pagina=0;
-			$registro=0;
-			foreach($orden as $row){
-				if($registro==0){
-					$salto=0;
-					$pagina=0;
-					$arreglo =array();
-					$arreglo+=array('pagina'=>0);
-					$arreglo+=array('salto'=>0);
-					$x=$this->update('contexto',array('id'=>$row->id), $arreglo);
-				}
-				else{
-					if($row->salto==1){
-						$pagina++;
-					}
-					$arreglo =array();
-					$arreglo+=array('pagina'=>$pagina);
-					$x=$this->update('contexto',array('id'=>$row->id), $arreglo);
-				}
-				$registro++;
+		$pagina=0;
+		$registro=0;
+		foreach($orden as $row){
+			if($registro==0){
+				$salto=0;
+				$pagina=0;
+				$arreglo =array();
+				$arreglo+=array('pagina'=>0);
+				$arreglo+=array('salto'=>0);
+				$x=$this->update('contexto',array('id'=>$row->id), $arreglo);
 			}
-			return $x;
+			else{
+				if($row->salto==1){
+					$pagina++;
+				}
+				$arreglo =array();
+				$arreglo+=array('pagina'=>$pagina);
+				$x=$this->update('contexto',array('id'=>$row->id), $arreglo);
+			}
+			$registro++;
+		}
+		return $x;
+	}
+	public function subactividad_mover(){
+		$idsubactividad=$_REQUEST['idsubactividad'];
+		$dir=$_REQUEST['dir'];
+
+		$sql="select * from subactividad where idsubactividad=$idsubactividad";
+		$sth = $this->dbh->query($sql);
+		$subactividad=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$subactividad->orden-1.5;
+		}
+		else{
+			$orden=$subactividad->orden+1.5;
+		}
+
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('subactividad',array('idsubactividad'=>$subactividad->idsubactividad), $arreglo);
+		$x=$this->salto_pagina();
+		return $x;
 	}
 }
 

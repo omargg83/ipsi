@@ -37,6 +37,7 @@
 	?>
   <input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php  echo $idsubactividad; ?>">
   <input type="hidden" name="idactividad" id="idactividad" value="<?php  echo $idactividad; ?>">
+	<input type="hidden" id="orden" name="orden" value="<?php echo $orden; ?>" class="form-control" required>
 	<div class="card">
 	  <div class="card-header">
 	    Editar subactividad

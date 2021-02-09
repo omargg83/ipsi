@@ -10,6 +10,14 @@
 		$pagina=0;
 	}
 
+	///////paginas
+	$sql="SELECT contexto.pagina FROM contexto
+	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+	left outer join actividad on actividad.idactividad=subactividad.idactividad
+	where actividad.idactividad=$idactividad group by pagina";
+	$sth = $db->dbh->query($sql);
+	$no_paginas=$sth->rowCount();
+
 	/////////////////ordenar subactividad
 	$sql="SELECT * from subactividad where subactividad.idactividad=$idactividad order by subactividad.orden asc, subactividad.nombre asc";
 	$sth = $db->dbh->query($sql);
@@ -80,20 +88,18 @@
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 	/////////////////subactividades
-	$sql="SELECT subactividad.* FROM contexto
-	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-	where subactividad.idactividad=$idactividad and contexto.pagina=$pagina group by idsubactividad order by subactividad.orden asc";
-	$sth = $db->dbh->query($sql);
-	$subactividad=$sth->fetchAll(PDO::FETCH_OBJ);
-
-	///////paginas
-	$sql="SELECT contexto.pagina FROM contexto
-	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-	left outer join actividad on actividad.idactividad=subactividad.idactividad
-	where actividad.idactividad=$idactividad group by pagina";
-	$sth = $db->dbh->query($sql);
-	$no_paginas=$sth->rowCount();
-	$paginas=$sth->fetch(PDO::FETCH_OBJ);
+	$sql="(SELECT subactividad.* FROM contexto
+		left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+		where subactividad.idactividad=$idactividad and contexto.pagina=$pagina group by idsubactividad order by subactividad.orden asc)";
+		if($pagina==($no_paginas-1)){
+			$sql.="UNION (
+			SELECT subactividad.* FROM subactividad
+			left outer join contexto on subactividad.idsubactividad=contexto.idsubactividad
+			where subactividad.idactividad=$idactividad and contexto.id is null order by subactividad.orden asc
+			) order by orden asc";
+		}
+		$sth = $db->dbh->query($sql);
+		$subactividad=$sth->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -207,6 +213,10 @@
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0' v_idsubactividad='$key->idsubactividad'><i class='fas fa-chart-line'></i></button>";
 						}
 
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='subactividad_mover' v_dir='0' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' dix='trabajo'><i class='fas fa-sort-up'></i></button>";
+
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='subactividad_mover' v_dir='1' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' dix='trabajo'><i class='fas fa-sort-down'></i></button>";
+
 					echo "</div>";
 					echo "<div class='col-8'>";
 						echo $key->nombre;
@@ -230,7 +240,6 @@
 				echo "</div>";
 			echo "</div>";
 		echo "</div>";
-
 		echo "<div id='subactividad_$key->idsubactividad'>";
 			/////////////////contexto
 			$sql="select * from contexto where idsubactividad=$key->idsubactividad and pagina=$pagina order by orden asc";
@@ -243,11 +252,9 @@
 				echo "</div>";
 			}
 		echo "</div>";
-
 		echo "<div class='container-fluid mb-5 mt-5 text-center'>";
 			echo "<button class='btn btn-warning btn-sm mb-3' type='button' is='b-link' des='a_actividades_e/bloque' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' v_tipo='$actividad->tipo' omodal='1' >Nuevo bloque de contexto</button>";
 		echo "</div>";
-
 		if($actividad->tipo=="evaluacion"){
 			$sql="select * from contexto where idsubactividad=$key->idsubactividad order by orden asc";
 			$sth = $db->dbh->query($sql);
@@ -311,7 +318,6 @@
 	echo "<div class='card'>";
 	echo "Suma total:".$gtotal;
 	echo "</div>";
-
 
 	echo "<div class='container-fluid mb-5 mt-5 text-center'>";
 		echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/subactividad_editar' v_idsubactividad='0' v_idactividad='$idactividad' v_idpaciente='$idpaciente' title='editar' omodal='1'>Nueva Subactividad</button>";

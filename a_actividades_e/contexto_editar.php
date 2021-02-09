@@ -68,6 +68,9 @@
 			<?php
 
 			echo "<input type='hidden' class='form-control-file' id='orden' name='orden' value='$orden'>";
+			echo "<label>Observaciones:</label>";
+			echo "<textarea id='observaciones' name='observaciones' class='form-control'>$observaciones</textarea>";
+
 
 	    if($tipo=="texto"){
 				echo "<label>Texto:</label>";
@@ -131,8 +134,6 @@
 
 			}
 
-			echo "<label>Observaciones:</label>";
-			echo "<textarea id='observaciones' name='observaciones' class='form-control'>$observaciones</textarea>";
 
 	    ?>
 	  </div>

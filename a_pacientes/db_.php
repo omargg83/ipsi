@@ -1423,7 +1423,74 @@ class Cliente extends ipsi{
 		$arreglo=array();
 		$arreglo+=array('orden'=>$orden);
 		$x=$this->update('contexto',array('id'=>$contexto->id), $arreglo);
+		$x=$this->salto_pagina();
+		return $x;
+	}
+	public function subactividad_mover(){
+		$idsubactividad=$_REQUEST['idsubactividad'];
+		$dir=$_REQUEST['dir'];
 
+		$sql="select * from subactividad where idsubactividad=$idsubactividad";
+		$sth = $this->dbh->query($sql);
+		$subactividad=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$subactividad->orden-1.5;
+		}
+		else{
+			$orden=$subactividad->orden+1.5;
+		}
+
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('subactividad',array('idsubactividad'=>$subactividad->idsubactividad), $arreglo);
+		$x=$this->salto_pagina();
+		return $x;
+	}
+	public function salto_pagina(){
+		$idactividad=$_REQUEST['idactividad'];
+
+		if(isset($_REQUEST['salto'])){
+			$idcontexto=$_REQUEST['idcontexto'];
+			$salto=$_REQUEST['salto'];
+
+			$arreglo =array();
+
+			if($salto==0)
+				$arreglo+=array('salto'=>1);
+			if($salto==1)
+				$arreglo+=array('salto'=>0);
+
+			$x=$this->update('contexto',array('id'=>$idcontexto), $arreglo);
+		}
+
+		$sql="SELECT contexto.* FROM contexto
+		left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+		left outer join actividad on actividad.idactividad=subactividad.idactividad
+		where actividad.idactividad=$idactividad order by subactividad.orden asc, contexto.orden asc";
+		$sth = $this->dbh->query($sql);
+		$orden=$sth->fetchAll(PDO::FETCH_OBJ);
+
+		$pagina=0;
+		$registro=0;
+		foreach($orden as $row){
+			if($registro==0){
+				$salto=0;
+				$pagina=0;
+				$arreglo =array();
+				$arreglo+=array('pagina'=>0);
+				$arreglo+=array('salto'=>0);
+				$x=$this->update('contexto',array('id'=>$row->id), $arreglo);
+			}
+			else{
+				if($row->salto==1){
+					$pagina++;
+				}
+				$arreglo =array();
+				$arreglo+=array('pagina'=>$pagina);
+				$x=$this->update('contexto',array('id'=>$row->id), $arreglo);
+			}
+			$registro++;
+		}
 		return $x;
 	}
 
