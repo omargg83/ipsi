@@ -346,7 +346,7 @@ class Cliente extends ipsi{
 			}
 		}
 		if($visible){
-			echo "<div class='card mb-2 cond_$row->idcond'>";
+			echo "<div class='card mt-2 ml-5'>";
 				echo "<div class='card-body'>";
 					echo "<form is='resp-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
 

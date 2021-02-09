@@ -67,11 +67,6 @@
 	  <div class="card-body">
 
 			<?php
-			echo "<label>Orden:</label>";
-			echo "<input type='text' class='form-control' id='orden' name='orden'  value='$orden'>";
-
-			echo "<label>Página:</label>";
-			echo "<input type='text' class='form-control' id='pagina' name='pagina'  value='$pagina'>";
 
 			echo "<label>Observaciones:</label>";
 			echo "<textarea id='observaciones' name='observaciones' class='form-control'>$observaciones</textarea>";

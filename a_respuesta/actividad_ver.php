@@ -4,14 +4,19 @@
 	$idactividad=$_REQUEST['idactividad'];
 	$idpaciente=$_SESSION['idusuario'];
 
+	if(isset($_REQUEST['pagina'])){
+		$pagina=$_REQUEST['pagina'];
+	}
+	else{
+		$pagina=0;
+	}
+
 	/////////////////////breadcrumb
 	$paciente = $db->cliente_editar($idpaciente);
 	$nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
 
-	$sql="select * from actividad where idactividad=:idactividad";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idactividad",$idactividad);
-	$sth->execute();
+	$sql="select * from actividad where idactividad=$idactividad";
+	$sth = $db->dbh->query($sql);
 	$actividad=$sth->fetch(PDO::FETCH_OBJ);
 
 	$inicial=0;
@@ -20,32 +25,41 @@
 		$idtrack=$actividad->idtrack;
 	}
 	else{
-		$sql="select * from modulo where id=:idmodulo";
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":idmodulo",$actividad->idmodulo);
-		$sth->execute();
+		$sql="select * from modulo where id=$actividad->idmodulo";
+		$sth = $db->dbh->query($sql);
 		$modulo=$sth->fetch(PDO::FETCH_OBJ);
 		$idtrack=$modulo->idtrack;
 
 	}
-	$sql="select * from track where id=:idtrack";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idtrack",$idtrack);
-	$sth->execute();
+	$sql="select * from track where id=$idtrack";
+	$sth = $db->dbh->query($sql);
 	$track=$sth->fetch(PDO::FETCH_OBJ);
 	$idterapia=$track->idterapia;
 
-	$sql="select * from terapias where id=:idterapia";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idterapia",$idterapia);
-	$sth->execute();
+	$sql="select * from terapias where id=$idterapia";
+	$sth = $db->dbh->query($sql);
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 	$nombre_act=$actividad->nombre;
 	$observaciones=$actividad->observaciones;
 	$indicaciones=$actividad->indicaciones;
 	$anotaciones=$actividad->anotaciones;
-	$subactividad = $db->subactividad_ver($idactividad);
+
+
+	/////////////////subactividades
+	$sql="SELECT subactividad.* FROM contexto
+	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+	where subactividad.idactividad=$idactividad and contexto.pagina=$pagina group by idsubactividad";
+	$sth = $db->dbh->query($sql);
+	$subactividad=$sth->fetchAll(PDO::FETCH_OBJ);
+
+	$sql="SELECT contexto.pagina FROM contexto
+	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+	left outer join actividad on actividad.idactividad=subactividad.idactividad
+	where actividad.idactividad=$idactividad group by pagina";
+	$sth = $db->dbh->query($sql);
+	$no_paginas=$sth->rowCount();
+	$paginas=$sth->fetch(PDO::FETCH_OBJ);
 ?>
 <nav aria-label='breadcrumb'>
  <ol class='breadcrumb'>
@@ -79,126 +93,88 @@
 
 <!-- actividad  -->
 <div class="container">
-<div id="accordion">
-	<div class="card mt-3">
+	<div class="card mb-3">
 		<div class="card-header" id="headingOne">
 			<div class='row'>
 				<div class="col-12 text-center">
-					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-						Actividad: <?php echo $nombre_act; ?>
-						<?php
-							$sql="SELECT count(contexto.id) as total from contexto
-							left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-							where subactividad.idactividad=:id and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
-							$contx = $db->dbh->prepare($sql);
-							$contx->bindValue(":id",$idactividad);
-							$contx->execute();
-							$bloques=$contx->fetch(PDO::FETCH_OBJ);
+					Actividad: <?php echo $nombre_act; ?>
+					<?php
+						$sql="SELECT count(contexto.id) as total from contexto
+						left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+						where subactividad.idactividad=$idactividad and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+						$contx = $db->dbh->query($sql);
+						$bloques=$contx->fetch(PDO::FETCH_OBJ);
 
-							$sql="SELECT count(contexto_resp.id) as total FROM	contexto
-							right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
-							left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-							where subactividad.idactividad=:id
-							group by contexto.id";
-							$contx = $db->dbh->prepare($sql);
-							$contx->bindValue(":id",$idactividad);
-							$contx->execute();
-							$total=0;
-							if($contx->rowCount()){
-								$total=(100*$contx->rowCount())/$bloques->total;
-							}
-							echo "<div id='prog_$idactividad'>";
-								echo "(".$contx->rowCount()."/".$bloques->total.")<br>";
-								echo "<progress id='file' value='$total' max='100'> $total %</progress>";
-							echo "</div>";
-						?>
-
-					</button>
+						$sql="SELECT count(contexto_resp.id) as total FROM	contexto
+						right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
+						left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+						where subactividad.idactividad=$idactividad
+						group by contexto.id";
+						$contx = $db->dbh->query($sql);
+						$total=0;
+						if($contx->rowCount()){
+							$total=(100*$contx->rowCount())/$bloques->total;
+						}
+						echo "<div id='prog_$idactividad'>";
+							echo "(".$contx->rowCount()."/".$bloques->total.")<br>";
+							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
+						echo "</div>";
+					?>
 				</div>
 			</div>
 		</div>
-
-		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 			<div class='card-body'>
 				<p>Indicaciones</p>
 				<?php echo $indicaciones; ?>
 			</div>
-		</div>
 	</div>
-</div>
 <!-- Fin de actividad  -->
-
 
 <?php
 	foreach($subactividad as $key){
+		//////////<!-- Subactividad  -->
+		echo "<div class='card mt-3 ml-3'>";
+			echo "<div class='card-header' style='background-color:#f9eec1;'>";
+				echo "<div class='row'>";
+					echo "<div class='col-12 text-center'>";
+						echo $key->orden." Subactividad: $key->nombre";
+						$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+						$contx = $db->dbh->query($sql);
+						$bloques=$contx->fetch(PDO::FETCH_OBJ);
 
-	//////////<!-- Subactividad  -->
-	echo "<div class='container-fluid mt-4' id='sub_$key->idsubactividad'>";
-		echo "<div class='card' >";
-		echo "<div class='card-header'>";
-			echo "<div class='row'>";
-				echo "<div class='col-12 text-center'>";
-						echo "<button class='btn btn-link' data-toggle='collapse' data-target='#collapsesub_$key->idsubactividad' aria-expanded='true' aria-controls='collapsesub_$key->idsubactividad'>";
-							echo $key->orden." Subactividad: $key->nombre";
-								$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
-								$contx = $db->dbh->prepare($sql);
-								$contx->execute();
-								$bloques=$contx->fetch(PDO::FETCH_OBJ);
-
-								$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = :id	group by contexto.id";
-								$contx = $db->dbh->prepare($sql);
-								$contx->bindValue(":id",$key->idsubactividad);
-								$contx->execute();
-								$total=0;
-								if($contx->rowCount()){
-									$total=(100*$contx->rowCount())/$bloques->total;
-								}
-								echo "<div id='progreso_$key->idsubactividad'>";
-								echo "(".$contx->rowCount()."/".$bloques->total.")<br>";
-								echo "<progress id='file' value='$total' max='100'> $total %</progress>";
-								echo "</div>";
-						echo "</button>";
+						$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = $key->idsubactividad	group by contexto.id";
+						$contx = $db->dbh->query($sql);
+						$total=0;
+						if($contx->rowCount()){
+							$total=(100*$contx->rowCount())/$bloques->total;
+						}
+						echo "<div id='progreso_$key->idsubactividad'>";
+							echo "(".$contx->rowCount()."/".$bloques->total.")<br>";
+							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
+						echo "</div>";
+					echo "</div>";
 				echo "</div>";
 			echo "</div>";
 		echo "</div>";
 		/////////////////<!-- fin de Subactividad  -->
 
 		/////////////<!-- Contexto  -->
-		echo "<div id='collapsesub_$key->idsubactividad' class='collapse show' aria-labelledby='headingOne' data-parent='#accordion'>";
-			echo "<div class='card-body' id='bloque'>";
-				$bloq=$db->contexto_ver($key->idsubactividad);
-				foreach($bloq as $row){
-					echo "<div id='con_$row->id'>";
-						$db->contexto_respuesta($row->id, $idactividad, $idpaciente);
-					echo "</div>";
-				}
-				echo "</div>";
+		//$bloq=$db->contexto_ver($key->idsubactividad);
+
+		$sql="select * from contexto where idsubactividad=$key->idsubactividad and pagina=$pagina order by orden asc";
+		$sth = $db->dbh->query($sql);
+		$bloq=$sth->fetchAll(PDO::FETCH_OBJ);
+		foreach($bloq as $row){
+			echo "<div id='con_$row->id'>";
+				$db->contexto_respuesta($row->id, $idactividad, $idpaciente);
 			echo "</div>";
-		echo "</div>";
-		echo "</div>";
+		}
 	}
+
+	$variables['idactividad']=$idactividad;
+
+	echo $db->paginar_x($no_paginas,$pagina,"a_respuesta/actividad_ver","contenido",$variables);
+
+
 echo "</div>";
 ?>
-
-<script type="text/javascript">
-	$(function() {
-		setTimeout(function(){ carga_editor(); }, 1000);
-		function carga_editor(){
-			$('.texto').summernote({
-				lang: 'es-ES',
-				placeholder: 'Texto',
-				tabsize: 5,
-				height: 250,
-				toolbar: [
-			    // [groupName, [list of button]]
-			    ['style', ['bold', 'italic', 'underline', 'clear']],
-			    ['font', ['strikethrough', 'superscript', 'subscript']],
-			    ['fontsize', ['fontsize']],
-			    ['color', ['color']],
-			    ['para', ['ul', 'ol', 'paragraph']],
-			    ['height', ['height']]
-			  ]
-			});
-		}
-	});
-</script>

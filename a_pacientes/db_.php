@@ -1067,7 +1067,9 @@ class Cliente extends ipsi{
 							////////////////condiciones
 							echo "<button "; if($row->idcond){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idcontexto='$row->id'><i class='fas fa-project-diagram'></i></button>";
 
-							echo "<button "; if($row->salto){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='salto_pagina' tp='¿desea algo?' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' v_salto='$row->salto' title='Borrar'><i class='far fa-map'></i>Salto</button>";
+							echo "<button "; if($row->salto){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='salto_pagina' tp='¿Desea";
+							if(!$row->salto){ echo " insertar ";} else{ echo " quitar el ";}
+							echo "salto de pagina?' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' v_salto='$row->salto' title='Borrar'><i class='far fa-sticky-note'></i></button>";
 
 						echo "</div>";
 						echo "<div class='col-6'>";

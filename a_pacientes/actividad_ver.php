@@ -1,4 +1,4 @@
-<?php
+	<?php
 	require_once("db_.php");
 
 	$idactividad=$_REQUEST['idactividad'];
@@ -8,6 +8,27 @@
 	}
 	else{
 		$pagina=0;
+	}
+
+	/////////////////////////////////////orden
+	$sql="SELECT contexto.* FROM contexto
+	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+	left outer join actividad on actividad.idactividad=subactividad.idactividad
+	where actividad.idactividad=$idactividad order by subactividad.orden asc, contexto.orden asc";
+	$sth = $db->dbh->query($sql);
+	$respx=$sth->fetchAll(PDO::FETCH_OBJ);
+
+	$orden=0;
+	$idsubx=0;
+	foreach($respx as $row){
+		if($idsubx!=$row->idsubactividad){
+			$orden=0;
+			$idsubx=$row->idsubactividad;
+		}
+		$arreglo =array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$db->update('contexto',array('id'=>$row->id), $arreglo);
+		$orden++;
 	}
 
 	/////////////////////breadcrumb
@@ -47,10 +68,9 @@
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 	/////////////////subactividades
-	//$sql="select * from subactividad where idactividad=$idactividad order by orden asc";
 	$sql="SELECT subactividad.* FROM contexto
 	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-	where subactividad.idactividad=$idactividad and contexto.pagina=$pagina group by idsubactividad";
+	where subactividad.idactividad=$idactividad and contexto.pagina=$pagina group by idsubactividad order by subactividad.orden asc";
 	$sth = $db->dbh->query($sql);
 	$subactividad=$sth->fetchAll(PDO::FETCH_OBJ);
 
@@ -173,7 +193,7 @@
 			echo "<div class='card mb-1 ml-3'>";
 				echo "<div class='card-header' style='background-color:#f9eec1;'>";
 					echo "<div class='row'>";
-						echo "<div class='col-3'>";
+						echo "<div class='col-2'>";
 							/////////////////////////////////////////////<!-- Editar subactividad --->
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/subactividad_editar' v_idsubactividad='$key->idsubactividad' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
 
@@ -186,8 +206,8 @@
 							}
 
 						echo "</div>";
-						echo "<div class='col-9 text-center'>";
-							echo $key->orden." - ".$key->nombre;
+						echo "<div class='col-10'>";
+							echo $key->nombre;
 
 							echo "<br>";
 							if($actividad->tipo=="evaluacion"){
@@ -205,7 +225,6 @@
 								if($contx->rowCount()>0 and $bloques->total>0){
 									$total=(100*$contx->rowCount())/$bloques->total;
 								}
-
 								echo "<div id='progreso_$key->idsubactividad'>";
 									echo "(".$contx->rowCount()."/".$bloques->total.")<br>";
 									echo "<progress id='file' value='$total' max='100'> $total %</progress>";
@@ -222,11 +241,6 @@
 				$sth = $db->dbh->query($sql);
 				$bloq=$sth->fetchAll(PDO::FETCH_OBJ);
 				foreach($bloq as $row){
-
-					/*$sql="update contexto set orden=$orden where idsubactividad='$key->idsubactividad'";
-					$ordx = $db->dbh->query($sql);
-					$orden++;
-					*/
 					/////////////////esta en control_db.php
 					echo "<div id='con_$row->id'>";
 						$db->contexto_pacientes($row->id, $idactividad, $idpaciente);
@@ -325,9 +339,7 @@
 				echo "<div class='card-body'>";
 
 	 				$sql="SELECT escala_contexto.*, contexto.id AS idcontex, contexto.texto FROM escala_contexto LEFT OUTER JOIN contexto ON contexto.id = escala_contexto.idcontexto WHERE escala_contexto.idescala='$escala->id'";
-
-	 				$sth = $db->dbh->prepare($sql);
-	 				$sth->execute();
+	 				$sth = $db->dbh->query($sql);
 	 				$es=$sth->fetchAll(PDO::FETCH_OBJ);
 	 				echo "<table class='table tabe-sm'>";
 	 				echo "<tr><th>-</th><th>Descripcion</th></tr>";
@@ -344,8 +356,7 @@
 	 					echo $v2->texto;
 
 						$sql="select sum(valor) as total from contexto_resp where idcontexto='$v2->idcontex'";
-						$xsth = $db->dbh->prepare($sql);
-						$xsth->execute();
+						$xsth = $db->dbh->query($sql);
 						if($xsth->rowCount()){
 							$tabparc=$xsth->fetch(PDO::FETCH_OBJ);
 							if(is_numeric($tabparc->total)){

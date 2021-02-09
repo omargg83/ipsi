@@ -3,7 +3,22 @@
 
 	$idactividad=clean_var($_REQUEST['idactividad']);
   $actividad = $db->actividad_editar($idactividad);
-	$subactividad = $db->subactividad_ver($idactividad);
+
+	if(isset($_REQUEST['pagina'])){
+		$pagina=$_REQUEST['pagina'];
+	}
+	else{
+		$pagina=0;
+	}
+
+	///////paginas
+	$sql="SELECT contexto.pagina FROM contexto
+	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+	left outer join actividad on actividad.idactividad=subactividad.idactividad
+	where actividad.idactividad=$idactividad group by pagina";
+	$sth = $db->dbh->query($sql);
+	$no_paginas=$sth->rowCount();
+	$paginas=$sth->fetch(PDO::FETCH_OBJ);
 
 	$nombre=$actividad->nombre;
 	$observaciones=$actividad->observaciones;
@@ -21,6 +36,48 @@
 	$track=$db->track_editar($idtrack);
 	$idterapia=$track->idterapia;
 	$terapia=$db->terapia_editar($idterapia);
+
+
+	$sql="SELECT * from subactividad where subactividad.idactividad=$idactividad order by subactividad.orden asc, subactividad.nombre asc";
+	$sth = $db->dbh->query($sql);
+	$respx=$sth->fetchAll(PDO::FETCH_OBJ);
+
+	$orden=0;
+	foreach($respx as $row){
+		$arreglo =array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$db->update('subactividad',array('idsubactividad'=>$row->idsubactividad), $arreglo);
+		$orden++;
+	}
+
+	///////////para ordenar contextos
+	$sql="SELECT contexto.* FROM contexto
+	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+	left outer join actividad on actividad.idactividad=subactividad.idactividad
+	where actividad.idactividad=$idactividad order by subactividad.orden asc, contexto.orden asc";
+	$sth = $db->dbh->query($sql);
+	$respx=$sth->fetchAll(PDO::FETCH_OBJ);
+
+	$orden=0;
+	$idsubx=0;
+	foreach($respx as $row){
+		if($idsubx!=$row->idsubactividad){
+			$orden=0;
+			$idsubx=$row->idsubactividad;
+		}
+		$arreglo =array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$db->update('contexto',array('id'=>$row->id), $arreglo);
+		$orden++;
+	}
+
+
+	/////////////////subactividades
+	$sql="SELECT subactividad.* FROM contexto
+	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+	where subactividad.idactividad=$idactividad and contexto.pagina=$pagina group by idsubactividad order by subactividad.orden asc";
+	$sth = $db->dbh->query($sql);
+	$subactividad=$sth->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -49,12 +106,10 @@
 
 <div class='container'>
 <!-- actividad  -->
-	<div id="accordion">
-		<div class="card mb-3">
+	<div class="card mb-3">
 			<div class="card-header" id="headingOne">
 				<div class='row'>
 					<div class="col-2">
-
 						<!---Editar actividad -->
 						<?php
 
@@ -83,15 +138,12 @@
 			</div>
 
 		</div>
-	</div>
+
 <!-- Fin de actividad  -->
 
 <?php
 	$orden=0;
 	foreach($subactividad as $key){
-		/////
-	
-
 		//<!-- Subactividad  -->
 		echo "<div class='card mb-1 ml-3'>";
 			echo "<div class='card-header' style='background-color:#f9eec1;'>";
@@ -111,7 +163,7 @@
 
 					echo "</div>";
 					echo "<div class='col-9' >";
-							echo $key->orden; echo '- Subactividad: '; echo $key->nombre;
+						echo 'Subactividad: '; echo $key->nombre;
 					echo "</div>";
 
 					echo "<div class='col-1'>";
@@ -123,8 +175,9 @@
 		echo "</div>";
 		//<!-- fin de Subactividad  -->
 		//<!-- Contexto  -->
-
-		$bloq=$db->contexto_ver($key->idsubactividad);
+		$sql="select * from contexto where idsubactividad=$key->idsubactividad and pagina=$pagina order by orden asc";
+		$sth = $db->dbh->query($sql);
+		$bloq=$sth->fetchAll(PDO::FETCH_OBJ);
 		foreach($bloq as $row){
 			echo "<div id='con_$row->id'>";
 				echo "<div class='card mt-2 ml-5'>";
@@ -144,6 +197,10 @@
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_borrar' v_idactividad='$idactividad' v_idcontexto='$row->id' tp='¿Desea eliminar el bloque seleccionado?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
 							echo "<button "; if($row->idcond){ echo "class='btn btn-danger btn-sm'"; } else { echo "class='btn btn-warning btn-sm'"; } echo "type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad='$idactividad' omodal='1' v_idcontexto='$row->id'><i class='fas fa-project-diagram'></i></button>";
+
+							echo "<button "; if($row->salto){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_actividades/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='salto_pagina' tp='¿Desea";
+							if(!$row->salto){ echo " insertar ";} else{ echo " quitar el ";}
+							echo "salto de pagina?' v_idactividad='$idactividad' v_idcontexto='$row->id' v_salto='$row->salto' title='Borrar'><i class='far fa-sticky-note'></i></button>";
 
 						echo "</div>";
 						echo "<div class='col-9 text-center'>";
@@ -450,17 +507,10 @@
  <div class="container-fluid mb-3 text-center">
  	<button class='btn btn-warning' type="button" is="b-link" des='a_actividades_e/subactividad_editar' dix='nueva_sub' v_idsubactividad="0" v_idactividad='<?php echo $idactividad; ?>' title='editar' omodal="1">Nueva Subactividad</button>
  </div>
+<?php
+	//////////////////////////////paginacion
+	$variables['idactividad']=$idactividad;
+	echo $db->paginar_x($no_paginas,$pagina,"a_actividades/actividad_ver","trabajo",$variables);
 
+ ?>
 </div>
-
-
-<script type="text/javascript">
-	$(function() {
-		$('.texto').summernote({
-			lang: 'es-ES',
-			placeholder: 'Texto',
-			tabsize: 5,
-			height: 250
-		});
-	});
-</script>

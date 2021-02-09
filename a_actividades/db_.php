@@ -709,6 +709,7 @@ class Cuest extends ipsi{
 			else{
 				$x=$this->update('contexto',array('id'=>$id1), $arreglo);
 			}
+			///////////////////////////////////////////////////////////
 			return $x;
 		}
 		catch(PDOException $e){
@@ -1190,13 +1191,10 @@ class Cuest extends ipsi{
 
 			$x=$this->update('contexto',array('id'=>$idcontexto), $arreglo);
 
-
-
-
 			$sql="SELECT contexto.* FROM contexto
 			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
 			left outer join actividad on actividad.idactividad=subactividad.idactividad
-			where actividad.idactividad=$idactividad";
+			where actividad.idactividad=$idactividad order by subactividad.orden asc, contexto.orden asc";
 			$sth = $this->dbh->query($sql);
 			$orden=$sth->fetchAll(PDO::FETCH_OBJ);
 
