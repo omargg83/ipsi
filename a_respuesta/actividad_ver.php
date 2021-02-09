@@ -180,9 +180,7 @@
 	}
 
 	$variables['idactividad']=$idactividad;
-
 	echo $db->paginar_x($no_paginas,$pagina,"a_respuesta/actividad_ver","contenido",$variables);
-
 
 echo "</div>";
 ?>

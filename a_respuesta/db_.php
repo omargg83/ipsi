@@ -345,8 +345,14 @@ class Cliente extends ipsi{
 				$visible=1;
 			}
 		}
-		if($visible){
-			echo "<div class='card mt-2 ml-5'>";
+		//if($visible){
+			echo $visible;
+			echo "<div class='card mt-2 ml-5' ";
+			/*if(!$visible){
+				echo " style='display:none' ";
+			}*/
+
+			echo ">";
 				echo "<div class='card-body'>";
 					echo "<form is='resp-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
 
@@ -536,7 +542,6 @@ class Cliente extends ipsi{
 					echo "</form>";
 				echo "</div>";
 			echo "</div>";
-		}
 	}
 	public function upd(){
 		$idcontexto=$_REQUEST['idcontexto'];
