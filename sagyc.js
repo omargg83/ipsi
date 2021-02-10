@@ -481,16 +481,26 @@ onload = ()=> {
 	$(document).on('change',"[is*='s-submit']",function(e){
 			e.preventDefault();
 
-			if(e.currentTarget.checked){
-				$('.cond_'+e.currentTarget.value).show();
-			}
-			else{
-				$('.cond_'+e.currentTarget.value).hide();
-			}
-
-			//////////id del formulario
 			let id=e.target.form.id;
 			let elemento = document.getElementById(id);
+			console.log(e);
+
+			if(e.currentTarget.type=='checkbox'){
+				if(e.currentTarget.checked){
+					$('.cond_'+e.currentTarget.value).show();
+				}
+				else{
+					$('.cond_'+e.currentTarget.value).hide();
+				}
+			}
+			else if(e.currentTarget.type=='select-one'){
+				if ( $( '.cond_'+e.currentTarget.value ).length ) {
+					$('.cond_'+e.currentTarget.value).show();
+				}
+				else{
+					$('.cond_'+e.currentTarget.attributes.old.nodeValue).hide();
+				}
+			}
 			procesar_resp(elemento);
 	});
 	$(document).on('submit',"[is*='resp-submit']",function(e){
@@ -517,12 +527,10 @@ onload = ()=> {
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST', db);
 		xhr.addEventListener('loadstart',(data)=>{
-			//cargando(true);
+
 		});
 		xhr.addEventListener('load',(data)=>{
 			if (!isJSON(data.target.response)){
-				console.log(data.target.response);
-				//cargando(false);
 				Swal.fire({
 					icon: 'error',
 					title: "Error favor de verificar",
@@ -542,7 +550,6 @@ onload = ()=> {
 					showConfirmButton: false,
 					timer: 100
 				});
-				//cargando(false);
 			}
 			else{
 				cargando(false);

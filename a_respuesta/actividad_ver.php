@@ -168,7 +168,6 @@
 
 		/////////////<!-- Contexto  -->
 		//$bloq=$db->contexto_ver($key->idsubactividad);
-
 		$sql="select * from contexto where idsubactividad=$key->idsubactividad and pagina=$pagina order by orden asc";
 		$sth = $db->dbh->query($sql);
 		$bloq=$sth->fetchAll(PDO::FETCH_OBJ);

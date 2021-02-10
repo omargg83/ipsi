@@ -135,7 +135,6 @@ class Cliente extends ipsi{
 				}
 			}
 			else if($contexto->tipo=="pregunta"){
-
 				$sql="delete from contexto_resp where idcontexto=$idcontexto";
 				$delcontx = $this->dbh->query($sql);
 				$arreglo=array();
@@ -313,15 +312,12 @@ class Cliente extends ipsi{
 
 	public function contexto_respuesta($idcontexto, $idactividad, $idpaciente){
 
-		$sql="select * from contexto where id=:id";
-		$sth = $this->dbh->prepare($sql);
-		$sth->bindValue(":id",$idcontexto);
-		$sth->execute();
+		$sql="select * from contexto where id=$idcontexto";
+		$sth = $this->dbh->query($sql);
 		$row=$sth->fetch(PDO::FETCH_OBJ);
 
 		$sql="select * from contexto_resp where idcontexto=$row->id";
-		$contx = $this->dbh->prepare($sql);
-		$contx->execute();
+		$contx = $this->dbh->query($sql);
 		$texto="";
 		$fecha="";
 		$archivo="";
@@ -338,20 +334,18 @@ class Cliente extends ipsi{
 		if($row->idcond){
 			$visible=0;
 			$sql="select * from contexto_resp where idrespuesta='$row->idcond'";
-			$sth = $this->dbh->prepare($sql);
-			$sth->execute();
+			$sth = $this->dbh->query($sql);
 			$sth->fetch(PDO::FETCH_OBJ);
 			if($sth->rowCount()){
 				$visible=1;
 			}
 		}
 		//if($visible){
-			echo $visible;
-			echo "<div class='card mt-2 ml-5' ";
-			/*if(!$visible){
-				echo " style='display:none' ";
-			}*/
 
+			echo "<div class='card mt-2 ml-5 cond_$row->idcond'";
+			if(!$visible){
+				echo " style='display:none' ";
+			}
 			echo ">";
 				echo "<div class='card-body'>";
 					echo "<form is='resp-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
@@ -380,7 +374,6 @@ class Cliente extends ipsi{
 							echo "<textarea class='texto' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
 						}
 						else if($row->tipo=="textocorto"){
-
 							echo "<textarea class='form-control' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
 						}
 						else if($row->tipo=="fecha"){
@@ -413,7 +406,7 @@ class Cliente extends ipsi{
 												$valor_resp=$resp->valor;
 											}
 
-											echo "<select class='form-control form-control-sm' name='select_".$idx."' is='s-submit'>";
+											echo "<select class='form-control form-control-sm' name='select_".$idx."' is='s-submit' old='$correcta'>";
 											echo "<option value='' disabled selected>Seleccione una opcion</value>";
 											foreach ($rx as $respuesta) {
 												//////////////////para obtener Respuestas
