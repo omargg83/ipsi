@@ -371,7 +371,10 @@ class Cliente extends ipsi{
 							echo "<a href='".$this->doc.$row->texto."' download='$row->texto'>Descargar</a>";
 						}
 						else if($row->tipo=="textores"){
-							echo "<textarea class='texto' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
+							echo "<div id='div_$row->id' name='div_$row->id' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'>$texto</div>";
+							echo "<small>De clic para editar</small>";
+
+							//echo "<textarea class='texto' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
 						}
 						else if($row->tipo=="textocorto"){
 							echo "<textarea class='form-control' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
@@ -412,7 +415,7 @@ class Cliente extends ipsi{
 												//////////////////para obtener Respuestas
 												echo "<option value='$respuesta->id' ";
 												if($correcta==$respuesta->id){ echo " selected"; }
-												echo ">$respuesta->nombre (".$respuesta->valor.")</option>";
+												echo ">$respuesta->nombre</option>";
 											}
 											echo "</select>";
 										echo "</div>";

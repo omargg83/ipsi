@@ -60,11 +60,11 @@
 	<input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php echo $idsubactividad; ?>">
 	<input type="hidden" name="tipo" id="tipo" value="<?php echo $tipo; ?>">
 
-	<div class="card">
-	  <div class="card-header">
-	    Editar contexto
-	  </div>
-	  <div class="card-body">
+	<div class="modal-header">
+	  Editar contexto
+	</div>
+
+	<div class="modal-body">
 			<?php
 
 			echo "<input type='hidden' class='form-control-file' id='orden' name='orden' value='$orden'>";
@@ -136,10 +136,10 @@
 
 
 	    ?>
-	  </div>
-	  <div class="card-footer">
-	    <button type='submit' class='btn btn-warning '> Guardar</button>
-			<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
-	  </div>
-	</div>
+  </div>
+  <div class="modal-footer">
+    <button type='submit' class='btn btn-warning '> Guardar</button>
+		<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
+  </div>
+
 </form>

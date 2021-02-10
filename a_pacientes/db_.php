@@ -1049,7 +1049,7 @@ class Cliente extends ipsi{
 			echo "<div class='card mt-2 ml-5'>";
 				echo "<div class='card-header'>";
 					echo "<div class='row'>";
-						echo "<div class='col-4'>";
+						echo "<div class='col-5'>";
 							///////////////editar contexto
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
 
@@ -1076,7 +1076,7 @@ class Cliente extends ipsi{
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='contexto_mover' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id' v_dir='1' dix='trabajo'><i class='fas fa-chevron-down'></i></button>";
 
 						echo "</div>";
-						echo "<div class='col-6'>";
+						echo "<div class='col-5'>";
 							echo "<button class='btn btn-link' data-toggle='collapse' data-target='#collapsecon_".$row->id."' aria-expanded='true' aria-controls='collapsecon_".$row->id."'>";
 								echo "Contexto ";
 							echo "</button>";
@@ -1514,7 +1514,44 @@ class Cliente extends ipsi{
 		return $x;
 	}
 
+	public function asignar_pareja(){
+		$idactividad=$_REQUEST['idactividad'];
+		$idpaciente=$_REQUEST['idpaciente'];
+		$idrel=$_REQUEST['idrel'];
 
+		$arreglo=array();
+		$arreglo+=array('idpaciente'=>$idrel);
+		$arreglo+=array('idactividad'=>$idactividad);
+		$x=$this->insert('actividad_per', $arreglo);
+
+		$sql="select * from actividad where idactividad=$idactividad";
+		$sth = $this->dbh->query($sql);
+		$actividad=$sth->fetch(PDO::FETCH_OBJ);
+		if($actividad->idtrack){
+			$arreglo=array();
+			$arreglo+=array('idpaciente'=>$idrel);
+			$arreglo+=array('idtrack'=>$actividad->idtrack);
+			$x=$this->insert('track_per', $arreglo);
+
+
+			$sql="select * from track where id=$actividad->idtrack";
+			$sth = $this->dbh->query($sql);
+			$track=$sth->fetch(PDO::FETCH_OBJ);
+
+			$arreglo=array();
+			$arreglo+=array('idpaciente'=>$idrel);
+			$arreglo+=array('idterapia'=>$track->idterapia);
+			$x=$this->insert('terapias_per', $arreglo);
+
+			return "track";
+		}
+		if($actividad->idmodulo){
+
+			return "modulo";
+		}
+
+		return $x;
+	}
 }
 
 $db = new Cliente();

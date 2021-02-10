@@ -130,7 +130,7 @@
 		<div class="card-header" id="headingOne">
 			<div class='row'>
 				<div class="col-2">
-					
+
 					<!---Editar actividad --->
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/actividad_editar" dix="trabajo"
 					v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idtrack="<?php echo $idtrack; ?>"><i class="fas fa-pencil-alt"></i></button>
@@ -141,29 +141,24 @@
 						if($actividad->tipo=="evaluacion"){
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='0'><i class='fas fa-file-medical-alt'></i></button>";
 						}
-					?>
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" db="a_actividades/db_" fun="publicar_actividad" v_idactividad="<?php echo $idactividad; ?>" tp="¿Desea publicar la actividad en el catalogo?" title="Catalogo"><i class="fas fa-user-friends"></i></button>
 
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link'  v_idactividad='$idactividad' v_idpaciente='$idpaciente' title='Familiar' des='a_pacientes/roles' omodal='1'><i class='fas fa-user-friends'></i></button>";
+					?>
 				</div>
 				<div class="col-10 text-center">
 						Actividad: <?php echo $nombre_act; ?> 	(<?php echo $actividad->tipo; ?>)
 					<?php
 						$sql="SELECT count(contexto.id) as total from contexto
 						left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-						where subactividad.idactividad=:id and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
-						$contx = $db->dbh->prepare($sql);
-						$contx->bindValue(":id",$idactividad);
-						$contx->execute();
+						where subactividad.idactividad=$idactividad and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+						$contx = $db->dbh->query($sql);
 						$bloques=$contx->fetch(PDO::FETCH_OBJ);
 
 						$sql="SELECT count(contexto_resp.id) as total FROM	contexto
 						right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
 						left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-						where subactividad.idactividad=:id
-						group by contexto.id";
-						$contx = $db->dbh->prepare($sql);
-						$contx->bindValue(":id",$idactividad);
-						$contx->execute();
+						where subactividad.idactividad=$idactividad group by contexto.id";
+						$contx = $db->dbh->query($sql);
 						$total=0;
 						if($contx->rowCount()){
 							$total=(100*$contx->rowCount())/$bloques->total;
@@ -189,7 +184,23 @@
 				</div>
 		</div>
 	</div>
+
 <?php
+
+	$sql="select * from actividad_per left outer join clientes on clientes.id=actividad_per.idpaciente where idactividad='$idactividad' order by actividad_per.id asc";
+	$permis = $db->dbh->query($sql);
+	echo "<table class='table table-sm'>";
+	foreach($permis->fetchAll(PDO::FETCH_OBJ) as $key){
+		echo "<tr>";
+		echo "<td>";
+		echo $key->id;
+		echo "</td>";
+		echo "<td>";
+		echo "$key->nombre $key->apellidop $key->apellidom";
+		echo "</td>";
+		echo "</tr>";
+	}
+	echo "</table>";
 	/////////<!-- Fin de actividad  -->
 
 	/////////<!-- Subactividades  -->
@@ -201,7 +212,7 @@
 		echo "<div class='card mb-1 ml-3'>";
 			echo "<div class='card-header' style='background-color:#f9eec1;'>";
 				echo "<div class='row'>";
-					echo "<div class='col-2'>";
+					echo "<div class='col-3'>";
 						/////////////////////////////////////////////<!-- Editar subactividad --->
 						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/subactividad_editar' v_idsubactividad='$key->idsubactividad' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
 
@@ -218,7 +229,7 @@
 						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='subactividad_mover' v_dir='1' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' dix='trabajo'><i class='fas fa-sort-down'></i></button>";
 
 					echo "</div>";
-					echo "<div class='col-8'>";
+					echo "<div class='col-7'>";
 						echo $key->nombre;
 					echo "</div>";
 					if($actividad->tipo=="evaluacion"){
@@ -255,6 +266,7 @@
 		echo "<div class='container-fluid mb-5 mt-5 text-center'>";
 			echo "<button class='btn btn-warning btn-sm mb-3' type='button' is='b-link' des='a_actividades_e/bloque' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' v_tipo='$actividad->tipo' omodal='1' >Nuevo bloque de contexto</button>";
 		echo "</div>";
+
 		if($actividad->tipo=="evaluacion"){
 			$sql="select * from contexto where idsubactividad=$key->idsubactividad order by orden asc";
 			$sth = $db->dbh->query($sql);
@@ -377,8 +389,7 @@
 
  				echo "<div class='card-body'>";
  					$sql="select * from escala_act where idescala=$escala->id";
- 					$sth = $db->dbh->prepare($sql);
- 					$sth->execute();
+ 					$sth = $db->dbh->query($sql);
  					$es=$sth->fetchAll(PDO::FETCH_OBJ);
  					echo "<table class='table tabe-sm'>";
  					echo "<tr><th>Descripcion</th><th>Minimo</th><th>Maximo</th></tr>";

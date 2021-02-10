@@ -483,7 +483,6 @@ onload = ()=> {
 
 			let id=e.target.form.id;
 			let elemento = document.getElementById(id);
-			console.log(e);
 
 			if(e.currentTarget.type=='checkbox'){
 				if(e.currentTarget.checked){
@@ -532,7 +531,7 @@ onload = ()=> {
 		xhr.addEventListener('load',(data)=>{
 			if (!isJSON(data.target.response)){
 				Swal.fire({
-					icon: 'error',
+					type: 'error',
 					title: "Error favor de verificar",
 					showConfirmButton: false,
 					timer: 1000
@@ -554,7 +553,7 @@ onload = ()=> {
 			else{
 				cargando(false);
 				Swal.fire({
-					icon: 'info',
+					type: 'info',
 					title: respon.terror,
 					showConfirmButton: false,
 					timer: 1000
@@ -614,7 +613,7 @@ onload = ()=> {
 			if (!isJSON(data.target.response)){
 				cargando(false);
 				Swal.fire({
-					icon: 'error',
+					type: 'error',
 					title: "Error favor de verificar",
 					showConfirmButton: false,
 					timer: 1000
@@ -642,7 +641,7 @@ onload = ()=> {
 			else{
 				cargando(false);
 				Swal.fire({
-					icon: 'info',
+					type: 'info',
 					title: respon.terror,
 					showConfirmButton: false,
 					timer: 1000

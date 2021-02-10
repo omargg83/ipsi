@@ -38,21 +38,19 @@
   <input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php  echo $idsubactividad; ?>">
   <input type="hidden" name="idactividad" id="idactividad" value="<?php  echo $idactividad; ?>">
 	<input type="hidden" id="orden" name="orden" value="<?php echo $orden; ?>" class="form-control" required>
-	<div class="card">
-	  <div class="card-header">
-	    Editar subactividad
-	  </div>
-	  <div class="card-body">
-	    <div class="row">
-	      <div class="col-12">
-	        <label for="">Nombre</label>
-	        <input type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" class="form-control" required>
-	      </div>
-	    </div>
-	  </div>
-	  <div class="card-footer">
-	    <button type='submit' class='btn btn-warning'> Guardar</button>
-	    <button class="btn btn-warning" type="button" is="b-link" cmodal="1">Regresar</button>
-	  </div>
+	<div class="modal-header">
+	  Editar subactividad
+	</div>
+	<div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <label for="">Nombre</label>
+        <input type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" class="form-control" required>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type='submit' class='btn btn-warning'> Guardar</button>
+    <button class="btn btn-warning" type="button" is="b-link" cmodal="1">Regresar</button>
   </div>
 </form>
