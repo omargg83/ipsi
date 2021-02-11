@@ -187,7 +187,7 @@
 
 <?php
 	echo "<div class='card mb-1 ml-3'>";
-		$sql="select * from actividad_per left outer join clientes on clientes.id=actividad_per.idpaciente where idactividad='$idactividad' order by actividad_per.id asc";
+		$sql="select actividad_per.*,clientes.nombre, clientes.apellidop, clientes.apellidom from actividad_per left outer join clientes on clientes.id=actividad_per.idpaciente where idactividad='$idactividad' order by actividad_per.id asc";
 		$permis = $db->dbh->query($sql);
 		$orden=0;
 		echo "<table class='table table-sm'>";
@@ -195,7 +195,7 @@
 			echo "<tr>";
 			echo "<td>";
 				if($orden!=0){
-					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='eliminar_pareja' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idper='$key->id' tp='¿Desea eliminar la relación?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_pacientes/db_' fun='eliminar_pareja' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idper='$key->id' tp='¿Desea eliminar la relación?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 				}
 			echo "</td>";
 			echo "<td>";

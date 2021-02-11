@@ -41,7 +41,7 @@
 
 							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='terapia_mover' des='a_actividades/terapias' v_idterapia='$key->id' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
 
-							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/terapias' dix='trabajo' db='a_actividades/db_' fun='borrar_terapia' v_idterapia='$key->id' tp='¿Desea eliminar la terapia seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/terapias' dix='trabajo' db='a_actividades/db_' fun='borrar_terapia' v_idterapia='$key->id' tp='¿Desea eliminar la terapia seleccionada?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
 							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades_e/terapias_editar' dix='trabajo' v_idterapia='$key->id' title='Editar'><i class='fas fa-pencil-alt'></i></button>";
 

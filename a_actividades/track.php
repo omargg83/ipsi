@@ -49,7 +49,7 @@
 
 							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='track_mover' des='a_actividades/track' v_idtrack='$key->id' v_idterapia='$idterapia' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
 
-							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/track' dix='trabajo' db='a_actividades/db_' fun='borrar_track' v_idtrack='$key->id' v_idterapia='$idterapia' tp='¿Desea eliminar el track seleccionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/track' dix='trabajo' db='a_actividades/db_' fun='borrar_track' v_idtrack='$key->id' v_idterapia='$idterapia' tp='¿Desea eliminar el track seleccionado?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
 							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades_e/track_editar' dix='trabajo' v_idtrack='$key->id' v_idterapia='$idterapia'><i class='fas fa-pencil-alt'></i></button>";
 

@@ -2,7 +2,7 @@
 	require_once("db_.php");
 
 	$idactividad=clean_var($_REQUEST['idactividad']);
-  $actividad = $db->actividad_editar($idactividad);
+  	$actividad = $db->actividad_editar($idactividad);
 
 	if(isset($_REQUEST['pagina'])){
 		$pagina=$_REQUEST['pagina'];
@@ -150,7 +150,7 @@
 		echo "<div class='card mb-1 ml-3'>";
 			echo "<div class='card-header' style='background-color:#f9eec1;'>";
 				echo "<div class='row'>";
-					echo "<div class='col-2'>";
+					echo "<div class='col-3'>";
 						//<!-- Editar subactividad --->
 						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/subactividad_editar' v_idsubactividad='$key->idsubactividad' v_idactividad='$idactividad' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
 
@@ -168,7 +168,7 @@
 						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='subactividad_mover' v_dir='1' des='a_actividades/actividad_ver' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' dix='trabajo'><i class='fas fa-sort-down'></i></button>";
 
 					echo "</div>";
-					echo "<div class='col-10' >";
+					echo "<div class='col-9' >";
 						echo 'Subactividad: '; echo $key->nombre;
 					echo "</div>";
 

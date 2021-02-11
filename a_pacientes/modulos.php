@@ -20,18 +20,13 @@
 	$track=$sth->fetch(PDO::FETCH_OBJ);
 	$inicial=$track->inicial;
 
-	$sql="select * from terapias where id=:idterapia";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idterapia",$track->idterapia);
-	$sth->execute();
+	$sql="select * from terapias where id=$track->idterapia";
+	$sth = $db->dbh->query($sql);
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 	///////////////////////CODIGO
-	$sql="SELECT * from modulo_per left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=:id and modulo.idtrack=:idtrack order by modulo.order asc";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":id",$idpaciente);
-	$sth->bindValue(":idtrack",$idtrack);
-	$sth->execute();
+	$sql="SELECT * from modulo_per left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=$idpaciente and modulo.idtrack=$idtrack order by modulo.orden asc";
+	$sth = $db->dbh->query($sql);
 	$modulos=$sth->fetchAll(PDO::FETCH_OBJ);
 ?>
 

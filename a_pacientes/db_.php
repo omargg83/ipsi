@@ -714,19 +714,51 @@ class Cliente extends ipsi{
 		$idterapia=clean_var($_REQUEST['idterapia']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
 
-		$sql="select * from terapias_per where idterapia=:idterapia and idpaciente=:idpaciente";
-		$sth = $this->dbh->prepare($sql);
-		$sth->bindValue(":idterapia",$idterapia);
-		$sth->bindValue(":idpaciente",$idpaciente);
-		$sth->execute();
-		if ($sth->rowCount()>0){
-			$res=$sth->fetch(PDO::FETCH_OBJ);
-			return $this->borrar('terapias_per',"id",$res->id);
+		$sql="SELECT * from track_per left outer join track on track.id=track_per.idtrack where track_per.idpaciente=$idpaciente and track.idterapia=$idterapia order by track.inicial desc, track.orden asc";
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()==0){
+			$sql="select * from terapias_per where idterapia=:idterapia and idpaciente=:idpaciente";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":idterapia",$idterapia);
+			$sth->bindValue(":idpaciente",$idpaciente);
+			$sth->execute();
+			if ($sth->rowCount()>0){
+				$res=$sth->fetch(PDO::FETCH_OBJ);
+				return $this->borrar('terapias_per',"id",$res->id);
+			}
 		}
+		else{
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene tracks');
+			return json_encode($arreglo);
+		}
+		
 	}
 	public function quitar_track(){
 		$idtrack=clean_var($_REQUEST['idtrack']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
+
+		$sql="SELECT * from modulo_per left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=$idpaciente and modulo.idtrack=$idtrack order by modulo.orden asc";
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()>0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene modulos');
+			return json_encode($arreglo);
+		}
+
+		$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=$idpaciente and actividad.idtrack=$idtrack order by actividad.orden asc ";
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()>0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene actividad inicial');
+			return json_encode($arreglo);
+		}
 
 		$sql="select * from track_per where idtrack=:idtrack and idpaciente=:idpaciente";
 		$sth = $this->dbh->prepare($sql);
@@ -1305,7 +1337,20 @@ class Cliente extends ipsi{
 	}
 	public function relacion_buscar($texto,$idpaciente){
 		try{
+			if($_SESSION['nivel']==1) 
 			$sql="select * from clientes where id!='".$idpaciente."' and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
+
+
+			if($_SESSION['nivel']==2)
+			$sql="select * from clientes left outer join cliente_terapeuta on cliente_terapeuta.idcliente=clientes.id where id!='".$idpaciente."' and cliente_terapeuta.idusuario='".$_SESSION['idusuario']."' and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
+
+
+			if($_SESSION['nivel']==3)
+			$sql="select * from clientes where id!='".$idpaciente."' and idsucursal='".$_SESSION['idsucursal']."' and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
+			
+			if($_SESSION['nivel']==4) 
+			$sql="select * from clientes where id!='".$idpaciente."' and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
+
 			$sth = $this->dbh->query($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -1519,27 +1564,51 @@ class Cliente extends ipsi{
 		$idpaciente=$_REQUEST['idpaciente'];
 		$idrel=$_REQUEST['idrel'];
 
-		$arreglo=array();
-		$arreglo+=array('idpaciente'=>$idrel);
-		$arreglo+=array('idactividad'=>$idactividad);
-		$x=$this->insert('actividad_per', $arreglo);
-
-		$sql="select * from actividad where idactividad=$idactividad";
+		$sql="select * from actividad_per where idpaciente=$idrel and idactividad=$idactividad";
 		$sth = $this->dbh->query($sql);
-		$actividad=$sth->fetch(PDO::FETCH_OBJ);
-		if($actividad->idtrack){
+		$activ_per=$sth->fetch(PDO::FETCH_OBJ);
+		if($sth->rowCount()==0){
 
-			$sql="select * from track_per where idpaciente=$idrel and idtrack=$actividad->idtrack";
+			$arreglo=array();
+			$arreglo+=array('idpaciente'=>$idrel);
+			$arreglo+=array('idactividad'=>$idactividad);
+			$x=$this->insert('actividad_per', $arreglo);
+
+			$sql="select * from actividad where idactividad=$idactividad";
+			$sth = $this->dbh->query($sql);
+			$actividad=$sth->fetch(PDO::FETCH_OBJ);
+			if($actividad->idtrack){
+				$idtrack=$actividad->idtrack;
+
+			}
+			if($actividad->idmodulo){
+
+				$sql="select * from modulo_per where idpaciente=$idrel and idmodulo=$actividad->idmodulo";
+				$sth = $this->dbh->query($sql);
+				if($sth->rowCount()==0){
+					$arreglo=array();
+					$arreglo+=array('idpaciente'=>$idrel);
+					$arreglo+=array('idmodulo'=>$actividad->idmodulo);
+					$x=$this->insert('modulo_per', $arreglo);
+				}
+
+				$sql="select * from modulo where id=$actividad->idmodulo";
+				$sth = $this->dbh->query($sql);
+				$modulo=$sth->fetch(PDO::FETCH_OBJ);
+				$idtrack=$modulo->idtrack;
+
+			}
+			$sql="select * from track_per where idpaciente=$idrel and idtrack=$idtrack";
 			$sth = $this->dbh->query($sql);
 			if($sth->rowCount()==0){
 				$arreglo=array();
 				$arreglo+=array('idpaciente'=>$idrel);
-				$arreglo+=array('idtrack'=>$actividad->idtrack);
+				$arreglo+=array('idtrack'=>$idtrack);
 				$x=$this->insert('track_per', $arreglo);
 			}
 
-
-			$sql="select * from track where id=$actividad->idtrack";
+			////////////////////////
+			$sql="select * from track where id=$idtrack";
 			$sth = $this->dbh->query($sql);
 			$track=$sth->fetch(PDO::FETCH_OBJ);
 
@@ -1553,19 +1622,40 @@ class Cliente extends ipsi{
 			}
 			return $x;
 		}
-		if($actividad->idmodulo){
-
-			return "modulo";
+		else{
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Ya existe en esta actividad');
+			$x=json_encode($arreglo);
 		}
-
 		return $x;
 	}
 	public function eliminar_pareja(){
 		$idactividad=$_REQUEST['idactividad'];
 		$idpaciente=$_REQUEST['idpaciente'];
 		$idper=$_REQUEST['idper'];
-
-		return "algo";
+		
+		$x=$this->borrar('actividad_per',"id",$idper);
+		/*
+		$sql="select * from actividad where idactividad=$idactividad";
+		$sth = $this->dbh->query($sql);
+		$actividad=$sth->fetch(PDO::FETCH_OBJ);
+		if($actividad->idtrack){
+			
+			$sql="select track_per.* from track
+				left outer join track_per on track_per.idtrack=track.id
+				left outer join actividad on actividad.idtrack=track_per.idtrack
+				left outer join actividad_per on actividad_per.idactividad=actividad.idactividad
+				where track.id=$actividad->idtrack and track_per.idpaciente=$idper and actividad_per.idpaciente=$idper";
+			$sth = $this->dbh->query($sql);
+			if($sth->rowCount()==0){
+				$track_per=$sth->fetch(PDO::FETCH_OBJ);
+				$x=$this->borrar('track_per',"id",$track_per->id);	
+			}
+			return "track";
+		}
+		*/
 	}
 }
 

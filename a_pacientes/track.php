@@ -14,12 +14,8 @@
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 	///////////////////////CODIGO
-	 $sql="SELECT * from track_per
-	 left outer join track on track.id=track_per.idtrack where track_per.idpaciente=:id and track.idterapia=:idterapia order by track.inicial desc, track.orden asc";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":id",$idpaciente);
-	$sth->bindValue(":idterapia",$idterapia);
-	$sth->execute();
+	$sql="SELECT * from track_per left outer join track on track.id=track_per.idtrack where track_per.idpaciente=$idpaciente and track.idterapia=$idterapia order by track.inicial desc, track.orden asc";
+	$sth = $db->dbh->query($sql);
 	$track=$sth->fetchAll(PDO::FETCH_OBJ);
 
 ?>

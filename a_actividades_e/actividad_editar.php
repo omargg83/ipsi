@@ -19,7 +19,7 @@
 	$observaciones="";
 	$indicaciones="";
 	$tipo="";
-	$visible="";
+	$visible="1";
 	if($idactividad>0){
 		$cuest=$db->actividad_editar($idactividad);
 		$nombre=$cuest->nombre;

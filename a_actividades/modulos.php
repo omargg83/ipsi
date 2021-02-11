@@ -89,7 +89,7 @@
 
 								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='modulos_mover' des='a_actividades/modulos' v_idmodulo='$key->id' v_idtrack='$idtrack' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
 
-								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/modulos' dix='trabajo' db='a_actividades/db_' fun='borrar_modulo' v_idmodulo='$key->id' v_idtrack='$idtrack' tp='¿Desea eliminar el modulo selecionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/modulos' dix='trabajo' db='a_actividades/db_' fun='borrar_modulo' v_idmodulo='$key->id' v_idtrack='$idtrack' tp='¿Desea eliminar el modulo selecionado?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
 								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades_e/modulos_editar' dix='trabajo' v_idmodulo='$key->id' v_idtrack='$idtrack'><i class='fas fa-pencil-alt'></i></button>";
 
@@ -169,7 +169,7 @@
 
 								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_mover' des='a_actividades/modulos' v_idactividad='$key->idactividad' v_idtrack='$idtrack' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
 
-								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/modulos' dix='trabajo' db='a_actividades/db_' fun='borrar_actividad' v_idactividad='$key->idactividad' v_idtrack='$idtrack' tp='¿Desea eliminar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/modulos' dix='trabajo' db='a_actividades/db_' fun='borrar_actividad' v_idactividad='$key->idactividad' v_idtrack='$idtrack' tp='¿Desea eliminar la actividad inicial seleccionada?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
 								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idtrack='$idtrack' des='a_actividades/modulos' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
 

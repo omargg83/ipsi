@@ -11,14 +11,10 @@
 	$track=$db->track_editar($modulo->idtrack);
 	$terapia=$db->terapia_editar($track->idterapia);
 
-	$sql="select * from actividad where idmodulo=:id and idpaciente is null";
+	$sql="select * from actividad where idmodulo=$idmodulo and idpaciente is null";
 	if($visible>=0)
-	$sql.=" and actividad.visible=:visible";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":id",$idmodulo);
-	if($visible>=0)
-	$sth->bindValue(":visible",$visible);
-	$sth->execute();
+	$sql.=" and actividad.visible=$visible";
+	$sth = $db->dbh->query($sql);
 	$actividad = $sth->fetchAll(PDO::FETCH_OBJ);
 
 ?>

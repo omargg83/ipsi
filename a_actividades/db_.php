@@ -69,6 +69,16 @@ class Cuest extends ipsi{
 	}
 	public function borrar_terapia(){
 		if (isset($_REQUEST['idterapia'])){$idterapia=$_REQUEST['idterapia'];}
+
+		$sql="SELECT * from track where idterapia='$idterapia' order by track.inicial asc, track.orden asc";
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()>0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene track');
+			return json_encode($arreglo);
+		}
 		return $this->borrar('terapias',"id",$idterapia);
 	}
 
@@ -130,6 +140,26 @@ class Cuest extends ipsi{
 	}
 	public function borrar_track(){
 		if (isset($_REQUEST['idtrack'])){$idtrack=$_REQUEST['idtrack'];}
+
+		$sql="select * from modulo where idtrack=$idtrack order by modulo.orden asc";
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()>0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene modulos');
+			return json_encode($arreglo);
+		}
+
+		$sql="select * from actividad where idtrack=$idtrack and idpaciente is null";
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()>0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene Actividad inicial');
+			return json_encode($arreglo);
+		}
 		return $this->borrar('track',"id",$idtrack);
 	}
 
@@ -186,6 +216,15 @@ class Cuest extends ipsi{
 	}
 	public function borrar_modulo(){
 		if (isset($_REQUEST['idmodulo'])){$idmodulo=$_REQUEST['idmodulo'];}
+		$sql="select * from actividad where idmodulo=$idmodulo and idpaciente is null";
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()>0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene Actividades');
+			return json_encode($arreglo);
+		}
 		return $this->borrar('modulo',"id",$idmodulo);
 	}
 
