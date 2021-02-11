@@ -186,21 +186,26 @@
 	</div>
 
 <?php
-
-	$sql="select * from actividad_per left outer join clientes on clientes.id=actividad_per.idpaciente where idactividad='$idactividad' order by actividad_per.id asc";
-	$permis = $db->dbh->query($sql);
-	echo "<table class='table table-sm'>";
-	foreach($permis->fetchAll(PDO::FETCH_OBJ) as $key){
-		echo "<tr>";
-		echo "<td>";
-		echo $key->id;
-		echo "</td>";
-		echo "<td>";
-		echo "$key->nombre $key->apellidop $key->apellidom";
-		echo "</td>";
-		echo "</tr>";
-	}
-	echo "</table>";
+	echo "<div class='card mb-1 ml-3'>";
+		$sql="select * from actividad_per left outer join clientes on clientes.id=actividad_per.idpaciente where idactividad='$idactividad' order by actividad_per.id asc";
+		$permis = $db->dbh->query($sql);
+		$orden=0;
+		echo "<table class='table table-sm'>";
+		foreach($permis->fetchAll(PDO::FETCH_OBJ) as $key){
+			echo "<tr>";
+			echo "<td>";
+				if($orden!=0){
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='eliminar_pareja' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idper='$key->id' tp='¿Desea eliminar la relación?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+				}
+			echo "</td>";
+			echo "<td>";
+			echo "$key->nombre $key->apellidop $key->apellidom";
+			echo "</td>";
+			echo "</tr>";
+			$orden++;
+		}
+		echo "</table>";
+	echo "</div>";
 	/////////<!-- Fin de actividad  -->
 
 	/////////<!-- Subactividades  -->
@@ -232,7 +237,7 @@
 					echo "<div class='col-7'>";
 						echo $key->nombre;
 					echo "</div>";
-					if($actividad->tipo=="evaluacion"){
+					//if($actividad->tipo=="evaluacion"){
 						$total=0;
 						$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
 						$contx = $db->dbh->query($sql);
@@ -247,7 +252,7 @@
 							echo "".$contx->rowCount()."/".$bloques->total."";
 							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
 						echo "</div>";
-					}
+					//}
 				echo "</div>";
 			echo "</div>";
 		echo "</div>";

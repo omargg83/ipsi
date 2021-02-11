@@ -27,7 +27,7 @@
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 	///////////////////////CODIGO
-	$sql="SELECT * from modulo_per left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=:id and modulo.idtrack=:idtrack";
+	$sql="SELECT * from modulo_per left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=:id and modulo.idtrack=:idtrack order by modulo.order asc";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":id",$idpaciente);
 	$sth->bindValue(":idtrack",$idtrack);
@@ -119,9 +119,9 @@
 									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' tp='¿Desea quitar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' v_dir='0' dix='trabajo' title='Mover arriba'><i class='fas fa-chevron-up'></i></button>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' v_dir='1' dix='trabajo' title='Mover abajo'><i class='fas fa-chevron-down'></i></button>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
 
 								echo "</div>";
 							echo "</div>";

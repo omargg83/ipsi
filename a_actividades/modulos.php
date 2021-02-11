@@ -6,6 +6,21 @@
 		$visible=$_REQUEST['visible'];
 	}
 
+	if($visible=="-1"){
+		/////////////////ordenar modulos
+		$sql="SELECT * from modulo where idtrack=$idtrack order by modulo.orden asc";
+		$sth = $db->dbh->query($sql);
+		$respx=$sth->fetchAll(PDO::FETCH_OBJ);
+
+		$orden=0;
+		foreach($respx as $row){
+			$arreglo =array();
+			$arreglo+=array('orden'=>$orden);
+			$x=$db->update('modulo',array('id'=>$row->id), $arreglo);
+			$orden++;
+		}
+	}
+
   $modulos=$db->modulos($idtrack);
 
 	$track=$db->track_editar($idtrack);
@@ -57,12 +72,11 @@
   <div class='row'>
   <?php
   	foreach($modulos as $key){
-  ?>
-		<div class='col-4 p-2 w-50 actcard'>
-			<div class='card' style='height:400px'>
-					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
-					<div class='card-header'>
-					<?php
+
+		echo "<div class='col-4 p-2 w-50 actcard'>";
+			echo "<div class='card' style='height:400px'>";
+					echo "<img style='vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;' src='img/lapiz.png'>";
+					echo "<div class='card-header'>";
 						echo "<div class='row'>";
 							echo "<div class='col-12 text-center'>";
 								echo $key->nombre;
@@ -70,6 +84,10 @@
 						echo "</div>";
 						echo "<div class='row justify-content-end'>";
 							echo "<div class='col-5'>";
+
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='modulos_mover' des='a_actividades/modulos' v_idmodulo='$key->id' v_idtrack='$idtrack' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
+
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='modulos_mover' des='a_actividades/modulos' v_idmodulo='$key->id' v_idtrack='$idtrack' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
 
 								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/modulos' dix='trabajo' db='a_actividades/db_' fun='borrar_modulo' v_idmodulo='$key->id' v_idtrack='$idtrack' tp='¿Desea eliminar el modulo selecionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
@@ -109,18 +127,28 @@
 	    echo "</div>";
 		}
 
+		if($visible=="-1"){
+			/////////////////ordenar modulos
+			$sql="SELECT * from actividad where idtrack=$idtrack and idpaciente is null order by actividad.orden asc";
+			$sth = $db->dbh->query($sql);
+			$respx=$sth->fetchAll(PDO::FETCH_OBJ);
+			$orden=0;
+			foreach($respx as $row){
+				$arreglo =array();
+				$arreglo+=array('orden'=>$orden);
+				$x=$db->update('actividad',array('idactividad'=>$row->idactividad), $arreglo);
+				$orden++;
+			}
+		}
 
-		$sql="select * from actividad where idtrack=:id and idpaciente is null";
+
+		$sql="select * from actividad where idtrack=$idtrack and idpaciente is null";
 		if($visible>=0)
-		$sql.=" and actividad.visible=:visible";
+		$sql.=" and actividad.visible=$visible";
 
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":id",$idtrack);
+		$sql.=" order by actividad.orden asc";
 
-		if($visible>=0)
-		$sth->bindValue(":visible",$visible);
-		
-		$sth->execute();
+		$sth = $db->dbh->query($sql);
 		$actividad=$sth->fetchAll(PDO::FETCH_OBJ);
 
 		foreach($actividad as $key){
@@ -134,14 +162,18 @@
 								echo $key->nombre;
 							echo "</div>";
 						echo "</div>";
-						echo "<div class='row justify-content-end'>";
-							echo "<div class='col-5'>";
+						echo "<div class='row '>";
+							echo "<div class='col-12'>";
 
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$key->idactividad' v_idtrack='$idtrack'><i class='fas fa-pencil-alt'></i></button>";
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_mover' des='a_actividades/modulos' v_idactividad='$key->idactividad' v_idtrack='$idtrack' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
 
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idtrack='$idtrack' des='a_actividades/modulos' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_mover' des='a_actividades/modulos' v_idactividad='$key->idactividad' v_idtrack='$idtrack' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
 
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/modulos' dix='trabajo' db='a_actividades/db_' fun='borrar_actividad' v_idactividad='$key->idactividad' v_idtrack='$idtrack' tp='¿Desea eliminar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/modulos' dix='trabajo' db='a_actividades/db_' fun='borrar_actividad' v_idactividad='$key->idactividad' v_idtrack='$idtrack' tp='¿Desea eliminar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idtrack='$idtrack' des='a_actividades/modulos' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
+
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$key->idactividad' v_idtrack='$idtrack'><i class='fas fa-pencil-alt'></i></button>";
 
 							echo "</div>";
 						echo "</div>";

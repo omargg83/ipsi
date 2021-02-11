@@ -20,9 +20,8 @@ class Cuest extends ipsi{
 
 	public function terapias(){
 		try{
-			$sql="select * from terapias order by nombre asc";
-			$sth = $this->dbh->prepare($sql);
-			$sth->execute();
+			$sql="select * from terapias order by orden asc";
+			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
@@ -75,10 +74,8 @@ class Cuest extends ipsi{
 
 	public function track($id1){
 		try{
-			$sql="select * from track where idterapia=:id order by inicial desc";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":id",$id1);
-			$sth->execute();
+			$sql="select * from track where idterapia=$id1 order by inicial desc, orden asc";
+			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
@@ -138,10 +135,8 @@ class Cuest extends ipsi{
 
 	public function modulos($id){
 		try{
-			$sql="select * from modulo where idtrack=:id";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":id",$id);
-			$sth->execute();
+			$sql="select * from modulo where idtrack=$id order by modulo.orden asc";
+			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
@@ -1239,7 +1234,7 @@ class Cuest extends ipsi{
 				}
 				else if($row->tipo=="archivo"){
 					echo "<div>";
-						echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
+						echo "<a href='".$this->doc.$row->texto."' download='$row->texto'>Descargar</a>";
 						echo "<hr>";
 					echo "</div>";
 				}
@@ -1307,7 +1302,7 @@ class Cuest extends ipsi{
 									echo "</div>";
 									if (strlen($respuesta->imagen)>0){
 										echo "<div class='col-1'>";
-											echo "<img src='".$db->doc.$respuesta->imagen."' width='20px'>";
+											echo "<img src='".$this->doc.$respuesta->imagen."' width='20px'>";
 										echo "</div>";
 									}
 									echo "<div class='col-5'>";
@@ -1351,7 +1346,80 @@ class Cuest extends ipsi{
 		echo "</div>";
 	}
 
+	public function actividad_mover(){
+		$idactividad=$_REQUEST['idactividad'];
+		$dir=$_REQUEST['dir'];
 
+		$sql="select * from actividad where idactividad=$idactividad";
+		$sth = $this->dbh->query($sql);
+		$actividad=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$actividad->orden-1.5;
+		}
+		else{
+			$orden=$actividad->orden+1.5;
+		}
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('actividad',array('idactividad'=>$actividad->idactividad), $arreglo);
+		return $x;
+	}
+	public function modulos_mover(){
+		$idmodulo=$_REQUEST['idmodulo'];
+		$dir=$_REQUEST['dir'];
+
+		$sql="select * from modulo where id=$idmodulo";
+		$sth = $this->dbh->query($sql);
+		$modulo=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$modulo->orden-1.5;
+		}
+		else{
+			$orden=$modulo->orden+1.5;
+		}
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('modulo',array('id'=>$modulo->id), $arreglo);
+		return $x;
+	}
+	public function track_mover(){
+		$idtrack=$_REQUEST['idtrack'];
+		$dir=$_REQUEST['dir'];
+
+		$sql="select * from track where id=$idtrack";
+		$sth = $this->dbh->query($sql);
+		$terapia=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$terapia->orden-1.5;
+		}
+		else{
+			$orden=$terapia->orden+1.5;
+		}
+
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('track',array('id'=>$terapia->id), $arreglo);
+		return $x;
+	}
+	public function terapia_mover(){
+		$idterapia=$_REQUEST['idterapia'];
+		$dir=$_REQUEST['dir'];
+
+		$sql="select * from terapias where id=$idterapia";
+		$sth = $this->dbh->query($sql);
+		$terapia=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$terapia->orden-1.5;
+		}
+		else{
+			$orden=$terapia->orden+1.5;
+		}
+
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('terapias',array('id'=>$terapia->id), $arreglo);
+		return $x;
+	}
 	public function contexto_mover(){
 		$idcontexto=$_REQUEST['idcontexto'];
 		$dir=$_REQUEST['dir'];

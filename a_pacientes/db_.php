@@ -1089,8 +1089,8 @@ class Cliente extends ipsi{
 					echo "</div>";
 				echo "</div>";
 
-				echo "<div id='collapsecon_".$row->id." class='collapse show' aria-labelledby='headingOne' data-parent='#accordion'>";
-					echo "<div class='card-body'>";
+
+				echo "<div class='card-body'>";
 
 							echo "<form is='act-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
 
@@ -1122,7 +1122,7 @@ class Cliente extends ipsi{
 								echo "<textarea class='form-control' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
 							}
 							else if($row->tipo=="fecha"){
-								echo "<input type='date' name='texto' id='texto' value='$fecha' class='form-control'>";
+								echo "<input type='date' name='fecha' id='fecha' value='$fecha' class='form-control'>";
 							}
 							else if($row->tipo=="archivores"){
 								if(strlen($archivo)>0){
@@ -1291,7 +1291,7 @@ class Cliente extends ipsi{
 
 						echo "</form>";
 					echo "</div>";
-				echo "</div>";
+
 			echo "</div>";
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
@@ -1528,22 +1528,30 @@ class Cliente extends ipsi{
 		$sth = $this->dbh->query($sql);
 		$actividad=$sth->fetch(PDO::FETCH_OBJ);
 		if($actividad->idtrack){
-			$arreglo=array();
-			$arreglo+=array('idpaciente'=>$idrel);
-			$arreglo+=array('idtrack'=>$actividad->idtrack);
-			$x=$this->insert('track_per', $arreglo);
+
+			$sql="select * from track_per where idpaciente=$idrel and idtrack=$actividad->idtrack";
+			$sth = $this->dbh->query($sql);
+			if($sth->rowCount()==0){
+				$arreglo=array();
+				$arreglo+=array('idpaciente'=>$idrel);
+				$arreglo+=array('idtrack'=>$actividad->idtrack);
+				$x=$this->insert('track_per', $arreglo);
+			}
 
 
 			$sql="select * from track where id=$actividad->idtrack";
 			$sth = $this->dbh->query($sql);
 			$track=$sth->fetch(PDO::FETCH_OBJ);
 
-			$arreglo=array();
-			$arreglo+=array('idpaciente'=>$idrel);
-			$arreglo+=array('idterapia'=>$track->idterapia);
-			$x=$this->insert('terapias_per', $arreglo);
-
-			return "track";
+			$sql="select * from terapias_per where idpaciente=$idrel and idterapia=$track->idterapia";
+			$sth = $this->dbh->query($sql);
+			if($sth->rowCount()==0){
+				$arreglo=array();
+				$arreglo+=array('idpaciente'=>$idrel);
+				$arreglo+=array('idterapia'=>$track->idterapia);
+				$x=$this->insert('terapias_per', $arreglo);
+			}
+			return $x;
 		}
 		if($actividad->idmodulo){
 
@@ -1551,6 +1559,13 @@ class Cliente extends ipsi{
 		}
 
 		return $x;
+	}
+	public function eliminar_pareja(){
+		$idactividad=$_REQUEST['idactividad'];
+		$idpaciente=$_REQUEST['idpaciente'];
+		$idper=$_REQUEST['idper'];
+
+		return "algo";
 	}
 }
 

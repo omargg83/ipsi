@@ -5,13 +5,10 @@
   $paciente = $db->cliente_editar($idpaciente);
   $nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
 
-  $sql="SELECT * from terapias_per left outer join terapias on terapias.id=terapias_per.idterapia where terapias_per.idpaciente=:id";
-  $sth = $db->dbh->prepare($sql);
-  $sth->bindValue(":id",$idpaciente);
-  $sth->execute();
+  $sql="SELECT * from terapias_per left outer join terapias on terapias.id=terapias_per.idterapia where terapias_per.idpaciente=$idpaciente order by terapias.orden asc";
+  $sth = $db->dbh->query($sql);
   $terapias=$sth->fetchAll(PDO::FETCH_OBJ);
 ?>
-
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
 		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>

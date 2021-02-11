@@ -79,15 +79,17 @@
 														if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
 															echo "<a class='nav-link' is='menu-link' href='#a_terapeutas/index' title='Terapeutas'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Terapeutas</a>";
 														}
+														if($_SESSION['nivel']==1 or $_SESSION['nivel']==2){
+															echo "<a class='nav-link' is='menu-link' href='#a_actividades/index' title='Actividades'><div class='sb-nav-link-icon'><i class='far fa-file-alt'></i></div>Catalogo Terapias</a>";
+														}
+
 														if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
 															echo "<a class='nav-link' is='menu-link' href='#a_usuarios/index' title='Usuarios'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Cuentas</a>";
 														}
 														if($_SESSION['nivel']==666 or $_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
 															echo "<a class='nav-link' is='menu-link' href='#a_agenda/index' title='Agenda'><div class='sb-nav-link-icon'><i class='fas fa-ticket-alt'></i></div>Agenda</a>";
 														}
-														if($_SESSION['nivel']==2){
-															echo "<a class='nav-link' is='menu-link' href='#a_actividades/index' title='Actividades'><div class='sb-nav-link-icon'><i class='far fa-file-alt'></i></div>Catalogo Terapias</a>";
-														}
+
 														if($_SESSION['nivel']==666){
 															echo "<a class='nav-link' is='menu-link' href='#a_pacientes/relaciones' v_idpaciente='".$_SESSION['idusuario']."' title='Usuarios'><div class='sb-nav-link-icon'><i class='far fa-file-alt'></i></div>Relaciones</a>";
 														}

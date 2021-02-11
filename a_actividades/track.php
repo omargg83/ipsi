@@ -1,8 +1,25 @@
 <?php
 	require_once("db_.php");
 	$idterapia=clean_var($_REQUEST['idterapia']);
+
+	/////////////////ordenar terapia
+	$sql="SELECT * from track where idterapia='$idterapia' order by track.inicial asc, track.orden asc";
+	$sth = $db->dbh->query($sql);
+	$respx=$sth->fetchAll(PDO::FETCH_OBJ);
+
+	$orden=0;
+	foreach($respx as $row){
+		$arreglo =array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$db->update('track',array('id'=>$row->id), $arreglo);
+		$orden++;
+	}
+
+
   $track=$db->track($idterapia);
   $terapia=$db->terapia_editar($idterapia);
+
+
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -26,11 +43,17 @@
 			<div class='card' style='height:400px'>
 					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
   				<div class='card-header'>
-						<?php echo $key->nombre; ?>
+						<?php echo $key->nombre;
 
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/track" dix="trabajo" db="a_actividades/db_" fun="borrar_track" v_idtrack="<?php echo $key->id; ?>" v_idterapia="<?php echo $idterapia; ?>" tp="¿Desea eliminar el track seleccionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='track_mover' des='a_actividades/track' v_idtrack='$key->id' v_idterapia='$idterapia' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
 
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/track_editar" dix="trabajo" v_idtrack="<?php echo $key->id; ?>" v_idterapia="<?php echo $idterapia; ?>"><i class="fas fa-pencil-alt"></i></button>
+							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='track_mover' des='a_actividades/track' v_idtrack='$key->id' v_idterapia='$idterapia' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
+
+							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/track' dix='trabajo' db='a_actividades/db_' fun='borrar_track' v_idtrack='$key->id' v_idterapia='$idterapia' tp='¿Desea eliminar el track seleccionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+
+							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades_e/track_editar' dix='trabajo' v_idtrack='$key->id' v_idterapia='$idterapia'><i class='fas fa-pencil-alt'></i></button>";
+
+						 ?>
 					</div>
   				<div class='card-body' style='overflow:auto; height:220px'>
   					<div class='row'>

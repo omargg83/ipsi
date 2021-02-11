@@ -610,6 +610,7 @@ onload = ()=> {
 		xhr.open('POST', db);
 
 		xhr.addEventListener('load',(data)=>{
+			console.log(data.target.response);
 			if (!isJSON(data.target.response)){
 				cargando(false);
 				Swal.fire({
@@ -621,15 +622,12 @@ onload = ()=> {
 				return;
 			}
 			var respon = JSON.parse(data.target.response);
-
 			if (respon.error==0){
 				cargando(false);
-
 				if(document.getElementById('progreso_'+respon.idsubactividad)){
 					document.getElementById('progreso_'+respon.idsubactividad).innerHTML=respon.progreso;
 				}
 				document.getElementById('prog_'+respon.idactividad).innerHTML=respon.proact;
-
 				carga_contexto(idcontexto, idactividad, idpaciente);
 				Swal.fire({
 					position: 'bottom-start',

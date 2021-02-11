@@ -110,8 +110,8 @@
 						<label>Visible:</label>
 						<select class='form-control' id='visible' name='visible'>
 							<?php
-								echo "<option value='0'"; if ($visible==0) { echo " selected"; } echo ">Oculta</option>";
 								echo "<option value='1'"; if ($visible==1) { echo " selected"; } echo ">Mostrar</option>";
+								echo "<option value='0'"; if ($visible==0) { echo " selected"; } echo ">Oculta</option>";
 							?>
 						</select>
 					</div>
