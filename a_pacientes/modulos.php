@@ -107,16 +107,17 @@
 								echo "</div>";
 							echo "</div>";
 							echo "<div class='row justify-content-end'>";
-								echo "<div class='col-6'>";
+								echo "<div class='col-12'>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' des='a_pacientes/modulos' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' tp='¿Desea quitar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
 
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' tp='¿Desea quitar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' des='a_pacientes/modulos' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack' v_proviene='moduloscatalogo'><i class='fas fa-pencil-alt'></i></button>";
 
 								echo "</div>";
 							echo "</div>";
@@ -132,7 +133,7 @@
 					<div class='card-body'>
 						<div class='row'>
 							<div class='col-12'>
-								<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" v_idactividad="<?php echo $key->idactividad; ?>" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Ver inicial</button>
+								<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes/actividad_ver" dix="trabajo" v_idactividad="<?php echo $key->idactividad; ?>" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente='<?php echo $idpaciente; ?>' v_proviene='moduloscatalogo'>Ver inicial</button>
 							</div>
 						</div>
 					</div>

@@ -116,10 +116,10 @@
 						<?php
 
 						if($inicial==0){
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idmodulo='$actividad->idmodulo' ><i class='fas fa-pencil-alt'></i></button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_proviene='actividadver'><i class='fas fa-pencil-alt'></i></button>";
 						}
 						else{
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idterapia='$idterapia' ><i class='fas fa-pencil-alt'></i></button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idterapia='$idterapia' v_proviene='actividadver'><i class='fas fa-pencil-alt'></i></button>";
 						}
 						if($actividad->tipo=="evaluacion"){
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='$idactividad' omodal='1' v_idescala='0'><i class='fas fa-file-medical-alt'></i></button>";

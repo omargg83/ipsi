@@ -207,8 +207,8 @@
       <link href="librerias15/animate.css" rel="stylesheet"/>
 
       <!-- WYSWYG   -->
-      <link href="librerias15/summernote8.12/summernote-lite.css" rel="stylesheet" type="text/css">
-      <script src="librerias15/summernote8.12/summernote-lite.js"></script>
+      <link href="librerias15/summernote8.12/summernote.css" rel="stylesheet" type="text/css">
+      <script src="librerias15/summernote8.12/summernote.js"></script>
       <script src="librerias15/summernote8.12/lang/summernote-es-ES.js"></script>
 
       <!--   Alertas   -->

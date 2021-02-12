@@ -7,6 +7,20 @@
 		$visible=$_REQUEST['visible'];
 	}
 
+	if($visible=="-1"){
+		/////////////////ordenar modulos
+		$sql="SELECT * from actividad where idmodulo=$idmodulo and idpaciente is null order by actividad.orden asc";
+		$sth = $db->dbh->query($sql);
+		$respx=$sth->fetchAll(PDO::FETCH_OBJ);
+		$orden=0;
+		foreach($respx as $row){
+			$arreglo =array();
+			$arreglo+=array('orden'=>$orden);
+			$x=$db->update('actividad',array('idactividad'=>$row->idactividad), $arreglo);
+			$orden++;
+		}
+	}
+
 	$modulo=$db->modulo_editar($idmodulo);
 	$track=$db->track_editar($modulo->idtrack);
 	$terapia=$db->terapia_editar($track->idterapia);
@@ -14,6 +28,7 @@
 	$sql="select * from actividad where idmodulo=$idmodulo and idpaciente is null";
 	if($visible>=0)
 	$sql.=" and actividad.visible=$visible";
+	$sql.=" order by orden asc";
 	$sth = $db->dbh->query($sql);
 	$actividad = $sth->fetchAll(PDO::FETCH_OBJ);
 
@@ -54,8 +69,6 @@
 
 <div class='container'>
 	<div class='row'>
-
-
 	<?php
 		foreach($actividad as $key){
 	?>
@@ -70,13 +83,18 @@
 								echo "</div>";
 							echo "</div>";
 							echo "<div class='row justify-content-end'>";
-								echo "<div class='col-5'>";
+								echo "<div class='col-12'>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$key->idactividad' v_idmodulo='$idmodulo' v_origen='actividades'><i class='fas fa-pencil-alt'></i></button>";
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_mover' des='a_actividades/actividades' v_idactividad='$key->idactividad' v_idmodulo='$idmodulo' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idmodulo='$idmodulo' des='a_actividades/actividades' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_mover' des='a_actividades/actividades' v_idactividad='$key->idactividad' v_idmodulo='$idmodulo' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividades' dix='trabajo' db='a_actividades/db_' fun='borrar_actividad' v_idactividad='$key->idactividad' v_idmodulo='$idmodulo' tp='¿Desea eliminar la actividad seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/actividades' dix='trabajo' db='a_actividades/db_' fun='borrar_actividad' v_idactividad='$key->idactividad' v_idmodulo='$idmodulo' tp='¿Desea eliminar la actividad seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+
+
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idmodulo='$idmodulo' des='a_actividades/actividades' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
+
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$key->idactividad' v_idmodulo='$idmodulo' v_proviene='actividades'><i class='fas fa-pencil-alt'></i></button>";
 
 								echo "</div>";
 							echo "</div>";
@@ -92,7 +110,7 @@
 					<div class='card-footer'>
 						<div class='row'>
 							<div class='col-12'>
-								<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" v_idactividad="<?php echo $key->idactividad; ?>" >Ver</button>
+								<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" v_idactividad="<?php echo $key->idactividad; ?>">Ver</button>
 							</div>
 						</div>
 					</div>
@@ -104,7 +122,7 @@
 		<div id='' class='col-4 p-3 w-50'>
 			<div class="card" style='height:200px;'>
 				<div class='card-body text-center'>
-					<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="0" v_idmodulo="<?php echo $idmodulo; ?>" >Nueva actividad</button>
+					<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="0" v_idmodulo="<?php echo $idmodulo; ?>" v_proviene='actividades'>Nueva actividad</button>
 				</div>
 			</div>
 		</div>

@@ -8,6 +8,22 @@
 		$visible=$_REQUEST['visible'];
 	}
 
+
+	if($visible=="-1"){
+		/////////////////ordenar modulos
+		$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=$idpaciente and actividad.idmodulo=$idmodulo order by actividad.orden asc";
+		$sth = $db->dbh->query($sql);
+		$respx=$sth->fetchAll(PDO::FETCH_OBJ);
+		$orden=0;
+		foreach($respx as $row){
+			$arreglo =array();
+			$arreglo+=array('orden'=>$orden);
+			$x=$db->update('actividad',array('idactividad'=>$row->idactividad), $arreglo);
+			$orden++;
+		}
+	}
+
+
   /////////////////////breadcrumb
   $paciente = $db->cliente_editar($idpaciente);
   $nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
@@ -32,22 +48,14 @@
 
 
   ///////////////////////CODIGO
-	$sql="select * from actividad
-	where actividad.idpaciente=:id and actividad.idmodulo=:idmodulo";
-
-	$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idmodulo=:idmodulo";
+	$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=$idpaciente and actividad.idmodulo=$idmodulo";
 
 	if($visible>=0)
-	$sql.=" and actividad.visible=:visible";
+	$sql.=" and actividad.visible=$visible";
+	$sql.=" order by actividad.orden asc";
+	$sth = $db->dbh->query($sql);
 
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":id",$idpaciente);
-	$sth->bindValue(":idmodulo",$idmodulo);
 
-	if($visible>=0)
-	$sth->bindValue(":visible",$visible);
-
-	$sth->execute();
 	$actividades=$sth->fetchAll(PDO::FETCH_OBJ);
 
 ?>
@@ -105,11 +113,19 @@
 								echo "</div>";
 							echo "</div>";
 							echo "<div class='row justify-content-end'>";
-								echo "<div class='col-4'>";
+								echo "<div class='col-12'>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$track->id' v_idmodulo='$idmodulo' des='a_pacientes/actividades' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/actividades' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
+
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/actividades' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
 
 									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/actividades' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$track->id' v_idmodulo='$idmodulo' tp='¿Desea quitar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idtrack='$track->id' v_idmodulo='$idmodulo' des='a_pacientes/actividades' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
+
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo' v_proviene='actividades'><i class='fas fa-pencil-alt'></i></button>";
+
+
 								echo "</div>";
 							echo "</div>";
 						?>

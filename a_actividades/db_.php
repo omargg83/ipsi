@@ -295,6 +295,7 @@ class Cuest extends ipsi{
 			}
 
 			if($idactividad==0){
+				$arreglo+=array('orden'=>9999);
 				$arreglo+=array('fecha'=>date("Y-m-d H:i:s"));
 				$arreglo+=array('idcreado'=>clean_var($_SESSION['idusuario']));
 				if (isset($_REQUEST['idpaciente'])){
@@ -309,7 +310,7 @@ class Cuest extends ipsi{
 					$arreglo =array();
 					$arreglo+=array('idpaciente'=>$idpaciente);
 					$arreglo+=array('idactividad'=>$resp->id1);
-					$x=$this->insert('actividad_per',$arreglo);
+					$this->insert('actividad_per',$arreglo);
 				}
 			}
 			else{

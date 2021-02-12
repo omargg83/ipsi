@@ -80,7 +80,7 @@
 	      <div class="card" style='height:200px;'>
 	        <div class='card-body text-center'>
 						<?php
-	          	echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idactividad='0' v_idmodulo='$idmodulo' v_idpaciente='$idpaciente' cmodal='2'>Nueva actividad</button>";
+	          	echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idactividad='0' v_idmodulo='$idmodulo' v_idpaciente='$idpaciente' cmodal='2' v_proviene='nuevaagregar'>Nueva actividad</button>";
 						?>
 	        </div>
 	      </div>

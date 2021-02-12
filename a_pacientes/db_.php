@@ -734,7 +734,7 @@ class Cliente extends ipsi{
 			$arreglo+=array('terror'=>'Contiene tracks');
 			return json_encode($arreglo);
 		}
-		
+
 	}
 	public function quitar_track(){
 		$idtrack=clean_var($_REQUEST['idtrack']);
@@ -1185,6 +1185,7 @@ class Cliente extends ipsi{
 												}
 
 												echo "<select class='form-control form-control-sm' name='select_".$idx."'>";
+												echo "<option value='' selected disabled>Seleccione una opcion</option>";
 												foreach ($rx as $respuesta) {
 													//////////////////para obtener Respuestas
 													echo "<option value='$respuesta->id' ";
@@ -1337,7 +1338,7 @@ class Cliente extends ipsi{
 	}
 	public function relacion_buscar($texto,$idpaciente){
 		try{
-			if($_SESSION['nivel']==1) 
+			if($_SESSION['nivel']==1)
 			$sql="select * from clientes where id!='".$idpaciente."' and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
 
 
@@ -1347,8 +1348,8 @@ class Cliente extends ipsi{
 
 			if($_SESSION['nivel']==3)
 			$sql="select * from clientes where id!='".$idpaciente."' and idsucursal='".$_SESSION['idsucursal']."' and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
-			
-			if($_SESSION['nivel']==4) 
+
+			if($_SESSION['nivel']==4)
 			$sql="select * from clientes where id!='".$idpaciente."' and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
 
 			$sth = $this->dbh->query($sql);
@@ -1552,7 +1553,6 @@ class Cliente extends ipsi{
 		else{
 			$orden=$actividad->orden+1.5;
 		}
-
 		$arreglo=array();
 		$arreglo+=array('orden'=>$orden);
 		$x=$this->update('actividad',array('idactividad'=>$actividad->idactividad), $arreglo);
@@ -1635,27 +1635,8 @@ class Cliente extends ipsi{
 		$idactividad=$_REQUEST['idactividad'];
 		$idpaciente=$_REQUEST['idpaciente'];
 		$idper=$_REQUEST['idper'];
-		
-		$x=$this->borrar('actividad_per',"id",$idper);
-		/*
-		$sql="select * from actividad where idactividad=$idactividad";
-		$sth = $this->dbh->query($sql);
-		$actividad=$sth->fetch(PDO::FETCH_OBJ);
-		if($actividad->idtrack){
-			
-			$sql="select track_per.* from track
-				left outer join track_per on track_per.idtrack=track.id
-				left outer join actividad on actividad.idtrack=track_per.idtrack
-				left outer join actividad_per on actividad_per.idactividad=actividad.idactividad
-				where track.id=$actividad->idtrack and track_per.idpaciente=$idper and actividad_per.idpaciente=$idper";
-			$sth = $this->dbh->query($sql);
-			if($sth->rowCount()==0){
-				$track_per=$sth->fetch(PDO::FETCH_OBJ);
-				$x=$this->borrar('track_per',"id",$track_per->id);	
-			}
-			return "track";
-		}
-		*/
+
+		return $this->borrar('actividad_per',"id",$idper);
 	}
 }
 

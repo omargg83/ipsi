@@ -83,7 +83,7 @@
 							echo "</div>";
 						echo "</div>";
 						echo "<div class='row justify-content-end'>";
-							echo "<div class='col-5'>";
+							echo "<div class='col-12'>";
 
 								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='modulos_mover' des='a_actividades/modulos' v_idmodulo='$key->id' v_idtrack='$idtrack' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
 
@@ -173,7 +173,7 @@
 
 								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idtrack='$idtrack' des='a_actividades/modulos' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
 
-								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$key->idactividad' v_idtrack='$idtrack'><i class='fas fa-pencil-alt'></i></button>";
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$key->idactividad' v_idtrack='$idtrack' v_proviene='moduloscatalogo'><i class='fas fa-pencil-alt'></i></button>";
 
 							echo "</div>";
 						echo "</div>";
@@ -202,7 +202,7 @@
 			echo "<div id='' class='col-4 p-3 w-50'>";
 	      echo "<div class='card' style='height:200px;'>";
 	        echo "<div class='card-body text-center'>";
-	          echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='0' v_idtrack='$idtrack'>Nueva Actividad inicial</button>";
+	          echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='0' v_idtrack='$idtrack' v_proviene='moduloscatalogo'>Nueva Actividad inicial</button>";
 	        echo "</div>";
 	      echo "</div>";
 	    echo "</div>";

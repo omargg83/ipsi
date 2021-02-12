@@ -472,7 +472,13 @@ onload = ()=> {
 			lang: 'es-ES',
 			placeholder: 'Texto',
 			tabsize: 5,
-			height: 200
+			height: 200,
+			toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+        ]
 		});
 
 	}

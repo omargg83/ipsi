@@ -132,8 +132,16 @@
 				<div class="col-2">
 
 					<!---Editar actividad --->
-					<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes_e/actividad_editar" dix="trabajo"
-					v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idtrack="<?php echo $idtrack; ?>"><i class="fas fa-pencil-alt"></i></button>
+					<?php
+						if($inicial==0){
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/actividad_editar' dix='trabajo'
+							v_idactividad='$idactividad' v_idpaciente='$idpaciente'  v_proviene='actividadver'><i class='fas fa-pencil-alt'></i></button>";
+						}
+						else{
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/actividad_editar' dix='trabajo'
+							v_idactividad='$idactividad' v_idpaciente='$idpaciente'  v_proviene='actividadver'><i class='fas fa-pencil-alt'></i></button>";
+						}
+					?>
 
 					<button class="btn btn-warning btn-sm" type="button" is="b-link" db="a_actividades/db_" fun="publicar_actividad" v_idactividad="<?php echo $idactividad; ?>" tp="¿Desea publicar la actividad en el catalogo?" title="Catalogo"><i class='fas fa-cloud-upload-alt'></i></button>
 
@@ -186,26 +194,29 @@
 	</div>
 
 <?php
-	echo "<div class='card mb-1 ml-3'>";
+
 		$sql="select actividad_per.*,clientes.nombre, clientes.apellidop, clientes.apellidom from actividad_per left outer join clientes on clientes.id=actividad_per.idpaciente where idactividad='$idactividad' order by actividad_per.id asc";
 		$permis = $db->dbh->query($sql);
-		$orden=0;
-		echo "<table class='table table-sm'>";
-		foreach($permis->fetchAll(PDO::FETCH_OBJ) as $key){
-			echo "<tr>";
-			echo "<td>";
-				if($orden!=0){
-					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_pacientes/db_' fun='eliminar_pareja' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idper='$key->id' tp='¿Desea eliminar la relación?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+		if($permis->rowCount()>1){
+			echo "<div class='card mb-1 ml-3'>";
+				$orden=0;
+				echo "<table class='table table-sm'>";
+				foreach($permis->fetchAll(PDO::FETCH_OBJ) as $key){
+					echo "<tr>";
+					echo "<td>";
+						if($orden!=0){
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_pacientes/db_' fun='eliminar_pareja' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idper='$key->id' tp='¿Desea eliminar la relación?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+						}
+					echo "</td>";
+					echo "<td>";
+					echo "$key->nombre $key->apellidop $key->apellidom";
+					echo "</td>";
+					echo "</tr>";
+					$orden++;
 				}
-			echo "</td>";
-			echo "<td>";
-			echo "$key->nombre $key->apellidop $key->apellidom";
-			echo "</td>";
-			echo "</tr>";
-			$orden++;
+				echo "</table>";
+			echo "</div>";
 		}
-		echo "</table>";
-	echo "</div>";
 	/////////<!-- Fin de actividad  -->
 
 	/////////<!-- Subactividades  -->
@@ -219,7 +230,7 @@
 				echo "<div class='row'>";
 					echo "<div class='col-3'>";
 						/////////////////////////////////////////////<!-- Editar subactividad --->
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/subactividad_editar' v_idsubactividad='$key->idsubactividad' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
+						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/subactividad_editar' v_idsubactividad='$key->idsubactividad' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-pencil-alt'></i></button>";
 
 						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='subactividad_duplicar' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea duplicar la subactividad?' title='Duplicar'><i class='far fa-clone'></i></button>";
 
