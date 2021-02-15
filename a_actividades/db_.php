@@ -254,10 +254,8 @@ class Cuest extends ipsi{
 	}
 	public function actividad_editar($id){
 		try{
-			$sql="select * from actividad where idactividad=:id";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":id",$id);
-			$sth->execute();
+			$sql="select * from actividad where idactividad=$id";
+			$sth = $this->dbh->query($sql);
 			return $sth->fetch(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
@@ -286,12 +284,8 @@ class Cuest extends ipsi{
 				$arreglo+=array('visible'=>clean_var($_REQUEST['visible']));
 			}
 
-			if (isset($_REQUEST['idmodulo'])){
-				$arreglo+=array('idmodulo'=>clean_var($_REQUEST['idmodulo']));
-			}
-
-			if (isset($_REQUEST['idtrack'])){
-				$arreglo+=array('idtrack'=>clean_var($_REQUEST['idtrack']));
+			if (isset($_REQUEST['idgrupo'])){
+				$arreglo+=array('idgrupo'=>clean_var($_REQUEST['idgrupo']));
 			}
 
 			if($idactividad==0){
@@ -1060,7 +1054,6 @@ class Cuest extends ipsi{
 				$paciente=1;
 			}
 
-
 			$sql="select * from actividad where idactividad=$idactividad";
 			$sth = $this->dbh->query($sql);
 			$resp=$sth->fetch(PDO::FETCH_OBJ);
@@ -1068,8 +1061,7 @@ class Cuest extends ipsi{
 
 			////////////Clonar actividad
 			$arreglo=array();
-			$arreglo+=array('idmodulo'=>$resp->idmodulo);
-			$arreglo+=array('idtrack'=>$resp->idtrack);
+			$arreglo+=array('idgrupo'=>$resp->idgrupo);
 			$arreglo+=array('idcreado'=>$resp->idcreado);
 			$arreglo+=array('nombre'=>$resp->nombre." Duplicada");
 			$arreglo+=array('indicaciones'=>$resp->indicaciones);
@@ -1548,6 +1540,62 @@ class Cuest extends ipsi{
 		$x=$this->salto_pagina();
 		return $x;
 	}
+
+	public function guardar_grupo(){
+		$idgrupo=$_REQUEST['idgrupo'];
+		$arreglo=array();
+		if(isset($_REQUEST['grupo'])){
+			$arreglo+=array('grupo'=>$_REQUEST['grupo']);
+		}
+		if(isset($_REQUEST['idmodulo'])){
+			$arreglo+=array('idmodulo'=>$_REQUEST['idmodulo']);
+		}
+		if(isset($_REQUEST['idtrack'])){
+			$arreglo+=array('idtrack'=>$_REQUEST['idtrack']);
+		}
+		if(isset($_REQUEST['observaciones'])){
+			$arreglo+=array('observaciones'=>$_REQUEST['observaciones']);
+		}		
+		if($idgrupo==0){
+			$x=$this->insert('grupo_actividad',$arreglo);
+		}
+		else{
+			$x=$this->update('grupo_actividad',array('idgrupo'=>$idgrupo), $arreglo);
+		}
+		return $x;
+	}
+	public function borrar_grupo(){
+		if (isset($_REQUEST['idgrupo'])){$idgrupo=$_REQUEST['idgrupo'];}
+		$sql="select * from actividad where idgrupo=$idgrupo";
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()>0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene Actividades');
+			return json_encode($arreglo);
+		}
+		return $this->borrar('grupo_actividad',"idgrupo",$idgrupo);
+	}
+	public function grupo_mover(){
+		$idgrupo=$_REQUEST['idgrupo'];
+		$dir=$_REQUEST['dir'];
+
+		$sql="select * from grupo_actividad where idgrupo=$idgrupo";
+		$sth = $this->dbh->query($sql);
+		$grupo=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$grupo->orden-1.5;
+		}
+		else{
+			$orden=$grupo->orden+1.5;
+		}
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('grupo_actividad',array('idgrupo'=>$grupo->idgrupo), $arreglo);
+		return $x;
+	}
+
 }
 
 $db = new Cuest();

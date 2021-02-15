@@ -67,7 +67,7 @@
   	<?php
   	}
   	?>
-		<div id='' class='col-4 p-3 w-50'>
+	<div id='' class='col-4 p-3 w-50'>
       <div class="card" style='height:200px;'>
         <div class='card-body text-center'>
           <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades_e/terapias_editar" dix="trabajo" v_idterapia="0">Nueva terapia</button>

@@ -3,7 +3,11 @@
 
 	$idactividad=clean_var($_REQUEST['idactividad']);
   	$actividad = $db->actividad_editar($idactividad);
+	$nombre=$actividad->nombre;
+	$observaciones=$actividad->observaciones;
+	$indicaciones=$actividad->indicaciones;
 
+	
 	if(isset($_REQUEST['pagina'])){
 		$pagina=$_REQUEST['pagina'];
 	}
@@ -20,22 +24,29 @@
 	$no_paginas=$sth->rowCount();
 	$paginas=$sth->fetch(PDO::FETCH_OBJ);
 
-	$nombre=$actividad->nombre;
-	$observaciones=$actividad->observaciones;
-	$indicaciones=$actividad->indicaciones;
+
+	$sql="select * from grupo_actividad where idgrupo=$actividad->idgrupo";
+	$sth = $db->dbh->query($sql);
+	$grupo=$sth->fetch(PDO::FETCH_OBJ);
+
 	$inicial=0;
 
-	if($actividad->idtrack){
+	if($grupo->idtrack){
 		$inicial=1;
-		$idtrack=$actividad->idtrack;
+		$idtrack=$grupo->idtrack;
 	}
 	else{
-		$modulo = $db->modulo_editar($actividad->idmodulo);
+		$modulo = $db->modulo_editar($grupo->idmodulo);
 		$idtrack=$modulo->idtrack;
 	}
+
+
 	$track=$db->track_editar($idtrack);
 	$idterapia=$track->idterapia;
 	$terapia=$db->terapia_editar($idterapia);
+
+	
+
 
 	/////////////////ordenar subactividad
 	$sql="SELECT * from subactividad where subactividad.idactividad=$idactividad order by subactividad.orden asc, subactividad.nombre asc";
@@ -84,28 +95,32 @@
 	}
 	$sth = $db->dbh->query($sql);
 	$subactividad=$sth->fetchAll(PDO::FETCH_OBJ);
+
+	//echo "inicial:".$inicial;
+
+echo "<nav aria-label='breadcrumb'>";
+	echo "<ol class='breadcrumb'>";
+		echo "<li class='breadcrumb-item' is='li-link' des='a_actividades/terapias' dix='trabajo' >Inicio</li>";
+		echo "<li class='breadcrumb-item' is='li-link' des='a_actividades/track' dix='trabajo' title='Track' v_idterapia='$terapia->id'>$terapia->nombre</li>";
+		echo "<li class='breadcrumb-item' is='li-link' des='a_actividades/modulos' dix='trabajo' v_idtrack='$track->id'>$track->nombre</li>";
+		if($inicial==0){
+			echo "<li class='breadcrumb-item' is='li-link' des='a_actividades/actividades' dix='trabajo' v_idmodulo='$modulo->id'>$modulo->nombre</li>";
+		}
+
+		echo "<li class='breadcrumb-item' is='li-link' des='a_actividades/grupos' dix='trabajo' v_idgrupo='$grupo->idgrupo'>$grupo->grupo</li>";
+		echo "<li class='breadcrumb-item active' is='li-link' des='a_actividades/actividad_ver' dix='trabajo' v_idactividad='$actividad->idactividad' >$actividad->nombre</li>";
+
+		if($inicial==0){
+			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/grupos' dix='trabajo' v_idgrupo='$grupo->idgrupo'>Regresar</button>";
+		}
+		else{
+			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/grupos' dix='trabajo' v_idgrupo='$grupo->idgrupo' >Regresar</button>";
+		}
+		
+	echo "</ol>";
+echo "</nav>";
+
 ?>
-
-<nav aria-label='breadcrumb'>
-	<ol class='breadcrumb'>
-		<li class="breadcrumb-item" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="">Inicio</li>
-		<li class="breadcrumb-item" is="li-link" des="a_actividades/track" dix="trabajo" title="Track" v_idterapia="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
-		<li class="breadcrumb-item" is="li-link" des="a_actividades/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
-		<?php
-			if($inicial==0){
-				echo "<li class='breadcrumb-item' is='li-link' des='a_actividades/actividades' dix='trabajo' v_idmodulo='$modulo->id' >$modulo->nombre</li>";
-			}
-			echo "<li class='breadcrumb-item active' is='li-link' des='a_actividades/actividad_ver' dix='trabajo' v_idactividad='$actividad->idactividad' >$actividad->nombre</li>";
-			if($inicial==0){
-				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividades' dix='trabajo' v_idmodulo='$modulo->id'>Regresar</button>";
-			}
-			else{
-				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/modulos' dix='trabajo' v_idtrack='$idtrack' >Regresar</button>";
-			}
-		?>
-	</ol>
-</nav>
-
 <div class='container'>
 <!-- actividad  -->
 	<div class="card mb-3">
