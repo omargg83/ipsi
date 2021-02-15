@@ -21,7 +21,7 @@
 		}
 	}
 
-  $modulos=$db->modulos($idtrack);
+  	$modulos=$db->modulos($idtrack);
 
 	$track=$db->track_editar($idtrack);
 	$inicial=$track->inicial;
@@ -31,22 +31,22 @@
 
  <nav aria-label='breadcrumb'>
    <ol class='breadcrumb'>
-     <li class="breadcrumb-item" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="" title="Inicio">Inicio</lis>
-     <li class="breadcrumb-item" is="li-link" des="a_actividades/track" dix="trabajo" title="Terapias" v_idterapia="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
-     <li class="breadcrumb-item active" is="li-link" des="a_actividades/modulos" dix="trabajo" title="Track" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
-		 <button class="btn btn-warning btn-sm" is="b-link" des="a_actividades/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>">Regresar</button>
+    <li class="breadcrumb-item" is="li-link" des="a_actividades/terapias" dix="trabajo" id1="" title="Inicio">Inicio</lis>
+    <li class="breadcrumb-item" is="li-link" des="a_actividades/track" dix="trabajo" title="Terapias" v_idterapia="<?php echo $terapia->id; ?>"><?php echo $terapia->nombre; ?></li>
+    <li class="breadcrumb-item active" is="li-link" des="a_actividades/modulos" dix="trabajo" title="Track" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
+	<button class="btn btn-warning btn-sm" is="b-link" des="a_actividades/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>">Regresar</button>
    </ol>
  </nav>
 
 	<?php
 		if($inicial==1){
 			echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
-		   echo "Actividad inicial";
+		   	echo "Actividad inicial";
 		 	echo "</div>";
 		}
 		else{
 			echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
-		   echo "Modulos";
+		   	echo "Modulos";
 		 	echo "</div>";
 		}
 

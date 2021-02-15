@@ -1083,29 +1083,29 @@ class Cliente extends ipsi{
 					echo "<div class='row'>";
 						echo "<div class='col-5'>";
 							///////////////editar contexto
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' title='Editar contexto'><i class='fas fa-pencil-alt'></i></button>";
 
 							///////////////editar incisos
 							if($row->tipo=="pregunta"){
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/incisos_lista' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-tasks'></i></button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/incisos_lista' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' title='Editar incisos'><i class='fas fa-tasks'></i></button>";
 							}
 
 							////////////////copiar
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_duplicar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea duplicar el bloque?' title='Duplicar'><i class='far fa-copy'></i></button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_duplicar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea duplicar el bloque?' title='Duplicar actividad'><i class='far fa-copy'></i></button>";
 
 							////////////////eliminar bloque
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_borrar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea eliminar el bloque selecionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_borrar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea eliminar el bloque selecionado?' title='Eliminar bloque'><i class='far fa-trash-alt'></i></button>";
 
 							////////////////condiciones
-							echo "<button "; if($row->idcond){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idcontexto='$row->id'><i class='fas fa-project-diagram'></i></button>";
+							echo "<button "; if($row->idcond){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idcontexto='$row->id' title='Condicional' ><i class='fas fa-project-diagram'></i></button>";
 
 							echo "<button "; if($row->salto){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='salto_pagina' tp='¿Desea";
 							if(!$row->salto){ echo " insertar ";} else{ echo " quitar el ";}
-							echo "salto de pagina?' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' v_salto='$row->salto' title='Borrar'><i class='far fa-sticky-note'></i></button>";
+							echo "salto de pagina?' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' v_salto='$row->salto' title='Salto de página'><i class='far fa-sticky-note'></i></button>";
 
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='contexto_mover' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id' v_dir='0' dix='trabajo'><i class='fas fa-chevron-up'></i></button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='contexto_mover' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id' v_dir='0' dix='trabajo' title='Mover arriba'><i class='fas fa-chevron-up'></i></button>";
 
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='contexto_mover' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id' v_dir='1' dix='trabajo'><i class='fas fa-chevron-down'></i></button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='contexto_mover' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id' v_dir='1' dix='trabajo' title='Mover abajo'><i class='fas fa-chevron-down'></i></button>";
 
 						echo "</div>";
 						echo "<div class='col-5'>";

@@ -366,9 +366,7 @@
 				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/escala2' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idescala='$escala->id'><i class='fas fa-file-medical-alt'></i></button>";
 
 				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='borrar_escalaactitivdad' v_idactividad='$idactividad' v_idsubactividad='$key->idsubactividad' v_idpaciente='$idpaciente' tp='¿Desea eliminar la variable?' tt='Ya no podrá deshacer el cambio' v_id='$escala->id' title='Borrar'><i class='far fa-trash-alt'></i></button>";
-
  					echo "Escala:".$escala->nombre;
-
  				echo "</div>";
 				echo "<div class='card-body'>";
 
