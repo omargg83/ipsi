@@ -25,8 +25,8 @@
 	}
 
 	$sql="SELECT * from grupo_actividad where idgrupo=$idgrupo";
-    $sth = $db->dbh->query($sql);
-    $grupo=$sth->fetch(PDO::FETCH_OBJ);
+  $sth = $db->dbh->query($sql);
+  $grupo=$sth->fetch(PDO::FETCH_OBJ);
 	if(strlen($grupo->idtrack)){
 		$idtrack=$grupo->idtrack;
 		$track=$db->track_editar($idtrack);
@@ -112,9 +112,9 @@
 			}
 			echo "<input type='hidden' class='form-control' id='idactividad' name='idactividad' value='$idactividad' readonly>";
 
-			
+
 			echo "<input type='hidden' class='form-control' id='idgrupo' name='idgrupo' value='$idgrupo' readonly>";
-			
+
 	?>
 
 		<div class='card'>

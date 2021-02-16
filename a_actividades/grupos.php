@@ -26,7 +26,7 @@
         $track=$db->track_editar($modulos->idtrack);
         $terapia=$db->terapia_editar($track->idterapia);
     }
-    
+
 
 
 
@@ -39,7 +39,7 @@ echo "<nav aria-label='breadcrumb'>";
         echo "<li class='breadcrumb-item' is='li-link' des='a_actividades/actividades' dix='trabajo' title='Grupo' v_idmodulo='$modulos->id'>$modulos->nombre</li>";
     }
     echo "<li class='breadcrumb-item active' is='li-link' des='a_actividades/grupos' dix='trabajo' title='Grupo' v_idgrupo='$grupo->idgrupo'>$grupo->grupo</li>";
-    
+
     if($inicial==1){
         echo "<button class='btn btn-warning btn-sm' is='b-link' des='a_actividades/modulos' dix='trabajo' v_idtrack='$grupo->idtrack' v_idterapia='$terapia->id'>Regresar</button>";
     }
@@ -66,7 +66,7 @@ echo "<nav aria-label='breadcrumb'>";
 
     echo "<div class='container'>";
 		echo "<div class='row'>";
-        
+
         if($visible=="-1"){
             /////////////////ordenar modulos
             $sql="SELECT * from actividad where idgrupo=$grupo->idgrupo order by actividad.orden asc";
@@ -80,7 +80,7 @@ echo "<nav aria-label='breadcrumb'>";
                 $orden++;
             }
         }
-        
+
 
         $sql="select * from actividad where idgrupo=$grupo->idgrupo";
         if($visible>=0)
@@ -133,7 +133,7 @@ echo "<nav aria-label='breadcrumb'>";
 					echo "</div>";
 				echo "</div>";
 			}
-			
+
 			echo "<div id='' class='col-4 p-3 w-50'>";
 				echo "<div class='card' style='height:200px;'>";
 					echo "<div class='card-body text-center'>";
@@ -143,5 +143,5 @@ echo "<nav aria-label='breadcrumb'>";
 			echo "</div>";
         echo "</div>";
     echo "</div>";
-            
+
 ?>

@@ -18,8 +18,6 @@
 
   $track=$db->track($idterapia);
   $terapia=$db->terapia_editar($idterapia);
-
-
 ?>
 
 <nav aria-label='breadcrumb'>

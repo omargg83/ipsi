@@ -17,42 +17,48 @@
 		$terapia=$db->terapia_editar($track->idterapia);
 	}
 
-	
+
     $grupo="";
     $observaciones="";
     if($idgrupo>0){
-        $sql="SELECT * FROM grupo_actividad	WHERE idgrupo=$idgrupo";
+      $sql="SELECT * FROM grupo_actividad	WHERE idgrupo=$idgrupo";
 	    $sth = $db->dbh->query($sql);
 	    $grupodb=$sth->fetch(PDO::FETCH_OBJ);
-        $grupo=$grupodb->grupo;
-        $observaciones=$grupodb->observaciones;
+      $grupo=$grupodb->grupo;
+      $observaciones=$grupodb->observaciones;
     }
-    
+
     echo "<nav aria-label='breadcrumb'>";
         echo "<ol class='breadcrumb'>";
             echo "<li class='breadcrumb-item' type='button' is='li-link' des='a_actividades/terapias' dix='trabajo'>Inicio</lis>";
             echo "<li class='breadcrumb-item' type='button' is='li-link' des='a_actividades/track' dix='trabajo' title='Track' v_idterapia='$terapia->id'>$terapia->nombre</li>";
             echo "<li class='breadcrumb-item' type='button' is='li-link' des='a_actividades/modulos' dix='trabajo' v_idtrack='$track->id'>$track->nombre</li>";
+
 			if($tipo=="modulo"){
 				echo "<li class='breadcrumb-item active' type='button' is='li-link' des='a_actividades/actividades' dix='trabajo' v_idmodulo='$idmodulo'>$modulo->nombre</li>";
 			}
-			 if($idgrupo==0){
+			else{
+				echo "<li class='breadcrumb-item active' type='button' is='li-link' des='a_actividades_e/grupo_editar' dix='trabajo' v_idtrack='$idtrack' v_idgrupo='$idgrupo'>$grupo</li>";
+			}
+
+			if($idgrupo==0){
 				if($tipo=="modulo"){
-                	echo "<li class='breadcrumb-item active' type='button' is='li-link' des='a_actividades_e/grupo_editar' dix='trabajo' v_idmodulo='$idmodulo' v_idgrupo='$idgrupo'>Nuevo grupo</li>";
+          echo "<li class='breadcrumb-item active' type='button' is='li-link' des='a_actividades_e/grupo_editar' dix='trabajo' v_idmodulo='$idmodulo' v_idgrupo='$idgrupo'>Nuevo grupo</li>";
 				}
 				else{
 					echo "<li class='breadcrumb-item active' type='button' is='li-link' des='a_actividades_e/grupo_editar' dix='trabajo' v_idtrack='$idtrack' v_idgrupo='$idgrupo'>Nuevo grupo</li>";
 				}
-            }
-            
-           
-            echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/modulos' dix='trabajo' v_idtrack='$track->id'>Regresar</button>";
+      }
+				if($tipo=="modulo")
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/actividades' dix='trabajo' v_idmodulo='$idmodulo'>Regresar</button>";
+				else
+          echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades/modulos' dix='trabajo' v_idtrack='$track->id'>Regresar</button>";
         echo "</ol>";
     echo "</nav>";
 ?>
 
 <div class="container">
-	<?php     
+	<?php
 		if($tipo=="modulo"){
 			echo "<form is='f-submit' id='form_grupo' db='a_actividades/db_' fun='guardar_grupo' des='a_actividades/actividades' v_idmodulo='$idmodulo' dix='trabajo'>";
         	echo "<input type='hidden' name='idmodulo' id='idmodulo' value='$idmodulo'>";
@@ -84,7 +90,14 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<button class="btn btn-warning" type="submit">Guardar</button>
-						<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividades' v_idmodulo="<?php echo $idmodulo; ?>" dix='trabajo'>Regresar</button>
+						<?php
+						if($tipo=="modulo"){
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/actividades' v_idmodulo='$idmodulo' dix='trabajo'>Regresar</button>";
+						}
+						else{
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/modulos' v_idtrack='$idtrack' dix='trabajo'>Regresar</button>";
+						}
+						?>
 					</div>
 				</div>
 			</div>

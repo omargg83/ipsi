@@ -54,6 +54,8 @@
 	/////////////////////breadcrumb
 	$paciente = $db->cliente_editar($idpaciente);
 	$nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
+
+
 	$gtotal=0;
 
 	$sql="select * from actividad where idactividad=$idactividad";
@@ -64,13 +66,18 @@
 	$indicaciones=$actividad->indicaciones;
 	$anotaciones=$actividad->anotaciones;
 
+	$sql="select * from grupo_actividad where idgrupo=$actividad->idgrupo";
+	$sth = $db->dbh->query($sql);
+	$grupo=$sth->fetch(PDO::FETCH_OBJ);
+
 	$inicial=0;
-	if($actividad->idtrack){
+
+	if($grupo->idtrack){
 		$inicial=1;
-		$idtrack=$actividad->idtrack;
+		$idtrack=$grupo->idtrack;
 	}
 	else{
-		$sql="select * from modulo where id=$actividad->idmodulo";
+		$sql="select * from modulo where id=$grupo->idmodulo";
 		$sth = $db->dbh->query($sql);
 		$modulo=$sth->fetch(PDO::FETCH_OBJ);
 		$idtrack=$modulo->idtrack;
@@ -109,16 +116,21 @@
 	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
 	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
 	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
-	 <?php
+	  <?php
+
+	 echo "<li class='breadcrumb-item' is='li-link' des='a_pacientes/grupos' dix='trabajo' v_idgrupo='$grupo->idgrupo' v_idpaciente='$idpaciente'>$grupo->grupo</li>";
+
+
 		if($inicial==0){
 			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/actividades' dix='trabajo' v_idmodulo='$modulo->id' v_idpaciente='$idpaciente'>$modulo->nombre</li>";
 		}
 	 	echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/actividad_ver' dix='trabajo' v_idactividad='$idactividad' v_idpaciente='$idpaciente'>$nombre_act</li>";
+
 		if($inicial==0){
 			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividades' dix='trabajo' v_idmodulo='$modulo->id' v_idpaciente='$idpaciente'>Regresar</button>";
 		}
 		else{
-			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$track->id' v_idpaciente='$idpaciente'>Regresar</button>";
+			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/grupos' dix='trabajo' v_idgrupo='$actividad->idgrupo' v_idpaciente='$idpaciente'>Regresar </button>";
 		}
 	 ?>
  </ol>

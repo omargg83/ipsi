@@ -3,6 +3,7 @@
 
 	$idpaciente=$_REQUEST['idpaciente'];
 	$idactividad=$_REQUEST['idactividad'];
+
 	$proviene=$_REQUEST['proviene'];
 
   /////////////////////breadcrumb
@@ -27,19 +28,29 @@
 
 		$idtrack=$actividad->idtrack;
 		$idmodulo=$actividad->idmodulo;
+		$idgrupo=$cuest->idgrupo;
 	}
 	else{
-		if(isset($_REQUEST['idmodulo'])){
-			$idmodulo=$_REQUEST['idmodulo'];
-		}
-		if(isset($_REQUEST['idtrack'])){
-			$idtrack=$_REQUEST['idtrack'];
-			$inicial=1;
-		}
+		$idgrupo=clean_var($_REQUEST['idgrupo']);
 	}
 
-	if(strlen($idmodulo)>0){
-		$sql="select * from modulo where id=$idmodulo";
+	$sql="SELECT * from grupo_actividad where idgrupo=$idgrupo";
+	$sth = $db->dbh->query($sql);
+	$grupo=$sth->fetch(PDO::FETCH_OBJ);
+	if(strlen($grupo->idtrack)){
+		
+		$sql="select * from track where id=$grupo->idtrack";
+		$sth = $db->dbh->query($sql);
+		$track=$sth->fetch(PDO::FETCH_OBJ);
+
+		$sql="select * from terapias where id=$track->idterapia";
+		$sth = $db->dbh->query($sql);
+		$terapia=$sth->fetch(PDO::FETCH_OBJ);
+
+
+	}
+	else{
+		$sql="select * from modulo where id=$grupo->idmodulo";
 		$sth = $db->dbh->query($sql);
 		$modulo=$sth->fetch(PDO::FETCH_OBJ);
 
@@ -51,18 +62,6 @@
 		$sth = $db->dbh->query($sql);
 		$terapia=$sth->fetch(PDO::FETCH_OBJ);
 	}
-
-	if(strlen($idtrack)>0){
-		$sql="select * from track where id=$idtrack";
-		$sth = $db->dbh->query($sql);
-		$track=$sth->fetch(PDO::FETCH_OBJ);
-
-		$sql="select * from terapias where id=$track->idterapia";
-		$sth = $db->dbh->query($sql);
-		$terapia=$sth->fetch(PDO::FETCH_OBJ);
-	}
-
-
 
 
 ?>

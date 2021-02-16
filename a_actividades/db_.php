@@ -51,6 +51,7 @@ class Cuest extends ipsi{
 			$arreglo+=array('descripcion'=>clean_var($_REQUEST['descripcion']));
 		}
 		if($idterapia==0){
+			$arreglo+=array('orden'=>99999);
 			$x=$this->insert('terapias', $arreglo);
 
 			$resp=json_decode($x);
@@ -230,10 +231,8 @@ class Cuest extends ipsi{
 
 	public function actividad_lista($id){
 		try{
-			$sql="select * from actividad where idmodulo=:id and idpaciente is null";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":id",$id);
-			$sth->execute();
+			$sql="select * from actividad where idmodulo=$id and idpaciente is null";
+			$sth = $this->dbh->query($sql);
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}
 		catch(PDOException $e){
@@ -1553,11 +1552,22 @@ class Cuest extends ipsi{
 		if(isset($_REQUEST['idtrack'])){
 			$arreglo+=array('idtrack'=>$_REQUEST['idtrack']);
 		}
+
 		if(isset($_REQUEST['observaciones'])){
 			$arreglo+=array('observaciones'=>$_REQUEST['observaciones']);
-		}		
+		}
 		if($idgrupo==0){
+			$arreglo+=array('orden'=>99999);
 			$x=$this->insert('grupo_actividad',$arreglo);
+
+			$resp=json_decode($x);
+			if (isset($_REQUEST['idpaciente'])){
+				$idpaciente=$_REQUEST['idpaciente'];
+				$arreglo =array();
+				$arreglo+=array('idgrupo'=>$resp->id1);
+				$arreglo+=array('idpaciente'=>$idpaciente);
+				$x=$this->insert('grupo_actividad_pre',$arreglo);
+			}
 		}
 		else{
 			$x=$this->update('grupo_actividad',array('idgrupo'=>$idgrupo), $arreglo);
