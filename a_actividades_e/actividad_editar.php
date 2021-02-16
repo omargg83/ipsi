@@ -25,8 +25,8 @@
 	}
 
 	$sql="SELECT * from grupo_actividad where idgrupo=$idgrupo";
-  $sth = $db->dbh->query($sql);
-  $grupo=$sth->fetch(PDO::FETCH_OBJ);
+	$sth = $db->dbh->query($sql);
+	$grupo=$sth->fetch(PDO::FETCH_OBJ);
 	if(strlen($grupo->idtrack)){
 		$idtrack=$grupo->idtrack;
 		$track=$db->track_editar($idtrack);
@@ -55,7 +55,7 @@
 				echo "<li class='breadcrumb-item' is='li-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idgrupo='$idgrupo' v_idactividad='$idactividad' dix='trabajo' v_proviene='$proviene'>$nombre</li>";
 			}
 			if($proviene=="grupos" and $idactividad==0){
-				echo "<li class='breadcrumb-item' is='li-link' des='a_actividades/actividades' dix='trabajo' v_idmodulo='$idmodulo'>$modulo->nombre</li>";
+				///echo "<li class='breadcrumb-item' is='li-link' des='a_actividades/actividades' dix='trabajo' v_idmodulo='$idmodulo'>$modulo->nombre</li>";
 				echo "<li class='breadcrumb-item active' is='li-link' des='a_actividades/grupos' dix='trabajo' title='Grupo' v_idgrupo='$grupo->idgrupo'>$grupo->grupo</li>";
 				echo "<li class='breadcrumb-item' is='li-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idgrupo='$idgrupo' v_idactividad='$idactividad' dix='trabajo' v_proviene='$proviene'>Nueva actividad</li>";
 			}
@@ -74,7 +74,6 @@
 				echo "<li class='breadcrumb-item' is='li-link' des='a_actividades/actividades' dix='trabajo' v_idmodulo='$idmodulo'>$modulo->nombre</li>";
 				echo "<li class='breadcrumb-item active' is='li-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idmodulo='$idmodulo' v_idactividad='0' v_proviene='$proviene'>$nombre</li>";
 			}
-
 
 
 			if($proviene=="grupos"){

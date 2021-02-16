@@ -7,7 +7,7 @@
 	if(isset($_REQUEST['visible'])){
 		$visible=$_REQUEST['visible'];
 	}
-
+	
 	/////////////////////breadcrumb
 	$paciente = $db->cliente_editar($idpaciente);
 	$nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
@@ -60,10 +60,10 @@ if($inicial==1){
 						echo "</div>";
 						echo "<div class='row'>";
 							echo "<div class='col-12'>";
-							/*
-							PENDIENTE
-								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/modulos' dix='trabajo' db='a_pacientes/db_' fun='borrar_grupo' v_idtrack='$key->idtrack' v_idgrupo='$key->idgrupo' tp='¿Desea eliminar el grupo seleccionado?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
-								*/
+							/*Pendiente*/
+
+							echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' db='a_pacientes/db_' fun='borrar_grupo' v_idtrack='$key->idtrack' v_idgrupo='$key->idgrupo' v_idpaciente='$idpaciente' tp='¿Desea eliminar el grupo seleccionado?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+							
 
 							echo "</div>";
 						echo "</div>";
@@ -108,7 +108,7 @@ if($inicial!=1){
 		$sth = $db->dbh->query($sql);
 		$modulos=$sth->fetchAll(PDO::FETCH_OBJ);
 
-  	foreach($modulos as $key){
+		foreach($modulos as $key){
 
 			echo "<div class='col-4 p-2 w-50 actcard'>";
 				echo "<div class='card' style='height:400px'>";
@@ -117,25 +117,26 @@ if($inicial!=1){
 						echo $key->nombre;
 
 						echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' db='a_pacientes/db_' fun='quitar_modulo' v_idmodulo='$key->id' v_idtrack='$idtrack'  v_idpaciente='$idpaciente'  tp='¿Desea quitar el modulo seleccionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
-					echo "</div>";
-  				echo "<div class='card-body' style='overflow:auto; height:220px'>";
-  					echo "<div class='row'>";
-  						echo "<div class='col-12'>";
-  							echo $key->descripcion;
-  						echo "</div>";
-  					echo "</div>";
-  				echo "</div>";
-  				echo "<div class='card-body'>";
-  					echo "<div class='row'>";
-  						echo "<div class='col-12'>";
-  							echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/actividades' dix='trabajo' v_idmodulo='$key->id'  v_idpaciente='$idpaciente'>Ver</button>";
-  						echo "</div>";
-  					echo "</div>";
-  				echo "</div>";
-  			echo "</div>";
-  		echo "</div>";
 
-  	}
+					echo "</div>";
+					echo "<div class='card-body' style='overflow:auto; height:220px'>";
+						echo "<div class='row'>";
+							echo "<div class='col-12'>";
+								echo $key->descripcion;
+							echo "</div>";
+						echo "</div>";
+					echo "</div>";
+					echo "<div class='card-body'>";
+						echo "<div class='row'>";
+							echo "<div class='col-12'>";
+								echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/actividades' dix='trabajo' v_idmodulo='$key->id' v_idpaciente='$idpaciente'>Ver</button>";
+							echo "</div>";
+						echo "</div>";
+					echo "</div>";
+				echo "</div>";
+			echo "</div>";
+
+  		}
 
 			echo "<div id='' class='col-4 p-3 w-50'>";
 				echo "<div class='card' style='height:200px;'>";

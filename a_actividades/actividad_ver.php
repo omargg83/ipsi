@@ -86,13 +86,15 @@
 	$sql="(SELECT subactividad.* FROM contexto
 	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
 	where subactividad.idactividad=$idactividad and contexto.pagina=$pagina group by idsubactividad order by subactividad.orden asc)";
-	if($pagina==($no_paginas-1)){
+	if($pagina==($no_paginas-1) or $pagina==$no_paginas){
 		$sql.="UNION (
 		SELECT subactividad.* FROM subactividad
 		left outer join contexto on subactividad.idsubactividad=contexto.idsubactividad
 		where subactividad.idactividad=$idactividad and contexto.id is null order by subactividad.orden asc
 		) order by orden asc";
 	}
+
+		
 	$sth = $db->dbh->query($sql);
 	$subactividad=$sth->fetchAll(PDO::FETCH_OBJ);
 

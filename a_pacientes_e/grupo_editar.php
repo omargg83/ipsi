@@ -2,7 +2,7 @@
 	require_once("../a_pacientes/db_.php");
 	$idterapia="";
 
-	if(isset($_REQUEST['idtrack'])){
+if(isset($_REQUEST['idtrack'])){
     $idtrack=$_REQUEST['idtrack'];
     $tipo="track";
   }
@@ -45,7 +45,7 @@ echo "<nav aria-label='breadcrumb'>";
    echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>$track->nombre</li>";
    echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes_e/grupo_agregar' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Agregar grupo</li>";
    if($tipo=="track"){
-     echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes_e/grupo_editar' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Editar grupo</li>";
+     echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes_e/grupo_editar' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo'>Editar grupo</li>";
    }
    echo "<button class='btn btn-warning btn-sm ' type='button' is='b-link' des='a_pacientes_e/grupo_agregar' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Regresar</button>";
  echo "</ol>";
@@ -87,10 +87,10 @@ echo "<div class='container'>";
 						<button class="btn btn-warning" type="submit">Guardar</button>
 						<?php
 						if($tipo=="modulo"){
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/actividades' v_idmodulo='$idmodulo' dix='trabajo'>Regresar</button>";
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes_e/actividades' v_idmodulo='$idmodulo' dix='trabajo'>Regresar #PENDIENTE</button>";
 						}
 						else{
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_actividades/modulos' v_idtrack='$idtrack' dix='trabajo'>Regresar</button>";
+							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes_e/grupo_agregar' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Regresar</button>";
 						}
 						?>
 					</div>

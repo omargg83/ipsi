@@ -82,7 +82,7 @@ echo "<nav aria-label='breadcrumb'>";
         }
 
 
-        $sql="select * from actividad where idgrupo=$grupo->idgrupo";
+        $sql="select * from actividad where idgrupo=$grupo->idgrupo and idpaciente is null";
         if($visible>=0)
         $sql.=" and actividad.visible=$visible";
 

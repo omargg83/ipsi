@@ -25,10 +25,7 @@
 		$indicaciones=$actividad->indicaciones;
 		$tipo=$actividad->tipo;
 		$visible=$actividad->visible;
-
-		$idtrack=$actividad->idtrack;
-		$idmodulo=$actividad->idmodulo;
-		$idgrupo=$cuest->idgrupo;
+		$idgrupo=$actividad->idgrupo;
 	}
 	else{
 		$idgrupo=clean_var($_REQUEST['idgrupo']);
@@ -77,14 +74,16 @@
 		echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$track->id' v_idpaciente='$idpaciente'>$track->nombre</li>";
 
 		if($proviene=="moduloscatalogo"){
+			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/grupos' dix='trabajo' v_idgrupo='$grupo->idgrupo' v_idpaciente='$idpaciente'>$grupo->grupo</li>";
+
 			echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_proviene='$proviene' v_idtrack='$track->id'>$nombre</li>";
 		}
 
 		if($proviene=="nuevaactividad"){
-		  echo "<li class='breadcrumb-item active' is='li-link' des='a_pacientes_e/inicial_agregar' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Agregar actividad inicial</li>";
+		  echo "<li class='breadcrumb-item active' is='li-link' des='a_pacientes_e/inicial_agregar' dix='trabajo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente'>Agregar actividad inicial</li>";
 
 			if($idactividad==0){
-				echo "<li class='breadcrumb-item active' is='li-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente' v_idactividad='0' v_proviene='$proviene'>Nueva actividad</li>";
+				echo "<li class='breadcrumb-item active' is='li-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente' v_idactividad='0' v_proviene='$proviene'>Nueva actividad</li>";
 			}
 		}
 		if($proviene=="actividadver"){
@@ -98,11 +97,11 @@
 		}
 			///////////////////////////botones regresar
 			if($proviene=="moduloscatalogo"){
-				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Regresar</button>";
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/grupos' dix='trabajo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente'>Regresar</button>";
 			}
 
 			if($proviene=="nuevaactividad"){
-				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/inicial_agregar' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Regresar</button>";
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/inicial_agregar' dix='trabajo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente'>Regresar</button>";
 			}
 
 			if($proviene=="actividadver"){
@@ -119,7 +118,6 @@
 			?>
    </ol>
   </nav>
-
 
 	<div class='container'>
 			<?php
@@ -141,16 +139,12 @@
 				if($proviene=="nuevaagregar"){
 					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo' des='a_pacientes/actividad_ver' desid='idactividad'>";
 				}
-				if(strlen($idtrack)>0){
-					echo "<input type='hidden' class='form-control' id='idtrack' name='idtrack' value='$idtrack' readonly>";
-				}
-				if(strlen($idmodulo)>0){
-					echo "<input type='hidden' class='form-control' id='idmodulo' name='idmodulo' value='$idmodulo' readonly>";
-				}
-
+				
+				echo "<input type='hidden' class='form-control' id='idgrupo' name='idgrupo' value='$idgrupo' readonly>";
+				echo "<input type='hidden' class='form-control' id='idactividad' name='idactividad' value='$idactividad' readonly>";
+				echo "<input type='hidden' class='form-control' id='idpaciente' name='idpaciente' value='$idpaciente' readonly>";
 			?>
-			<input type='hidden' class='form-control' id='idactividad' name='idactividad' value='<?php echo $idactividad; ?>' readonly>
-			<input type='hidden' class='form-control' id='idpaciente' name='idpaciente' value='<?php echo $idpaciente; ?>' readonly>
+			
 
 			<div class='card'>
 				<div class="card-header">
@@ -185,8 +179,8 @@
 							<label>Visible:</label>
 							<select class='form-control' id='visible' name='visible'>
 								<?php
-									echo "<option value='0'"; if ($visible==0) { echo " selected"; } echo ">Oculta</option>";
 									echo "<option value='1'"; if ($visible==1) { echo " selected"; } echo ">Mostrar</option>";
+									echo "<option value='0'"; if ($visible==0) { echo " selected"; } echo ">Oculta</option>";
 								?>
 							</select>
 						</div>
@@ -209,11 +203,11 @@
 								<button class='btn btn-warning'  type='submit'>Guardar</button>
 								<?php
 									if($proviene=="moduloscatalogo"){
-										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Regresar</button>";
+										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/grupos' dix='trabajo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente'>Regresar</button>";
 									}
 
 									if($proviene=="nuevaactividad"){
-										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes_e/inicial_agregar' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Regresar</button>";
+										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes_e/inicial_agregar' dix='trabajo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente'>Regresar</button>";
 									}
 
 									if($proviene=="actividadver"){

@@ -618,9 +618,8 @@ class Cliente extends ipsi{
 			$fecha=date("Y-m-d H:i:s");
 			////////////Clonar actividad
 			$arreglo=array();
-			$arreglo+=array('idmodulo'=>$resp->idmodulo);
+			$arreglo+=array('idgrupo'=>$resp->idgrupo);
 			$arreglo+=array('idpaciente'=>$idpaciente);
-			$arreglo+=array('idtrack'=>$resp->idtrack);
 			$arreglo+=array('idcreado'=>$resp->idcreado);
 			$arreglo+=array('nombre'=>$resp->nombre);
 			$arreglo+=array('indicaciones'=>$resp->indicaciones);
@@ -717,11 +716,8 @@ class Cliente extends ipsi{
 		$sql="SELECT * from track_per left outer join track on track.id=track_per.idtrack where track_per.idpaciente=$idpaciente and track.idterapia=$idterapia order by track.inicial desc, track.orden asc";
 		$sth = $this->dbh->query($sql);
 		if($sth->rowCount()==0){
-			$sql="select * from terapias_per where idterapia=:idterapia and idpaciente=:idpaciente";
-			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":idterapia",$idterapia);
-			$sth->bindValue(":idpaciente",$idpaciente);
-			$sth->execute();
+			$sql="select * from terapias_per where idterapia=$idterapia and idpaciente=$idpaciente";
+			$sth = $this->dbh->query($sql);			
 			if ($sth->rowCount()>0){
 				$res=$sth->fetch(PDO::FETCH_OBJ);
 				return $this->borrar('terapias_per',"id",$res->id);
@@ -734,15 +730,16 @@ class Cliente extends ipsi{
 			$arreglo+=array('terror'=>'Contiene tracks');
 			return json_encode($arreglo);
 		}
-
 	}
+	
 	public function quitar_track(){
 
 		$idtrack=clean_var($_REQUEST['idtrack']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
 
 
-		$sql="SELECT * from modulo_per left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=$idpaciente and modulo.idtrack=$idtrack order by modulo.orden asc";
+		$sql="SELECT * from modulo_per 
+		left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=$idpaciente and modulo.idtrack=$idtrack order by modulo.orden asc";
 
 		$sth = $this->dbh->query($sql);
 		if($sth->rowCount()>0){
@@ -784,23 +781,26 @@ class Cliente extends ipsi{
 			return $this->borrar('modulo_per',"id",$res->id);
 		}
 	}
-
+	public function borrar_grupo(){
+		if (isset($_REQUEST['idgrupo'])){$idgrupo=$_REQUEST['idgrupo'];}
+		$sql="select * from actividad where idgrupo=$idgrupo";
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()>0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene Actividades');
+			return json_encode($arreglo);
+		}
+		return $this->borrar('grupo_actividad',"idgrupo",$idgrupo);
+	}
 	public function quitar_actividad(){
 		$idactividad=clean_var($_REQUEST['idactividad']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
 
-		$sql="select * from actividad_per where idactividad=:idactividad and idpaciente=:idpaciente";
-		$sth = $this->dbh->prepare($sql);
-		$sth->bindValue(":idactividad",$idactividad);
-		$sth->bindValue(":idpaciente",$idpaciente);
-		$sth->execute();
-		if ($sth->rowCount()>1){
-			$res=$sth->fetch(PDO::FETCH_OBJ);
-			return $this->borrar('actividad_per',"id",$res->id);
-		}
-		else if($sth->rowCount()==1){
-			return $this->borrar('actividad',"idactividad",$idactividad);
-		}
+		
+		return $this->borrar('actividad',"idactividad",$idactividad);
+		
 	}
 
 	public function buscar_actividad($b_actividad){
@@ -1662,40 +1662,9 @@ class Cliente extends ipsi{
 			return json_encode($arreglo);
 		}
 	}
-	public function quitar_grupo(){
-
-		$idtrack=clean_var($_REQUEST['idtrack']);
-		$idpaciente=clean_var($_REQUEST['idpaciente']);
-		/*
-
-		$sql="SELECT * from modulo_per left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=$idpaciente and modulo.idtrack=$idtrack order by modulo.orden asc";
-
-		$sth = $this->dbh->query($sql);
-		if($sth->rowCount()>0){
-			$arreglo=array();
-			$arreglo+=array('id1'=>0);
-			$arreglo+=array('error'=>1);
-			$arreglo+=array('terror'=>'Contiene modulos');
-			return json_encode($arreglo);
-		}
-
-		$sql="select * from grupo_actividad_pre left outer join grupo_actividad on grupo_actividad.idgrupo=grupo_actividad_pre.idgrupo where grupo_actividad.idtrack=$idtrack and grupo_actividad_pre.idpaciente=$idpaciente order by grupo_actividad.orden asc";
-		$sth = $this->dbh->query($sql);
-		if($sth->rowCount()>0){
-			$arreglo=array();
-			$arreglo+=array('id1'=>0);
-			$arreglo+=array('error'=>1);
-			$arreglo+=array('terror'=>'Contiene grupos');
-			return json_encode($arreglo);
-		}
-
-		$sql="select * from track_per where idtrack=$idtrack and idpaciente=$idpaciente";
-		$sth = $this->dbh->query($sql);
-		if ($sth->rowCount()>0){
-			$res=$sth->fetch(PDO::FETCH_OBJ);
-			return $this->borrar('track_per',"id",$res->id);
-		}*/
-	}
+	
+	
+	
 }
 
 $db = new Cliente();

@@ -37,6 +37,8 @@
 		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
 		<li class="breadcrumb-item" is="li-link" des="a_pacientes/track" dix="trabajo" title="Terapias" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
 		<li class="breadcrumb-item active" is="li-link" des="a_pacientes_e/track_editar" dix="trabajo" title="Terapias" v_idtrack='<?php echo $idtrack; ?>' v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Nuevo track</li>
+
+		<button class="btn btn-warning btn-sm" is="b-link" des="a_pacientes/track"  v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Regresar</button>
 	</ol>
 </nav>
 
@@ -80,7 +82,7 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<button class="btn btn-warning" type="submit">Guardar</button>
-            <button class="btn btn-warning" type="button" is="b-link" des='a_actividades/track' id1="<?php echo $idterapia; ?>" dix='trabajo'>Regresar</button>
+            			<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/track"  v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Regresar</button>
 					</div>
 				</div>
 			</div>

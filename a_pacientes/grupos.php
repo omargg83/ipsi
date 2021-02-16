@@ -78,7 +78,8 @@
 
 
   //////////////////////CODIGO
-  $sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=$idpaciente and actividad.idgrupo=$idgrupo order by actividad.orden asc ";
+  $sql="SELECT * from actividad_per 
+  left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=$idpaciente and actividad.idgrupo=$idgrupo order by actividad.orden asc ";
   $sth = $db->dbh->query($sql);
   $orden=0;
   foreach($sth->fetchAll(PDO::FETCH_OBJ) as $key){
@@ -92,7 +93,7 @@
   if($visible>=0)
   $sql.=" and actividad.visible=$visible";
 
-	$sql.=" order by actividad.orden asc ";
+$sql.=" order by actividad.orden asc ";
   $sth = $db->dbh->query($sql);
   $acinicial=$sth->fetchAll(PDO::FETCH_OBJ);
 
@@ -113,17 +114,17 @@
 		            echo "<div class='row justify-content-end'>";
 		              echo "<div class='col-12'>";
 
-									/*
-		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
+					
+		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/grupos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
 
-		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
+		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/grupos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
 
-		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' tp='¿Desea quitar la actividad inicial seleccionada?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/grupos' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' tp='¿Desea eliminar la actividad seleccionada?' tt='Ya no se podrá deshacer' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
-		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' des='a_pacientes/modulos' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
+		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' des='a_pacientes/grupos' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
 
 		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' v_proviene='moduloscatalogo'><i class='fas fa-pencil-alt'></i></button>";
-										*/
+					
 
 		              echo "</div>";
 		            echo "</div>";

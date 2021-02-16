@@ -83,7 +83,7 @@
             echo "<div class='card-body'>";
               echo "<div class='row'>";
                 echo "<div class='col-12'>";
-                  echo "<button class='btn btn-warning btn-block' type='button' is='b-link' db='a_pacientes/db_' fun='agregar_inicial' dix='trabajo' tp='¿Desea agregar la actividad inicial?' des='a_pacientes/modulos' v_idactividad='$key->idactividad' v_idgrupo'$idgrupo' v_idpaciente='$idpaciente'>Agregar</button>";
+                  echo "<button class='btn btn-warning btn-block' type='button' is='b-link' db='a_pacientes/db_' fun='agregar_inicial' dix='trabajo' tp='¿Desea agregar la actividad inicial?' des='a_pacientes/grupos' v_idactividad='$key->idactividad' v_idgrupo'$idgrupo' v_idpaciente='$idpaciente'>Agregar</button>";
                 echo "</div>";
               echo "</div>";
             echo "</div>";

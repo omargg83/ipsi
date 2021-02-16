@@ -1,47 +1,66 @@
 <?php
 	require_once("../a_pacientes/db_.php");
 	$idterapia="";
-	$idtrack=$_REQUEST['idtrack'];
+		
 	$idpaciente=$_REQUEST['idpaciente'];
 
 
-  /////////////////////breadcrumb
-  $paciente = $db->cliente_editar($idpaciente);
-  $nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
+	$tipo="";
+	if(isset($_REQUEST['idtrack'])){
+		$tipo="track";
+		$idtrack=$_REQUEST['idtrack'];
+	}
+	if(isset($_REQUEST['idmodulo'])){
+		$tipo="modulo";
+		$idmodulo=$_REQUEST['idmodulo'];
 
-  $sql="select * from track where id=:idtrack";
-  $sth = $db->dbh->prepare($sql);
-  $sth->bindValue(":idtrack",$idtrack);
-  $sth->execute();
-  $track=$sth->fetch(PDO::FETCH_OBJ);
-  $inicial=$track->inicial;
+		$sql="select * from modulo where id=$idmodulo";
+		$sth = $db->dbh->query($sql);
+		$modulo=$sth->fetch(PDO::FETCH_OBJ);
 
-  $sql="select * from terapias where id=$track->idterapia";
-  $sth = $db->dbh->query($sql);
-  $terapia=$sth->fetch(PDO::FETCH_OBJ);
+		$idtrack=$modulo->idtrack;
+	}
+
+	/////////////////////breadcrumb
+	$paciente = $db->cliente_editar($idpaciente);
+	$nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
+
+	$sql="select * from track where id=$idtrack";
+	$sth = $db->dbh->query($sql);
+	$track=$sth->fetch(PDO::FETCH_OBJ);
+
+	$sql="select * from terapias where id=$track->idterapia";
+	$sth = $db->dbh->query($sql);
+	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 
-?>
 
-  <nav aria-label='breadcrumb'>
-   <ol class='breadcrumb'>
-  	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
-  	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre; ?></li>
-  	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
-  	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
-  	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $idtrack; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
 
-     <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes_e/grupo_agregar" dix="trabajo" v_idtrack="<?php echo $idtrack; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Agregar grupo</li>
+  echo "<nav aria-label='breadcrumb'>";
+   echo "<ol class='breadcrumb'>";
+  	 echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/lista' dix='trabajo'>Pacientes</li>";
+  	 echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>$nombre</li>";
+  	 echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/terapias' v_idpaciente='$idpaciente' dix='trabajo'>Terapias</li>";
+  	 echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/track' dix='trabajo' v_idterapia='$terapia->id' v_idpaciente='$idpaciente'>$terapia->nombre</li>";
+  	 echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>$track->nombre</li>";
 
-  	 <button class="btn btn-warning btn-sm " type="button" is="b-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $idtrack; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Regresar</button>
-   </ol>
-  </nav>
+     echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes_e/grupo_agregar' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Agregar grupo</li>";
 
-  <div class="alert alert-danger text-center" role="alert">
-    Agregar Grupo
-  </div>
-  <?php
-  	$sql="select * from grupo_actividad where grupo_actividad.idtrack=$track->id order by grupo_actividad.orden asc";
+  	 echo "<button class='btn btn-warning btn-sm ' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Regresar</button>";
+   echo "</ol>";
+  echo "</nav>";
+
+  echo "<div class='alert alert-danger text-center' role='alert'>";
+    echo "Agregar Grupo";
+  echo "</div>";
+  
+  	if ($tipo=="track")
+  	$sql="select * from grupo_actividad  where grupo_actividad.idtrack=$idtrack order by grupo_actividad.orden asc";
+
+	if ($tipo=="modulo")
+	$sql="select * from grupo_actividad  where grupo_actividad.idmodulo=$idmodulo order by grupo_actividad.orden asc";
+	
+	echo $sql;
   	$sth = $db->dbh->query($sql);
   	$grupos=$sth->fetchAll(PDO::FETCH_OBJ);
   	echo "<div class='container'>";
