@@ -130,8 +130,7 @@ echo "</nav>";
 				<div class='row'>
 					<div class="col-2">
 						<!---Editar actividad -->
-						<?php
-
+					<?php
 						if($inicial==0){
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_proviene='actividadver'><i class='fas fa-pencil-alt'></i></button>";
 						}

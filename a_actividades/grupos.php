@@ -81,7 +81,6 @@ echo "<nav aria-label='breadcrumb'>";
             }
         }
 
-
         $sql="select * from actividad where idgrupo=$grupo->idgrupo and idpaciente is null";
         if($visible>=0)
         $sql.=" and actividad.visible=$visible";
@@ -107,7 +106,7 @@ echo "<nav aria-label='breadcrumb'>";
 
 									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_mover' des='a_actividades/grupos' v_idactividad='$key->idactividad' v_idgrupo='$idgrupo' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
 
-									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/grupos' dix='trabajo' db='a_actividades/db_' fun='borrar_actividad' v_idactividad='$key->idactividad' v_idgrupo='$idgrupo' tp='¿Desea eliminar la actividad inicial seleccionada?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/grupos' dix='trabajo' db='a_actividades/db_' fun='borrar_actividad' v_idactividad='$key->idactividad' v_idgrupo='$idgrupo' tp='¿Desea eliminar la actividad inicial seleccionada?' tt='Ya no podrá deshacer el cambio, se eliminan del catalogo principal' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
 									echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idgrupo='$idgrupo' des='a_actividades/grupos' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
 

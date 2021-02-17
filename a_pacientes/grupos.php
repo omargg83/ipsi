@@ -131,7 +131,7 @@ $sql.=" order by actividad.orden asc ";
 
 		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_pacientes/db_' fun='actividad_mover' des='a_pacientes/grupos' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
 
-		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/grupos' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' tp='¿Desea eliminar la actividad seleccionada?' tt='Ya no se podrá deshacer' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/grupos' dix='trabajo' db='a_pacientes/db_' fun='quitar_actividad' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' tp='¿Desea eliminar la actividad seleccionada?' tt='Ya no podrá deshacer el cambio, se eliminan del catalogo principal y las respuestas' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
 		                echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='actividad_duplicar' v_idactividad='$key->idactividad' v_idpaciente='$idpaciente' v_idgrupo='$idgrupo' des='a_pacientes/grupos' tp='¿Desea duplicar la actividad seleccionada?' title='Duplicar' dix='trabajo'><i class='far fa-clone'></i></button>";
 

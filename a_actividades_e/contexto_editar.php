@@ -1,7 +1,7 @@
 <?php
 	require_once("../a_actividades/db_.php");
 
-  $idcontexto=clean_var($_REQUEST['idcontexto']);
+  	$idcontexto=clean_var($_REQUEST['idcontexto']);
 	$paciente=0;
 	if (isset($_REQUEST['idpaciente'])) {
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
@@ -79,7 +79,7 @@
 	    }
 	    else if($tipo=="imagen"){
 				echo "<label>Adjuntar imagen</label>";
-				echo "<input type='file' id='texto_$idcontexto' name='texto_$idcontexto' accept='image/png, image/jpeg'>";
+				echo "<input type='file' id='texto' name='texto' accept='image/png, image/jpeg'>";
 				echo "<hr>";
 				if(strlen($texto)>0){
 					echo "<img src='".$db->doc.$texto."' width='500px'>";

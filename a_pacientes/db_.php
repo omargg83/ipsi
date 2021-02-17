@@ -636,7 +636,6 @@ class Cliente extends ipsi{
 			$arreglo+=array('idactividad'=>$idactividad_array['id1']);
 			$x=$this->insert('actividad_per', $arreglo);
 
-
 			////////////Clonar Subactividad
 			$sql="select * from subactividad where idactividad=:idactividad";
 			$sth = $this->dbh->prepare($sql);
@@ -799,10 +798,9 @@ class Cliente extends ipsi{
 	public function quitar_actividad(){
 		$idactividad=clean_var($_REQUEST['idactividad']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
-
+		
 		
 		return $this->borrar('actividad',"idactividad",$idactividad);
-		
 	}
 
 	public function buscar_actividad($b_actividad){

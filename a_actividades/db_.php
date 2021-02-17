@@ -1082,7 +1082,6 @@ class Cuest extends ipsi{
 			$x=$this->insert('actividad_per', $arreglo);
 		}
 
-
 		//////////////////clonar escala_sub
 		$sql="select * from escala_actividad where idactividad=$idactividad";
 		$sth = $this->dbh->query($sql);
