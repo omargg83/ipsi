@@ -7,16 +7,12 @@
 	$paciente = $db->cliente_editar($idpaciente);
 	$nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
 
-	$sql="select * from track where id=:idtrack";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idtrack",$idtrack);
-	$sth->execute();
+	$sql="select * from track where id=$idtrack";
+	$sth = $db->dbh->query($sql);
 	$track=$sth->fetch(PDO::FETCH_OBJ);
 
-	$sql="select * from terapias where id=:idterapia";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idterapia",$track->idterapia);
-	$sth->execute();
+	$sql="select * from terapias where id=$track->idterapia";
+	$sth = $db->dbh->query($sql);
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 	$continuar=1;
@@ -68,14 +64,6 @@
 		echo "Faltan actividades iniciales por concluir";
 		return 0;
 	}
-
-	///////////////////////CODIGO
-	$sql="SELECT * from modulo_per left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=:id and modulo.idtrack=:idtrack";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":id",$idpaciente);
-	$sth->bindValue(":idtrack",$idtrack);
-	$sth->execute();
-	$modulos=$sth->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -89,112 +77,87 @@
 </nav>
 
 <?php
-	if($track->inicial!=1){
- 		echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
-   		echo "Mis Modulos";
- 		echo "</div>";
+
+	if($track->inicial==1){
+		echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
+		  echo "Grupos";
+		echo "</div>";
+
+		$sql="select * from grupo_actividad_pre left outer join grupo_actividad on grupo_actividad.idgrupo=grupo_actividad_pre.idgrupo where grupo_actividad.idtrack=$track->id and grupo_actividad_pre.idpaciente=$idpaciente order by grupo_actividad.orden asc";
+		$sth = $db->dbh->query($sql);
+		$grupos=$sth->fetchAll(PDO::FETCH_OBJ);
+		echo "<div class='container'>";
+			echo "<div class='row'>";
+			foreach($grupos as $key){
+				echo "<div class='col-4 p-2 w-50 actcard'>";
+					echo "<div class='card' style='height:400px'>";
+						echo "<div class='card-header'>";
+							echo "<div class='row'>";
+								echo "<div class='col-12'>";
+									echo $key->grupo;
+								echo "</div>";
+							echo "</div>";
+
+						echo "</div>";
+						echo "<div class='card-body' style='overflow:auto; height:220px'>";
+							echo "<div class='row'>";
+								echo "<div class='col-12'>";
+									echo $key->observaciones;
+								echo "</div>";
+							echo "</div>";
+						echo "</div>";
+
+						echo "<div class='card-body'>";
+							echo "<div class='row'>";
+								echo "<div class='col-12'>";
+									echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_respuesta/grupos' dix='contenido' v_idgrupo='$key->idgrupo' >Ver</button>";
+								echo "</div>";
+							echo "</div>";
+						echo "</div>";
+					echo "</div>";
+				echo "</div>";
+			}
+			echo "</div>";
+		echo "</div>";
 	}
 	else{
 		echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
-   		echo "Actividad inicial";
- 		echo "</div>";
+			echo "Mis Modulos";
+		echo "</div>";
+
+		echo "<div class='container'>";
+		  echo "<div class='row'>";
+
+			///////////////////////CODIGO
+			$sql="SELECT * from modulo_per left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=$idpaciente and modulo.idtrack=$idtrack";
+			$sth = $db->dbh->query($sql);
+			$modulos=$sth->fetchAll(PDO::FETCH_OBJ);
+	  	foreach($modulos as $key){
+	  		echo "<div class='col-4 p-3 w-50 actcard'>";
+	  			echo "<div class='card'>";
+						echo "<img style='vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;' src='img/lapiz.png'>";
+						echo "<div class='card-header'>";
+							echo $key->nombre;
+						echo "</div>";
+	  				echo "<div class='card-body'>";
+	  					echo "<div class='row'>";
+	  						echo "<div class='col-12'>";
+	  							echo $key->descripcion;
+	  						echo "</div>";
+	  					echo "</div>";
+	  				echo "</div>";
+	  				echo "<div class='card-body'>";
+	  					echo "<div class='row'>";
+	  						echo "<div class='col-12'>";
+	  							echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_respuesta/actividades' dix='contenido' v_idmodulo='$key->id'>Ver</button>";
+	  						echo "</div>";
+	  					echo "</div>";
+	  				echo "</div>";
+	  			echo "</div>";
+	  		echo "</div>";
+	  	}
+			echo "</div>";
+		echo "</div>";
 	}
- ?>
-<div class='container'>
-  <div class='row'>
-		<?php
-		///////////////////////CODIGO
-		$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idtrack=:idtrack and visible=1";
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":id",$idpaciente);
-		$sth->bindValue(":idtrack",$idtrack);
-		$sth->execute();
-		$inicial=$sth->fetchAll(PDO::FETCH_OBJ);
 
-		$continuar=1;
-		foreach($inicial as $key){
-			$total=0;
-			$sql="SELECT count(contexto.id) as total from contexto
-			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-			where subactividad.idactividad=:id and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
-			$contx = $db->dbh->prepare($sql);
-			$contx->bindValue(":id",$key->idactividad);
-			$contx->execute();
-			$bloques=$contx->fetch(PDO::FETCH_OBJ);
-
-			$sql="SELECT count(contexto_resp.id) as total FROM	contexto
-			right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
-			left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-			where subactividad.idactividad=:id
-			group by contexto.id";
-			$contx = $db->dbh->prepare($sql);
-			$contx->bindValue(":id",$key->idactividad);
-			$contx->execute();
-			if($contx->rowCount()){
-				$total=(100*$contx->rowCount())/$bloques->total;
-			}
-
-			if($total!=100){
-				$continuar=0;
-			}
-		?>
-			<div class='col-4 p-2 w-50 actcard'>
-				<div class='card' style='height:400px'>
-					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
-
-					<div class='card-header'>
-						<?php echo $key->nombre; ?> <br>(Actividad inicial)
-						<?php
-							echo "<br><progress id='file' value='$total' max='100'> $total %</progress>";
-						?>
-					</div>
-					<div class='card-body' style='overflow:auto; height:220px'>
-						<div class='row'>
-							<div class='col-12'>
-								<?php echo $key->observaciones; ?>
-							</div>
-						</div>
-					</div>
-					<div class='card-body'>
-						<div class='row'>
-							<div class='col-12'>
-								<button class="btn btn-danger btn-block" type="button" is="b-link" des="a_respuesta/actividad_ver" dix="contenido" v_idactividad="<?php echo $key->idactividad; ?>" v_idtrack="<?php echo $idtrack; ?>" v_idpaciente='<?php echo $idpaciente; ?>'>Ver</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		<?php
-		}
-		?>
-
-  <?php
-  	foreach($modulos as $key){
-  ?>
-  		<div class='col-4 p-3 w-50 actcard'>
-  			<div class='card'>
-					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
-					<div class="card-header">
-						<?php echo $key->nombre; ?>
-					</div>
-  				<div class='card-body'>
-  					<div class='row'>
-  						<div class='col-12'>
-  							<?php echo $key->descripcion; ?>
-  						</div>
-  					</div>
-  				</div>
-  				<div class='card-body'>
-  					<div class='row'>
-  						<div class='col-12'>
-  							<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_respuesta/actividades" dix="contenido" v_idmodulo="<?php echo $key->id; ?>"  >Ver</button>
-  						</div>
-  					</div>
-  				</div>
-  			</div>
-  		</div>
-  	<?php
-  	}
-  	?>
-  </div>
-</div>
+?>

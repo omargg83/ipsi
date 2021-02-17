@@ -17,19 +17,25 @@
 	$grupo=$sth->fetch(PDO::FETCH_OBJ);
 	if(strlen($grupo->idtrack)){
 		$tipo="track";
-
-		$sql="select * from track where id=$grupo->idtrack";
-		$sth = $db->dbh->query($sql);
-		$track=$sth->fetch(PDO::FETCH_OBJ);
-		$inicial=$track->inicial;
-
-		$sql="select * from terapias where id=$track->idterapia";
-		$sth = $db->dbh->query($sql);
-		$terapia=$sth->fetch(PDO::FETCH_OBJ);
+		$idtrack=$grupo->idtrack;	
 	}
 	else{
-		$tipo="modulos";
+		$tipo="modulo";
+		$sql="select * from modulo where id=$grupo->idmodulo";
+		$sth = $db->dbh->query($sql);
+		$modulo=$sth->fetch(PDO::FETCH_OBJ);
+
+		$idtrack=$modulo->idtrack;
 	}
+
+	$sql="select * from track where id=$idtrack";
+	$sth = $db->dbh->query($sql);
+	$track=$sth->fetch(PDO::FETCH_OBJ);
+	$inicial=$track->inicial;
+
+	$sql="select * from terapias where id=$track->idterapia";
+	$sth = $db->dbh->query($sql);
+	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 
 	echo "<nav aria-label='breadcrumb'>";
@@ -37,11 +43,16 @@
 		 echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/lista' dix='trabajo'>Pacientes</li>";
 		 echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>$nombre</li>";
 		 echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/terapias' v_idpaciente='$idpaciente' dix='trabajo'>Terapias</li>";
+
 		 echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/track' dix='trabajo' v_idterapia='$terapia->id' v_idpaciente='$idpaciente'>$terapia->nombre</li>";
 
-		 if($tipo=="track"){
-			  echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$grupo->idtrack' v_idpaciente='$idpaciente' >$track->nombre</li>";
-		 }
+		
+		echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente' >$track->nombre</li>";
+
+		if($tipo=="modulo"){
+			echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/actividades' dix='trabajo' v_idmodulo='$modulo->id' v_idpaciente='$idpaciente'>$modulo->nombre</li>";
+		}
+		
 
 		 echo "<li class='breadcrumb-item active' is='li-link' des='a_pacientes/grupos' dix='trabajo' title='Grupo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente'>$grupo->grupo</li>";
 
@@ -49,17 +60,18 @@
 			  echo "<button class='btn btn-warning btn-sm ' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' v_idterapia='$terapia->id'  v_idtrack='$grupo->idtrack' v_idpaciente='$idpaciente' >Regresar</button>";
 		 }
 
+		 if($tipo=="modulo"){
+			echo "<button class='btn btn-warning btn-sm ' type='button' is='b-link' des='a_pacientes/actividades' dix='trabajo' v_idterapia='$terapia->id'  v_idmodulo='$grupo->idmodulo' v_idpaciente='$idpaciente' >Regresar</button>";
+		 }
+
 
 	 echo "</ol>";
 	echo "</nav>";
-
-	echo "$tipo";
 
 
 	echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
 	  echo "Actividad inicial";
 	echo "</div>";
-
 
 	echo "<div class='container' id='filtro'>";
 		echo "<form id='filtro_form' des='a_pacientes/grupos'>";

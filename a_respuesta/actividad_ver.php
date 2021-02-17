@@ -26,18 +26,21 @@
 	$sth = $db->dbh->query($sql);
 	$actividad=$sth->fetch(PDO::FETCH_OBJ);
 
-	$inicial=0;
-	if($actividad->idtrack){
-		$inicial=1;
-		$idtrack=$actividad->idtrack;
+	$sql="select * from grupo_actividad where idgrupo=$actividad->idgrupo";
+	$sth = $db->dbh->query($sql);
+	$grupo=$sth->fetch(PDO::FETCH_OBJ);
+	if($grupo->idtrack){
+		$tipo="track";
+		$idtrack=$grupo->idtrack;
 	}
 	else{
-		$sql="select * from modulo where id=$actividad->idmodulo";
+		$tipo="modulo";
+		$sql="select * from modulo where id=$grupo->idmodulo";
 		$sth = $db->dbh->query($sql);
 		$modulo=$sth->fetch(PDO::FETCH_OBJ);
 		$idtrack=$modulo->idtrack;
-
 	}
+
 	$sql="select * from track where id=$idtrack";
 	$sth = $db->dbh->query($sql);
 	$track=$sth->fetch(PDO::FETCH_OBJ);
@@ -57,7 +60,7 @@
 	$sql="(SELECT subactividad.* FROM contexto
 	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
 	where subactividad.idactividad=$idactividad and contexto.pagina=$pagina group by idsubactividad order by subactividad.orden asc)";
-	if($pagina==($no_paginas-1)){
+	if($pagina==($no_paginas-1) or $pagina==$no_paginas){
 		$sql.="UNION (
 		SELECT subactividad.* FROM subactividad
 		left outer join contexto on subactividad.idsubactividad=contexto.idsubactividad
@@ -68,37 +71,30 @@
 	$subactividad=$sth->fetchAll(PDO::FETCH_OBJ);
 
 
+echo "<nav aria-label='breadcrumb'>";
+	echo "<ol class='breadcrumb'>";
+		echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_respuesta/terapias'  dix='contenido'>Terapias</li>";
+		echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_respuesta/track' dix='contenido' v_idterapia='$terapia->id'>$terapia->nombre</li>";
+		echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_respuesta/modulos' dix='contenido' v_idtrack='$idtrack'>$track->nombre</li>";
+
+		if($tipo=="track"){
+			echo "<li class='breadcrumb-item active' is='li-link' des='a_respuesta/grupos' dix='contenido' title='Grupo' v_idgrupo='$grupo->idgrupo'>$grupo->grupo</li>";
+		}
+		if($tipo=="modulo"){
+	 		echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_respuesta/actividades' dix='contenido' v_idmodulo='$modulo->id' >$modulo->nombre</li>";
+			echo "<li class='breadcrumb-item active' is='li-link' des='a_respuesta/grupos' dix='contenido' title='Grupo' v_idgrupo='$grupo->idgrupo'>$grupo->grupo</li>";
+		}
+	 	echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_respuesta/actividad_ver' dix='contenido' v_idactividad='$idactividad' >$nombre_act</li>";
+
+		if($tipo=="track"){
+			echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_respuesta/grupos' dix='contenido' v_idgrupo='$grupo->idgrupo' >Regresar</button>";
+		}
+		else{
+			echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_respuesta/grupos' dix='contenido' v_idgrupo='$grupo->idgrupo' >Regresar</button>";
+		}
+ 	echo "</ol>";
+echo "</nav>";
 ?>
-<nav aria-label='breadcrumb'>
- <ol class='breadcrumb'>
-
-	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_respuesta/terapias"  dix="contenido">Terapias</li>
-	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_respuesta/track" dix="contenido" v_idterapia="<?php echo $terapia->id; ?>" ><?php echo $terapia->nombre; ?></li>
-	 <?php
-	 if($inicial==0){
-	?>
-		 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_respuesta/modulos" dix="contenido" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
-		 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_respuesta/actividades" dix="contenido" v_idmodulo="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
-		<?php
-	 }
-	 ?>
-	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_respuesta/actividad_ver" dix="contenido" v_idactividad="<?php echo $idactividad; ?>" ><?php echo $nombre_act; ?></li>
-
-		 <?php
-		 if($inicial==0){
-		 ?>
-		 <button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_respuesta/actividades" dix="contenido" v_idmodulo="<?php echo $modulo->id; ?>" >Regresar</button>
-		 <?php
-		 }
-		 else{
-		 ?>
-		 	<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_respuesta/track" dix="contenido" v_idterapia="<?php echo $idterapia; ?>" >Regresar</button>
-		 <?php
-		 }
-		 ?>
- </ol>
-</nav>
-
 <!-- actividad  -->
 <div class="container">
 	<div class="card mb-3">

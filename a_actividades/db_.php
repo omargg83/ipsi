@@ -969,7 +969,7 @@ class Cuest extends ipsi{
 		///////////clonar subactividad
 		$arreglo=array();
 		$arreglo+=array('pagina'=>$sub->pagina);
-		$arreglo+=array('orden'=>$sub->orden);
+		$arreglo+=array('orden'=>999999);
 		$arreglo+=array('idactividad'=>$sub->idactividad);
 		$arreglo+=array('nombre'=>$sub->nombre." Duplicada");
 

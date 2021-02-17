@@ -783,6 +783,8 @@ class Cliente extends ipsi{
 	}
 	public function borrar_grupo(){
 		if (isset($_REQUEST['idgrupo'])){$idgrupo=$_REQUEST['idgrupo'];}
+		if (isset($_REQUEST['idper'])){$idper=$_REQUEST['idper'];}
+
 		$sql="select * from actividad where idgrupo=$idgrupo";
 		$sth = $this->dbh->query($sql);
 		if($sth->rowCount()>0){
@@ -792,7 +794,7 @@ class Cliente extends ipsi{
 			$arreglo+=array('terror'=>'Contiene Actividades');
 			return json_encode($arreglo);
 		}
-		return $this->borrar('grupo_actividad',"idgrupo",$idgrupo);
+		return $this->borrar('grupo_actividad_pre',"idper",$idper);
 	}
 	public function quitar_actividad(){
 		$idactividad=clean_var($_REQUEST['idactividad']);

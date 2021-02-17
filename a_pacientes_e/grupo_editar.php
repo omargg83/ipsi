@@ -2,38 +2,49 @@
 	require_once("../a_pacientes/db_.php");
 	$idterapia="";
 
-if(isset($_REQUEST['idtrack'])){
-    $idtrack=$_REQUEST['idtrack'];
-    $tipo="track";
-  }
+	if(isset($_REQUEST['idtrack'])){
+		$idtrack=$_REQUEST['idtrack'];
+		$tipo="track";
+	}
+	if(isset($_REQUEST['idmodulo'])){
+		$idmodulo=$_REQUEST['idmodulo'];
+		$tipo="modulo";
+	}
+
 	$idpaciente=$_REQUEST['idpaciente'];
-  $idgrupo=$_REQUEST['idgrupo'];
+	$idgrupo=$_REQUEST['idgrupo'];
 
-  /////////////////////breadcrumb
-  $paciente = $db->cliente_editar($idpaciente);
-  $nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
+	/////////////////////breadcrumb
+	$paciente = $db->cliente_editar($idpaciente);
+	$nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
+	
+	if($tipo=="modulo"){
+		$sql="select * from modulo where id=$idmodulo";
+		$sth = $db->dbh->query($sql);
+		$modulo=$sth->fetch(PDO::FETCH_OBJ);
 
-  $sql="select * from track where id=:idtrack";
-  $sth = $db->dbh->prepare($sql);
-  $sth->bindValue(":idtrack",$idtrack);
-  $sth->execute();
-  $track=$sth->fetch(PDO::FETCH_OBJ);
-  $inicial=$track->inicial;
+		$idtrack=$modulo->idtrack;
+	}
 
-  $sql="select * from terapias where id=$track->idterapia";
-  $sth = $db->dbh->query($sql);
-  $terapia=$sth->fetch(PDO::FETCH_OBJ);
+	$sql="select * from track where id=$idtrack";
+	$sth = $db->dbh->query($sql);
+	$track=$sth->fetch(PDO::FETCH_OBJ);
+	$inicial=$track->inicial;
+
+	$sql="select * from terapias where id=$track->idterapia";
+	$sth = $db->dbh->query($sql);
+	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 
-  $grupo="";
-  $observaciones="";
-  if($idgrupo>0){
-    $sql="SELECT * FROM grupo_actividad	WHERE idgrupo=$idgrupo";
-    $sth = $db->dbh->query($sql);
-    $grupodb=$sth->fetch(PDO::FETCH_OBJ);
-    $grupo=$grupodb->grupo;
-    $observaciones=$grupodb->observaciones;
-  }
+	$grupo="";
+	$observaciones="";
+	if($idgrupo>0){
+		$sql="SELECT * FROM grupo_actividad	WHERE idgrupo=$idgrupo";
+		$sth = $db->dbh->query($sql);
+		$grupodb=$sth->fetch(PDO::FETCH_OBJ);
+		$grupo=$grupodb->grupo;
+		$observaciones=$grupodb->observaciones;
+	}
 
 
 echo "<nav aria-label='breadcrumb'>";
