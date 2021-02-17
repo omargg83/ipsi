@@ -85,10 +85,6 @@
 												}
 											}
 										}
-
-										//echo "<a class='nav-link' is='menu-link' href='#a_respuesta/grupos?idtrack=$track->id' is='menu-link'>$track->nombre</a>";
-										//echo "<a class='nav-link' is='menu-link' href='#a_respuesta/grupos' is='menu-link'>$track->nombre</a>";
-										//echo "<a class='nav-link' is='menu-link' href='#a_respuesta/terapias' is='menu-link'>$track->nombre aca</a>";
 									echo "</nav>";
 								}
 								echo "</div>";
