@@ -10,7 +10,6 @@
 	$telefono=$pd->telefono;
 	$correo=$pd->correo;
 	$foto=$pd->foto;
-	$observaciones=$pd->observaciones;
 	$numero=$pd->numero;
 
 	$suc=$db->sucursal($pd->idsucursal);

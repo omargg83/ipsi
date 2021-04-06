@@ -167,14 +167,14 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['apellidom'])){
 			$arreglo+=array('apellidom'=>clean_var($_REQUEST['apellidom']));
 		}
-		if (isset($_REQUEST['telefono'])){
-			$arreglo+=array('telefono'=>clean_var($_REQUEST['telefono']));
-		}
 		if (isset($_REQUEST['edad'])){
 			$arreglo+=array('edad'=>clean_var($_REQUEST['edad']));
 		}
 		if (isset($_REQUEST['correo'])){
 			$arreglo+=array('correo'=>clean_var($_REQUEST['correo']));
+		}
+		if (isset($_REQUEST['telefono'])){
+			$arreglo+=array('telefono'=>clean_var($_REQUEST['telefono']));
 		}
 		if (isset($_REQUEST['civil'])){
 			$arreglo+=array('civil'=>clean_var($_REQUEST['civil']));
@@ -203,68 +203,44 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['telefono_vive'])){
 			$arreglo+=array('telefono_vive'=>clean_var($_REQUEST['telefono_vive']));
 		}
+		if (isset($_REQUEST['parentesco_vive'])){
+			$arreglo+=array('parentesco_vive'=>clean_var($_REQUEST['parentesco_vive']));
+		}
+
 		if (isset($_REQUEST['idsucursal'])){
 			$arreglo+=array('idsucursal'=>clean_var($_REQUEST['idsucursal']));
 		}
 
-		if (isset($_REQUEST['observaciones'])){
-			$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
+		if (isset($_REQUEST['enfermedad_cronica'])){
+			$arreglo+=array('enfermedad_cronica'=>clean_var($_REQUEST['enfermedad_cronica']));
 		}
-
-		if (isset($_REQUEST['fnacimiento']) and strlen($_REQUEST['fnacimiento'])>4){
-			$arreglo+=array('fnacimiento'=>clean_var($_REQUEST['fnacimiento']));
+		if (isset($_REQUEST['enfermedad'])){
+			$arreglo+=array('enfermedad'=>clean_var($_REQUEST['enfermedad']));
 		}
-		else{
-			$arreglo+=array('fnacimiento'=>null);
+		if (isset($_REQUEST['enfermedad_mental'])){
+			$arreglo+=array('enfermedad_mental'=>clean_var($_REQUEST['enfermedad_mental']));
 		}
-		if (isset($_REQUEST['hermanos']) and strlen($_REQUEST['hermanos']>0)){
-			$arreglo+=array('hermanos'=>clean_var($_REQUEST['hermanos']));
+		if (isset($_REQUEST['e_mental'])){
+			$arreglo+=array('e_mental'=>clean_var($_REQUEST['e_mental']));
 		}
-		else{
-			$arreglo+=array('hermanos'=>0);
+		if (isset($_REQUEST['consumo_medicamentos'])){
+			$arreglo+=array('consumo_medicamentos'=>clean_var($_REQUEST['consumo_medicamentos']));
 		}
-		if (isset($_REQUEST['facebook'])){
-			$arreglo+=array('facebook'=>clean_var($_REQUEST['facebook']));
+		if (isset($_REQUEST['c_medicamentos'])){
+			$arreglo+=array('c_medicamentos'=>clean_var($_REQUEST['c_medicamentos']));
 		}
-		if (isset($_REQUEST['estudios'])){
-			$arreglo+=array('estudios'=>clean_var($_REQUEST['estudios']));
+		if (isset($_REQUEST['alergias'])){
+			$arreglo+=array('alergias'=>clean_var($_REQUEST['alergias']));
 		}
-		if (isset($_REQUEST['trabajo'])){
-			$arreglo+=array('trabajo'=>clean_var($_REQUEST['trabajo']));
+		if (isset($_REQUEST['c_alergias'])){
+			$arreglo+=array('c_alergias'=>clean_var($_REQUEST['c_alergias']));
 		}
-		if (isset($_REQUEST['puesto'])){
-			$arreglo+=array('puesto'=>clean_var($_REQUEST['puesto']));
+		if (isset($_REQUEST['lesiones'])){
+			$arreglo+=array('lesiones'=>clean_var($_REQUEST['lesiones']));
 		}
-		if (isset($_REQUEST['ipsi'])){
-			$arreglo+=array('ipsi'=>clean_var($_REQUEST['ipsi']));
+		if (isset($_REQUEST['c_lesiones'])){
+			$arreglo+=array('c_lesiones'=>clean_var($_REQUEST['c_lesiones']));
 		}
-		if (isset($_REQUEST['contacto'])){
-			$arreglo+=array('contacto'=>clean_var($_REQUEST['contacto']));
-		}
-		if (isset($_REQUEST['parentesco'])){
-			$arreglo+=array('parentesco'=>clean_var($_REQUEST['parentesco']));
-		}
-		if (isset($_REQUEST['telparentesco'])){
-			$arreglo+=array('telparentesco'=>clean_var($_REQUEST['telparentesco']));
-		}
-
-		if (isset($_REQUEST['sexo'])){
-			$arreglo+=array('sexo'=>clean_var($_REQUEST['sexo']));
-		}
-		if (isset($_REQUEST['peso'])){
-			$arreglo+=array('peso'=>clean_var($_REQUEST['peso']));
-		}
-		if (isset($_REQUEST['altura'])){
-			$arreglo+=array('altura'=>clean_var($_REQUEST['altura']));
-		}
-
-		if (isset($_REQUEST['enfermedades'])){
-			$arreglo+=array('enfermedades'=>clean_var($_REQUEST['enfermedades']));
-		}
-		if (isset($_REQUEST['medicamentos'])){
-			$arreglo+=array('medicamentos'=>clean_var($_REQUEST['medicamentos']));
-		}
-
 		if (isset($_REQUEST['autoriza'])){
 			$arreglo+=array('autoriza'=>clean_var($_REQUEST['autoriza']));
 		}
