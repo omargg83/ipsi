@@ -142,7 +142,7 @@
 						<hr>
 						<div class='row'>
 							<div class='col-12'>
-								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/editar" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
+								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/editar_trabajo" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
 							</div>
 						</div>
 					</div>

@@ -282,7 +282,9 @@ class Usuario extends ipsi{
 				move_uploaded_file($tmp,$ruta.$nombreFile);
 				$ruta=$ruta."/".$nombreFile;
 				$arreglo+=array('foto'=>$nombreFile);
-				$_SESSION['foto']="a_archivos/terapeuta/".$nombreFile;
+				if($_SESSION['idusuario']==$id1){
+					$_SESSION['foto']="a_archivos/terapeuta/".$nombreFile;
+				}
 			}
 			else{
 				echo "fail $extension";

@@ -38,7 +38,7 @@
     ?>
       <div class='col-4 p-3 w-50 actcard'>
         <div class='card'>
-          <img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="<?php echo $db->pac.trim($key->foto); ?>">
+          <img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="<?php echo "a_archivos/terapeuta/".trim($key->foto); ?>">
 
 
           <div class='card-body'>

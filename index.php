@@ -112,7 +112,7 @@
 							echo "<a class='nav-link' is='menu-link' href='#a_pacientes/relaciones' v_idpaciente='".$_SESSION['idusuario']."' title='Usuarios'><div class='sb-nav-link-icon'><i class='far fa-file-alt'></i></div>Relaciones</a>";
 						}
 						if($_SESSION['nivel']==666){
-							echo "<a class='nav-link' is='menu-link' href='#a_pacientes/editar' title='Usuarios'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Mi cuenta</a>";
+							echo "<a class='nav-link' is='menu-link' href='#a_pacientes/editar_contenido' title='Usuarios'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Mi cuenta</a>";
 						}
 
 						if($_SESSION['nivel']==2 or $_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
@@ -128,7 +128,7 @@
 							echo "<a class='nav-link' is='menu-link' href='#a_consultorios/index' title='Consultorios'><div class='sb-nav-link-icon'><i class='fas fa-store'></i></div>Consultorios</a>";
 						}
 						if ($_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
-							echo "<a class='nav-link' is='menu-link' href='#a_usuarios/editar_p' title='Mi cuenta'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Mi cuenta</a>";
+							echo "<a class='nav-link' is='menu-link' href='#a_usuarios/editar_contenido' title='Mi cuenta'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Mi cuenta</a>";
 						}
 					?>
 				</div>

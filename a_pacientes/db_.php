@@ -286,6 +286,11 @@ class Cliente extends ipsi{
 				move_uploaded_file($tmp,$ruta.$nombreFile);
 				$ruta=$ruta."/".$nombreFile;
 				$arreglo+=array('foto'=>$nombreFile);
+				if($_SESSION['idusuario']==$id1){
+					$_SESSION['foto']="a_archivos/clientes/".$nombreFile;
+				}
+
+
 			}
 			else{
 				echo "fail";
@@ -1405,17 +1410,30 @@ class Cliente extends ipsi{
 
 	public function agregar_ter(){
 		try{
-			$arreglo=array();
-			$x="";
-			$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
-			$arreglo+=array('idcliente'=>$_REQUEST['idpaciente']);
-			$this->insert('cliente_terapeuta',$arreglo);
+			$sql="select * from cliente_terapeuta where idusuario=:idusuario and idcliente=:idpaciente";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":idusuario",$_REQUEST['idusuario']);
+			$sth->bindValue(":idpaciente",$_REQUEST['idpaciente']);
+			$sth->execute();
+			if ($sth->rowCount()==0){
+				$arreglo=array();
+				$x="";
+				$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
+				$arreglo+=array('idcliente'=>$_REQUEST['idpaciente']);
+				$this->insert('cliente_terapeuta',$arreglo);
 
-			$arreglo=array();
-			$arreglo+=array('id1'=>$_REQUEST['idpaciente']);
-			$arreglo+=array('error'=>0);
-			$arreglo+=array('terror'=>"La terapia ya existe");
-			return json_encode($arreglo);
+				$arreglo=array();
+				$arreglo+=array('id1'=>$_REQUEST['idpaciente']);
+				$arreglo+=array('error'=>0);
+				return json_encode($arreglo);
+			}
+			else{
+				$arreglo=array();
+				$arreglo+=array('id1'=>0);
+				$arreglo+=array('error'=>1);
+				$arreglo+=array('terror'=>"el terapeuta ya esta asignado");
+				return json_encode($arreglo);
+			}
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!";

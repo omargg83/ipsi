@@ -11,7 +11,6 @@
 	$telefono=$pd->telefono;
 	$correo=$pd->correo;
 	$foto=$pd->foto;
-	$observaciones=$pd->observaciones;
 
 	/////////////////////Relaciones
 	$sql="SELECT * FROM cliente_terapeuta LEFT OUTER JOIN usuarios ON cliente_terapeuta.idusuario = usuarios.idusuario WHERE cliente_terapeuta.idcliente =$idpaciente";
@@ -37,11 +36,12 @@
 	<div class='row'>
 
   	<?php
+	  
   	foreach($terap as $key){
   	?>
   		<div class='col-4 p-3 w-50 actcard'>
   			<div class='card'>
-					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="<?php echo $db->pac.trim($key->foto); ?>">
+					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="<?php echo "a_archivos/terapeuta/".trim($key->foto); ?>">
 					<div class='row'>
 						<div class='col-12'>
 
@@ -64,7 +64,7 @@
   	}
   	?>
 
-		<div id='' class='col-4 p-3 w-50'>
+	<div id='' class='col-4 p-3 w-50'>
       <div class="card" style='height:200px;'>
         <div class='card-body text-center'>
           <button class="btn btn-warning btn-block" type="button" is="b-link" des="a_pacientes\terapeutas_agregar" dix="trabajo" v_idpaciente='<?php echo $idpaciente; ?>'>Agregar</button>

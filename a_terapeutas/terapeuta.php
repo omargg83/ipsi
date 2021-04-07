@@ -101,7 +101,7 @@
   						<hr>
   						<div class='row'>
   							<div class='col-12'>
-  								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_usuarios/editar_p" dix="trabajo" v_desde='terapeuta' v_idusuario="<?php echo $idusuario;?>">Ver más</button>
+  								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_usuarios/editar_trabajo" dix="trabajo" v_desde='trabajo' v_idusuario="<?php echo $idusuario;?>">Ver más</button>
   							</div>
   						</div>
   					</div>
