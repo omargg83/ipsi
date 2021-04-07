@@ -176,14 +176,14 @@
 			<div class='row'>
 				<div class="col-sm-12">
 
-					<button class="btn btn-warning" type="submit">Guardar</button>
+					<button class="btn btn-warning btn-sm ml-1" type="submit">Guardar</button>
 					<?php
 						if($idusuario>0){
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1'>Foto</button>";
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1'>Contraseña</button>";
+							echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1'>Foto</button>";
+							echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1'>Contraseña</button>";
 						}
 
-						echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/index' dix='contenido'>Regresar</button>";
+						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/index' dix='contenido'>Regresar</button>";
 
 					?>
 

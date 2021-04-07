@@ -33,6 +33,7 @@ onload = ()=> {
 				formData.append(pair[0],pair[1]);
 			}
 		}
+
 		if(nhash==''){
 			nhash= 'dash/dashboard';
 		}
@@ -53,37 +54,37 @@ onload = ()=> {
 		xhr.send(formData);
 	}
 	function salir(){
-	var formData = new FormData();
-	formData.append("function", "salir");
-	formData.append("ctrl", "control");
-	let xhr = new XMLHttpRequest();
-	xhr.open('POST',"control_db.php");
-	xhr.addEventListener('load',(data)=>{
-		location.href ="login/";
-	});
-	xhr.onerror = (e)=>{
-		console.log(e);
-	};
-	xhr.send(formData);
-}
-	function sesion_ver(){
-	var formData = new FormData();
-	formData.append("function", "ses");
-	formData.append("ctrl", "control");
-
-	let xhr = new XMLHttpRequest();
-	xhr.open('POST',"control_db.php");
-	xhr.addEventListener('load',(data)=>{
-		var datos = JSON.parse(data.target.response);
-		if (datos.sess=="cerrada"){
+		var formData = new FormData();
+		formData.append("function", "salir");
+		formData.append("ctrl", "control");
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',"control_db.php");
+		xhr.addEventListener('load',(data)=>{
 			location.href ="login/";
-		}
-	});
-	xhr.onerror = (e)=>{
-		console.log(e);
-	};
-	xhr.send(formData);
-}
+		});
+		xhr.onerror = (e)=>{
+			console.log(e);
+		};
+		xhr.send(formData);
+	}
+	function sesion_ver(){
+		var formData = new FormData();
+		formData.append("function", "ses");
+		formData.append("ctrl", "control");
+
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',"control_db.php");
+		xhr.addEventListener('load',(data)=>{
+			var datos = JSON.parse(data.target.response);
+			if (datos.sess=="cerrada"){
+				location.href ="login/";
+			}
+		});
+		xhr.onerror = (e)=>{
+			console.log(e);
+		};
+		xhr.send(formData);
+	}
 
 	/*
 		Libreria Propia V.3

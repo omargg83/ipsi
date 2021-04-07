@@ -1,7 +1,8 @@
 <?php
+	require_once("db_.php");
 	$idpaciente=$_REQUEST['idpaciente'];
 ?>
-<form is="f-submit" id="form_foto" db="a_pacientes/db_" fun="foto" cmodal="1">
+<form is="f-submit" id="form_foto" db="a_pacientes/db_" fun="foto" cmodal="1" des='a_pacientes/editar' desid='idpaciente' cmodal='1' dix='contenido'>
 <div class='modal-header'>
 	<h5 class='modal-title'>Actualizar foto</h5>
 </div>

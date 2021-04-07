@@ -306,8 +306,6 @@ echo "<div class='container'>";
 						<label>¿Cúal?:</label>
 						<input type="text" class="form-control form-control-sm" name="c_lesiones" id="c_lesiones" value="<?php echo $c_lesiones;?>" maxlength="200" placeholder="¿Cúal?">
 					</div>
-
-
 				</div>
 
 				<?php

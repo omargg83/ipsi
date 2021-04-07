@@ -1,6 +1,6 @@
 <?php
 	require_once("db_.php");
-
+	$desde=$_REQUEST['desde'];
 	$idusuario=$_REQUEST['idusuario'];
 	$pd = $db->usuario_editar($idusuario);
 	$nombre=$pd->nombre;
@@ -16,15 +16,25 @@
 	$apellidop=$pd->apellidop;
 	$apellidom=$pd->apellidom;
 
+	if($desde=="")
+		$dix='contenido';
+	else
+		$dix='trabajo';
+
+	
+
 
 	if($mi!=1){
 		echo "<nav aria-label='breadcrumb'>";
 			echo "<ol class='breadcrumb'>";
-				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_terapeutas/index' dix='trabajo'>Terapeuta</li>";
-				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_terapeutas/terapeuta' v_idusuario='$idusuario' dix='trabajo'>$nombre $apellidop $apellidom</li>";
-				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_terapeutas/editar' v_idusuario='$idusuario' dix='trabajo'>Editar</li>";
-				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_terapeutas/horarios' v_idusuario='$idusuario' dix='trabajo'>Horarios</li>";
-				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/editar' v_idusuario='$idusuario' dix='trabajo'>Regresar</button>";
+			 	if(strlen($desde)>0){
+					echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_terapeutas/index' dix='$dix'>Terapeuta</li>";
+					echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_terapeutas/terapeuta' v_idusuario='$idusuario' dix='$dix'>$nombre $apellidop $apellidom</li>";
+				}
+				
+				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_usuarios/editar_p' v_desde='$desde' v_idusuario='$idusuario' dix='$dix'>Editar</li>";
+				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_terapeutas/horarios' v_desde='$desde' v_idusuario='$idusuario' dix='$dix'>Horarios</li>";
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/editar_p' v_desde='$desde' v_idusuario='$idusuario' dix='$dix'>Regresar</button>";
 			echo "</ol>";
 		echo "</nav>";
 	}
@@ -34,12 +44,11 @@ echo "<div class='container'>";
 		echo "<div class='card'>";
 			echo "<div class='card-header'>";
 				if($mi!=1){
-					echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/editar_horario' dix='trabajo' title='regresar' v_idusuario='$idusuario' v_idhorario='0'>Agregar horario</button>";
+					echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/editar_horario' dix='$dix' title='regresar' v_desde='$desde' v_idusuario='$idusuario' v_idhorario='0'>Agregar horario</button>";
 				}
 				else{
-					echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/editar_horario' dix='contenido' title='regresar' v_idusuario='$idusuario' v_idhorario='0' v_mi='1'>Agregar horario</button>";
-
-					echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/editar_p' dix='contenido' title='regresar' v_idusuario='$idusuario'>Regresar</button>";
+					echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/editar_horario' dix='contenido' title='regresar' v_desde='$desde' v_idusuario='$idusuario' v_idhorario='0' v_mi='1'>Agregar horario</button>";
+					echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/editar_p' dix='contenido' title='regresar' v_desde='$desde' v_idusuario='$idusuario'>Regresar</button>";
 				}
 			echo "</div>";
 ?>
@@ -58,9 +67,9 @@ echo "<div class='container'>";
 								echo "<div class='cell'>";
 
 								if($mi!=1){
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/editar_horario' dix='trabajo' v_idhorario='$key->idhorario'>Editar</button>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/editar_horario' dix='$dix' v_desde='$desde' v_idhorario='$key->idhorario'>Editar</button>";
 
-									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/horarios' dix='trabajo' db='a_terapeutas/db_' fun='horario_quitar' v_idhorario='$key->idhorario' v_idusuario='$idusuario' tp='¿Desea eliminar el horario seleccionado?' title='Borrar'>Eliminar</button>";
+									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/horarios' dix='$dix' db='a_terapeutas/db_' fun='horario_quitar' v_desde='$desde' v_idhorario='$key->idhorario' v_idusuario='$idusuario' tp='¿Desea eliminar el horario seleccionado?' title='Borrar'>Eliminar</button>";
 								}
 								else{
 									echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/editar_horario' dix='contenido' v_idhorario='$key->idhorario' v_mi='1'>Editar</button>";

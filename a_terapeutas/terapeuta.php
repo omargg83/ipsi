@@ -1,9 +1,9 @@
 <?php
 	require_once("db_.php");
 
-  $idusuario=$_REQUEST['idusuario'];
+  	$idusuario=$_REQUEST['idusuario'];
 
-  $pd = $db->usuario_editar($idusuario);
+  	$pd = $db->usuario_editar($idusuario);
 	$nombre=$pd->nombre;
 	$apellidop=$pd->apellidop;
 	$apellidom=$pd->apellidom;
@@ -12,9 +12,6 @@
 	$numero=$pd->numero;
 	$edad=$pd->edad;
 	$telefono=$pd->telefono;
-	$observaciones=$pd->observaciones;
-
-
 	/////////////////////Relaciones
 ?>
 
@@ -104,7 +101,7 @@
   						<hr>
   						<div class='row'>
   							<div class='col-12'>
-  								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_terapeutas/editar" dix="trabajo" v_idusuario="<?php echo $idusuario;?>">Ver más</button>
+  								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_usuarios/editar_p" dix="trabajo" v_desde='terapeuta' v_idusuario="<?php echo $idusuario;?>">Ver más</button>
   							</div>
   						</div>
   					</div>

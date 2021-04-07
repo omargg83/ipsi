@@ -1,7 +1,17 @@
 <?php
 	require_once("db_.php");
+	$desde="";
 
-	$idusuario=$_SESSION['idusuario'];
+	if(isset($_REQUEST['desde'])){
+		$desde=$_REQUEST['desde'];
+		$idusuario=$_REQUEST['idusuario'];
+	}
+	else{
+		$idusuario=$_SESSION['idusuario'];
+	}
+	echo $desde;
+	
+	$sucursal = $db->sucursal();
 	$foto="";
 	$autoriza="";
 	$nombre="";
@@ -49,12 +59,9 @@
 	$nivel="";
 	
 	
-	$idsucursal="";
+	$idsucursal=$_SESSION['idsucursal'];
 	$autoriza="";
 	
-	
-
-
 	if($idusuario>0){
 		$pd = $db->usuario_editar($idusuario);
 		$foto=$pd->foto;
@@ -106,13 +113,32 @@
 		$universidad_2=$pd->universidad_2;
 		$posgrado_3=$pd->posgrado_3;
 		$universidad_3=$pd->universidad_3;
+		$autoriza=$pd->autoriza;
+		$idsucursal=$pd->idsucursal;
 	}
 echo "nivel:".$nivel;
 
+if($desde=="terapeuta"){
+	echo "<nav aria-label='breadcrumb'>";
+		echo "<ol class='breadcrumb'>";
+			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_terapeutas/index' dix='trabajo'>Terapeuta</li>";
+			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_terapeutas/terapeuta' v_idusuario='$idusuario' dix='trabajo'>$nombre $apellidop $apellidom</li>";
+			echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_usuarios/editar_p' v_desde='$desde' v_idusuario='$idusuario' dix='trabajo'>Editar</li>";
+			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/terapeuta' v_idusuario='$idusuario' dix='trabajo'>Regresar</button>";
+		echo "</ol>";
+	echo "</nav>";
+
+	echo "<div class='container'>";
+
+		echo "<form is='f-submit' id='form_personal' db='a_usuarios/db_' fun='guardar_usuario' des='a_usuarios/editar_p' dix='trabajo' desid='idusuario' v_idusuario='$idusuario' v_desde='$desde'>";
+}
+else{
+	echo "<div class='container'>";
+		echo "<form is='f-submit' id='form_personal' db='a_usuarios/db_' fun='guardar_usuario' des='a_usuarios/editar_p' dix='contenido' desid='idusuario' v_idusuario='$idusuario' v_desde='$desde'>";
+}
+	
 ?>
 
-<div class="container">
-	<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des="a_usuarios/editar_p" dix='contenido' desid="idusuario" v_idusuario="<?php echo $idusuario; ?>">
 
 		<input type="hidden" class="form-control form-control-sm" name="idusuario" id="idusuario" value="<?php echo $idusuario ;?>" placeholder="No" readonly>
 		<div class='card'>
@@ -225,7 +251,7 @@ echo "nivel:".$nivel;
 			<hr>
 
 				<?php
-					if($nivel==1 or $nivel==2){	
+					if($nivel==1 or $nivel==2 or $nivel==3){	
 						echo "<div class='row'>";
 							echo "<div class='col-6'>";
 								echo "<label >Licenciatura*:</label>";
@@ -369,6 +395,35 @@ echo "nivel:".$nivel;
 					<input type="text" class="form-control form-control-sm" name="c_lesiones" id="c_lesiones" value="<?php echo $c_lesiones;?>" maxlength="200" placeholder="¿Cúal?">
 				</div>
 			</div>
+
+			
+			<?php
+				if($_SESSION['nivel']==1){
+					echo "<hr>";
+					echo "<div class='row'>";
+						echo "<div class='col-6'>";
+							echo "<label for=''>Activo:</label>";
+							echo "<select class='form-control form-control-sm' name='autoriza' id='autoriza'>";
+							echo "<option value='1'"; if($autoriza=="1") echo "selected"; echo ">Activo</option>";
+							echo "<option value='0'"; if($autoriza=="0") echo "selected"; echo ">Inactivo</option>";
+							echo "</select>";
+						echo "</div>";
+
+						echo "<div class='col-6'>";
+							echo "<label for='nombre'>Sucursal</label>";
+							echo "<select name='idsucursal' id='idsucursal' class='form-control form-control-sm'>";
+								foreach($sucursal as $key){
+									echo  "<option value=".$key->idsucursal;
+									if ($key->idsucursal==$idsucursal){
+										echo  " selected ";
+									}
+									echo  ">".$key->nombre."</option>";
+								}
+							echo "</select>";
+						echo "</div>";
+					echo "</div>";
+				}		
+			?>
 			
 		</div>
 
@@ -379,6 +434,18 @@ echo "nivel:".$nivel;
 					<?php
 						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1'>Foto</button>";
 						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1'>Contraseña</button>";
+
+						if($desde=="terapeuta" or $nivel==2){
+							if($desde=="terapeuta")
+								echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_terapeutas/horarios' v_desde='$desde' v_idusuario='$idusuario' dix='trabajo'>Horarios</button>";
+							else
+								echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_terapeutas/horarios' v_desde='$desde' v_idusuario='$idusuario' dix='contenido'>Horarios</button>";
+						}
+						
+						if($desde=="terapeuta"){
+							echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_terapeutas/terapeuta' dix='trabajo' v_idusuario='$idusuario'>Regresar</button>";
+						}
+						
 					?>
 				</div>
 			</div>

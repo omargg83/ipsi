@@ -281,7 +281,7 @@ class Cliente extends ipsi{
 		$info = pathinfo($nombrearchivo);
 		if($archivo!=""){
 			$extension = $info['extension'];
-			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG' || $extension=='jpeg' || $extension=='JPEG') {
 				$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
 				move_uploaded_file($tmp,$ruta.$nombreFile);
 				$ruta=$ruta."/".$nombreFile;

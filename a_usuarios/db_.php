@@ -58,8 +58,7 @@ class Usuario extends ipsi{
 		}
 		if($_SESSION['nivel']==4){
 			$sql="select * from usuarios where nivel>1 and nivel!=2 and idusuario!=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
-		}
-		echo $sql;
+		}		
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
@@ -278,7 +277,7 @@ class Usuario extends ipsi{
 		$info = pathinfo($nombrearchivo);
 		if($archivo!=""){
 			$extension = $info['extension'];
-			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG' || $extension=='jpeg' || $extension=='JPEG') {
 				$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
 				move_uploaded_file($tmp,$ruta.$nombreFile);
 				$ruta=$ruta."/".$nombreFile;
@@ -286,7 +285,7 @@ class Usuario extends ipsi{
 				$_SESSION['foto']="a_archivos/terapeuta/".$nombreFile;
 			}
 			else{
-				echo "fail";
+				echo "fail $extension";
 				exit;
 			}
 		}
