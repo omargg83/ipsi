@@ -32,6 +32,7 @@
 	$nombre_vive="";
 	$telefono_vive="";
 	$parentesco_vive="";
+	$estatus="";
 		
 	$enfermedad_cronica="";
 	$enfermedad="";
@@ -44,6 +45,7 @@
 
 	$alergias="";
 	$c_alergias="";
+	$numero="";
 
 	$lesiones="";
 	$c_lesiones="";
@@ -53,6 +55,7 @@
 
 	if($idpaciente>0){
 		$pd = $db->cliente_editar($idpaciente);
+		$numero=$pd->numero;
 		$idsucursal=$pd->idsucursal;
 		$foto=$pd->foto;
 		$autoriza=$pd->autoriza;
@@ -89,26 +92,28 @@
 		$c_lesiones=$pd->c_lesiones;
 		
 		$nombrec="$nombre $apellidop $apellidom";
+
+		$estatus=$pd->estatus;
 	}
 
 	
-		echo "<nav aria-label='breadcrumb'>";
-			echo "<ol class='breadcrumb'>";
-				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/index' dix='trabajo'>Pacientes</li>";
-				if($idpaciente>0)
-					echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>$nombrec</li>";
-				else
-					echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/editar_trabajo' v_idpaciente='$idpaciente' dix='trabajo'>$nombrec</li>";
+	echo "<nav aria-label='breadcrumb'>";
+		echo "<ol class='breadcrumb'>";
+			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/index' dix='trabajo'>Pacientes</li>";
+			if($idpaciente>0)
+				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>$nombrec</li>";
+			else
+				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/editar_trabajo' v_idpaciente='$idpaciente' dix='trabajo'>$nombrec</li>";
 
-				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/editar_trabajo' v_idpaciente='$idpaciente' dix='trabajo'>Ficha de registro</li>";
-				if($idpaciente>0){
-					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
-				}
-				else{
-					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link'  des='a_pacientes/index' dix='trabajo'>Regresar</button>";
-				}
-			echo "</ol>";
-		echo "</nav>";
+			echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/editar_trabajo' v_idpaciente='$idpaciente' dix='trabajo'>Ficha de registro</li>";
+			if($idpaciente>0){
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+			}
+			else{
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link'  des='a_pacientes/index' dix='trabajo'>Regresar</button>";
+			}
+		echo "</ol>";
+	echo "</nav>";
 	
 
 echo "<div class='container'>";
@@ -117,6 +122,9 @@ echo "<div class='container'>";
 		echo "<input type='hidden' name='idpaciente' id='idpaciente' value='$idpaciente'>";
 		echo "<div class='card'>";
 			include "editar_paciente.php";
+
+			
+			
 		
 			echo "<div class='card-footer'>";
 				echo "<div class='row'>";

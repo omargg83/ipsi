@@ -33,7 +33,7 @@
 						echo "<div class='cell'>";
 							echo "<div class='btn-group'>";
 					?>
-								<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_usuarios/editar' dix='contenido' tp="edit" v_idusuario='<?php echo $key->idusuario; ?>' title='editar'>Editar</button>
+								<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_usuarios/editar_cuenta' v_desde='cuentas' dix='contenido' tp="edit" v_idusuario='<?php echo $key->idusuario; ?>' title='editar'>Editar</button>
 								</div>
 							</div>
 						<div class='cell' data-titulo='Nombre'><?php echo "$key->nombre $key->apellidop $key->apellidom"; ?></div>

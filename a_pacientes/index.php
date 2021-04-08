@@ -18,7 +18,7 @@
 				<?php
 					echo "<li class='nav-item active'><a class='nav-link barranav' is='a-link' title='Mostrar todo' id='lista_comision' des='a_pacientes/lista' dix='lista'><span>Pacientes</span></a></li>";
 					if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
-						echo "<li class='nav-item active'><a class='nav-link barranav izq' is='a-link' title='Nuevo' id='new_personal' des='a_pacientes/editar_trabajo' v_idpaciente='0' dix='trabajo'><span>Agregar usuario</span></a></li>";
+						echo "<li class='nav-item active'><a class='nav-link barranav izq' is='a-link' title='Nuevo' id='new_personal' des='a_pacientes/editar_trabajo' v_idpaciente='0' dix='trabajo'><span>Agregar paciente</span></a></li>";
 					}
 				?>
 			</ul>

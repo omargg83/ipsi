@@ -218,16 +218,15 @@ class Usuario extends ipsi{
 		if (isset($_REQUEST['universidad_3'])){
 			$arreglo+=array('universidad_3'=>clean_var($_REQUEST['universidad_3']));
 		}
-		
-
-		if($_SESSION['nivel']==1){
-			if (isset($_REQUEST['idsucursal'])){
-				$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
-			}
+		if (isset($_REQUEST['nivel'])){
+			$arreglo+=array('nivel'=>clean_var($_REQUEST['nivel']));
 		}
-		$_SESSION['nombrec']=$_REQUEST['nombre']." ".$_REQUEST['apellidop'];
+			
+		if (isset($_REQUEST['idsucursal'])){
+			$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
+		}
+		
 		if($idusuario==0){
-
 			$sql="select * from usuarios where correo='$correo'";
 			$sth = $this->dbh->prepare($sql);
 			$a=$sth->execute();
@@ -237,11 +236,6 @@ class Usuario extends ipsi{
 				$arreglo+=array('terror'=>"Ya existe el usuario favor de verificar");
 				return json_encode($arreglo);
 			}
-
-			if($_SESSION['nivel']==3){
-				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
-			}
-			$arreglo+=array('nivel'=>2);  ///terapeuta
 			$x=$this->insert('usuarios', $arreglo);
 		}
 		else{
@@ -282,6 +276,35 @@ class Usuario extends ipsi{
 				move_uploaded_file($tmp,$ruta.$nombreFile);
 				$ruta=$ruta."/".$nombreFile;
 				$arreglo+=array('foto'=>$nombreFile);
+				if($_SESSION['idusuario']==$id1){
+					$_SESSION['foto']="a_archivos/terapeuta/".$nombreFile;
+				}
+			}
+			else{
+				echo "fail $extension";
+				exit;
+			}
+		}
+		return $this->update('usuarios',array('idusuario'=>$id1), $arreglo);
+	}
+	public function curriculum(){
+		$x="";
+		$arreglo =array();
+		$id1=$_REQUEST['id1'];
+
+		$extension = '';
+		$ruta = '../a_archivos/terapeuta/';
+		$archivo = $_FILES['foto']['tmp_name'];
+		$nombrearchivo = $_FILES['foto']['name'];
+		$tmp=$_FILES['foto']['tmp_name'];
+		$info = pathinfo($nombrearchivo);
+		if($archivo!=""){
+			$extension = $info['extension'];
+			if ($extension=='pdf' || $extension=='PDF' || $extension=='DOC'  || $extension=='DOCX' ) {
+				$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
+				move_uploaded_file($tmp,$ruta.$nombreFile);
+				$ruta=$ruta."/".$nombreFile;
+				$arreglo+=array('cv'=>$nombreFile);
 				if($_SESSION['idusuario']==$id1){
 					$_SESSION['foto']="a_archivos/terapeuta/".$nombreFile;
 				}

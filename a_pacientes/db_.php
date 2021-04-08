@@ -161,6 +161,9 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
+		if (isset($_REQUEST['numero'])){
+			$arreglo+=array('numero'=>clean_var($_REQUEST['numero']));
+		}
 		if (isset($_REQUEST['apellidop'])){
 			$arreglo+=array('apellidop'=>clean_var($_REQUEST['apellidop']));
 		}
@@ -170,11 +173,14 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['edad'])){
 			$arreglo+=array('edad'=>clean_var($_REQUEST['edad']));
 		}
-		if (isset($_REQUEST['correo'])){
-			$arreglo+=array('correo'=>clean_var($_REQUEST['correo']));
-		}
+		$correo=$_REQUEST['correo'];
+		$arreglo+=array('correo'=>$correo);
+		
 		if (isset($_REQUEST['telefono'])){
 			$arreglo+=array('telefono'=>clean_var($_REQUEST['telefono']));
+		}
+		if (isset($_REQUEST['estatus'])){
+			$arreglo+=array('estatus'=>clean_var($_REQUEST['estatus']));
 		}
 		if (isset($_REQUEST['civil'])){
 			$arreglo+=array('civil'=>clean_var($_REQUEST['civil']));
@@ -246,6 +252,15 @@ class Cliente extends ipsi{
 		}
 
 		if($idpaciente==0){
+			$sql="select * from clientes where correo='$correo'";
+			$sth = $this->dbh->prepare($sql);
+			$a=$sth->execute();
+			if($sth->rowCount()>0){
+				$arreglo+=array('id1'=>0);
+				$arreglo+=array('error'=>1);
+				$arreglo+=array('terror'=>"Ya existe el usuario favor de verificar");
+				return json_encode($arreglo);
+			}
 			$x=$this->insert('clientes', $arreglo);
 		}
 		else{

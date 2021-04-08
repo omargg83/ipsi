@@ -16,6 +16,10 @@
 
 	<div class='row'>
 		<div class="col-3">
+			<label>ID#:</label>
+			<input type="text" class="form-control form-control-sm" name="numero" id="numero" value="<?php echo $numero;?>" placeholder="ID#" maxlength="100" required >
+		</div>
+		<div class="col-3">
 			<label>Nombre*:</label>
 			<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" maxlength="100" required >
 		</div>
@@ -30,17 +34,18 @@
 			<input type="text" class="form-control form-control-sm" name="apellidom" id="apellidom" value="<?php echo $apellidom;?>" placeholder="Apellido materno" maxlength="50" required>
 		</div>
 
+	</div>
+	<div class='row'>
+
 		<div class="col-3">
 			<label>Edad*:</label>
 			<input type="text" class="form-control form-control-sm" name="edad" id="edad" value="<?php echo $edad;?>" placeholder="Edad"  maxlength="20" required>
 		</div>
 
-	</div>
-	<div class='row'>
 
 		<div class="col-3">
 			<label>Correo*:</label>
-			<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo;?>" placeholder="Correo" maxlength="100" required>
+			<input type="email" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo;?>" placeholder="Correo" maxlength="100" required>
 		</div>
 
 		<div class="col-3">
@@ -198,7 +203,16 @@
 		if($_SESSION['nivel']!=666){
 			echo "<hr>";
 			echo "<div class='row'>";
-				echo "<div class='col-sm-4'>";
+				echo "<div class='col-4'>";
+					echo "<label>Estatus:</label>";
+					echo "<select name='estatus' id='estatus' class='form-control form-control-sm' required>";
+						echo "<option value='EN CURSO'"; if($estatus=='EN CURSO') echo 'selected'; echo ">EN CURSO</option>";
+						echo "<option value='BAJA'"; if($estatus=='BAJA') echo 'selected'; echo ">BAJA</option>";
+						echo "<option value='ALTA'"; if($estatus=='ALTA') echo 'selected'; echo ">ALTA</option>";
+					echo "</select>";
+				echo "</div>";
+
+				echo "<div class='col-4'>";
 					echo "<label for='nombre'>Sucursal</label>";
 					echo "<select name='idsucursal' id='idsucursal' class='form-control form-control-sm'>";
 						foreach($sucursal as $key){
@@ -219,6 +233,12 @@
 					echo "<option value='0'"; if($autoriza=="0") echo "selected"; echo ">Inactivo</option>";
 					echo "</select>";
 				echo "</div>";
+
+				
+				
+					
+				
+				
 			echo "</div>";
 		}
 	?>

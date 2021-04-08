@@ -61,9 +61,9 @@
 	$posgrado_3="";
 	$universidad_3="";
 	$direccion="";
+	$cv="";
 	
 	$nombrec="Agregar";
-	$cv="";
 	
 	
 	$idsucursal=$_SESSION['idsucursal'];
@@ -129,24 +129,15 @@
 	
 	echo "<nav aria-label='breadcrumb'>";
 		echo "<ol class='breadcrumb'>";
-			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_terapeutas/index' dix='trabajo'>Terapeuta</li>";
-			if($idusuario>0)
-				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_terapeutas/terapeuta' v_idusuario='$idusuario' dix='trabajo'>$nombrec</li>";
-			else
-				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_usuarios/editar_trabajo' v_desde='$desde' v_nivel='$nivel' v_idusuario='$idusuario' dix='trabajo'>$nombrec</li>";
-
-			echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_usuarios/editar_trabajo' v_desde='$desde' v_nivel='$nivel' v_idusuario='$idusuario' dix='trabajo'>Editar</li>";
-
-			if($idusuario>0)
-				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/terapeuta' v_idusuario='$idusuario' dix='trabajo'>Regresar</button>";
-			else
-				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_terapeutas/index' dix='trabajo'>Regresar</button>";
+			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_usuarios/index' dix='contenido'>Cuentas</li>";			
+			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_usuarios/editar_cuenta' v_desde='$desde' v_nivel='$nivel' v_idusuario='$idusuario' dix='contenido'>$nombrec</li>";
+			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_usuarios/index' dix='contenido'>Regresar</button>";
 		echo "</ol>";
 	echo "</nav>";
 
 	echo "<div class='container'>";
 
-		echo "<form is='f-submit' id='form_personal' db='a_usuarios/db_' fun='guardar_usuario' des='a_usuarios/editar_trabajo' dix='trabajo' desid='idusuario' v_idusuario='$idusuario' v_desde='$desde'>";
+		echo "<form is='f-submit' id='form_personal' db='a_usuarios/db_' fun='guardar_usuario' des='a_usuarios/editar_cuenta' dix='contenido' desid='idusuario' v_idusuario='$idusuario' v_desde='$desde'>";
 		echo "<input type='hidden' class='form-control form-control-sm' name='idusuario' id='idusuario' value='$idusuario' readonly>";
 		echo "<input type='hidden' class='form-control form-control-sm' name='nivel' id='nivel' value='$nivel' readonly>";
 			echo "<div class='card'>";
@@ -159,20 +150,16 @@
 				<div class="col-sm-12">
 					<button class="btn btn-warning btn-sm ml-1" type="submit">Guardar</button>
 					<?php
-						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1' v_desde='trabajo'>Foto</button>";
-						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1' v_desde='trabajo'>Contraseña</button>";
+						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1' v_desde='$desde'>Foto</button>";
+						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1' v_desde='$desde'>Contraseña</button>";
 
-						
 						if($nivel==1 or $nivel==2 or $nivel==3)
-                        	echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_curriculum' v_idusuario='$idusuario' omodal='1' v_desde='$desde' >C.V.</button>";
+                        echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_curriculum' v_idusuario='$idusuario' omodal='1' v_desde='$desde' >C.V.</button>";
 
-						if($nivel==2)
-						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/horarios' v_desde='trabajo' v_idusuario='$idusuario' dix='trabajo'>Horarios</button>";
+                        if($nivel==2)
+						    echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/horarios' v_desde='$desde' v_idusuario='$idusuario' dix='contenido'>Horarios</button>";
 
-						if($idusuario>0)
-							echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_terapeutas/terapeuta' v_desde='trabajo' v_idusuario='$idusuario' dix='trabajo'>Regresar</button>";
-						else
-							echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_terapeutas/index' dix='trabajo'>Regresar</button>";
+						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/index' dix='contenido' v_desde='$desde'>Regresar</button>";
 						
 						
 					?>

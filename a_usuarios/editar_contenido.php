@@ -12,59 +12,10 @@
 
 	
 	$sucursal = $db->sucursal();
-	$foto="";
-	$autoriza="";
-	$nombre="";
-	$apellidop="";
-	$apellidom="";
-	$edad="";
-	$nacionalidad="";
-	$f_nacimiento="";
-	$curp="";
-	$correo="";
-	$telefono="";
-	$edo_civil="";
-	$n_hijos="";
-	$rfc="";
-	$seguro="";
-	$estudios="";
-	$nombre_vive="";
-	$parentesco_vive="";
-	$telefono_vive="";
-
-	$enfermedad_cronica="";
-	$enfermedad="";
-
-	$enfermedad_mental="";
-	$e_mental="";
-
-	$consumo_medicamentos="";
-	$c_medicamentos="";
-
-	$alergias="";
-	$c_alergias="";
-
-	$lesiones="";
-	$c_lesiones="";
-
-	$licenciatura="";
-	$universidad="";
-	$posgrado_1="";
-	$universidad_1="";
-	$posgrado_2="";
-	$universidad_2="";
-	$posgrado_3="";
-	$universidad_3="";
 	
-	$nivel="";
-	
-	
-	$idsucursal=$_SESSION['idsucursal'];
-	$autoriza="";
-	
-	if($idusuario>0){
 		$pd = $db->usuario_editar($idusuario);
 		$foto=$pd->foto;
+		$cv=$pd->cv;
 		$autoriza=$pd->autoriza;
 		$nombre=$pd->nombre;
 		$apellidop=$pd->apellidop;
@@ -115,7 +66,7 @@
 		$universidad_3=$pd->universidad_3;
 		$autoriza=$pd->autoriza;
 		$idsucursal=$pd->idsucursal;
-	}
+	
 	
 	echo "<div class='container'>";
 		echo "<form is='f-submit' id='form_personal' db='a_usuarios/db_' fun='guardar_usuario' des='a_usuarios/editar_contenido' dix='contenido' desid='idusuario' v_idusuario='$idusuario'>";
@@ -131,6 +82,10 @@
 					<?php
 						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1' v_desde='contenido' >Foto</button>";
 						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1' v_desde='contenido' >Contraseña</button>";
+						
+						if($nivel==1 or $nivel==2 or $nivel==3)
+                        	echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_curriculum' v_idusuario='$idusuario' omodal='1' v_desde='contenido' >C.V.</button>";
+
 						if($nivel==2)
 						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_terapeutas/horarios' v_idusuario='$idusuario' omodal='1' v_desde='contenido'>Horarios</button>";
 					?>

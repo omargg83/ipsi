@@ -5,6 +5,8 @@
         echo "<div class='form-group' id='imagen_div'>";
             echo "<img src='".$db->doc.trim($foto)."' class='img-thumbnail' width='100px'>";
         echo "</div>";
+
+        echo "<a href='".$db->doc.trim($cv)."' target='_blank'>Curriculum</a>";
     ?>
 
     <div class='row'>

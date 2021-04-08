@@ -7,7 +7,7 @@
 	else{
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
 	}
-
+/*
 
 	$foto="";	
 	$autoriza="1";
@@ -47,7 +47,7 @@
 	$per = $db->personal();
 	$sucursal = $db->sucursal_lista();
 
-	if($idpaciente>0){
+	if($idpaciente>0){*/
 		$pd = $db->cliente_editar($idpaciente);
 		$idsucursal=$pd->idsucursal;
 		$foto=$pd->foto;
@@ -84,8 +84,7 @@
 		$lesiones=$pd->lesiones;
 		$c_lesiones=$pd->c_lesiones;
 		
-		
-	}
+	//}
 
 echo "<div class='container'>";
 	echo "<form is='f-submit' id='form_cliente' db='a_pacientes/db_' fun='guardar_cliente' des='a_pacientes/editar_contenido' desid='idpaciente' dix='contenido'>";
