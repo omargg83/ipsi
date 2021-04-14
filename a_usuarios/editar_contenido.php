@@ -87,7 +87,7 @@
                         	echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_curriculum' v_idusuario='$idusuario' omodal='1' v_desde='contenido' >C.V.</button>";
 
 						if($nivel==2)
-						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_terapeutas/horarios' v_idusuario='$idusuario' omodal='1' v_desde='contenido'>Horarios</button>";
+						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/horarios' v_idusuario='$idusuario' omodal='1' v_desde='contenido'>Horarios</button>";
 					?>
 				</div>
 			</div>

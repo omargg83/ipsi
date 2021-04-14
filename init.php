@@ -1,7 +1,7 @@
 <?php
   /////////<<<<<<< Updated upstream
 
-$server=1;
+$server=2;
 $_SESSION['des']=1;   ///////////////cambiar esta para acceder a modo desarrollador
 $_SESSION['pagina']=50;
 
@@ -25,7 +25,7 @@ if($server==1){
 else if($server==2){
   //////////localhost
   define("MYSQLUSER", "root");
-  define("MYSQLPASS", "");
+  define("MYSQLPASS", "root");
   define("SERVIDOR", "localhost");
   define("BDD", "wwipsi_actividades");
   define("PORT", "3306");

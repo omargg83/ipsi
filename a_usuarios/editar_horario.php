@@ -40,7 +40,7 @@
 	$apellidom=$pd->apellidom;
 
 	if($desde=='contenido'){
-		echo "<form is='f-submit' id='form_cliente' db='a_terapeutas/db_' fun='guardar_horario' des='a_terapeutas/horarios' desid='idhorario' dix='modal_form' v_idusuario='$idusuario' v_desde='$desde'>";
+		echo "<form is='f-submit' id='form_cliente' db='a_terapeutas/db_' fun='guardar_horario' des='a_usuarios/horarios' desid='idhorario' dix='modal_form' v_idusuario='$idusuario' v_desde='$desde'>";
 	}
 	else{
 	
@@ -48,7 +48,7 @@
 			echo "<ol class='breadcrumb'>";
 				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_terapeutas/index' dix='trabajo'>Terapeuta</li>";
 				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_terapeutas/terapeuta' v_idusuario='$idusuario' dix='trabajo'>$nombre $apellidop $apellidom</li>";
-				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_terapeutas/editar_trabajo' v_idusuario='$idusuario' dix='trabajo' v_desde='$desde'>Editar</li>";
+				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_usuarios/editar_trabajo' v_idusuario='$idusuario' dix='trabajo' v_desde='$desde'>Editar</li>";
 				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_usuarios/horarios' v_idusuario='$idusuario' dix='trabajo' v_desde='$desde'>Horarios</li>";
 				echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_usuarios/editar_horario' v_idusuario='$idusuario' v_idhorario='$idhorario' dix='trabajo' v_desde='$desde'>Editar horario</li>";
 
@@ -56,6 +56,7 @@
 			echo "</ol>";
 		echo "</nav>";
 		echo "<div class='container'>";
+
 		echo "<form is='f-submit' id='form_cliente' db='a_terapeutas/db_' fun='guardar_horario' des='a_usuarios/horarios' desid='idhorario' dix='trabajo' v_idusuario='$idusuario' v_desde='$desde'>";
 	}
 		
@@ -102,9 +103,8 @@
 								echo "<button type='button' class='btn btn-warning btn-sm ml-1' id='lista_penarea' is='b-link'des='a_usuarios/horarios' dix='modal_form' title='regresar' v_idusuario='$idusuario' v_desde='$desde'>Regresar</button>";
 								
 							}
-							else{
-								echo "<button type='button' class='btn btn-warning btn-sm ml-1' id='lista_penarea' is='b-link' des='a_usuarios/horarios' dix='contenido' title='regresar' v_idusuario='$idusuario' v_mi='1'>Regresar</button>";
-								
+							if($desde=='trabajo'){
+								echo "<button type='button' class='btn btn-warning btn-sm ml-1' id='lista_penarea' is='b-link' des='a_usuarios/horarios' dix='trabajo' title='regresar' v_idusuario='$idusuario' v_mi='1' v_desde='$desde'>Regresar</button>";
 							}
 						?>
 					</div>

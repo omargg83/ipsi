@@ -60,7 +60,7 @@
 </nav>
 
 <div class="container">
-	<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des="a_usuarios/editar" dix="contenido" desid="idusuario" v_idusuario="<?php echo $idusuario; ?>">
+	<form is="f-submit" id="form_personal" db="a_usuarios/db_" fun="guardar_usuario" des="a_usuarios/editar_cuenta" dix="contenido" desid="idusuario" v_idusuario="<?php echo $idusuario; ?>">
 		<input type="hidden" class="form-control form-control-sm" name="idusuario" id="idusuario" value="<?php echo $idusuario ;?>" placeholder="No" readonly>
 		<div class='card'>
 		<div class='card-body'>
@@ -87,44 +87,10 @@
 				</div>
 
 				<div class="col-3">
-					<label for="">Edad*:</label>
-					<input type="text" class="form-control form-control-sm" name="edad" id="edad" value="<?php echo $edad;?>" placeholder="Edad" required maxlength="45">
-				</div>
-			</div>
-			<div class='row'>
-				<div class="col-3">
 					<label for="">Correo*:</label>
 					<input type="text" class="form-control form-control-sm" name="correo" id="correo" value="<?php echo $correo;?>" placeholder="Correo" required maxlength="100">
 				</div>
-				<div class="col-3">
-					<label for="">Teléfono*:</label>
-					<input type="text" class="form-control form-control-sm" name="telefono" id="telefono" value="<?php echo $telefono;?>" placeholder="Teléfono" required maxlength="45">
-				</div>
-				<div class="col-3">
-					<label for="">Estado civil*:</label>
-					<input type="text" class="form-control form-control-sm" name="edo_civil" id="edo_civil" value="<?php echo $edo_civil;?>" placeholder="Estado civil" required maxlength="45">
-				</div>
-				<div class="col-3">
-					<label for="">Número de hijos*:</label>
-					<input type="text" class="form-control form-control-sm" name="n_hijos" id="n_hijos" value="<?php echo $n_hijos;?>" placeholder="Número de hijos" required maxlength="45">
-				</div>
 			</div>
-
-			<div class='row'>
-				<div class="col-12">
-					<label for="" class='text-center'>Dirección en una linea*:</label>
-					<input type="text" class="form-control form-control-sm" name="direccion" id="direccion" value="<?php echo $direccion;?>" placeholder="Dirección en una linea" required maxlength="250">
-				</div>
-			</div>
-
-
-			<div class='row'>
-				<div class="col-12">
-					<h5 class='text-center'><center>Contacto de emergencia:</center></h5>
-				</div>
-			</div>
-			
-
 
 			<div class='row'>
 				<?php

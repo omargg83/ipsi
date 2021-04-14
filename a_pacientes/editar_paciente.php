@@ -206,9 +206,14 @@
 				echo "<div class='col-4'>";
 					echo "<label>Estatus:</label>";
 					echo "<select name='estatus' id='estatus' class='form-control form-control-sm' required>";
-						echo "<option value='EN CURSO'"; if($estatus=='EN CURSO') echo 'selected'; echo ">EN CURSO</option>";
-						echo "<option value='BAJA'"; if($estatus=='BAJA') echo 'selected'; echo ">BAJA</option>";
-						echo "<option value='ALTA'"; if($estatus=='ALTA') echo 'selected'; echo ">ALTA</option>";
+						if($idpaciente>=0){
+							echo "<option value='NUEVO'"; if($estatus=='NUEVO') echo 'selected'; echo ">NUEVO</option>";
+						}
+						if($idpaciente>0){
+							echo "<option value='EN CURSO'"; if($estatus=='EN CURSO') echo 'selected'; echo ">EN CURSO</option>";
+							echo "<option value='BAJA'"; if($estatus=='BAJA') echo 'selected'; echo ">BAJA</option>";
+							echo "<option value='ALTA'"; if($estatus=='ALTA') echo 'selected'; echo ">ALTA</option>";
+						}
 					echo "</select>";
 				echo "</div>";
 

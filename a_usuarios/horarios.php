@@ -17,7 +17,7 @@
 
 	if($desde=='contenido'){
 		echo "<div class='card-header'>";
-			echo "<button type='button' class='btn btn-warning btn-sm ml-1' id='lista_penarea' is='b-link' des='a_terapeutas/editar_horario' dix='modal_form' title='regresar' v_desde='$desde' v_idusuario='$idusuario' v_idhorario='0'>Agregar horario</button>";
+			echo "<button type='button' class='btn btn-warning btn-sm ml-1' id='lista_penarea' is='b-link' des='a_usuarios/editar_horario' dix='modal_form' title='regresar' v_desde='$desde' v_idusuario='$idusuario' v_idhorario='0'>Agregar horario</button>";
 
 			echo "<button type='button' class='btn btn-warning btn-sm ml-1' id='lista_penarea' is='b-link' cmodal='1'>Regresar</button>";
 		echo "</div>";
@@ -43,9 +43,9 @@
 				echo "<div class='card-header'>";
 
 												
-					echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_terapeutas/editar_horario' dix='trabajo' title='regresar' v_desde='$desde' v_idusuario='$idusuario' v_idhorario='0' >Agregar horario</button>";
+					echo "<button type='button' class='btn btn-warning btn-sm' id='lista_penarea' is='b-link' des='a_usuarios/editar_horario' dix='trabajo' title='regresar' v_desde='$desde' v_idusuario='$idusuario' v_idhorario='0' >Agregar horario</button>";
 				
-			echo "</div>";
+				echo "</div>";
 	}
 
 		echo "<div class='card-body'>";

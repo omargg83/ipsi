@@ -11,6 +11,7 @@
 	$correo=$pd->correo;
 	$foto=$pd->foto;
 	$numero=$pd->numero;
+	$estatus=$pd->estatus;
 
 	$suc=$db->sucursal($pd->idsucursal);
 
@@ -113,6 +114,24 @@
 			</div>
 		</div>
 		<div class='col-7'>
+			<div class='row p-3'>
+				<div class='card col-12'>
+					<div class='card-body'>
+						<div class='row'>
+							<div class='col-12'>
+								<h5>Estatus</h5>
+							</div>
+							<div class='col-12'>
+								<?php
+									echo "<label>Estatus</label>";
+									echo "<input class='form-control form-control-sm' value='$estatus' readonly/>";
+								?>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class='row p-3'>
 				<div class='card col-12'>
 					<div class='card-body'>
