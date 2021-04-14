@@ -15,7 +15,7 @@
 
 
 	///////////////////////CODIGO
-	$sql="SELECT * from track_per left outer join track on track.id=track_per.idtrack where track_per.idpaciente=:id and track.idterapia=:idterapia order by track.inicial desc";
+	$sql="SELECT * from track_per left outer join track on track.id=track_per.idtrack where track_per.idpaciente=:id and track.idterapia=:idterapia order by track.inicial desc, track.orden asc";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":id",$idpaciente);
 	$sth->bindValue(":idterapia",$idterapia);
@@ -26,10 +26,10 @@
 
 <nav aria-label='breadcrumb'>
 	<ol class='breadcrumb'>
-		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_respuesta/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="contenido">Terapias</li>
-		<li class="breadcrumb-item active" is="li-link" des="a_respuesta/track" dix="contenido" title="Terapias" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
+		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_respuesta/terapias" dix="contenido">Terapias</li>
+		<li class="breadcrumb-item active" is="li-link" des="a_respuesta/track" dix="contenido" title="Terapias" v_idterapia="<?php echo $idterapia; ?>"><?php echo $terapia->nombre; ?></li>
 
-		 <button class="btn btn-warning btn-sm" is="b-link" des="a_respuesta/terapias" dix="contenido" v_idterapia="<?php echo $terapia->id; ?>">Regresar</button>
+		<button class="btn btn-warning btn-sm" is="b-link" des="a_respuesta/terapias" dix="contenido" v_idterapia="<?php echo $terapia->id; ?>">Regresar</button>
 	</ol>
 </nav>
 
@@ -88,12 +88,12 @@
   					<div class='row'>
   						<div class='col-12'>
 									<?php
-										if($continuar==1 or $key->inicial){
-											echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_respuesta/modulos' dix='contenido' v_idtrack='$key->id' v_idpaciente='$idpaciente'>Ver</button>";
-										}
+										//if($continuar==1 or $key->inicial){
+											echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_respuesta/modulos' dix='contenido' v_idtrack='$key->id' >Ver</button>";
+									/*	}
 										else{
 											echo "<button class='btn btn-warning btn-block' type='button' disabled>Ver</button>";
-										}
+										}*/
 									?>
   						</div>
   					</div>

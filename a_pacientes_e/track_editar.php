@@ -20,12 +20,13 @@
   $nombre="Track nuevo";
 	$video="";
 	$descripcion="";
-
+	$inicial="";
   if($idtrack>0){
 		$pd = $db->track_editar($id1);
     $nombre=$pd->nombre;
     $video=$pd->video;
     $descripcion=$pd->descripcion;
+    $inicial=$pd->inicial;
   }
 ?>
 
@@ -36,9 +37,10 @@
 		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
 		<li class="breadcrumb-item" is="li-link" des="a_pacientes/track" dix="trabajo" title="Terapias" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
 		<li class="breadcrumb-item active" is="li-link" des="a_pacientes_e/track_editar" dix="trabajo" title="Terapias" v_idtrack='<?php echo $idtrack; ?>' v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Nuevo track</li>
+
+		<button class="btn btn-warning btn-sm" is="b-link" des="a_pacientes/track"  v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Regresar</button>
 	</ol>
 </nav>
-
 
 <div class="container">
 	<form is="f-submit" id="form_track" db="a_actividades/db_" fun="guardar_track" des="a_pacientes/track" v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>">
@@ -52,9 +54,16 @@
 			</div>
 			<div class='card-body'>
 				<div class='row'>
-					<div class="col-12">
+					<div class="col-10">
 						<label>Nombre:</label>
 							<input type="text" class="form-control form-control-sm" name="nombre" id="nombre" value="<?php echo $nombre;?>" placeholder="Nombre" maxlength="100" required >
+					</div>
+					<div class="col-2">
+						<label>Tipo de trak:</label>
+						<select class="form-control form-control-sm" name="inicial" id="inicial">
+							<option value="0" <?php if($inicial==0){ echo " selected"; } ?>>Normal</option>
+							<option value="1" <?php if($inicial==1){ echo " selected"; } ?>>Inicial</option>
+						</select>
 					</div>
 					<div class="col-12">
 						<label>Descripción:</label>
@@ -73,7 +82,7 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<button class="btn btn-warning" type="submit">Guardar</button>
-            <button class="btn btn-warning" type="button" is="b-link" des='a_actividades/track' id1="<?php echo $idterapia; ?>" dix='trabajo'>Regresar</button>
+            			<button class="btn btn-warning" type="button" is="b-link" des="a_pacientes/track"  v_idterapia="<?php echo $idterapia; ?>" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Regresar</button>
 					</div>
 				</div>
 			</div>

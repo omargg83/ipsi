@@ -1,7 +1,7 @@
 <?php
 	require_once("../a_actividades/db_.php");
 
-  $idcontexto=clean_var($_REQUEST['idcontexto']);
+  	$idcontexto=clean_var($_REQUEST['idcontexto']);
 	$paciente=0;
 	if (isset($_REQUEST['idpaciente'])) {
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
@@ -15,6 +15,7 @@
 	$personalizado="0";
 	$usuario="0";
 	$orden="";
+	$pagina="0";
 	if($idcontexto==0){
 		$idactividad=clean_var($_REQUEST['idactividad']);
 		$idsubactividad=clean_var($_REQUEST['idsubactividad']);
@@ -38,6 +39,7 @@
 		$personalizado=$con->personalizado;
 		$usuario=$con->usuario;
 		$orden=$con->orden;
+		$pagina=$con->pagina;
 	}
 
 	$sub=$db->subactividad_editar($idsubactividad);
@@ -58,29 +60,26 @@
 	<input type="hidden" name="idsubactividad" id="idsubactividad" value="<?php echo $idsubactividad; ?>">
 	<input type="hidden" name="tipo" id="tipo" value="<?php echo $tipo; ?>">
 
-	<div class="card">
-	  <div class="card-header">
-	    Editar contexto
-	  </div>
-	  <div class="card-body">
+	<div class="modal-header">
+	  Editar contexto
+	</div>
 
+	<div class="modal-body">
 			<?php
-			echo "<label>Orden:</label>";
-			echo "<input type='text' class='form-control' id='orden' name='orden'  value='$orden'>";
 
+			echo "<input type='hidden' class='form-control-file' id='orden' name='orden' value='$orden'>";
 			echo "<label>Observaciones:</label>";
 			echo "<textarea id='observaciones' name='observaciones' class='form-control'>$observaciones</textarea>";
 
+
 	    if($tipo=="texto"){
 				echo "<label>Texto:</label>";
-
 				echo "<div id='div_$idcontexto' name='div_$idcontexto' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'>$texto</div>";
 				echo "<small>De clic para editar</small>";
-		    //echo "<textarea class='texto form-control' id='texto_$idcontexto' name='texto_$idcontexto' rows=5 onclick='editable(texto_$idcontexto)'>".htmlspecialchars_decode($texto)."</textarea>";
 	    }
 	    else if($tipo=="imagen"){
 				echo "<label>Adjuntar imagen</label>";
-				echo "<input type='file' id='texto_$idcontexto' name='texto_$idcontexto' accept='image/png, image/jpeg'>";
+				echo "<input type='file' id='texto' name='texto' accept='image/png, image/jpeg'>";
 				echo "<hr>";
 				if(strlen($texto)>0){
 					echo "<img src='".$db->doc.$texto."' width='500px'>";
@@ -106,14 +105,14 @@
 								echo "<label class='form-check-label' for='incisos'>Selección de varios incisos</label>";
 							echo "</div>";
 						echo "</div>";
-					if($tipo_actividad=="normal"){
-						echo "<div class='col-4'>";
-							echo "<div class='form-check'>";
-								echo "<input type='checkbox' class='form-check-input' name='personalizado' id='personalizado'  value='personalizado'"; if($personalizado=='1'){ echo 'checked'; }	echo ">";
-								echo "<label class='form-check-label' for='personalizado'>Permitir agregar incisos personalizados</label>";
+						if($tipo_actividad=="normal"){
+							echo "<div class='col-4'>";
+								echo "<div class='form-check'>";
+									echo "<input type='checkbox' class='form-check-input' name='personalizado' id='personalizado'  value='personalizado'"; if($personalizado=='1'){ echo 'checked'; }	echo ">";
+									echo "<label class='form-check-label' for='personalizado'>Permitir agregar incisos personalizados</label>";
+								echo "</div>";
 							echo "</div>";
-						echo "</div>";
-					}
+						}
 						echo "<div class='col-4'>";
 							echo "<div class='form-check'>";
 								echo "<input type='checkbox' class='form-check-input' name='usuario' id='usuario'  value='usuario'"; if($usuario=='1'){ echo 'checked'; } echo 	">";
@@ -123,40 +122,24 @@
 				echo "</div>";
 	    }
 			else if($tipo=="textores"){
-				//echo "<label>Agregar texto</label>";
-				//echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$texto</textarea>";
+
 			}
 			else if($tipo=="textocorto"){
-				//echo "<label>Agregar texto</label>";
-				//echo "<textarea class='form-control' id='texto' name='texto' rows=5 placeholder=''>$texto</textarea>";
+
 			}
 			else if($tipo=="fecha"){
-				//echo "<label>Fecha</label>";
-				//echo "<input type='date' name='texto' id='texto' value='$texto' class='form-control'>";
+
 			}
 			else if($tipo=="archivores"){
-				//echo "<label>Archivo</label>";
-				//echo "<input type='file' name='texto' id='texto' class='form-control'>";
+
 			}
+
+
 	    ?>
-	  </div>
-	  <div class="card-footer">
-	    <button type='submit' class='btn btn-warning '> Guardar</button>
-			<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
-	  </div>
-	</div>
+  </div>
+  <div class="modal-footer">
+    <button type='submit' class='btn btn-warning '> Guardar</button>
+		<button class="btn btn-warning" type="button" is="b-link" des='a_actividades/actividad_ver' dix='trabajo' id1="<?php echo $idactividad; ?>" cmodal="1">Regresar</button>
+  </div>
+
 </form>
-
-
-<script type="text/javascript">
-/*
-	$(function() {
-		$('.texto').summernote({
-			lang: 'es-ES',
-			placeholder: 'Texto',
-			tabsize: 5,
-			height: 250
-		});
-	});
-	*/
-</script>

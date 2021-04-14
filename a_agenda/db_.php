@@ -232,8 +232,42 @@ class Agenda extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
-}
+	public function agregar_consultorio(){
+		$arreglo =array();
 
+		$idconsultorio=$_REQUEST['idconsultorio'];
+		$idcita=$_REQUEST['idcita'];
+		$cita=$this::cita($idcita);
+		$cliente=$this::cliente_($cita->idusuario);
+
+		$desdedia=$_REQUEST['desdedia'];
+
+		$condesde=$_REQUEST['condesde'];
+		$fdesde = new DateTime($condesde);
+
+		$conhasta=$_REQUEST['conhasta'];
+		$fhasta = new DateTime($conhasta);
+
+		$fechan=$_REQUEST['fechan'];
+		$fcita = new DateTime($fechan);
+
+		$pdesde=$fcita->format("Y-m-d")." ".$fdesde->format("H:i").":00";
+		$phasta=$fcita->format("Y-m-d")." ".$fhasta->format("H:i").":00";
+
+		$arreglo+=array('idconsultorio'=>$idconsultorio);
+		$arreglo+=array('con_desde'=>$pdesde);
+		$arreglo+=array('con_hasta'=>$phasta);
+		$arreglo+=array('desde_dia'=>$desdedia);
+		$arreglo+=array('estatus'=>"Aprobada");
+		$x=$this->update('citas',array('idcita'=>$idcita), $arreglo);
+
+		$correo="omargg83@gmail.com";
+		$texto="texto";
+		$asunto="asunto";
+		$this->correo($correo, $texto, $asunto);
+		return $x;
+	}
+}
 
 $db = new Agenda();
 if(strlen($function)>0){

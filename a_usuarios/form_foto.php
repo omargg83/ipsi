@@ -3,17 +3,18 @@
 	$idusuario=$_REQUEST['idusuario'];
 
 
-	$mi="";
-	if (isset($_REQUEST['mi'])){
-		$mi="1";
+	$desde="";
+	if(isset($_REQUEST['desde'])){
+		$desde=$_REQUEST['desde'];
 	}
 
-	if(strlen($mi)==0){
-		echo "<form is='f-submit' id='form_foto' db='a_usuarios/db_' fun='foto' cmodal='1' des='a_usuarios/editar' desid='idusuario' cmodal='1' dix='contenido'>";
-	}
-	else{
-		echo "<form is='f-submit' id='form_foto' db='a_usuarios/db_' fun='foto' cmodal='1' des='a_usuarios/editar_p' desid='idusuario' cmodal='1' dix='contenido'>";
-	}
+	if($desde=='contenido')
+		echo "<form is='f-submit' id='form_foto' db='a_usuarios/db_' fun='foto' cmodal='1' des='a_usuarios/editar_contenido' desid='idusuario' cmodal='1' dix='contenido' v_desde='$desde'>";
+	if($desde=='trabajo')
+		echo "<form is='f-submit' id='form_foto' db='a_usuarios/db_' fun='foto' cmodal='1' des='a_usuarios/editar_trabajo' desid='idusuario' cmodal='1' dix='trabajo' v_desde='$desde'>";
+	if($desde=='cuentas')
+		echo "<form is='f-submit' id='form_foto' db='a_usuarios/db_' fun='foto' cmodal='1' des='a_usuarios/editar_cuenta' desid='idusuario' dix='contenido' v_desde='$desde'>";
+	
 ?>
 
 

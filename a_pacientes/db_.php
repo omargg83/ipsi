@@ -109,7 +109,6 @@ class Cliente extends ipsi{
 			$arreglo=array();
 			$x="";
 			$idactividad=$_REQUEST['idactividad'];
-
 			if (isset($_REQUEST['anotaciones'])){
 				$arreglo+=array('anotaciones'=>$_REQUEST['anotaciones']);
 			}
@@ -162,20 +161,26 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['nombre'])){
 			$arreglo+=array('nombre'=>clean_var($_REQUEST['nombre']));
 		}
+		if (isset($_REQUEST['numero'])){
+			$arreglo+=array('numero'=>clean_var($_REQUEST['numero']));
+		}
 		if (isset($_REQUEST['apellidop'])){
 			$arreglo+=array('apellidop'=>clean_var($_REQUEST['apellidop']));
 		}
 		if (isset($_REQUEST['apellidom'])){
 			$arreglo+=array('apellidom'=>clean_var($_REQUEST['apellidom']));
 		}
-		if (isset($_REQUEST['telefono'])){
-			$arreglo+=array('telefono'=>clean_var($_REQUEST['telefono']));
-		}
 		if (isset($_REQUEST['edad'])){
 			$arreglo+=array('edad'=>clean_var($_REQUEST['edad']));
 		}
-		if (isset($_REQUEST['correo'])){
-			$arreglo+=array('correo'=>clean_var($_REQUEST['correo']));
+		$correo=$_REQUEST['correo'];
+		$arreglo+=array('correo'=>$correo);
+		
+		if (isset($_REQUEST['telefono'])){
+			$arreglo+=array('telefono'=>clean_var($_REQUEST['telefono']));
+		}
+		if (isset($_REQUEST['estatus'])){
+			$arreglo+=array('estatus'=>clean_var($_REQUEST['estatus']));
 		}
 		if (isset($_REQUEST['civil'])){
 			$arreglo+=array('civil'=>clean_var($_REQUEST['civil']));
@@ -204,73 +209,58 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['telefono_vive'])){
 			$arreglo+=array('telefono_vive'=>clean_var($_REQUEST['telefono_vive']));
 		}
+		if (isset($_REQUEST['parentesco_vive'])){
+			$arreglo+=array('parentesco_vive'=>clean_var($_REQUEST['parentesco_vive']));
+		}
+
 		if (isset($_REQUEST['idsucursal'])){
 			$arreglo+=array('idsucursal'=>clean_var($_REQUEST['idsucursal']));
 		}
 
-		if (isset($_REQUEST['observaciones'])){
-			$arreglo+=array('observaciones'=>clean_var($_REQUEST['observaciones']));
+		if (isset($_REQUEST['enfermedad_cronica'])){
+			$arreglo+=array('enfermedad_cronica'=>clean_var($_REQUEST['enfermedad_cronica']));
 		}
-
-		if (isset($_REQUEST['fnacimiento']) and strlen($_REQUEST['fnacimiento'])>4){
-			$arreglo+=array('fnacimiento'=>clean_var($_REQUEST['fnacimiento']));
+		if (isset($_REQUEST['enfermedad'])){
+			$arreglo+=array('enfermedad'=>clean_var($_REQUEST['enfermedad']));
 		}
-		else{
-			$arreglo+=array('fnacimiento'=>null);
+		if (isset($_REQUEST['enfermedad_mental'])){
+			$arreglo+=array('enfermedad_mental'=>clean_var($_REQUEST['enfermedad_mental']));
 		}
-		if (isset($_REQUEST['hermanos']) and strlen($_REQUEST['hermanos']>0)){
-			$arreglo+=array('hermanos'=>clean_var($_REQUEST['hermanos']));
+		if (isset($_REQUEST['e_mental'])){
+			$arreglo+=array('e_mental'=>clean_var($_REQUEST['e_mental']));
 		}
-		else{
-			$arreglo+=array('hermanos'=>0);
+		if (isset($_REQUEST['consumo_medicamentos'])){
+			$arreglo+=array('consumo_medicamentos'=>clean_var($_REQUEST['consumo_medicamentos']));
 		}
-		if (isset($_REQUEST['facebook'])){
-			$arreglo+=array('facebook'=>clean_var($_REQUEST['facebook']));
+		if (isset($_REQUEST['c_medicamentos'])){
+			$arreglo+=array('c_medicamentos'=>clean_var($_REQUEST['c_medicamentos']));
 		}
-		if (isset($_REQUEST['estudios'])){
-			$arreglo+=array('estudios'=>clean_var($_REQUEST['estudios']));
+		if (isset($_REQUEST['alergias'])){
+			$arreglo+=array('alergias'=>clean_var($_REQUEST['alergias']));
 		}
-		if (isset($_REQUEST['trabajo'])){
-			$arreglo+=array('trabajo'=>clean_var($_REQUEST['trabajo']));
+		if (isset($_REQUEST['c_alergias'])){
+			$arreglo+=array('c_alergias'=>clean_var($_REQUEST['c_alergias']));
 		}
-		if (isset($_REQUEST['puesto'])){
-			$arreglo+=array('puesto'=>clean_var($_REQUEST['puesto']));
+		if (isset($_REQUEST['lesiones'])){
+			$arreglo+=array('lesiones'=>clean_var($_REQUEST['lesiones']));
 		}
-		if (isset($_REQUEST['ipsi'])){
-			$arreglo+=array('ipsi'=>clean_var($_REQUEST['ipsi']));
+		if (isset($_REQUEST['c_lesiones'])){
+			$arreglo+=array('c_lesiones'=>clean_var($_REQUEST['c_lesiones']));
 		}
-		if (isset($_REQUEST['contacto'])){
-			$arreglo+=array('contacto'=>clean_var($_REQUEST['contacto']));
-		}
-		if (isset($_REQUEST['parentesco'])){
-			$arreglo+=array('parentesco'=>clean_var($_REQUEST['parentesco']));
-		}
-		if (isset($_REQUEST['telparentesco'])){
-			$arreglo+=array('telparentesco'=>clean_var($_REQUEST['telparentesco']));
-		}
-
-		if (isset($_REQUEST['sexo'])){
-			$arreglo+=array('sexo'=>clean_var($_REQUEST['sexo']));
-		}
-		if (isset($_REQUEST['peso'])){
-			$arreglo+=array('peso'=>clean_var($_REQUEST['peso']));
-		}
-		if (isset($_REQUEST['altura'])){
-			$arreglo+=array('altura'=>clean_var($_REQUEST['altura']));
-		}
-
-		if (isset($_REQUEST['enfermedades'])){
-			$arreglo+=array('enfermedades'=>clean_var($_REQUEST['enfermedades']));
-		}
-		if (isset($_REQUEST['medicamentos'])){
-			$arreglo+=array('medicamentos'=>clean_var($_REQUEST['medicamentos']));
-		}
-
 		if (isset($_REQUEST['autoriza'])){
 			$arreglo+=array('autoriza'=>clean_var($_REQUEST['autoriza']));
 		}
 
 		if($idpaciente==0){
+			$sql="select * from clientes where correo='$correo'";
+			$sth = $this->dbh->prepare($sql);
+			$a=$sth->execute();
+			if($sth->rowCount()>0){
+				$arreglo+=array('id1'=>0);
+				$arreglo+=array('error'=>1);
+				$arreglo+=array('terror'=>"Ya existe el usuario favor de verificar");
+				return json_encode($arreglo);
+			}
 			$x=$this->insert('clientes', $arreglo);
 		}
 		else{
@@ -306,11 +296,16 @@ class Cliente extends ipsi{
 		$info = pathinfo($nombrearchivo);
 		if($archivo!=""){
 			$extension = $info['extension'];
-			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG' || $extension=='jpeg' || $extension=='JPEG') {
 				$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
 				move_uploaded_file($tmp,$ruta.$nombreFile);
 				$ruta=$ruta."/".$nombreFile;
 				$arreglo+=array('foto'=>$nombreFile);
+				if($_SESSION['idusuario']==$id1){
+					$_SESSION['foto']="a_archivos/clientes/".$nombreFile;
+				}
+
+
 			}
 			else{
 				echo "fail";
@@ -619,9 +614,8 @@ class Cliente extends ipsi{
 			$fecha=date("Y-m-d H:i:s");
 			////////////Clonar actividad
 			$arreglo=array();
-			$arreglo+=array('idmodulo'=>$resp->idmodulo);
+			$arreglo+=array('idgrupo'=>$resp->idgrupo);
 			$arreglo+=array('idpaciente'=>$idpaciente);
-			$arreglo+=array('idtrack'=>$resp->idtrack);
 			$arreglo+=array('idcreado'=>$resp->idcreado);
 			$arreglo+=array('nombre'=>$resp->nombre);
 			$arreglo+=array('indicaciones'=>$resp->indicaciones);
@@ -637,7 +631,6 @@ class Cliente extends ipsi{
 			$arreglo+=array('idpaciente'=>$idpaciente);
 			$arreglo+=array('idactividad'=>$idactividad_array['id1']);
 			$x=$this->insert('actividad_per', $arreglo);
-
 
 			////////////Clonar Subactividad
 			$sql="select * from subactividad where idactividad=:idactividad";
@@ -715,25 +708,55 @@ class Cliente extends ipsi{
 		$idterapia=clean_var($_REQUEST['idterapia']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
 
-		$sql="select * from terapias_per where idterapia=:idterapia and idpaciente=:idpaciente";
-		$sth = $this->dbh->prepare($sql);
-		$sth->bindValue(":idterapia",$idterapia);
-		$sth->bindValue(":idpaciente",$idpaciente);
-		$sth->execute();
-		if ($sth->rowCount()>0){
-			$res=$sth->fetch(PDO::FETCH_OBJ);
-			return $this->borrar('terapias_per',"id",$res->id);
+		$sql="SELECT * from track_per left outer join track on track.id=track_per.idtrack where track_per.idpaciente=$idpaciente and track.idterapia=$idterapia order by track.inicial desc, track.orden asc";
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()==0){
+			$sql="select * from terapias_per where idterapia=$idterapia and idpaciente=$idpaciente";
+			$sth = $this->dbh->query($sql);			
+			if ($sth->rowCount()>0){
+				$res=$sth->fetch(PDO::FETCH_OBJ);
+				return $this->borrar('terapias_per',"id",$res->id);
+			}
+		}
+		else{
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene tracks');
+			return json_encode($arreglo);
 		}
 	}
+	
 	public function quitar_track(){
+
 		$idtrack=clean_var($_REQUEST['idtrack']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
 
-		$sql="select * from track_per where idtrack=:idtrack and idpaciente=:idpaciente";
-		$sth = $this->dbh->prepare($sql);
-		$sth->bindValue(":idtrack",$idtrack);
-		$sth->bindValue(":idpaciente",$idpaciente);
-		$sth->execute();
+
+		$sql="SELECT * from modulo_per 
+		left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=$idpaciente and modulo.idtrack=$idtrack order by modulo.orden asc";
+
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()>0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene modulos');
+			return json_encode($arreglo);
+		}
+
+		$sql="select * from grupo_actividad_pre left outer join grupo_actividad on grupo_actividad.idgrupo=grupo_actividad_pre.idgrupo where grupo_actividad.idtrack=$idtrack and grupo_actividad_pre.idpaciente=$idpaciente order by grupo_actividad.orden asc";
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()>0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene grupos');
+			return json_encode($arreglo);
+		}
+
+		$sql="select * from track_per where idtrack=$idtrack and idpaciente=$idpaciente";
+		$sth = $this->dbh->query($sql);
 		if ($sth->rowCount()>0){
 			$res=$sth->fetch(PDO::FETCH_OBJ);
 			return $this->borrar('track_per',"id",$res->id);
@@ -753,23 +776,27 @@ class Cliente extends ipsi{
 			return $this->borrar('modulo_per',"id",$res->id);
 		}
 	}
+	public function borrar_grupo(){
+		if (isset($_REQUEST['idgrupo'])){$idgrupo=$_REQUEST['idgrupo'];}
+		if (isset($_REQUEST['idper'])){$idper=$_REQUEST['idper'];}
 
+		$sql="select * from actividad where idgrupo=$idgrupo";
+		$sth = $this->dbh->query($sql);
+		if($sth->rowCount()>0){
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Contiene Actividades');
+			return json_encode($arreglo);
+		}
+		return $this->borrar('grupo_actividad_pre',"idper",$idper);
+	}
 	public function quitar_actividad(){
 		$idactividad=clean_var($_REQUEST['idactividad']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
-
-		$sql="select * from actividad_per where idactividad=:idactividad and idpaciente=:idpaciente";
-		$sth = $this->dbh->prepare($sql);
-		$sth->bindValue(":idactividad",$idactividad);
-		$sth->bindValue(":idpaciente",$idpaciente);
-		$sth->execute();
-		if ($sth->rowCount()>1){
-			$res=$sth->fetch(PDO::FETCH_OBJ);
-			return $this->borrar('actividad_per',"id",$res->id);
-		}
-		else if($sth->rowCount()==1){
-			return $this->borrar('actividad',"idactividad",$idactividad);
-		}
+		
+		
+		return $this->borrar('actividad',"idactividad",$idactividad);
 	}
 
 	public function buscar_actividad($b_actividad){
@@ -1047,29 +1074,37 @@ class Cliente extends ipsi{
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
-			echo "<div class='card mt-2' style='border:1px solid silver'>";
+			echo "<div class='card mt-2 ml-5'>";
 				echo "<div class='card-header'>";
 					echo "<div class='row'>";
-						echo "<div class='col-4'>";
+						echo "<div class='col-5'>";
 							///////////////editar contexto
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-pencil-alt'></i></button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/contexto_editar' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' title='Editar contexto'><i class='fas fa-pencil-alt'></i></button>";
 
 							///////////////editar incisos
 							if($row->tipo=="pregunta"){
-								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/incisos_lista' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1'><i class='fas fa-tasks'></i></button>";
+								echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_actividades_e/incisos_lista' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' title='Editar incisos'><i class='fas fa-tasks'></i></button>";
 							}
 
 							////////////////copiar
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_duplicar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea duplicar el bloque?' title='Duplicar'><i class='far fa-copy'></i></button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_duplicar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea duplicar el bloque?' title='Duplicar actividad'><i class='far fa-copy'></i></button>";
 
 							////////////////eliminar bloque
-							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_borrar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea eliminar el bloque selecionado?' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='contexto_borrar' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' tp='¿Desea eliminar el bloque selecionado?' title='Eliminar bloque'><i class='far fa-trash-alt'></i></button>";
 
 							////////////////condiciones
-							echo "<button "; if($row->idcond){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idcontexto='$row->id'><i class='fas fa-project-diagram'></i></button>";
+							echo "<button "; if($row->idcond){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_actividades_e/condicional_editar' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' v_idcontexto='$row->id' title='Condicional' ><i class='fas fa-project-diagram'></i></button>";
+
+							echo "<button "; if($row->salto){ echo "class='btn btn-danger btn-sm' "; } else { echo "class='btn btn-warning btn-sm'"; } echo " type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' db='a_actividades/db_' fun='salto_pagina' tp='¿Desea";
+							if(!$row->salto){ echo " insertar ";} else{ echo " quitar el ";}
+							echo "salto de pagina?' v_idactividad='$idactividad' v_idcontexto='$row->id' v_idpaciente='$idpaciente' v_salto='$row->salto' title='Salto de página'><i class='far fa-sticky-note'></i></button>";
+
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='contexto_mover' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id' v_dir='0' dix='trabajo' title='Mover arriba'><i class='fas fa-chevron-up'></i></button>";
+
+							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_pacientes/db_' fun='contexto_mover' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id' v_dir='1' dix='trabajo' title='Mover abajo'><i class='fas fa-chevron-down'></i></button>";
 
 						echo "</div>";
-						echo "<div class='col-6'>";
+						echo "<div class='col-5'>";
 							echo "<button class='btn btn-link' data-toggle='collapse' data-target='#collapsecon_".$row->id."' aria-expanded='true' aria-controls='collapsecon_".$row->id."'>";
 								echo "Contexto ";
 							echo "</button>";
@@ -1082,22 +1117,21 @@ class Cliente extends ipsi{
 					echo "</div>";
 				echo "</div>";
 
-				echo "<div id='collapsecon_".$row->id." class='collapse show' aria-labelledby='headingOne' data-parent='#accordion'>";
-					echo "<div class='card-body'>";
 
-						echo "<form is='act-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
+				echo "<div class='card-body'>";
 
-						if(strlen($row->observaciones)>0){
+							echo "<form is='act-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
+
+							if(strlen($row->observaciones)>0){
+								echo "<div class='mb-3'>";
+									echo $row->observaciones;
+								echo "</div>";
+								echo "<hr>";
+							}
+
 							echo "<div class='mb-3'>";
-								echo $row->observaciones;
-							echo "</div>";
-							echo "<hr>";
-						}
-
-						echo "<div class='mb-3'>";
-
 							if($row->tipo=="imagen"){
-								echo "<img src='".$db->doc.$row->texto."'/>";
+								echo "<img src='".$this->doc.$row->texto."'/>";
 							}
 							else if($row->tipo=="texto"){
 								echo $row->texto;
@@ -1106,23 +1140,21 @@ class Cliente extends ipsi{
 								echo $row->texto;
 							}
 							else if($row->tipo=="archivo"){
-								echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
+								echo "<a href='".$this->doc.$row->texto."' download='$row->texto'>Descargar</a>";
 							}
 							else if($row->tipo=="textores"){
 								echo "<div id='div_$row->id' name='div_$row->id' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'>$texto</div>";
 								echo "<small>De clic para editar</small>";
-
-								//echo "<textarea class='texto' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
 							}
 							else if($row->tipo=="textocorto"){
 								echo "<textarea class='form-control' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
 							}
 							else if($row->tipo=="fecha"){
-								echo "<input type='date' name='texto' id='texto' value='$fecha' class='form-control'>";
+								echo "<input type='date' name='fecha' id='fecha' value='$fecha' class='form-control'>";
 							}
 							else if($row->tipo=="archivores"){
 								if(strlen($archivo)>0){
-									echo "<a href='".$db->resp.$archivo."' download='$archivo'>Ver</a>";
+									echo "<a href='".$this->resp.$archivo."' download='$archivo'>Ver</a>";
 								}
 								echo "<input type='file' name='archivo' id='archivo' class='form-control'>";
 							}
@@ -1130,135 +1162,165 @@ class Cliente extends ipsi{
 								echo $row->texto;
 
 								///////////<!-- Respuestas  -->
-								echo "<div class='container-fluid'>";
+								echo "<div>";
 									$rx=$this->respuestas_ver($row->id);
-									foreach ($rx as $respuesta) {
-										$texto_resp="";
-										$valor_resp="";
-										$resp_idrespuesta="";
-
+									if(strlen($row->incisos)==0 and $row->tipo=="pregunta" and strlen($row->personalizado)==0){
+										$idx=$row->id;
 										echo "<div class='row'>";
+											echo "<div class='col-8'>";
 
-											//////////////////para obtener Respuestas
-											$sql="select * from contexto_resp where idcontexto=:id and idrespuesta=:idrespuesta";
-											$contx = $this->dbh->prepare($sql);
-											$contx->bindValue(":id",$row->id);
-											$contx->bindValue(":idrespuesta",$respuesta->id);
-											$contx->execute();
-											$resp=$contx->fetch(PDO::FETCH_OBJ);
-											$correcta=0;
-											$texto_resp="";
-											if($contx->rowCount()>0){
-												$correcta=1;
-												$texto_resp=$resp->texto;
-												$valor_resp=$resp->valor;
-											}
-
-											echo "<div class='col-1'>";
-												if($row->incisos==1){
-													$idx="";
-													echo "<input type='checkbox' name='checkbox_".$respuesta->id."' value='$respuesta->id' ";
-													if($correcta){ echo " checked";}
-													echo ">";
+												$sql="select * from contexto_resp where idcontexto=$row->id";
+												$contx = $this->dbh->query($sql);
+												$resp=$contx->fetch(PDO::FETCH_OBJ);
+												$correcta=0;
+												$texto_resp="";
+												if($contx->rowCount()>0){
+													$correcta=$resp->idrespuesta;
+													$texto_resp=$resp->texto;
+													$valor_resp=$resp->valor;
 												}
-												else{
-													$idx=$row->id;
-													echo "<input type='radio' name='radio_".$idx."' value='$respuesta->id' ";
-														if($correcta){
-															echo " checked";
-														}
-													echo ">";
+
+												echo "<select class='form-control form-control-sm' name='select_".$idx."'>";
+												echo "<option value='' selected disabled>Seleccione una opcion</option>";
+												foreach ($rx as $respuesta) {
+													//////////////////para obtener Respuestas
+													echo "<option value='$respuesta->id' ";
+													if($correcta==$respuesta->id){ echo " selected"; }
+													echo ">$respuesta->nombre (".$respuesta->valor.")</option>";
 												}
+												echo "</select>";
 											echo "</div>";
-
-											if(strlen($respuesta->imagen)>0){
-												echo "<div class='col-1'>";
-														echo "<img src=".$db->doc.$respuesta->imagen." alt='' width='20px'>";
-												echo "</div>";
-											}
-
-											echo "<div class='col-6'>";
-												echo $respuesta->nombre;
-											echo "</div>";
-
-											///////////////////////////////////aca el valor
-											if($actividad->tipo=="evaluacion"){
-												echo "<div class='col-1'>";
-													echo $respuesta->valor;
-												echo "</div>";
-											}
-
-											echo "<div class='col-3'>";
+											echo "<div class='col-4'>";
 												if($row->usuario==1){
-													echo "<input type='text' name='resp_".$respuesta->id."' id='resp_".$respuesta->id."' value='$texto_resp' placeholder='Define..' class='form-control form-control-sm'>";
+													echo "<input type='text' name='resp_".$idx."' id='resp_".$idx."' value='$texto_resp' placeholder='Define..' class='form-control form-control-sm'>";
 												}
 											echo "</div>";
 										echo "</div>";
 									}
+									else{
+										foreach ($rx as $respuesta) {
+											$texto_resp="";
+											$valor_resp="";
+											$resp_idrespuesta="";
 
-									if($row->personalizado==1){
-										$texto="";
-										$otro=0;
+											echo "<div class='row'>";
 
-										$sql="select * from contexto_resp where idcontexto=$row->id and valor='OTRO'";
-										$contx = $db->dbh->prepare($sql);
-										$contx->execute();
-										if($contx->rowCount()>0){
-											$resp=$contx->fetch(PDO::FETCH_OBJ);
-											$texto=$resp->texto;
-											$otro=1;
-										}
+												//////////////////para obtener Respuestas
+												$sql="select * from contexto_resp where idcontexto=$row->id and idrespuesta=$respuesta->id";
+												$contx = $this->dbh->query($sql);
+												$resp=$contx->fetch(PDO::FETCH_OBJ);
+												$correcta=0;
+												$texto_resp="";
+												if($contx->rowCount()>0){
+													$correcta=1;
+													$texto_resp=$resp->texto;
+													$valor_resp=$resp->valor;
+												}
 
-										echo "<div class='row'>";
-											echo "<div class='col-3'>";
-											echo "</div>";
-											if($row->incisos==1){
+												echo "<div class='col-1'>";
+													if($row->incisos==1){
+														$idx="";
+														echo "<input type='checkbox' name='checkbox_".$respuesta->id."' value='$respuesta->id' ";
+														if($correcta){ echo " checked";}
+														echo ">";
+													}
+													else{
+														$idx=$row->id;
+														echo "<input type='radio' name='radio_".$idx."' value='$respuesta->id' ";
+															if($correcta){
+																echo " checked";
+															}
+														echo ">";
+													}
+												echo "</div>";
+
+												if(strlen($respuesta->imagen)>0){
 													echo "<div class='col-1'>";
-														echo "<input type='checkbox' name='checkbox_otro'";
-														if($otro==1){
-															echo " checked";
-														}
-														echo " value='otro'>";
-													echo "</div>";
-													echo "<div class='col-6'>";
-														echo "<input type='text' name='resp_otro' id='resp_otro' value='$texto' class='form-control form-control-sm' placeholder='Otro'>";
+															echo "<img src=".$this->doc.$respuesta->imagen." alt='' width='20px'>";
 													echo "</div>";
 												}
-												else{
+
+												echo "<div class='col-6'>";
+													echo $respuesta->nombre;
+												echo "</div>";
+
+												///////////////////////////////////aca el valor
+												if($actividad->tipo=="evaluacion"){
 													echo "<div class='col-1'>";
-														echo "<input type='radio' name='radio_".$idx."' value='otro'";
-														if($otro==1){
-															echo " checked";
-														}
-														echo ">";
+														echo $respuesta->valor;
 													echo "</div>";
-													echo "<div class='col-6'>";
-														echo "<input type='text' name='resp_otro' id='per_".$row->id."' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
-													echo "</div>";
+												}
+
+												echo "<div class='col-3'>";
+													if($row->usuario==1){
+														echo "<input type='text' name='resp_".$respuesta->id."' id='resp_".$respuesta->id."' value='$texto_resp' placeholder='Define..' class='form-control form-control-sm'>";
+													}
+												echo "</div>";
+											echo "</div>";
+										}
+										if($row->personalizado==1){
+											$texto="";
+											$otro=0;
+
+											$sql="select * from contexto_resp where idcontexto=$row->id and valor='OTRO'";
+											$contx = $this->dbh->prepare($sql);
+											$contx->execute();
+											if($contx->rowCount()>0){
+												$resp=$contx->fetch(PDO::FETCH_OBJ);
+												$texto=$resp->texto;
+												$otro=1;
 											}
-										echo "</div>";
+
+											echo "<div class='row'>";
+												echo "<div class='col-3'>";
+												echo "</div>";
+												if($row->incisos==1){
+														echo "<div class='col-1'>";
+															echo "<input type='checkbox' name='checkbox_otro'";
+															if($otro==1){
+																echo " checked";
+															}
+															echo " value='otro'>";
+														echo "</div>";
+														echo "<div class='col-6'>";
+															echo "<input type='text' name='resp_otro' id='resp_otro' value='$texto' class='form-control form-control-sm' placeholder='Otro'>";
+														echo "</div>";
+													}
+													else{
+														echo "<div class='col-1'>";
+															echo "<input type='radio' name='radio_".$idx."' value='otro'";
+															if($otro==1){
+																echo " checked";
+															}
+															echo ">";
+														echo "</div>";
+														echo "<div class='col-6'>";
+															echo "<input type='text' name='resp_otro' id='per_".$row->id."' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
+														echo "</div>";
+												}
+											echo "</div>";
+										}
 									}
 								echo "</div>";
 							}
 						echo "</div>";
 
-
 							//////////<!-- Fin Preguntas  -->
-								echo "<div class='row mb-3'>";
-									echo "<div class='col-12'>";
-										if($row->tipo=="pregunta"){
-											echo "<button class='btn btn-warning btn-sm mx-2' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='0' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' ><i class='fas fa-plus mx-2'></i>Agregar inciso</button>";
-										}
+							echo "<div class='row mb-3'>";
+								echo "<div class='col-12'>";
+									if($row->tipo=="pregunta"){
+										echo "<button class='btn btn-warning btn-sm mx-1' type='button' is='b-link' des='a_actividades_e/inciso_editar' v_idrespuesta='0' v_idcontexto='$row->id' v_idactividad='$idactividad' v_idpaciente='$idpaciente' omodal='1' >Agregar inciso</button>";
+									}
 
-										if($row->tipo=="textocorto" or $row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores" or $row->tipo=="pregunta"){
-											echo "<button class='btn btn-warning btn-sm mx-2' type='submit'><i class='far fa-save mx-2'></i>Responder</button>";
-										}
-									echo "</div>";
+									if($row->tipo=="textocorto" or $row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores" or $row->tipo=="pregunta"){
+										echo "<button class='btn btn-warning btn-sm mx-1' type='submit'>Responder</button>";
+									}
 								echo "</div>";
+							echo "</div>";
 
 						echo "</form>";
 					echo "</div>";
-				echo "</div>";
+
 			echo "</div>";
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
@@ -1272,7 +1334,20 @@ class Cliente extends ipsi{
 	}
 	public function relacion_buscar($texto,$idpaciente){
 		try{
+			if($_SESSION['nivel']==1)
 			$sql="select * from clientes where id!='".$idpaciente."' and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
+
+
+			if($_SESSION['nivel']==2)
+			$sql="select * from clientes left outer join cliente_terapeuta on cliente_terapeuta.idcliente=clientes.id where id!='".$idpaciente."' and cliente_terapeuta.idusuario='".$_SESSION['idusuario']."' and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
+
+
+			if($_SESSION['nivel']==3)
+			$sql="select * from clientes where id!='".$idpaciente."' and idsucursal='".$_SESSION['idsucursal']."' and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
+
+			if($_SESSION['nivel']==4)
+			$sql="select * from clientes where id!='".$idpaciente."' and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
+
 			$sth = $this->dbh->query($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -1350,17 +1425,30 @@ class Cliente extends ipsi{
 
 	public function agregar_ter(){
 		try{
-			$arreglo=array();
-			$x="";
-			$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
-			$arreglo+=array('idcliente'=>$_REQUEST['idpaciente']);
-			$this->insert('cliente_terapeuta',$arreglo);
+			$sql="select * from cliente_terapeuta where idusuario=:idusuario and idcliente=:idpaciente";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":idusuario",$_REQUEST['idusuario']);
+			$sth->bindValue(":idpaciente",$_REQUEST['idpaciente']);
+			$sth->execute();
+			if ($sth->rowCount()==0){
+				$arreglo=array();
+				$x="";
+				$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
+				$arreglo+=array('idcliente'=>$_REQUEST['idpaciente']);
+				$this->insert('cliente_terapeuta',$arreglo);
 
-			$arreglo=array();
-			$arreglo+=array('id1'=>$_REQUEST['idpaciente']);
-			$arreglo+=array('error'=>0);
-			$arreglo+=array('terror'=>"La terapia ya existe");
-			return json_encode($arreglo);
+				$arreglo=array();
+				$arreglo+=array('id1'=>$_REQUEST['idpaciente']);
+				$arreglo+=array('error'=>0);
+				return json_encode($arreglo);
+			}
+			else{
+				$arreglo=array();
+				$arreglo+=array('id1'=>0);
+				$arreglo+=array('error'=>1);
+				$arreglo+=array('terror'=>"el terapeuta ya esta asignado");
+				return json_encode($arreglo);
+			}
 		}
 		catch(PDOException $e){
 			return "Database access FAILED!";
@@ -1373,7 +1461,219 @@ class Cliente extends ipsi{
 		return $this->borrar('cliente_terapeuta',"idterapeuta",$idterapeuta);
 
 	}
+	public function contexto_mover(){
+		$idcontexto=$_REQUEST['idcontexto'];
+		$dir=$_REQUEST['dir'];
 
+		$sql="select * from contexto where id=$idcontexto";
+		$sth = $this->dbh->query($sql);
+		$contexto=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$contexto->orden-1.5;
+		}
+		else{
+			$orden=$contexto->orden+1.5;
+		}
+
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('contexto',array('id'=>$contexto->id), $arreglo);
+		$x=$this->salto_pagina();
+		return $x;
+	}
+	public function subactividad_mover(){
+		$idsubactividad=$_REQUEST['idsubactividad'];
+		$dir=$_REQUEST['dir'];
+
+		$sql="select * from subactividad where idsubactividad=$idsubactividad";
+		$sth = $this->dbh->query($sql);
+		$subactividad=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$subactividad->orden-1.5;
+		}
+		else{
+			$orden=$subactividad->orden+1.5;
+		}
+
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('subactividad',array('idsubactividad'=>$subactividad->idsubactividad), $arreglo);
+		$x=$this->salto_pagina();
+		return $x;
+	}
+	public function salto_pagina(){
+		$idactividad=$_REQUEST['idactividad'];
+
+		if(isset($_REQUEST['salto'])){
+			$idcontexto=$_REQUEST['idcontexto'];
+			$salto=$_REQUEST['salto'];
+
+			$arreglo =array();
+
+			if($salto==0)
+				$arreglo+=array('salto'=>1);
+			if($salto==1)
+				$arreglo+=array('salto'=>0);
+
+			$x=$this->update('contexto',array('id'=>$idcontexto), $arreglo);
+		}
+
+		$sql="SELECT contexto.* FROM contexto
+		left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+		left outer join actividad on actividad.idactividad=subactividad.idactividad
+		where actividad.idactividad=$idactividad order by subactividad.orden asc, contexto.orden asc";
+		$sth = $this->dbh->query($sql);
+		$orden=$sth->fetchAll(PDO::FETCH_OBJ);
+
+		$pagina=0;
+		$registro=0;
+		foreach($orden as $row){
+			if($registro==0){
+				$salto=0;
+				$pagina=0;
+				$arreglo =array();
+				$arreglo+=array('pagina'=>0);
+				$arreglo+=array('salto'=>0);
+				$x=$this->update('contexto',array('id'=>$row->id), $arreglo);
+			}
+			else{
+				if($row->salto==1){
+					$pagina++;
+				}
+				$arreglo =array();
+				$arreglo+=array('pagina'=>$pagina);
+				$x=$this->update('contexto',array('id'=>$row->id), $arreglo);
+			}
+			$registro++;
+		}
+		return $x;
+	}
+
+	public function actividad_mover(){
+		$idactividad=$_REQUEST['idactividad'];
+		$dir=$_REQUEST['dir'];
+
+		$sql="select * from actividad where idactividad=$idactividad";
+		$sth = $this->dbh->query($sql);
+		$actividad=$sth->fetch(PDO::FETCH_OBJ);
+		if($dir==0){
+			$orden=$actividad->orden-1.5;
+		}
+		else{
+			$orden=$actividad->orden+1.5;
+		}
+		$arreglo=array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$this->update('actividad',array('idactividad'=>$actividad->idactividad), $arreglo);
+		return $x;
+	}
+
+	public function asignar_pareja(){
+		$idactividad=$_REQUEST['idactividad'];
+		$idpaciente=$_REQUEST['idpaciente'];
+		$idrel=$_REQUEST['idrel'];
+
+		$sql="select * from actividad_per where idpaciente=$idrel and idactividad=$idactividad";
+		$sth = $this->dbh->query($sql);
+		$activ_per=$sth->fetch(PDO::FETCH_OBJ);
+		if($sth->rowCount()==0){
+
+			$arreglo=array();
+			$arreglo+=array('idpaciente'=>$idrel);
+			$arreglo+=array('idactividad'=>$idactividad);
+			$x=$this->insert('actividad_per', $arreglo);
+
+			$sql="select * from actividad where idactividad=$idactividad";
+			$sth = $this->dbh->query($sql);
+			$actividad=$sth->fetch(PDO::FETCH_OBJ);
+			if($actividad->idtrack){
+				$idtrack=$actividad->idtrack;
+
+			}
+			if($actividad->idmodulo){
+
+				$sql="select * from modulo_per where idpaciente=$idrel and idmodulo=$actividad->idmodulo";
+				$sth = $this->dbh->query($sql);
+				if($sth->rowCount()==0){
+					$arreglo=array();
+					$arreglo+=array('idpaciente'=>$idrel);
+					$arreglo+=array('idmodulo'=>$actividad->idmodulo);
+					$x=$this->insert('modulo_per', $arreglo);
+				}
+
+				$sql="select * from modulo where id=$actividad->idmodulo";
+				$sth = $this->dbh->query($sql);
+				$modulo=$sth->fetch(PDO::FETCH_OBJ);
+				$idtrack=$modulo->idtrack;
+
+			}
+			$sql="select * from track_per where idpaciente=$idrel and idtrack=$idtrack";
+			$sth = $this->dbh->query($sql);
+			if($sth->rowCount()==0){
+				$arreglo=array();
+				$arreglo+=array('idpaciente'=>$idrel);
+				$arreglo+=array('idtrack'=>$idtrack);
+				$x=$this->insert('track_per', $arreglo);
+			}
+
+			////////////////////////
+			$sql="select * from track where id=$idtrack";
+			$sth = $this->dbh->query($sql);
+			$track=$sth->fetch(PDO::FETCH_OBJ);
+
+			$sql="select * from terapias_per where idpaciente=$idrel and idterapia=$track->idterapia";
+			$sth = $this->dbh->query($sql);
+			if($sth->rowCount()==0){
+				$arreglo=array();
+				$arreglo+=array('idpaciente'=>$idrel);
+				$arreglo+=array('idterapia'=>$track->idterapia);
+				$x=$this->insert('terapias_per', $arreglo);
+			}
+			return $x;
+		}
+		else{
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>'Ya existe en esta actividad');
+			$x=json_encode($arreglo);
+		}
+		return $x;
+	}
+	public function eliminar_pareja(){
+		$idactividad=$_REQUEST['idactividad'];
+		$idpaciente=$_REQUEST['idpaciente'];
+		$idper=$_REQUEST['idper'];
+
+		return $this->borrar('actividad_per',"id",$idper);
+	}
+
+	public function agregar_grupo(){
+		$idgrupo=clean_var($_REQUEST['idgrupo']);
+		$idpaciente=clean_var($_REQUEST['idpaciente']);
+		$sql="select * from grupo_actividad_pre where idgrupo=:idgrupo and idpaciente=:idpaciente";
+		$sth = $this->dbh->prepare($sql);
+		$sth->bindValue(":idgrupo",$idgrupo);
+		$sth->bindValue(":idpaciente",$idpaciente);
+		$sth->execute();
+		if ($sth->rowCount()==0){
+			$arreglo=array();
+			$arreglo+=array('idpaciente'=>$idpaciente);
+			$arreglo+=array('idgrupo'=>$idgrupo);
+			$x=$this->insert('grupo_actividad_pre', $arreglo);
+			return $x;
+		}
+		else{
+			$arreglo=array();
+			$arreglo+=array('id1'=>0);
+			$arreglo+=array('error'=>1);
+			$arreglo+=array('terror'=>"El grupo ya existe");
+			return json_encode($arreglo);
+		}
+	}
+	
+	
+	
 }
 
 $db = new Cliente();

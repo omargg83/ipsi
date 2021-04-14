@@ -12,22 +12,22 @@
 	use PHPMailer\PHPMailer\SMTP;
 
 	/*
-	if($_SESSION['nivel']==1){
-		$_SESSION['tipo_user'] = "Admin General";
-	}
-	if($_SESSION['nivel']==2){
-		$_SESSION['tipo_user'] = "Terapeuta";
-	}
-	if($_SESSION['nivel']==3){
-		$_SESSION['tipo_user'] = "Admin Sucursal";
-	if($_SESSION['nivel']==4){
-		$_SESSION['tipo_user'] = "Secretaria";
-	}
+		if($_SESSION['nivel']==1){
+			$_SESSION['tipo_user'] = "Admin General";
+		}
+		if($_SESSION['nivel']==2){
+			$_SESSION['tipo_user'] = "Terapeuta";
+		}
+		if($_SESSION['nivel']==3){
+			$_SESSION['tipo_user'] = "Admin Sucursal";
+		if($_SESSION['nivel']==4){
+			$_SESSION['tipo_user'] = "Secretaria";
+		}
 
-	if($key->nivel==1) echo "Admin General";
-	if($key->nivel==2) echo "Terapeuta";
-	if($key->nivel==3) echo "Admin Sucursal";
-	if($key->nivel==4) echo "Secretaria";
+		if($key->nivel==1) echo "Admin General";
+		if($key->nivel==2) echo "Terapeuta";
+		if($key->nivel==3) echo "Admin Sucursal";
+		if($key->nivel==4) echo "Secretaria";
 	*/
 
 	require_once("init.php");
@@ -242,41 +242,40 @@
 			$mail->AltBody = $asunto;
 
 			$mail->isSMTP();
-			$mail->Host = "smtp.gmail.com";						  // Specify main and backup SMTP servers
-			$mail->SMTPAuth = true;                               // Enable SMTP authentication
-			$mail->Username = "tic.shop.adm@gmail.com";       // SMTP username
-			$mail->Password = "ticshop2020";                       // SMTP password
-			$mail->SMTPSecure = "ssl";                            // Enable TLS encryption, `ssl` also accepted
-			$mail->Port = 465;                                    // TCP port to connect to
-			$mail->CharSet = 'UTF-8';
-			//$mail->From = "tic.shop.adm@gmail.com";
-			$mail->From = "ventas@tic-shop.com.mx";
-			$mail->FromName = "TIC-SHOP";
+
+			////////////cambiar esta configuracion
+				$mail->Host = Host_MAIL;						  // Specify main and backup SMTP servers
+				$mail->SMTPAuth = SMTPAuth_MAIL;                               // Enable SMTP authentication
+
+				$mail->Username = Username_MAIL;       // SMTP username
+				$mail->Password = Password_MAIL;                       // SMTP password  <----------- AGREGAR AQUI EL PASSWORDS
+
+				$mail->SMTPSecure = "ssl";                            // Enable TLS encryption, `ssl` also accepted
+				$mail->Port = 465;                                    // TCP port to connect to
+				$mail->CharSet = 'UTF-8';
+
+				$mail->From = From_MAIL;   //////////esto solo muestra el remitente
+				$mail->FromName = FromName_MAIL;			//////////// remitente
+			//////////hasta aca
 
 			$mail->IsHTML(true);
 			$mail->addAddress($correo);
-			$mail->addBCC("ventas@tic-shop.com.mx");
 
 			$mail->msgHTML($texto);
 			$arreglo=array();
-			//send the message, check for errors
+
 			if (!$mail->send()) {
-				$arreglo+=array('id1'=>0);
+				$arreglo+=array('id'=>0);
 				$arreglo+=array('error'=>1);
 				$arreglo+=array('terror'=>$mail->ErrorInfo);
-				$arreglo+=array('id2'=>'');
-				$arreglo+=array('id3'=>'');
 				return json_encode($arreglo);
 			} else {
-				$arreglo+=array('id1'=>0);
+				$arreglo+=array('id'=>0);
 				$arreglo+=array('error'=>0);
-				$arreglo+=array('terror'=>'');
-				$arreglo+=array('id2'=>'');
-				$arreglo+=array('id3'=>'');
+				$arreglo+=array('terror'=>'Se nofiticó al correo: '.$correo.' la nueva contraseña');
 				return json_encode($arreglo);
 			}
 		}
-
 		public function paginar($paginas,$pag,$pagx,$des,$div){
 			echo "<div class='pag_sagyc'>";
 				echo "<div class='paginas'>";
@@ -293,26 +292,75 @@
 
 						$b=$i+1;
 
-							if($i==0 or $i==($paginas-1) or $ant==$i or $desp==$i or $pag==$i or $paginas<7){
-								echo "<a class='"; if($pag==$i){ echo " active";} echo "' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$i'>$b</a>";
+						if($i==0 or $i==($paginas-1) or $ant==$i or $desp==$i or $pag==$i or $paginas<7){
+							echo "<a class='"; if($pag==$i){ echo " active";} echo "' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$i'>$b</a>";
+						}
+						else{
+							if(($pre==0) or ($pos==0 and $pre==1 and $i>$pag)){
+								echo "<a>...</a>";
+								if($pre==0)
+								$pre=1;
+								if ($pos==0 and $pre==1 and $i>$pag){
+									$pos=1;
+								}
+							}
+						}
+					}
+			    echo "<a class='paginacion-item' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$pagx'><i class='fas fa-angle-double-right'></i></a>";
+				echo "</div>";
+			echo "</div>";
+		}
+		public function paginar_x($paginas,$pag_actual,$des,$div,$var){
+			$pagx=$paginas-1;
+			echo "<div class='pag_sagyc'>";
+				echo "<div class='paginas'>";
+			    echo "<a is='b-link' title='Editar' des='$des' dix='$div'";
+					foreach($var as $key => $value){
+  					$mykey = $key;
+						echo " v_".$key."='".$value."'";
+					}
+					echo "><i class='fas fa-angle-double-left'></i></a>";
+					$max=$pag_actual+4;
+					$min=$pag_actual-4;
+
+					$pre=0;
+					$pos=0;
+					for($i=0;$i<$paginas;$i++){
+						////////para las anteriores a la selecionada
+						$ant=$pag_actual-1;
+						$desp=$pag_actual+1;
+
+						$b=$i+1;
+
+							if($i==0 or $i==($paginas-1) or $ant==$i or $desp==$i or $pag_actual==$i or $paginas<7){
+								echo "<a class='"; if($pag_actual==$i){ echo " active";} echo "' is='b-link' title='Editar' des='$des' dix='$div' v_pagina='$i' ";
+								foreach($var as $key => $value){
+			  					$mykey = $key;
+									echo " v_".$key."='".$value."'";
+								}
+								echo ">$b</a>";
 							}
 							else{
-								if(($pre==0) or ($pos==0 and $pre==1 and $i>$pag)){
+								if(($pre==0) or ($pos==0 and $pre==1 and $i>$pag_actual)){
 									echo "<a>...</a>";
 									if($pre==0)
 									$pre=1;
-									if ($pos==0 and $pre==1 and $i>$pag){
+									if ($pos==0 and $pre==1 and $i>$pag_actual){
 										$pos=1;
 									}
 								}
 							}
 
 					}
-			    echo "<a class='paginacion-item' is='b-link' title='Editar' des='$des' dix='$div' v_pag='$pagx'><i class='fas fa-angle-double-right'></i></a>";
+			    echo "<a class='paginacion-item' is='b-link' title='Editar' des='$des' dix='$div' v_pagina='$pagx' ";
+					foreach($var as $key => $value){
+  					$mykey = $key;
+						echo " v_".$key."='".$value."'";
+					}
+					echo "><i class='fas fa-angle-double-right'></i></a>";
 				echo "</div>";
 			echo "</div>";
 		}
-
 
 	}
 	function clean_var($val){

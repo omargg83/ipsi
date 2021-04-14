@@ -3,7 +3,7 @@
 
 	$idtrack=$_REQUEST['idtrack'];
 	$idpaciente=$_REQUEST['idpaciente'];
-
+	$idmodulo=0;
 	/////////////////////breadcrumb
 	$paciente = $db->cliente_editar($idpaciente);
 	$nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
@@ -19,7 +19,7 @@
 	$sth->bindValue(":idterapia",$track->idterapia);
 	$sth->execute();
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
-
+	$idterapia=$track->idterapia;
   $modulo=$db->modulo_lista($idtrack);
 ?>
 

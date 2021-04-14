@@ -5,8 +5,8 @@
 
   if($idhorario>0){
     $pd=$db->horario_editar($idhorario);
-    $desde = date ( 'h:i' , strtotime($pd->desde));
-    $hasta = date ( 'h:i' , strtotime($pd->hasta));
+    $desde = date ( 'H:i' , strtotime($pd->desde));
+    $hasta = date ( 'H:i' , strtotime($pd->hasta));
 
 		$desdef = date ( 'Y-m-d' , strtotime($pd->desde));
     $hastaf = date ( 'Y-m-d' , strtotime($pd->hasta));

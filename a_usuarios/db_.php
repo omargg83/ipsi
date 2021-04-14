@@ -58,7 +58,7 @@ class Usuario extends ipsi{
 		}
 		if($_SESSION['nivel']==4){
 			$sql="select * from usuarios where nivel>1 and nivel!=2 and idusuario!=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
-		}
+		}		
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
@@ -104,20 +104,31 @@ class Usuario extends ipsi{
 		$x="";
 		$arreglo =array();
 		$idusuario=$_REQUEST['idusuario'];
-		$correo=trim($_REQUEST['correo']);
 
+		if (isset($_REQUEST['autoriza'])){
+			$arreglo+=array('autoriza'=>$_REQUEST['autoriza']);
+		}
 		$arreglo+=array('nombre'=>$_REQUEST['nombre']);
 		$arreglo+=array('apellidop'=>$_REQUEST['apellidop']);
 
 		if (isset($_REQUEST['apellidom'])){
 			$arreglo+=array('apellidom'=>$_REQUEST['apellidom']);
 		}
-		if (isset($_REQUEST['nivel'])){
-			$arreglo+=array('nivel'=>$_REQUEST['nivel']);
-		}
 		if (isset($_REQUEST['edad'])){
 			$arreglo+=array('edad'=>$_REQUEST['edad']);
 		}
+		if (isset($_REQUEST['nacionalidad'])){
+			$arreglo+=array('nacionalidad'=>$_REQUEST['nacionalidad']);
+		}
+		if (isset($_REQUEST['f_nacimiento'])){
+			$arreglo+=array('f_nacimiento'=>$_REQUEST['f_nacimiento']);
+		}
+		if (isset($_REQUEST['curp'])){
+			$arreglo+=array('curp'=>$_REQUEST['curp']);
+		}
+		$correo=trim($_REQUEST['correo']);
+		$arreglo+=array('correo'=>$correo);
+
 		if (isset($_REQUEST['telefono'])){
 			$arreglo+=array('telefono'=>$_REQUEST['telefono']);
 		}
@@ -127,51 +138,95 @@ class Usuario extends ipsi{
 		if (isset($_REQUEST['n_hijos'])){
 			$arreglo+=array('n_hijos'=>$_REQUEST['n_hijos']);
 		}
+		if (isset($_REQUEST['rfc'])){
+			$arreglo+=array('rfc'=>$_REQUEST['rfc']);
+		}
+		if (isset($_REQUEST['seguro'])){
+			$arreglo+=array('seguro'=>$_REQUEST['seguro']);
+		}
+		if (isset($_REQUEST['estudios'])){
+			$arreglo+=array('estudios'=>$_REQUEST['estudios']);
+		}
 		if (isset($_REQUEST['direccion'])){
 			$arreglo+=array('direccion'=>$_REQUEST['direccion']);
 		}
-		if (isset($_REQUEST['ocupacion'])){
-			$arreglo+=array('ocupacion'=>$_REQUEST['ocupacion']);
+		if (isset($_REQUEST['nivel'])){
+			$arreglo+=array('nivel'=>$_REQUEST['nivel']);
 		}
-		if (isset($_REQUEST['escolaridad'])){
-			$arreglo+=array('escolaridad'=>$_REQUEST['escolaridad']);
+		if (isset($_REQUEST['nombre_vive'])){
+			$arreglo+=array('nombre_vive'=>$_REQUEST['nombre_vive']);
 		}
-		if (isset($_REQUEST['religion'])){
-			$arreglo+=array('religion'=>$_REQUEST['religion']);
+		if (isset($_REQUEST['telefono_vive'])){
+			$arreglo+=array('telefono_vive'=>$_REQUEST['telefono_vive']);
 		}
-		if (isset($_REQUEST['vive'])){
-			$arreglo+=array('vive'=>$_REQUEST['vive']);
+		if (isset($_REQUEST['parentesco_vive'])){
+			$arreglo+=array('parentesco_vive'=>$_REQUEST['parentesco_vive']);
 		}
-		if (isset($_REQUEST['c_emergencia'])){
-			$arreglo+=array('c_emergencia'=>$_REQUEST['c_emergencia']);
-		}
-		if (isset($_REQUEST['c_telefono'])){
-			$arreglo+=array('c_telefono'=>$_REQUEST['c_telefono']);
+
+		if (isset($_REQUEST['enfermedad_cronica'])){
+			$arreglo+=array('enfermedad_cronica'=>clean_var($_REQUEST['enfermedad_cronica']));
 		}
 		if (isset($_REQUEST['enfermedad'])){
-			$arreglo+=array('enfermedad'=>$_REQUEST['enfermedad']);
+			$arreglo+=array('enfermedad'=>clean_var($_REQUEST['enfermedad']));
 		}
-		if (isset($_REQUEST['medicamento'])){
-			$arreglo+=array('medicamento'=>$_REQUEST['medicamento']);
+		if (isset($_REQUEST['enfermedad_mental'])){
+			$arreglo+=array('enfermedad_mental'=>clean_var($_REQUEST['enfermedad_mental']));
 		}
-		if (isset($_REQUEST['terapia'])){
-			$arreglo+=array('terapia'=>$_REQUEST['terapia']);
+		if (isset($_REQUEST['e_mental'])){
+			$arreglo+=array('e_mental'=>clean_var($_REQUEST['e_mental']));
+		}
+		if (isset($_REQUEST['consumo_medicamentos'])){
+			$arreglo+=array('consumo_medicamentos'=>clean_var($_REQUEST['consumo_medicamentos']));
+		}
+		if (isset($_REQUEST['c_medicamentos'])){
+			$arreglo+=array('c_medicamentos'=>clean_var($_REQUEST['c_medicamentos']));
+		}
+		if (isset($_REQUEST['alergias'])){
+			$arreglo+=array('alergias'=>clean_var($_REQUEST['alergias']));
+		}
+		if (isset($_REQUEST['c_alergias'])){
+			$arreglo+=array('c_alergias'=>clean_var($_REQUEST['c_alergias']));
+		}
+		if (isset($_REQUEST['lesiones'])){
+			$arreglo+=array('lesiones'=>clean_var($_REQUEST['lesiones']));
+		}
+		if (isset($_REQUEST['c_lesiones'])){
+			$arreglo+=array('c_lesiones'=>clean_var($_REQUEST['c_lesiones']));
 		}
 
-		$arreglo+=array('correo'=>$correo);
-
-		if (isset($_REQUEST['autoriza'])){
-			$arreglo+=array('autoriza'=>$_REQUEST['autoriza']);
+		if (isset($_REQUEST['licenciatura'])){
+			$arreglo+=array('licenciatura'=>clean_var($_REQUEST['licenciatura']));
 		}
-
-		if($_SESSION['nivel']==1){
-			if (isset($_REQUEST['idsucursal'])){
-				$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
-			}
+		if (isset($_REQUEST['universidad'])){
+			$arreglo+=array('universidad'=>clean_var($_REQUEST['universidad']));
 		}
-		$_SESSION['nombrec']=$_REQUEST['nombre']." ".$_REQUEST['apellidop'];
+		if (isset($_REQUEST['posgrado_1'])){
+			$arreglo+=array('posgrado_1'=>clean_var($_REQUEST['posgrado_1']));
+		}
+		if (isset($_REQUEST['universidad_1'])){
+			$arreglo+=array('universidad_1'=>clean_var($_REQUEST['universidad_1']));
+		}
+		if (isset($_REQUEST['posgrado_2'])){
+			$arreglo+=array('posgrado_2'=>clean_var($_REQUEST['posgrado_2']));
+		}
+		if (isset($_REQUEST['universidad_2'])){
+			$arreglo+=array('universidad_2'=>clean_var($_REQUEST['universidad_2']));
+		}
+		if (isset($_REQUEST['posgrado_3'])){
+			$arreglo+=array('posgrado_3'=>clean_var($_REQUEST['posgrado_3']));
+		}
+		if (isset($_REQUEST['universidad_3'])){
+			$arreglo+=array('universidad_3'=>clean_var($_REQUEST['universidad_3']));
+		}
+		if (isset($_REQUEST['nivel'])){
+			$arreglo+=array('nivel'=>clean_var($_REQUEST['nivel']));
+		}
+			
+		if (isset($_REQUEST['idsucursal'])){
+			$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
+		}
+		
 		if($idusuario==0){
-
 			$sql="select * from usuarios where correo='$correo'";
 			$sth = $this->dbh->prepare($sql);
 			$a=$sth->execute();
@@ -181,11 +236,6 @@ class Usuario extends ipsi{
 				$arreglo+=array('terror'=>"Ya existe el usuario favor de verificar");
 				return json_encode($arreglo);
 			}
-
-			if($_SESSION['nivel']==3){
-				$arreglo+=array('idsucursal'=>$_SESSION['idsucursal']);
-			}
-			$arreglo+=array('nivel'=>2);  ///terapeuta
 			$x=$this->insert('usuarios', $arreglo);
 		}
 		else{
@@ -221,15 +271,46 @@ class Usuario extends ipsi{
 		$info = pathinfo($nombrearchivo);
 		if($archivo!=""){
 			$extension = $info['extension'];
-			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG') {
+			if ($extension=='png' || $extension=='PNG' || $extension=='jpg'  || $extension=='JPG' || $extension=='jpeg' || $extension=='JPEG') {
 				$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
 				move_uploaded_file($tmp,$ruta.$nombreFile);
 				$ruta=$ruta."/".$nombreFile;
 				$arreglo+=array('foto'=>$nombreFile);
-				$_SESSION['foto']="a_archivos/terapeuta/".$nombreFile;
+				if($_SESSION['idusuario']==$id1){
+					$_SESSION['foto']="a_archivos/terapeuta/".$nombreFile;
+				}
 			}
 			else{
-				echo "fail";
+				echo "fail $extension";
+				exit;
+			}
+		}
+		return $this->update('usuarios',array('idusuario'=>$id1), $arreglo);
+	}
+	public function curriculum(){
+		$x="";
+		$arreglo =array();
+		$id1=$_REQUEST['id1'];
+
+		$extension = '';
+		$ruta = '../a_archivos/terapeuta/';
+		$archivo = $_FILES['foto']['tmp_name'];
+		$nombrearchivo = $_FILES['foto']['name'];
+		$tmp=$_FILES['foto']['tmp_name'];
+		$info = pathinfo($nombrearchivo);
+		if($archivo!=""){
+			$extension = $info['extension'];
+			if ($extension=='pdf' || $extension=='PDF' || $extension=='DOC'  || $extension=='DOCX' ) {
+				$nombreFile = "resp_".date("YmdHis").rand(0000,9999).".".$extension;
+				move_uploaded_file($tmp,$ruta.$nombreFile);
+				$ruta=$ruta."/".$nombreFile;
+				$arreglo+=array('cv'=>$nombreFile);
+				if($_SESSION['idusuario']==$id1){
+					$_SESSION['foto']="a_archivos/terapeuta/".$nombreFile;
+				}
+			}
+			else{
+				echo "fail $extension";
 				exit;
 			}
 		}

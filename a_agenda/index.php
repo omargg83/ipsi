@@ -14,11 +14,8 @@
 			</form>
 
 			<ul class='navbar-nav mr-auto'>
-
 				<li class='nav-item active'><a class='nav-link barranav izq' is='a-link' title='Nuevo' id='new_personal' des='a_agenda/editar' v_idcita='0' dix='contenido'><span>Nueva cita</span></a></li>
-
 				<li class='nav-item active'><a class='nav-link barranav' is='a-link' title='Mostrar todo' id='lista_comision' des='a_agenda/lista' dix='trabajo'><span>Citas</span></a></li>
-
 			</ul>
 	  </div>
 	</nav>

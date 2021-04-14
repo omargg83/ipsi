@@ -14,12 +14,8 @@
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 	///////////////////////CODIGO
-	 $sql="SELECT * from track_per
-	 left outer join track on track.id=track_per.idtrack where track_per.idpaciente=:id and track.idterapia=:idterapia order by track.inicial desc";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":id",$idpaciente);
-	$sth->bindValue(":idterapia",$idterapia);
-	$sth->execute();
+	$sql="SELECT track.* from track_per left outer join track on track.id=track_per.idtrack where track_per.idpaciente=$idpaciente and track.idterapia=$idterapia order by track.inicial desc, track.orden asc";
+	$sth = $db->dbh->query($sql);
 	$track=$sth->fetchAll(PDO::FETCH_OBJ);
 
 ?>
@@ -42,20 +38,19 @@
 <div class='container'>
 	<div class='row'>
 
-
-
   	<?php
   	foreach($track as $key){
   	?>
-  		<div class='col-4 p-3 w-50 actcard'>
-  			<div class='card'>
+			<div class='col-4 p-2 w-50 actcard'>
+				<div class='card' style='height:400px'>
 					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
   				<div class='card-header'>
 						<?php echo $key->nombre; ?>
-
+						
 						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_pacientes/track" dix="trabajo" db="a_pacientes/db_" fun="quitar_track" v_idtrack="<?php echo $key->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>" v_idterapia="<?php echo $idterapia; ?>" tp="¿Desea quitar el track seleccionado?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+						 
 					</div>
-  				<div class='card-body'>
+  				<div class='card-body' style='overflow:auto; height:220px'>
   					<div class='row'>
   						<div class='col-12'>
   							<?php echo $key->descripcion; ?>

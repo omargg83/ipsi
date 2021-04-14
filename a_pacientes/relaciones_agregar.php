@@ -19,7 +19,6 @@
 	$sth->bindValue(":idcliente",$idpaciente);
 	$sth->execute();
 	$relaciones=$sth->fetchAll(PDO::FETCH_OBJ);
-
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -31,8 +30,6 @@
 		<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/relaciones" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Regresar</button>
 	</ol>
 </nav>
-
-
 
 <div class="alert alert-warning text-center tituloventana" role="alert">
 	Agregar persona

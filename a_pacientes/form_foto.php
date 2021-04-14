@@ -1,7 +1,18 @@
 <?php
+	require_once("db_.php");
 	$idpaciente=$_REQUEST['idpaciente'];
+	$desde="";
+	if(isset($_REQUEST['desde'])){
+		$desde=$_REQUEST['desde'];
+	}
+	if($desde=='contenido')
+		echo "<form is='f-submit' id='form_foto' db='a_pacientes/db_' fun='foto' cmodal='1' des='a_pacientes/editar_contenido' desid='idpaciente' cmodal='1' dix='$desde'>";
+	else
+		echo "<form is='f-submit' id='form_foto' db='a_pacientes/db_' fun='foto' cmodal='1' des='a_pacientes/editar_trabajo' desid='idpaciente' cmodal='1' dix='$desde'>";
+
+
 ?>
-<form is="f-submit" id="form_foto" db="a_pacientes/db_" fun="foto" cmodal="1">
+
 <div class='modal-header'>
 	<h5 class='modal-title'>Actualizar foto</h5>
 </div>

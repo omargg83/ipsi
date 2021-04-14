@@ -301,7 +301,7 @@
 							echo "<button class='btn btn-warning btn-sm' type='submit'>Guardar</button>";
 						}
 						else{
-							echo "<button class='btn btn-warning btn-sm' id='cerrar' type='button' is='b-link' v_idticket='$idticket' db='a_ticket/db_' des='a_ticket/lista' dix='trabajo' fun='cerrar_ticket' tp='¿Desea marcar como ticket finalizado?' title='Borrar'>Cerrar ticket</button>";
+							echo "<button class='btn btn-warning btn-sm' id='cerrar' type='button' is='b-link' v_idticket='$idticket' db='a_ticket/db_' des='a_ticket/lista' dix='trabajo' fun='cerrar_ticket' tp='¿Desea marcar como ticket finalizado?' tt='Ya no podrá editar' title='Borrar'>Cerrar ticket</button>";
 						}
 					?>
 						<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_ticket/lista" dix="trabajo">Regresar</button>

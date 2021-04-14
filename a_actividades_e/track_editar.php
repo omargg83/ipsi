@@ -3,7 +3,7 @@
 
 	$idtrack=clean_var($_REQUEST['idtrack']);
 	$idterapia=clean_var($_REQUEST['idterapia']);
-  $terapia=$db->terapia_editar($idterapia);
+  	$terapia=$db->terapia_editar($idterapia);
 
   $nombre="Track nuevo";
 	$video="";

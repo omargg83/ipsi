@@ -10,16 +10,14 @@
 	$telefono=$pd->telefono;
 	$correo=$pd->correo;
 	$foto=$pd->foto;
-	$observaciones=$pd->observaciones;
 	$numero=$pd->numero;
 
 	$suc=$db->sucursal($pd->idsucursal);
 
 	/////////////////////Relaciones
 	$sql="select * from clientes_relacion
-	left outer join clientes on clientes.id=clientes_relacion.idrel
 	left outer join rol_familiar on rol_familiar.idrol=clientes_relacion.idrol
-	where clientes_relacion.idcliente=:idcliente";
+	where clientes_relacion.idcliente=:idcliente or clientes_relacion.idrel=:idcliente";
 	$sth = $db->dbh->prepare($sql);
 	$sth->bindValue(":idcliente",$idpaciente);
 	$sth->execute();
@@ -144,7 +142,7 @@
 						<hr>
 						<div class='row'>
 							<div class='col-12'>
-								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/editar" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
+								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/editar_trabajo" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
 							</div>
 						</div>
 					</div>
@@ -168,9 +166,15 @@
 						</div>
 						<?php
 							foreach($relaciones as $key){
+								if($key->idcliente==$idpaciente){
+									$cli=$db->cliente_editar($key->idrel);
+								}
+								else{
+									$cli=$db->cliente_editar($key->idcliente);
+								}
 								echo "<div class='row'>";
 									echo "<div class='col-6'>";
-										echo "<input class='form-control form-control-sm' value='$key->nombre' readonly/>";
+										echo "<input class='form-control form-control-sm' value='$cli->nombre $cli->apellidop $cli->apellidom' readonly/>";
 									echo "</div>";
 									echo "<div class='col-6'>";
 										echo "<input class='form-control form-control-sm' value='$key->rol' readonly/>";
@@ -182,6 +186,55 @@
 						<div class='row'>
 							<div class='col-12'>
 								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/relaciones" dix="trabajo" v_idpaciente="<?php echo $idpaciente;?>">Ver más</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='row p-3'>
+				<div class='card col-12'>
+					<div class='card-body'>
+						<div class='row'>
+							<div class='col-12'>
+								<h5>Últimas citas</h5>
+							</div>
+						</div>
+						<div class='row'>
+							<div class='col-4'>
+								Fecha
+							</div>
+							<div class='col-4'>
+								Hora
+							</div>
+							<div class='col-4'>
+								Terapeuta
+							</div>
+						</div>
+						<?php
+							$sql="SELECT * FROM citas where idpaciente=$idpaciente order by estatus asc, desde asc limit 3 ";
+							$sth = $db->dbh->query($sql);
+
+							$citas=$sth->fetchAll(PDO::FETCH_OBJ);
+							foreach($citas as $key){
+								$fecha = new DateTime($key->desde);
+								echo "<div class='row'>";
+									echo "<div class='col-4'>";
+										echo "<input class='form-control form-control-sm' value='".$fecha->format("d-m-Y")."' readonly/>";
+									echo "</div>";
+									echo "<div class='col-4'>";
+										echo "<input class='form-control form-control-sm' value='".$fecha->format("h:i A")."' readonly/>";
+									echo "</div>";
+									echo "<div class='col-4'>";
+										$terapeuta=$db->terapeuta($key->idusuario);
+										echo "<input class='form-control form-control-sm' value='$terapeuta->nombre $terapeuta->apellidop $terapeuta->apellidom' readonly/>";
+									echo "</div>";
+								echo "</div>";
+							}
+						?>
+						<hr>
+						<div class='row'>
+							<div class='col-12'>
+								<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_agenda/index" dix="contenido">Ver más</button>
 							</div>
 						</div>
 					</div>

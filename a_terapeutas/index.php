@@ -20,7 +20,7 @@
 			<?php
 				if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
 			?>
-				<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal'  is='a-link' des='a_terapeutas/editar' dix='trabajo' v_idusuario='0'>Nuevo</a></li>
+				<li class='nav-item active'><a class='nav-link barranav izq' title='Nuevo' id='new_personal'  is='a-link' des='a_usuarios/editar_trabajo' dix='trabajo' v_idusuario='0' v_nivel='2'>Nuevo</a></li>
 			<?php
 			}
 			?>

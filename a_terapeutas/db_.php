@@ -274,10 +274,10 @@ class Usuario extends ipsi{
 			$arreglo+=array('recurrente'=>null);
 		}
 
-		$desde="2021-01-01 ".$_REQUEST['desde'].":00";
+		$desde="2021-01-01 ".$_REQUEST['desde_fecha'].":00";
 		$arreglo+=array('desde'=>$desde);
 
-		$hasta="2021-01-01 ".$_REQUEST['hasta'].":00";
+		$hasta="2021-01-01 ".$_REQUEST['hasta_fecha'].":00";
 		$arreglo+=array('hasta'=>$hasta);
 
 		$fecha_desde = strtotime($desde);
@@ -398,7 +398,11 @@ class Usuario extends ipsi{
 			return $this->insert('cliente_terapeuta', $arreglo);
 		}
 	}
-
+	public function cliente_($id){
+		$sql="select * from clientes where id='$id'";
+		$sth = $this->dbh->query($sql);
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
 	public function paciente_quitar(){
 		$idusuario=$_REQUEST['idusuario'];
 		$idterapeuta=$_REQUEST['idterapeuta'];

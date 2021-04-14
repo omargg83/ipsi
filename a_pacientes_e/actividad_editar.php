@@ -4,52 +4,16 @@
 	$idpaciente=$_REQUEST['idpaciente'];
 	$idactividad=$_REQUEST['idactividad'];
 
+	$proviene=$_REQUEST['proviene'];
+
   /////////////////////breadcrumb
   $paciente = $db->cliente_editar($idpaciente);
   $nombre_p=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
 	$inicial=0;
+	$idtrack="";
+	$idmodulo="";
 
-	if(isset($_REQUEST['idmodulo'])){
-		$idmodulo=$_REQUEST['idmodulo'];
-
-		$sql="select * from modulo where id=:idmodulo";
-		 $sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":idmodulo",$idmodulo);
-		$sth->execute();
-		$modulo=$sth->fetch(PDO::FETCH_OBJ);
-
-		$sql="select * from track where id=:idtrack";
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":idtrack",$modulo->idtrack);
-		$sth->execute();
-		$track=$sth->fetch(PDO::FETCH_OBJ);
-		$idterapia=$track->idterapia;
-
-		$sql="select * from terapias where id=:idterapia";
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":idterapia",$idterapia);
-		$sth->execute();
-		$terapia=$sth->fetch(PDO::FETCH_OBJ);
-	}
-	if(isset($_REQUEST['idtrack'])){
-		$idtrack=clean_var($_REQUEST['idtrack']);
-		$inicial=1;
-
-		$sql="select * from track where id=:idtrack";
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":idtrack",$idtrack);
-		$sth->execute();
-		$track=$sth->fetch(PDO::FETCH_OBJ);
-
-		$idterapia=$track->idterapia;
-		$sql="select * from terapias where id=:idterapia";
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":idterapia",$idterapia);
-		$sth->execute();
-		$terapia=$sth->fetch(PDO::FETCH_OBJ);
-	}
-
-	$nombre="Nueva actividad";
+	$nombre="";
 	$observaciones="";
 	$indicaciones="";
 	$tipo="";
@@ -61,64 +25,126 @@
 		$indicaciones=$actividad->indicaciones;
 		$tipo=$actividad->tipo;
 		$visible=$actividad->visible;
+		$idgrupo=$actividad->idgrupo;
 	}
+	else{
+		$idgrupo=clean_var($_REQUEST['idgrupo']);
+	}
+
+	$sql="SELECT * from grupo_actividad where idgrupo=$idgrupo";
+	$sth = $db->dbh->query($sql);
+	$grupo=$sth->fetch(PDO::FETCH_OBJ);
+	if(strlen($grupo->idtrack)){
+		
+		$sql="select * from track where id=$grupo->idtrack";
+		$sth = $db->dbh->query($sql);
+		$track=$sth->fetch(PDO::FETCH_OBJ);
+
+		$sql="select * from terapias where id=$track->idterapia";
+		$sth = $db->dbh->query($sql);
+		$terapia=$sth->fetch(PDO::FETCH_OBJ);
+
+
+	}
+	else{
+		$sql="select * from modulo where id=$grupo->idmodulo";
+		$sth = $db->dbh->query($sql);
+		$modulo=$sth->fetch(PDO::FETCH_OBJ);
+
+		$sql="select * from track where id=$modulo->idtrack";
+		$sth = $db->dbh->query($sql);
+		$track=$sth->fetch(PDO::FETCH_OBJ);
+
+		$sql="select * from terapias where id=$track->idterapia";
+		$sth = $db->dbh->query($sql);
+		$terapia=$sth->fetch(PDO::FETCH_OBJ);
+	}
+
+
 ?>
 
 
-  <nav aria-label='breadcrumb'>
-   <ol class='breadcrumb'>
-  	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
-  	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre_p; ?></li>
-  	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/terapias" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Terapias</li>
-  	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/track" dix="trabajo" v_idterapia="<?php echo $terapia->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $terapia->nombre; ?></li>
-		 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/modulos" dix="trabajo" v_idtrack="<?php echo $track->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $track->nombre; ?></li>
-		 	<?php
-		 	if($inicial==0){
-			?>
-		 		<li class="breadcrumb-item" id='lista_track' is="li-link" des="a_pacientes/actividades" dix="trabajo" v_idmodulo="<?php echo $modulo->id; ?>" v_idpaciente="<?php echo $idpaciente; ?>"><?php echo $modulo->nombre; ?></li>
-				<li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes_e/actividad_editar" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" v_idmodulo="<?php echo $idmodulo; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Nueva actividad</li>
-			<?php
+<nav aria-label='breadcrumb'>
+ <ol class='breadcrumb'>
+	<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/lista" dix="trabajo">Pacientes</li>
+	<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre_p; ?></li>
+	<?php
+		echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/terapias' v_idpaciente='$idpaciente' dix='trabajo'>Terapias</li>";
+		echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/track' dix='trabajo' v_idterapia='$terapia->id' v_idpaciente='$idpaciente'>$terapia->nombre</li>";
+		echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$track->id' v_idpaciente='$idpaciente'>$track->nombre</li>";
+
+		if($proviene=="moduloscatalogo"){
+			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/grupos' dix='trabajo' v_idgrupo='$grupo->idgrupo' v_idpaciente='$idpaciente'>$grupo->grupo</li>";
+
+			echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_proviene='$proviene' v_idtrack='$track->id'>$nombre</li>";
+		}
+
+		if($proviene=="nuevaactividad"){
+		  echo "<li class='breadcrumb-item active' is='li-link' des='a_pacientes_e/inicial_agregar' dix='trabajo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente'>Agregar actividad inicial</li>";
+
+			if($idactividad==0){
+				echo "<li class='breadcrumb-item active' is='li-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente' v_idactividad='0' v_proviene='$proviene'>Nueva actividad</li>";
 			}
-			else{
-			?>
-				<li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_pacientes_e/actividad_editar" dix="trabajo" v_idactividad="<?php echo $idactividad; ?>" v_idtrack="<?php echo $idtrack; ?>" v_idpaciente="<?php echo $idpaciente; ?>">Nueva actividad</li>
-			<?php
+		}
+		if($proviene=="actividadver"){
+			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/actividades' dix='trabajo' v_idmodulo='$modulo->id' v_idpaciente='$idpaciente'>$modulo->nombre</li>";
+			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_proviene='$proviene'>$nombre</li>";
+		}
+
+		if($proviene=="actividades"){
+			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/actividades' dix='trabajo' v_idmodulo='$modulo->id' v_idpaciente='$idpaciente'>$modulo->nombre</li>";
+			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_proviene='$proviene'>$nombre</li>";
+		}
+			///////////////////////////botones regresar
+			if($proviene=="moduloscatalogo"){
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/grupos' dix='trabajo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente'>Regresar</button>";
 			}
-			?>
-			<!-- Botones regresar -->
-			<?php
-				if($inicial==0){
-					if($idactividad>0){
-						echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividades' v_idmodulo='$idmodulo' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
-					}
-					else{
-						echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
-					}
-				}
-				else{
-					echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/modulos' dix='trabajo' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>Regresar</button>";
-				}
+
+			if($proviene=="nuevaactividad"){
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/inicial_agregar' dix='trabajo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente'>Regresar</button>";
+			}
+
+			if($proviene=="actividadver"){
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_proviene='$proviene'>Regresar</button>";
+			}
+
+			if($proviene=="actividades"){
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes/actividades' dix='trabajo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo' v_proviene='$proviene'>Regresar</button>";
+			}
+
+			if($proviene=="nuevaagregar"){
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/actividad_agregar' dix='trabajo' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo' v_proviene='$proviene'>Regresar</button>";
+			}
 			?>
    </ol>
   </nav>
 
-
 	<div class='container'>
 			<?php
-				if(isset($modulo)){
-					////////////////Cuando es actividad normal
-
-					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo'>";
-					echo "<input type='hidden' class='form-control' id='idmodulo' name='idmodulo' value='$idmodulo' readonly>";
-			 	}
-				else{
-					/////////////////Cuando es actividad inicial
-					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idtrack='$idtrack'>";
-					echo "<input type='hidden' class='form-control' id='idtrack' name='idtrack' value='$idtrack' readonly>";
+				if($proviene=="nuevaactividad"){
+					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' v_idpaciente='$idpaciente' des='a_pacientes/actividad_ver' desid='idactividad'>";
 				}
+				if($proviene=="moduloscatalogo"){
+					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' v_idpaciente='$idpaciente'>";
+				}
+
+				if($proviene=="actividadver"){
+					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' v_idpaciente='$idpaciente' des='a_pacientes/actividad_ver' desid='idactividad'>";
+				}
+
+				if($proviene=="actividades"){
+					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo' des='a_pacientes/actividades' desid='idactividad'>";
+				}
+
+				if($proviene=="nuevaagregar"){
+					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo' des='a_pacientes/actividad_ver' desid='idactividad'>";
+				}
+				
+				echo "<input type='hidden' class='form-control' id='idgrupo' name='idgrupo' value='$idgrupo' readonly>";
+				echo "<input type='hidden' class='form-control' id='idactividad' name='idactividad' value='$idactividad' readonly>";
+				echo "<input type='hidden' class='form-control' id='idpaciente' name='idpaciente' value='$idpaciente' readonly>";
 			?>
-			<input type='hidden' class='form-control' id='idactividad' name='idactividad' value='<?php echo $idactividad; ?>' readonly>
-			<input type='hidden' class='form-control' id='idpaciente' name='idpaciente' value='<?php echo $idpaciente; ?>' readonly>
+			
 
 			<div class='card'>
 				<div class="card-header">
@@ -153,8 +179,8 @@
 							<label>Visible:</label>
 							<select class='form-control' id='visible' name='visible'>
 								<?php
-									echo "<option value='0'"; if ($visible==0) { echo " selected"; } echo ">Oculta</option>";
 									echo "<option value='1'"; if ($visible==1) { echo " selected"; } echo ">Mostrar</option>";
+									echo "<option value='0'"; if ($visible==0) { echo " selected"; } echo ">Oculta</option>";
 								?>
 							</select>
 						</div>
@@ -176,12 +202,27 @@
 						<div class='col-12'>
 								<button class='btn btn-warning'  type='submit'>Guardar</button>
 								<?php
-									if($idactividad>0){
-										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividad_ver' v_idactividad='$idactividad' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+									if($proviene=="moduloscatalogo"){
+										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/grupos' dix='trabajo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente'>Regresar</button>";
 									}
-									else{
-										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividades' v_idmodulo='$idmodulo' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
+
+									if($proviene=="nuevaactividad"){
+										echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes_e/inicial_agregar' dix='trabajo' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente'>Regresar</button>";
 									}
+
+									if($proviene=="actividadver"){
+											echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividad_ver' dix='trabajo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_proviene='$proviene'>Regresar</button>";
+									}
+
+									if($proviene=="actividades"){
+											echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes/actividades' dix='trabajo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo' v_proviene='$proviene'>Regresar</button>";
+									}
+
+									if($proviene=="nuevaagregar"){
+											echo "<button class='btn btn-warning' type='button' is='b-link' des='a_pacientes_e/actividad_agregar' dix='trabajo' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo' v_proviene='$proviene'>Regresar</button>";
+									}
+
+
 								?>
 						</div>
 					</div>

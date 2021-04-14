@@ -46,6 +46,6 @@
 
     ?>
     <div class="card-footer">
-      <button class="btn btn-warning btn-lg" type="button" is="b-link" cmodal="1"> <i class="far fa-arrow-alt-circle-left"></i>Regresar</button>
+      <button class="btn btn-warning btn-lg" type="button" is="b-link" cmodal="1">Regresar</button>
     </div>
   </div>

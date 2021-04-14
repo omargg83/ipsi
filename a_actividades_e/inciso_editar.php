@@ -47,22 +47,15 @@
 	 	</div>
 		<div class="card-body">
 			<div class="row">
-
-					<?php
-						if(strlen($imagen)>0){
-							echo "<div class='col-1'>";
-							echo "<img src='".$db->doc.$imagen."' width='50px'>";
-							echo "</div>";
-						}
-					?>
-
-				<div class="col-2">
-					<label>Orden</label>
-					<input type="text" name="orden" id="orden" value="<?php echo $orden; ?>" class="form-control">
-				</div>
-
-
-				<div class="col-6">
+				<?php
+					if(strlen($imagen)>0){
+						echo "<div class='col-1'>";
+						echo "<img src='".$db->doc.$imagen."' width='50px'>";
+						echo "</div>";
+					}
+				?>
+				<input type="hidden" name="orden" id="orden" value="<?php echo $orden; ?>" class="form-control">
+				<div class="col-8">
 					<label>Inciso</label>
 					<input type="text" name="nombre" id="nombre" value="<?php echo $nombre; ?>" class="form-control" required>
 				</div>

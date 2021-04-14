@@ -33,6 +33,7 @@ onload = ()=> {
 				formData.append(pair[0],pair[1]);
 			}
 		}
+
 		if(nhash==''){
 			nhash= 'dash/dashboard';
 		}
@@ -52,45 +53,43 @@ onload = ()=> {
 		};
 		xhr.send(formData);
 	}
-
-
-
 	function salir(){
-	var formData = new FormData();
-	formData.append("function", "salir");
-	formData.append("ctrl", "control");
-	let xhr = new XMLHttpRequest();
-	xhr.open('POST',"control_db.php");
-	xhr.addEventListener('load',(data)=>{
-		location.href ="login/";
-	});
-	xhr.onerror = (e)=>{
-		console.log(e);
-	};
-	xhr.send(formData);
-}
-	function sesion_ver(){
-	var formData = new FormData();
-	formData.append("function", "ses");
-	formData.append("ctrl", "control");
-
-	let xhr = new XMLHttpRequest();
-	xhr.open('POST',"control_db.php");
-	xhr.addEventListener('load',(data)=>{
-		var datos = JSON.parse(data.target.response);
-		if (datos.sess=="cerrada"){
+		var formData = new FormData();
+		formData.append("function", "salir");
+		formData.append("ctrl", "control");
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',"control_db.php");
+		xhr.addEventListener('load',(data)=>{
 			location.href ="login/";
-		}
-	});
-	xhr.onerror = (e)=>{
-		console.log(e);
-	};
-	xhr.send(formData);
-}
+		});
+		xhr.onerror = (e)=>{
+			console.log(e);
+		};
+		xhr.send(formData);
+	}
+	function sesion_ver(){
+		var formData = new FormData();
+		formData.append("function", "ses");
+		formData.append("ctrl", "control");
+
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',"control_db.php");
+		xhr.addEventListener('load',(data)=>{
+			var datos = JSON.parse(data.target.response);
+			if (datos.sess=="cerrada"){
+				location.href ="login/";
+			}
+		});
+		xhr.onerror = (e)=>{
+			console.log(e);
+		};
+		xhr.send(formData);
+	}
 
 	/*
-		Libreria Propia V.2
+		Libreria Propia V.3
 		Ruben Omar García
+		omargg83@gmail.com
 	*/
 
 	$(document).on('click',"[is='menu-link']",function(e){
@@ -152,9 +151,6 @@ onload = ()=> {
 		 datos.db=db+".php";
 		 datos.dix=dix;
 		 datos.fun=fun;
-		 //datos.tp=tp;
-		 //datos.iddest=iddest;
-		 //datos.omodal=omodal;
 		 datos.cmodal=cmodal;
 		 var formDestino = new FormData();
 
@@ -247,7 +243,6 @@ onload = ()=> {
 		 }
 	});
 
-
 	//////////////////////////Solo para un proceso antes del flujo ejem. al borrar que primero borre y luego redirive_div
 	function proceso_db(e){
 		let des;	/////////////el destino
@@ -265,6 +260,9 @@ onload = ()=> {
 		let tp;	///////////// la funcion a ejecutar
 		e.currentTarget.attributes.tp!==undefined ? tp=e.currentTarget.attributes.tp.nodeValue : tp="";
 
+		let tt;	///////////// la funcion a ejecutar
+		e.currentTarget.attributes.tt!==undefined ? tt=e.currentTarget.attributes.tt.nodeValue : tt="";
+
 		let iddest;
 		e.currentTarget.attributes.iddest!==undefined ? iddest=e.currentTarget.attributes.iddest.nodeValue : iddest="";
 
@@ -280,6 +278,7 @@ onload = ()=> {
 		datos.dix=dix;
 		datos.fun=fun;
 		datos.tp=tp;
+		datos.tt=tt;
 		datos.iddest=iddest;
 		datos.omodal=omodal;
 		datos.cmodal=cmodal;
@@ -303,14 +302,18 @@ onload = ()=> {
 		}
 		//////////////poner aqui proceso en caso de existir funcion
 		if(fun.length>0){
+			formData.append("function", datos.fun);
 			if(datos.tp.length>0){
-				formData.append("function", datos.fun);
 				Swal.fire({
+					type: 'warning',
 					title: datos.tp,
+					text: datos.tt,
 					showCancelButton: true,
 					confirmButtonColor: '#3085d6',
 					cancelButtonColor: '#d33',
-					confirmButtonText: 'Aceptar'
+					confirmButtonText: 'Aceptar',
+					cancelButtonText: 'Cancelar',
+					focusCancel:true
 				}).then((result) => {
 					if (result.value) {
 						let variable=0;
@@ -349,11 +352,50 @@ onload = ()=> {
 							}
 						});
 						xhr.onerror = (e)=>{
-
 						};
 						xhr.send(formData);
 					}
 				});
+			}
+			else{
+				let variable=0;
+				let xhr = new XMLHttpRequest();
+				xhr.open('POST',datos.db);
+				xhr.addEventListener('load',(data)=>{
+					if (!isJSON(data.target.response)){
+						Swal.fire({
+							type: 'error',
+							title: "Error favor de verificar",
+							showConfirmButton: false,
+							timer: 1000
+						});
+						console.log(data.target.response);
+						return;
+					}
+					var respon = JSON.parse(data.target.response);
+					if (respon.error==0){
+						Swal.fire({
+							type: 'success',
+							title: "Listo",
+							showConfirmButton: false,
+							timer: 1000
+						});
+						if (des.length>0){
+							redirige_div(variables,datos);
+						}
+					}
+					else{
+						Swal.fire({
+							type: 'info',
+							title: respon.terror,
+							showConfirmButton: false,
+							timer: 1000
+						});
+					}
+				});
+				xhr.onerror = (e)=>{
+				};
+				xhr.send(formData);
 			}
 		}
 		else{
@@ -417,3 +459,244 @@ onload = ()=> {
 				return false;
 		}
 	}
+
+///////////////////////////////////////vainija.js
+	function editable(e, id){
+		let divid=e.id;
+		let arrayDeCadenas = divid.split("_");
+		let idtext=arrayDeCadenas[1];
+
+		$("#"+e.id).after("<textarea class='form-control' name='texto_"+idtext+"' id='texto_"+idtext+"'>"+e.innerHTML+"</textarea>");
+		$("#"+e.id).remove();
+
+		$("#texto_"+idtext).summernote({
+			lang: 'es-ES',
+			placeholder: 'Texto',
+			tabsize: 5,
+			height: 200,
+			toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+        ]
+		});
+
+	}
+
+	////////////change para submit de respuesta del paciente
+	$(document).on('change',"[is*='s-submit']",function(e){
+			e.preventDefault();
+
+			let id=e.target.form.id;
+			let elemento = document.getElementById(id);
+
+			if(e.currentTarget.type=='checkbox'){
+				if(e.currentTarget.checked){
+					$('.cond_'+e.currentTarget.value).show();
+				}
+				else{
+					$('.cond_'+e.currentTarget.value).hide();
+				}
+			}
+			else if(e.currentTarget.type=='select-one'){
+				if ( $( '.cond_'+e.currentTarget.value ).length ) {
+					$('.cond_'+e.currentTarget.value).show();
+				}
+				else{
+					$('.cond_'+e.currentTarget.attributes.old.nodeValue).hide();
+				}
+			}
+			procesar_resp(elemento);
+	});
+	$(document).on('submit',"[is*='resp-submit']",function(e){
+		e.preventDefault();
+		 //////////id del formulario
+		 let id=e.currentTarget.attributes.id.nodeValue;
+		 let elemento = document.getElementById(id);
+		 procesar_resp(elemento);
+	});
+	function procesar_resp(elemento){
+		/////////API que procesa el form
+		let db=elemento.attributes.db.value+".php";
+		let fun=elemento.attributes.fun.value;
+		let idactividad=elemento.attributes.v_idactividad.value;
+		let idpaciente=elemento.attributes.v_idpaciente.value;
+		let idcontexto=elemento.attributes.v_idcontexto.value;
+
+		var formData = new FormData(elemento);
+		formData.append("function",fun);
+		formData.append("idactividad",idactividad);
+		formData.append("idpaciente", idpaciente);
+		formData.append("idcontexto", idcontexto);
+
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST', db);
+		xhr.addEventListener('loadstart',(data)=>{
+
+		});
+		xhr.addEventListener('load',(data)=>{
+			if (!isJSON(data.target.response)){
+				Swal.fire({
+					type: 'error',
+					title: "Error favor de verificar",
+					showConfirmButton: false,
+					timer: 1000
+				});
+				return;
+			}
+			var respon = JSON.parse(data.target.response);
+			if (respon.error==0){
+				carga_respuesta(idcontexto, idactividad, idpaciente);
+				document.getElementById('progreso_'+respon.idsubactividad).innerHTML=respon.progreso;
+				document.getElementById('prog_'+respon.idactividad).innerHTML=respon.proact;
+				Swal.fire({
+					position: 'bottom-start',
+					text: "Guardado",
+					showConfirmButton: false,
+					timer: 100
+				});
+			}
+			else{
+				cargando(false);
+				Swal.fire({
+					type: 'info',
+					title: respon.terror,
+					showConfirmButton: false,
+					timer: 1000
+				});
+			}
+		});
+		xhr.onerror =  ()=>{
+			cargando(false);
+			console.log("error");
+		};
+		xhr.send(formData);
+	}
+	function carga_respuesta(idcontexto, idactividad, idpaciente){
+		var formData = new FormData();
+		formData.append("idcontexto", idcontexto);
+		formData.append("idactividad", idactividad);
+		formData.append("idpaciente", idpaciente);
+		formData.append("function", "upd");
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',"a_respuesta/db_.php");
+		xhr.addEventListener('load',(data)=>{
+			document.getElementById("con_"+idcontexto).innerHTML=data.target.response;
+		});
+		xhr.onerror = (e)=>{
+			console.log(e);
+		};
+		xhr.send(formData);
+	}
+
+	////////////change para submit de respuesta del terapeuta
+	$(document).on('submit',"[is*='act-submit']",function(e){
+		e.preventDefault();
+
+		 //////////id del formulario
+		 let id=e.currentTarget.attributes.id.nodeValue;
+		 let elemento = document.getElementById(id);
+		 procesar_act(elemento);
+	});
+	function procesar_act(elemento){
+
+		let db=elemento.attributes.db.value+".php";
+		let fun=elemento.attributes.fun.value;
+		let idactividad=elemento.attributes.v_idactividad.value;
+		let idpaciente=elemento.attributes.v_idpaciente.value;
+		let idcontexto=elemento.attributes.v_idcontexto.value;
+
+		var formData = new FormData(elemento);
+		formData.append("function",fun);
+		formData.append("idactividad",idactividad);
+		formData.append("idpaciente", idpaciente);
+		formData.append("idcontexto", idcontexto);
+
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST', db);
+
+		xhr.addEventListener('load',(data)=>{
+			console.log(data.target.response);
+			if (!isJSON(data.target.response)){
+				cargando(false);
+				Swal.fire({
+					type: 'error',
+					title: "Error favor de verificar",
+					showConfirmButton: false,
+					timer: 1000
+				});
+				return;
+			}
+			var respon = JSON.parse(data.target.response);
+			if (respon.error==0){
+				cargando(false);
+				if(document.getElementById('progreso_'+respon.idsubactividad)){
+					document.getElementById('progreso_'+respon.idsubactividad).innerHTML=respon.progreso;
+				}
+				document.getElementById('prog_'+respon.idactividad).innerHTML=respon.proact;
+				carga_contexto(idcontexto, idactividad, idpaciente);
+				Swal.fire({
+					position: 'bottom-start',
+					text: "Guardado",
+					showConfirmButton: false,
+					timer: 700
+				});
+			}
+			else{
+				cargando(false);
+				Swal.fire({
+					type: 'info',
+					title: respon.terror,
+					showConfirmButton: false,
+					timer: 1000
+				});
+			}
+		});
+		xhr.onerror =  ()=>{
+			cargando(false);
+			console.log("error");
+		};
+		xhr.send(formData);
+	}
+	function carga_contexto(idcontexto, idactividad, idpaciente){
+		var formData = new FormData();
+		formData.append("idcontexto", idcontexto);
+		formData.append("idactividad", idactividad);
+		formData.append("idpaciente", idpaciente);
+		formData.append("function", "upd");
+		let xhr = new XMLHttpRequest();
+		xhr.open('POST',"a_pacientes/db_.php");
+		xhr.addEventListener('load',(data)=>{
+			document.getElementById("con_"+idcontexto).innerHTML=data.target.response;
+		});
+		xhr.onerror = (e)=>{
+			console.log(e);
+		};
+		xhr.send(formData);
+	}
+	function ver_img(div){
+		var x = document.getElementById(div);
+		x.style.display = "flex";
+	}
+	$(document).on('change',".filter_x",function(e){
+		let id=e.currentTarget.form.id;
+		let elemento = document.getElementById(id);
+		let dix;
+		(elemento.attributes.dix !== undefined) ? dix=elemento.attributes.dix.nodeValue : dix="trabajo";
+		let des;
+		(elemento.attributes.des !== undefined) ? des=elemento.attributes.des.nodeValue : des="";
+		var formData = new FormData(elemento);
+		/////////esto es para todas las variables
+		let variables = new Object();
+		for(let contar=0;contar<elemento.attributes.length; contar++){
+			let arrayDeCadenas = elemento.attributes[contar].name.split("_");
+			if(arrayDeCadenas.length>1){
+				formData.append(arrayDeCadenas[1], elemento.attributes[contar].value);
+			}
+		}
+		let datos = new Object();
+		datos.des=des+".php";
+		datos.dix=dix;
+		redirige_div(formData,datos);
+	});

@@ -5,7 +5,18 @@
 	$modulo=$db->modulo_editar($idmodulo);
 	$track=$db->track_editar($modulo->idtrack);
 	$terapia=$db->terapia_editar($track->idterapia);
-	$pd = $db->actividad_lista($idmodulo);
+
+	$sql="SELECT * from grupo_actividad where grupo_actividad.idmodulo=$idmodulo order by grupo_actividad.orden asc";
+	$sth = $db->dbh->query($sql);
+	$respx=$sth->fetchAll(PDO::FETCH_OBJ);
+	$orden=0;
+	foreach($respx as $row){
+		$arreglo =array();
+		$arreglo+=array('orden'=>$orden);
+		$x=$db->update('grupo_actividad',array('idgrupo'=>$row->idgrupo), $arreglo);
+		$orden++;
+	}
+
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -18,53 +29,65 @@
 	</ol>
 </nav>
 
-<div class="alert alert-warning text-center tituloventana" role="alert">
-	Actividades
+<?php
 
-</div>
-
-<div class='container'>
-	<div class='row'>
+	echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
+		echo "Grupos ";
+	echo "</div>";
 
 
-	<?php
-		foreach($pd as $key){
-	?>
-<div id='<?php echo $key->idactividad; ?>' class='col-4 p-3 w-50 actcard'>
-				<div class='card'>
-				<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
-					<div class='card-header'>
-						<?php echo $key->nombre; ?>
+	$sql="select * from grupo_actividad where idmodulo=$modulo->id order by orden asc";
+	$sth = $db->dbh->query($sql);
+	$grupos=$sth->fetchAll(PDO::FETCH_OBJ);
+	echo "<div class='container'>";
+		echo "<div class='row'>";
+		foreach($grupos as $key){
+			echo "<div class='col-4 p-2 w-50 actcard'>";
+				echo "<div class='card' style='height:400px'>";
+					echo "<div class='card-header'>";
+						echo "<div class='row'>";
+							echo "<div class='col-12'>";
+								echo $key->grupo;
+							echo "</div>";
+						echo "</div>";
+						echo "<div class='row'>";
+							echo "<div class='col-12'>";
 
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades/actividades" dix="trabajo" db="a_actividades/db_" fun="borrar_actividad" v_idactividad="<?php echo $key->idactividad; ?>" v_idmodulo="<?php echo $idmodulo; ?>" tp="¿Desea eliminar la actividad seleccionada?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='grupo_mover' des='a_actividades/actividades' v_idmodulo='$key->idmodulo' v_idgrupo='$key->idgrupo' v_dir='0' dix='trabajo' title='Arriba'><i class='fas fa-chevron-up'></i></button>";
 
-						<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="<?php echo $key->idactividad; ?>" v_idmodulo="<?php echo $idmodulo; ?>" v_origen='actividades'><i class="fas fa-pencil-alt"></i></button>
-					</div>
-					<div class='card-body'>
-						<div class='row'>
-							<div class='col-12'>
-								<?php echo $key->observaciones; ?>
-							</div>
-						</div>
-					</div>
-					<div class='card-footer'>
-						<div class='row'>
-							<div class='col-12'>
-								<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades/actividad_ver" dix="trabajo" v_idactividad="<?php echo $key->idactividad; ?>" >Ver</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		<?php
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' db='a_actividades/db_' fun='grupo_mover' des='a_actividades/actividades' v_idmodulo='$key->idmodulo' v_idgrupo='$key->idgrupo' v_dir='1' dix='trabajo' title='Abajo'><i class='fas fa-chevron-down'></i></button>";
+
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/actividades' dix='trabajo' db='a_actividades/db_' fun='borrar_grupo' v_idmodulo='$key->idmodulo' v_idgrupo='$key->idgrupo' tp='¿Desea eliminar el grupo seleccionado?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades_e/grupo_editar' dix='trabajo' v_idmodulo='$key->idmodulo' v_idgrupo='$key->idgrupo'><i class='fas fa-pencil-alt'></i></button>";
+								
+							echo "</div>";
+						echo "</div>";
+					echo "</div>";
+					echo "<div class='card-body' style='overflow:auto; height:220px'>";
+						echo "<div class='row'>";
+							echo "<div class='col-12'>";
+								echo $key->observaciones;
+							echo "</div>";
+						echo "</div>";
+					echo "</div>";
+					echo "<div class='card-body'>";
+						echo "<div class='row'>";
+							echo "<div class='col-12'>";
+								echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_actividades/grupos' dix='trabajo' v_idgrupo='$key->idgrupo'>Ver</button>";
+							echo "</div>";
+						echo "</div>";
+					echo "</div>";
+				echo "</div>";
+			echo "</div>";
 		}
-		?>
-		<div id='' class='col-4 p-3 w-50'>
-			<div class="card" style='height:200px;'>
-				<div class='card-body text-center'>
-					<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_actividades_e/actividad_editar" dix="trabajo" v_idactividad="0" v_idmodulo="<?php echo $idmodulo; ?>" >Nueva actividad</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+			echo "<div id='' class='col-4 p-3 w-50'>";
+				echo "<div class='card' style='height:200px;'>";
+					echo "<div class='card-body text-center'>";
+						echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_actividades_e/grupo_editar' dix='trabajo' v_idgrupo='0' v_idmodulo='$idmodulo'>Nuevo grupo</button>";
+					echo "</div>";
+				echo "</div>";
+			echo "</div>";
+		echo "</div>";
+	echo "</div>";
+?>

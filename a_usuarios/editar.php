@@ -18,15 +18,13 @@
 	$edo_civil="";
 	$n_hijos="";
 	$direccion="";
-	$ocupacion="";
-  $escolaridad="";
-  $religion="";
-  $vive="";
-  $c_emergencia="";
-  $c_telefono="";
-  $enfermedad="";
-  $medicamento="";
-  $terapia="";
+	
+
+  
+  
+  
+  	$enfermedad="";
+
 
 	if($idusuario>0){
 		$pd = $db->usuario_editar($idusuario);
@@ -44,15 +42,11 @@
 		$edo_civil=$pd->edo_civil;
 		$n_hijos=$pd->n_hijos;
 		$direccion=$pd->direccion;
-		$ocupacion=$pd->ocupacion;
-		$escolaridad=$pd->escolaridad;
-		$religion=$pd->religion;
-		$vive=$pd->vive;
-		$c_emergencia=$pd->c_emergencia;
-		$c_telefono=$pd->c_telefono;
+		
+		
+	
 		$enfermedad=$pd->enfermedad;
-		$medicamento=$pd->medicamento;
-		$terapia=$pd->terapia;
+	
 	}
 
 ?>
@@ -123,61 +117,14 @@
 				</div>
 			</div>
 
-			<div class='row'>
-				<div class="col-3">
-					<label>Ocupación*:</label>
-					<input type="text" class="form-control form-control-sm" name="ocupacion" id="ocupacion" value="<?php echo $ocupacion;?>" placeholder="Ocupación" required maxlength="100">
-				</div>
-				<div class="col-3">
-					<label>Escolaridad*:</label>
-					<input type="text" class="form-control form-control-sm" name="escolaridad" id="escolaridad" value="<?php echo $escolaridad;?>" placeholder="Escolaridad" required maxlength="100">
-				</div>
-				<div class="col-3">
-					<label>Religión*:</label>
-					<input type="text" class="form-control form-control-sm" name="religion" id="religion" value="<?php echo $religion;?>" placeholder="Religión" required maxlength="100">
-				</div>
-				<div class="col-3">
-					<label class='text-center'>¿Con quien vive actualmente?*:</label>
-					<input type="text" class="form-control form-control-sm" name="vive" id="vive" value="<?php echo $vive;?>" placeholder="¿Con quien vive actualmente?" required maxlength="100">
-				</div>
-			</div>
 
 			<div class='row'>
 				<div class="col-12">
 					<h5 class='text-center'><center>Contacto de emergencia:</center></h5>
 				</div>
 			</div>
-			<div class='row'>
-				<div class="col-6">
-					<label for="" class='text-center'>Nombre Completo*:</label>
-					<input type="text" class="form-control form-control-sm" name="c_emergencia" id="c_emergencia" value="<?php echo $c_emergencia;?>" placeholder="Nombre Completo" required maxlength="250">
-				</div>
-				<div class="col-6">
-					<label for="" class='text-center'>Teléfono o Medio de contacto*:</label>
-					<input type="text" class="form-control form-control-sm" name="c_telefono" id="c_telefono" value="<?php echo $c_telefono;?>" placeholder="Teléfono" required maxlength="250">
-				</div>
-			</div>
+			
 
-			<div class='row'>
-				<div class="col-12">
-					<h5 class='text-center'><center>Historial médico</center></h5>
-				</div>
-			</div>
-
-			<div class='row'>
-				<div class="col-12">
-					<h5 class='text-center'><center>Si tienes alguna enfermedad física anotala</center></h5>
-					<textarea class='form-control' id='enfermedad' name='enfermedad' rows=3 placeholder='Si tienes alguna enfermedad física anotala'><?php echo $enfermedad;?></textarea>
-				</div>
-				<div class="col-12">
-					<h5 class='text-center'><center>Si tienes consumes algun medicamento anotalo</center></h5>
-					<textarea class='form-control' id='medicamento' name='medicamento' rows=3 placeholder='Si tienes consumes algun medicamento anotalo'><?php echo $medicamento;?></textarea>
-				</div>
-				<div class="col-12">
-					<h5 class='text-center'><center>Si haz tomado terapia o te han diagnosticado con una enfermedad mental ¿Qué diagnóstico te dieron? </center></h5>
-					<textarea class='form-control' id='terapia' name='terapia' rows=3 placeholder='SI haz tomado terapia o te han diagnosticado con una enfermedad mental ¿Qué diagnóstico te dieron? '><?php echo $terapia;?></textarea>
-				</div>
-			</div>
 
 			<div class='row'>
 				<?php
@@ -229,14 +176,14 @@
 			<div class='row'>
 				<div class="col-sm-12">
 
-					<button class="btn btn-warning" type="submit">Guardar</button>
+					<button class="btn btn-warning btn-sm ml-1" type="submit">Guardar</button>
 					<?php
 						if($idusuario>0){
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1'>Foto</button>";
-							echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1'>Contraseña</button>";
+							echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_foto' v_idusuario='$idusuario' omodal='1'>Foto</button>";
+							echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/form_pass' v_idusuario='$idusuario' omodal='1'>Contraseña</button>";
 						}
 
-						echo "<button class='btn btn-warning' type='button' is='b-link' des='a_usuarios/index' dix='contenido'>Regresar</button>";
+						echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_usuarios/index' dix='contenido'>Regresar</button>";
 
 					?>
 

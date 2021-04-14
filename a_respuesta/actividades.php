@@ -7,84 +7,72 @@
   $paciente = $db->cliente_editar($idpaciente);
   $nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
 
-  $sql="select * from modulo where id=:idmodulo";
-  $sth = $db->dbh->prepare($sql);
-  $sth->bindValue(":idmodulo",$idmodulo);
-  $sth->execute();
+  $sql="select * from modulo where id=$idmodulo";
+  $sth = $db->dbh->query($sql);
   $modulo=$sth->fetch(PDO::FETCH_OBJ);
 
-  $sql="select * from track where id=:idtrack";
-  $sth = $db->dbh->prepare($sql);
-  $sth->bindValue(":idtrack",$modulo->idtrack);
-  $sth->execute();
+  $sql="select * from track where id=$modulo->idtrack";
+  $sth = $db->dbh->query($sql);
   $track=$sth->fetch(PDO::FETCH_OBJ);
 
-  $sql="select * from terapias where id=:idterapia";
-  $sth = $db->dbh->prepare($sql);
-  $sth->bindValue(":idterapia",$track->idterapia);
-  $sth->execute();
+  $sql="select * from terapias where id=$track->idterapia";
+  $sth = $db->dbh->query($sql);
   $terapia=$sth->fetch(PDO::FETCH_OBJ);
 
   ///////////////////////CODIGO
-	$sql="select * from actividad
-	where actividad.idpaciente=:id and actividad.idmodulo=:idmodulo";
 
-	$sql="SELECT * from actividad_per left outer join actividad on actividad.idactividad=actividad_per.idactividad where actividad_per.idpaciente=:id and actividad.idmodulo=:idmodulo and visible=1";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":id",$idpaciente);
-	$sth->bindValue(":idmodulo",$idmodulo);
-	$sth->execute();
-	$actividades=$sth->fetchAll(PDO::FETCH_OBJ);
+
+	echo "<nav aria-label='breadcrumb'>";
+	 echo "<ol class='breadcrumb'>";
+		 echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_respuesta/terapias'  dix='contenido'>Terapias</li>";
+		 echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_respuesta/track' dix='contenido' v_idterapia='$terapia->id' >$terapia->nombre</li>";
+		 echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_respuesta/modulos' dix='contenido' v_idtrack='$track->id' >$track->nombre</li>";
+		 echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_respuesta/actividades' dix='contenido' v_idmodulo='$idmodulo' >$modulo->nombre</li>";
+		 echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_respuesta/modulos' dix='contenido' v_idtrack='$track->id'>Regresar</button>";
+	 echo "</ol>";
+	echo "</nav>";
+
+	echo "<div class='alert alert-warning text-center tituloventana' role='alert'>";
+		echo "Grupos";
+	echo "</div>";
+
+		$sql="select * from grupo_actividad
+		left outer join grupo_actividad_pre on grupo_actividad_pre.idgrupo=grupo_actividad.idgrupo
+		where grupo_actividad.idmodulo=$idmodulo and grupo_actividad_pre.idpaciente=$idpaciente order by grupo_actividad.orden asc";
+
+		$sth = $db->dbh->query($sql);
+		$grupos=$sth->fetchAll(PDO::FETCH_OBJ);
+		echo "<div class='container'>";
+			echo "<div class='row'>";
+			foreach($grupos as $key){
+				echo "<div class='col-4 p-2 w-50 actcard'>";
+					echo "<div class='card' style='height:400px'>";
+						echo "<div class='card-header'>";
+							echo "<div class='row'>";
+								echo "<div class='col-12'>";
+									echo $key->grupo;
+								echo "</div>";
+							echo "</div>";
+						echo "</div>";
+						echo "<div class='card-body' style='overflow:auto; height:220px'>";
+							echo "<div class='row'>";
+								echo "<div class='col-12'>";
+									echo $key->observaciones;
+								echo "</div>";
+							echo "</div>";
+						echo "</div>";
+						echo "<div class='card-body'>";
+							echo "<div class='row'>";
+								echo "<div class='col-12'>";
+									echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_respuesta/grupos' dix='contenido' v_idgrupo='$key->idgrupo'>Ver</button>";
+								echo "</div>";
+							echo "</div>";
+						echo "</div>";
+					echo "</div>";
+				echo "</div>";
+			}
+
+		echo "</div>";
+	echo "</div>";
 
 ?>
-
-<nav aria-label='breadcrumb'>
- <ol class='breadcrumb'>
-	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_respuesta/terapias"  dix="contenido">Terapias</li>
-	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_respuesta/track" dix="contenido" v_idterapia="<?php echo $terapia->id; ?>" ><?php echo $terapia->nombre; ?></li>
-	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_respuesta/modulos" dix="contenido" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
-	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_respuesta/actividades" dix="contenido" v_idmodulo="<?php echo $idmodulo; ?>" ><?php echo $modulo->nombre; ?></li>
-
-	 	<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_respuesta/modulos" dix="contenido" v_idtrack="<?php echo $track->id; ?>">Regresar</button>
- </ol>
-</nav>
-
-
-
-<div class="alert alert-warning text-center tituloventana" role="alert">
-	Actividades
-
-</div>
-
-<div class='container'>
-	<div class='row'>
-	<?php
-		foreach($actividades as $key){
-	?>
-<div id='<?php echo $key->idactividad; ?>' class='col-4 p-3 w-50 actcard'>
-				<div class='card'>
-				<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="img/lapiz.png">
-					<div class='card-header'>
-						<?php echo $key->nombre; ?>
-					</div>
-					<div class='card-body'>
-						<div class='row'>
-							<div class='col-12'>
-								<?php echo $key->observaciones; ?>
-							</div>
-						</div>
-					</div>
-					<div class='card-footer'>
-						<div class='row'>
-							<div class='col-12'>
-								<button class="btn btn-warning btn-block" type="button" is="b-link" des="a_respuesta/actividad_ver" dix="contenido" v_idactividad="<?php echo $key->idactividad; ?>" >Ver</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		<?php
-		}
-		?>
-	</div>
-</div>

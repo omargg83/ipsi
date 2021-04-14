@@ -4,387 +4,178 @@
 	$idactividad=$_REQUEST['idactividad'];
 	$idpaciente=$_SESSION['idusuario'];
 
+	if(isset($_REQUEST['pagina'])){
+		$pagina=$_REQUEST['pagina'];
+	}
+	else{
+		$pagina=0;
+	}
+	/////////////////paginas
+	$sql="SELECT contexto.pagina FROM contexto
+	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+	left outer join actividad on actividad.idactividad=subactividad.idactividad
+	where actividad.idactividad=$idactividad group by pagina";
+	$sth = $db->dbh->query($sql);
+	$no_paginas=$sth->rowCount();
+
 	/////////////////////breadcrumb
 	$paciente = $db->cliente_editar($idpaciente);
 	$nombre=$paciente->nombre." ".$paciente->apellidop." ".$paciente->apellidom;
 
-	$sql="select * from actividad where idactividad=:idactividad";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idactividad",$idactividad);
-	$sth->execute();
+	$sql="select * from actividad where idactividad=$idactividad";
+	$sth = $db->dbh->query($sql);
 	$actividad=$sth->fetch(PDO::FETCH_OBJ);
 
-	$inicial=0;
-	if($actividad->idtrack){
-		$inicial=1;
-		$idtrack=$actividad->idtrack;
+	$sql="select * from grupo_actividad where idgrupo=$actividad->idgrupo";
+	$sth = $db->dbh->query($sql);
+	$grupo=$sth->fetch(PDO::FETCH_OBJ);
+	if($grupo->idtrack){
+		$tipo="track";
+		$idtrack=$grupo->idtrack;
 	}
 	else{
-		$sql="select * from modulo where id=:idmodulo";
-		$sth = $db->dbh->prepare($sql);
-		$sth->bindValue(":idmodulo",$actividad->idmodulo);
-		$sth->execute();
+		$tipo="modulo";
+		$sql="select * from modulo where id=$grupo->idmodulo";
+		$sth = $db->dbh->query($sql);
 		$modulo=$sth->fetch(PDO::FETCH_OBJ);
 		$idtrack=$modulo->idtrack;
-
 	}
-	$sql="select * from track where id=:idtrack";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idtrack",$idtrack);
-	$sth->execute();
+
+	$sql="select * from track where id=$idtrack";
+	$sth = $db->dbh->query($sql);
 	$track=$sth->fetch(PDO::FETCH_OBJ);
 	$idterapia=$track->idterapia;
 
-	$sql="select * from terapias where id=:idterapia";
-	$sth = $db->dbh->prepare($sql);
-	$sth->bindValue(":idterapia",$idterapia);
-	$sth->execute();
+	$sql="select * from terapias where id=$idterapia";
+	$sth = $db->dbh->query($sql);
 	$terapia=$sth->fetch(PDO::FETCH_OBJ);
 
 	$nombre_act=$actividad->nombre;
 	$observaciones=$actividad->observaciones;
 	$indicaciones=$actividad->indicaciones;
 	$anotaciones=$actividad->anotaciones;
-	$subactividad = $db->subactividad_ver($idactividad);
+
+
+	/////////////////subactividades
+	$sql="(SELECT subactividad.* FROM contexto
+	left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+	where subactividad.idactividad=$idactividad and contexto.pagina=$pagina group by idsubactividad order by subactividad.orden asc)";
+	if($pagina==($no_paginas-1) or $pagina==$no_paginas){
+		$sql.="UNION (
+		SELECT subactividad.* FROM subactividad
+		left outer join contexto on subactividad.idsubactividad=contexto.idsubactividad
+		where subactividad.idactividad=$idactividad and contexto.id is null order by subactividad.orden asc
+		) order by orden asc";
+	}
+	$sth = $db->dbh->query($sql);
+	$subactividad=$sth->fetchAll(PDO::FETCH_OBJ);
+
+
+echo "<nav aria-label='breadcrumb'>";
+	echo "<ol class='breadcrumb'>";
+		echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_respuesta/terapias'  dix='contenido'>Terapias</li>";
+		echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_respuesta/track' dix='contenido' v_idterapia='$terapia->id'>$terapia->nombre</li>";
+		echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_respuesta/modulos' dix='contenido' v_idtrack='$idtrack'>$track->nombre</li>";
+
+		if($tipo=="track"){
+			echo "<li class='breadcrumb-item active' is='li-link' des='a_respuesta/grupos' dix='contenido' title='Grupo' v_idgrupo='$grupo->idgrupo'>$grupo->grupo</li>";
+		}
+		if($tipo=="modulo"){
+	 		echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_respuesta/actividades' dix='contenido' v_idmodulo='$modulo->id' >$modulo->nombre</li>";
+			echo "<li class='breadcrumb-item active' is='li-link' des='a_respuesta/grupos' dix='contenido' title='Grupo' v_idgrupo='$grupo->idgrupo'>$grupo->grupo</li>";
+		}
+	 	echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_respuesta/actividad_ver' dix='contenido' v_idactividad='$idactividad' >$nombre_act</li>";
+
+		if($tipo=="track"){
+			echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_respuesta/grupos' dix='contenido' v_idgrupo='$grupo->idgrupo' >Regresar</button>";
+		}
+		else{
+			echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_respuesta/grupos' dix='contenido' v_idgrupo='$grupo->idgrupo' >Regresar</button>";
+		}
+ 	echo "</ol>";
+echo "</nav>";
 ?>
-<nav aria-label='breadcrumb'>
- <ol class='breadcrumb'>
-
-	 <li class='breadcrumb-item' id='lista_track' is="li-link" des="a_respuesta/terapias"  dix="contenido">Terapias</li>
-	 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_respuesta/track" dix="contenido" v_idterapia="<?php echo $terapia->id; ?>" ><?php echo $terapia->nombre; ?></li>
-	 <?php
-	 if($inicial==0){
-	?>
-		 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_respuesta/modulos" dix="contenido" v_idtrack="<?php echo $track->id; ?>" ><?php echo $track->nombre; ?></li>
-		 <li class="breadcrumb-item" id='lista_track' is="li-link" des="a_respuesta/actividades" dix="contenido" v_idmodulo="<?php echo $modulo->id; ?>" ><?php echo $modulo->nombre; ?></li>
-		<?php
-	 }
-	 ?>
-	 <li class="breadcrumb-item active" id='lista_track' is="li-link" des="a_respuesta/actividad_ver" dix="contenido" v_idactividad="<?php echo $idactividad; ?>" ><?php echo $nombre_act; ?></li>
-
-		 <?php
-		 if($inicial==0){
-		 ?>
-		 <button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_respuesta/actividades" dix="contenido" v_idmodulo="<?php echo $modulo->id; ?>" >Regresar</button>
-		 <?php
-		 }
-		 else{
-		 ?>
-		 	<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_respuesta/track" dix="contenido" v_idterapia="<?php echo $idterapia; ?>" >Regresar</button>
-		 <?php
-		 }
-		 ?>
- </ol>
-</nav>
-
 <!-- actividad  -->
 <div class="container">
-<div id="accordion">
-	<div class="card mt-3">
+	<div class="card mb-3">
 		<div class="card-header" id="headingOne">
 			<div class='row'>
 				<div class="col-12 text-center">
-					<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-						Actividad: <?php echo $nombre_act; ?>
-						<?php
-							$sql="SELECT count(contexto.id) as total from contexto
-							left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-							where subactividad.idactividad=:id and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
-							$contx = $db->dbh->prepare($sql);
-							$contx->bindValue(":id",$idactividad);
-							$contx->execute();
-							$bloques=$contx->fetch(PDO::FETCH_OBJ);
+					Actividad: <?php echo $nombre_act; ?>
+					<?php
+						$sql="SELECT count(contexto.id) as total from contexto
+						left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+						where subactividad.idactividad=$idactividad and (contexto.tipo='pregunta' or contexto.tipo='textores'  or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+						$contx = $db->dbh->query($sql);
+						$bloques=$contx->fetch(PDO::FETCH_OBJ);
 
-							$sql="SELECT count(contexto_resp.id) as total FROM	contexto
-							right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
-							left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
-							where subactividad.idactividad=:id
-							group by contexto.id";
-							$contx = $db->dbh->prepare($sql);
-							$contx->bindValue(":id",$idactividad);
-							$contx->execute();
-							$total=0;
-							if($contx->rowCount()){
-								$total=(100*$contx->rowCount())/$bloques->total;
-							}
-							echo "<div id='prog_$idactividad'>";
-								echo "(".$contx->rowCount()."/".$bloques->total.")<br>";
-								echo "<progress id='file' value='$total' max='100'> $total %</progress>";
-							echo "</div>";
-						?>
-
-					</button>
+						$sql="SELECT count(contexto_resp.id) as total FROM	contexto
+						right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id
+						left outer join subactividad on subactividad.idsubactividad=contexto.idsubactividad
+						where subactividad.idactividad=$idactividad
+						group by contexto.id";
+						$contx = $db->dbh->query($sql);
+						$total=0;
+						if($contx->rowCount()){
+							$total=(100*$contx->rowCount())/$bloques->total;
+						}
+						echo "<div id='prog_$idactividad'>";
+							echo "(".$contx->rowCount()."/".$bloques->total.")<br>";
+							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
+						echo "</div>";
+					?>
 				</div>
 			</div>
 		</div>
-
-		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 			<div class='card-body'>
 				<p>Indicaciones</p>
 				<?php echo $indicaciones; ?>
 			</div>
-		</div>
 	</div>
-</div>
 <!-- Fin de actividad  -->
-
 
 <?php
 	foreach($subactividad as $key){
+		//////////<!-- Subactividad  -->
+		echo "<div class='card mt-3 ml-3'>";
+			echo "<div class='card-header' style='background-color:#f9eec1;'>";
+				echo "<div class='row'>";
+					echo "<div class='col-12 text-center'>";
+						echo $key->orden." Subactividad: $key->nombre";
+						$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
+						$contx = $db->dbh->query($sql);
+						$bloques=$contx->fetch(PDO::FETCH_OBJ);
 
-	//////////<!-- Subactividad  -->
-	echo "<div class='container-fluid mt-4' id='sub_$key->idsubactividad'>";
-		echo "<div class='card' >";
-		echo "<div class='card-header'>";
-			echo "<div class='row'>";
-				echo "<div class='col-12 text-center'>";
-						echo "<button class='btn btn-link' data-toggle='collapse' data-target='#collapsesub_$key->idsubactividad' aria-expanded='true' aria-controls='collapsesub_$key->idsubactividad'>";
-							echo $key->orden." Subactividad: $key->nombre";
-								$sql="SELECT count(contexto.id) as total from contexto where idsubactividad = $key->idsubactividad and (contexto.tipo='pregunta' or contexto.tipo='textores' or contexto.tipo='textocorto' or contexto.tipo='fecha'  or contexto.tipo='archivores')";
-								$contx = $db->dbh->prepare($sql);
-								$contx->execute();
-								$bloques=$contx->fetch(PDO::FETCH_OBJ);
-
-								$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = :id	group by contexto.id";
-								$contx = $db->dbh->prepare($sql);
-								$contx->bindValue(":id",$key->idsubactividad);
-								$contx->execute();
-								$total=0;
-								if($contx->rowCount()){
-									$total=(100*$contx->rowCount())/$bloques->total;
-								}
-								echo "<div id='progreso_$key->idsubactividad'>";
-								echo "(".$contx->rowCount()."/".$bloques->total.")<br>";
-								echo "<progress id='file' value='$total' max='100'> $total %</progress>";
-								echo "</div>";
-						echo "</button>";
+						$sql="SELECT count(contexto_resp.id) as total FROM	contexto right OUTER JOIN contexto_resp ON contexto_resp.idcontexto=contexto.id WHERE	idsubactividad = $key->idsubactividad	group by contexto.id";
+						$contx = $db->dbh->query($sql);
+						$total=0;
+						if($contx->rowCount()){
+							$total=(100*$contx->rowCount())/$bloques->total;
+						}
+						echo "<div id='progreso_$key->idsubactividad'>";
+							echo "(".$contx->rowCount()."/".$bloques->total.")<br>";
+							echo "<progress id='file' value='$total' max='100'> $total %</progress>";
+						echo "</div>";
+					echo "</div>";
 				echo "</div>";
 			echo "</div>";
 		echo "</div>";
 		/////////////////<!-- fin de Subactividad  -->
 
 		/////////////<!-- Contexto  -->
-		echo "<div id='collapsesub_$key->idsubactividad' class='collapse show' aria-labelledby='headingOne' data-parent='#accordion'>";
-			echo "<div class='card-body' id='bloque'>";
-				$bloq=$db->contexto_ver($key->idsubactividad);
-				foreach($bloq as $row){
-
-					echo "<div id='con_$row->id'>";
-						$db->contexto_respuesta($row->id, $idactividad, $idpaciente);
-					echo "</div>";
-					/*
-					$sql="select * from contexto_resp where idcontexto=$row->id";
-					$contx = $db->dbh->prepare($sql);
-					$contx->execute();
-					$texto="";
-					$fecha="";
-					$archivo="";
-					$marca="";
-					if($contx->rowCount()>0){
-						$contexto_resp=$contx->fetch(PDO::FETCH_OBJ);
-						$texto=$contexto_resp->texto;
-						$fecha=$contexto_resp->fecha;
-						$archivo=$contexto_resp->archivo;
-						$marca=$contexto_resp->marca;
-					}
-
-					$visible=1;
-					if($row->idcond){
-						$visible=0;
-						$sql="select * from contexto_resp where idrespuesta='$row->idcond'";
-						$sth = $db->dbh->prepare($sql);
-						$sth->execute();
-						$sth->fetch(PDO::FETCH_OBJ);
-						if($sth->rowCount()){
-							$visible=1;
-						}
-					}
-					//if($visible){
-
-						echo "<div class='card mb-2 cond_$row->idcond'>";
-							echo "<div class='card-body'>";
-								echo "<form is='resp-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
-
-								echo "<div>";
-									echo $row->observaciones;
-								echo "</div>";
-								echo "<hr>";
-
-								echo "<div>";
-									if($row->tipo=="imagen"){
-										echo "<img src='".$db->doc.$row->texto."'/>";
-									}
-									else if($row->tipo=="texto"){
-										echo $row->texto;
-									}
-									else if($row->tipo=="video"){
-										echo $row->texto;
-									}
-									else if($row->tipo=="archivo"){
-										echo "<a href='".$db->doc.$row->texto."' download='$row->texto'>Descargar</a>";
-									}
-									else if($row->tipo=="textores"){
-										echo "<textarea class='texto' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
-									}
-									else if($row->tipo=="textocorto"){
-
-										echo "<textarea class='form-control' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
-									}
-									else if($row->tipo=="fecha"){
-										echo "<input type='date' name='fecha' id='fecha' value='$fecha' class='form-control'>";
-									}
-									else if($row->tipo=="archivores"){
-										if(strlen($archivo)>0){
-											echo "<a href='".$db->resp.$archivo."' download='$archivo'>Ver</a>";
-										}
-										echo "<input type='file' name='archivo' id='archivo' class='form-control'>";
-									}
-									else if($row->tipo=="pregunta"){
-										echo $row->texto;
-										///////////<!-- Respuestas  -->
-										echo "<div class='container-fluid'>";
-											$rx=$db->respuestas_ver($row->id);
-											foreach ($rx as $respuesta) {
-												$texto_resp="";
-												$valor_resp="";
-												$resp_idrespuesta="";
-
-												//////////////////para obtener Respuestas
-												$sql="select * from contexto_resp where idcontexto=:id and idrespuesta=:idrespuesta";
-												$contx = $db->dbh->prepare($sql);
-												$contx->bindValue(":id",$row->id);
-												$contx->bindValue(":idrespuesta",$respuesta->id);
-												$contx->execute();
-												$resp=$contx->fetch(PDO::FETCH_OBJ);
-												$correcta=0;
-												$texto_resp="";
-												if($contx->rowCount()>0){
-													$correcta=1;
-													$texto_resp=$resp->texto;
-													$valor_resp=$resp->valor;
-												}
-
-												echo "<div class='row'>";
-													echo "<div class='col-1'>";
-														if($row->incisos==1){
-															$idx="";
-															echo "<input type='checkbox' is='s-submit' id='checkbox_".$respuesta->id."' name='checkbox_".$respuesta->id."' value='$respuesta->id' ";
-															if($respuesta->valor==$valor_resp){ echo " checked";}
-															echo ">";
-														}
-														else{
-															$idx=$row->id;
-															echo "<input type='radio' is='s-submit' id='radio_".$idx."' name='radio_".$idx."' value='$respuesta->id' ";
-																if($correcta){
-																	echo " checked";
-																}
-															echo ">";
-														}
-													echo "</div>";
-
-													if(strlen($respuesta->imagen)>0){
-														echo "<div class='col-1'>";
-															echo "<img src=".$db->doc.$respuesta->imagen." alt='' width='20px'>";
-														echo "</div>";
-													}
-
-													echo "<div class='col-6'>";
-														echo $respuesta->nombre;
-													echo "</div>";
-
-													echo "<div class='col-4'>";
-														if($row->usuario==1){
-															echo "<input type='text' name='resp_".$respuesta->id."' id='resp_".$respuesta->id."' value='$texto_resp' placeholder='Define..' class='form-control form-control-sm'>";
-														}
-													echo "</div>";
-												echo "</div>";
-											}
-											if($row->personalizado==1){
-												$texto="";
-												$otro=0;
-												$sql="select * from contexto_resp where idcontexto=$row->id and valor='OTRO'";
-												$contx = $db->dbh->prepare($sql);
-												$contx->execute();
-												if($contx->rowCount()>0){
-													$resp=$contx->fetch(PDO::FETCH_OBJ);
-													$texto=$resp->texto;
-													$otro=1;
-												}
-
-												echo "<div class='row'>";
-													if($row->incisos==1){
-															echo "<div class='col-1'>";
-																echo "<input type='checkbox' is='s-submit' name='checkbox_otro'";
-																if($otro==1){
-																	echo " checked";
-																}
-																echo " value='otro'>";
-															echo "</div>";
-															echo "<div class='col-10'>";
-																echo "<input type='text' name='resp_otro' id='resp_otro' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
-															echo "</div>";
-														}
-														else{
-															echo "<div class='col-1'>";
-																echo "<input type='radio' is='s-submit' id='radio_".$idx."' name='radio_".$idx."' value='otro'";
-																if($otro==1){
-																	echo " checked";
-																}
-																echo " value='1'>";
-															echo "</div>";
-															echo "<div class='col-10'>";
-																echo "<input type='text' name='resp_otro' id='per_".$row->id."' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
-															echo "</div>";
-													}
-												echo "</div>";
-											}
-										echo "</div>";
-									}
-								echo "</div>";
-								//<!-- Fin Preguntas  -->
-								echo "<br>";
-
-								if($row->tipo=="textocorto" or $row->tipo=="textores" or $row->tipo=="fecha" or $row->tipo=="archivores"){
-									if(strlen($marca)==0){
-										echo "<button class='btn btn-danger btn-sm' type='submit'><i class='far fa-check-circle'></i>Contestar</button>";
-									}
-									else{
-										echo "<button class='btn btn-warning btn-sm' type='submit'><i class='fas fa-check-double'></i>Actualizar</button>";
-									}
-								}
-								echo "</form>";
-							echo "</div>";
-						echo "</div>";
-					//} //////////fin condicional
-					*/
-				}
-				echo "</div>";
+		//$bloq=$db->contexto_ver($key->idsubactividad);
+		$sql="select * from contexto where idsubactividad=$key->idsubactividad and pagina=$pagina order by orden asc";
+		$sth = $db->dbh->query($sql);
+		$bloq=$sth->fetchAll(PDO::FETCH_OBJ);
+		foreach($bloq as $row){
+			echo "<div id='con_$row->id'>";
+				$db->contexto_respuesta($row->id, $idactividad, $idpaciente);
 			echo "</div>";
-		echo "</div>";
-		echo "</div>";
+		}
 	}
+
+	$variables['idactividad']=$idactividad;
+	echo $db->paginar_x($no_paginas,$pagina,"a_respuesta/actividad_ver","contenido",$variables);
+
 echo "</div>";
 ?>
-
-<script type="text/javascript">
-	$(function() {
-		setTimeout(function(){ carga_editor(); }, 1000);
-		function carga_editor(){
-			$('.texto').summernote({
-				lang: 'es-ES',
-				placeholder: 'Texto',
-				tabsize: 5,
-				height: 250,
-				toolbar: [
-			    // [groupName, [list of button]]
-			    ['style', ['bold', 'italic', 'underline', 'clear']],
-			    ['font', ['strikethrough', 'superscript', 'subscript']],
-			    ['fontsize', ['fontsize']],
-			    ['color', ['color']],
-			    ['para', ['ul', 'ol', 'paragraph']],
-			    ['height', ['height']]
-			  ]
-			});
-		}
-	});
-</script>

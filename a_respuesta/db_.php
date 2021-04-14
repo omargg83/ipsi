@@ -135,7 +135,6 @@ class Cliente extends ipsi{
 				}
 			}
 			else if($contexto->tipo=="pregunta"){
-
 				$sql="delete from contexto_resp where idcontexto=$idcontexto";
 				$delcontx = $this->dbh->query($sql);
 				$arreglo=array();
@@ -176,6 +175,7 @@ class Cliente extends ipsi{
 						$x=$this->insert('contexto_resp', $arreglo);
 					}
 					if (strpos($key, 'radio') !== false) {
+
 						$ic = explode("_", $key);
 						$id_ctrol=$ic[1];
 
@@ -187,6 +187,33 @@ class Cliente extends ipsi{
 						}
 						if($valor!="otro"){
 							$sql="select * from respuestas where id=".$_REQUEST["radio_".$id_ctrol];
+							$sth = $this->dbh->prepare($sql);
+							$sth->execute();
+							$resp=$sth->fetch(PDO::FETCH_OBJ);
+							$arreglo+=array('idrespuesta'=>$resp->id);
+							$arreglo+=array('valor'=>$resp->valor);
+						}
+						else{
+							$arreglo+=array('valor'=>"OTRO");
+						}
+						$arreglo+=array('texto'=>$texto);
+						$arreglo+=array('idcontexto'=>$idcontexto);
+						$arreglo+=array('marca'=>"leido");
+						$x=$this->insert('contexto_resp', $arreglo);
+					}
+					if (strpos($key, 'select') !== false) {
+
+						$ic = explode("_", $key);
+						$id_ctrol=$ic[1];
+
+						$texto="";
+						$valor=clean_var($_REQUEST["select_".$id_ctrol]);
+
+						if(isset($_REQUEST["resp_".$id_ctrol])){
+							$texto=clean_var($_REQUEST["resp_".$id_ctrol]);
+						}
+						if($valor!="otro"){
+							$sql="select * from respuestas where id=".$_REQUEST["select_".$id_ctrol];
 							$sth = $this->dbh->prepare($sql);
 							$sth->execute();
 							$resp=$sth->fetch(PDO::FETCH_OBJ);
@@ -285,16 +312,12 @@ class Cliente extends ipsi{
 
 	public function contexto_respuesta($idcontexto, $idactividad, $idpaciente){
 
-		$sql="select * from contexto where id=:id";
-		$sth = $this->dbh->prepare($sql);
-		$sth->bindValue(":id",$idcontexto);
-		$sth->execute();
+		$sql="select * from contexto where id=$idcontexto";
+		$sth = $this->dbh->query($sql);
 		$row=$sth->fetch(PDO::FETCH_OBJ);
 
-
 		$sql="select * from contexto_resp where idcontexto=$row->id";
-		$contx = $this->dbh->prepare($sql);
-		$contx->execute();
+		$contx = $this->dbh->query($sql);
 		$texto="";
 		$fecha="";
 		$archivo="";
@@ -311,8 +334,7 @@ class Cliente extends ipsi{
 		if($row->idcond){
 			$visible=0;
 			$sql="select * from contexto_resp where idrespuesta='$row->idcond'";
-			$sth = $this->dbh->prepare($sql);
-			$sth->execute();
+			$sth = $this->dbh->query($sql);
 			$sth->fetch(PDO::FETCH_OBJ);
 			if($sth->rowCount()){
 				$visible=1;
@@ -320,7 +342,11 @@ class Cliente extends ipsi{
 		}
 		//if($visible){
 
-			echo "<div class='card mb-2 cond_$row->idcond'>";
+			echo "<div class='card mt-2 ml-5 cond_$row->idcond'";
+			if(!$visible){
+				echo " style='display:none' ";
+			}
+			echo ">";
 				echo "<div class='card-body'>";
 					echo "<form is='resp-submit' id='form_g_".$row->id."' db='a_respuesta/db_' fun='guarda_respuesta' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_idcontexto='$row->id'>";
 
@@ -345,10 +371,12 @@ class Cliente extends ipsi{
 							echo "<a href='".$this->doc.$row->texto."' download='$row->texto'>Descargar</a>";
 						}
 						else if($row->tipo=="textores"){
-							echo "<textarea class='texto' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
+							echo "<div id='div_$row->id' name='div_$row->id' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'>$texto</div>";
+							echo "<small>De clic para editar</small>";
+
+							//echo "<textarea class='texto' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
 						}
 						else if($row->tipo=="textocorto"){
-
 							echo "<textarea class='form-control' id='texto_$row->id' name='texto_$row->id' rows=5 placeholder=''>$texto</textarea>";
 						}
 						else if($row->tipo=="fecha"){
@@ -363,101 +391,136 @@ class Cliente extends ipsi{
 						else if($row->tipo=="pregunta"){
 							echo $row->texto;
 							///////////<!-- Respuestas  -->
-							echo "<div class='container-fluid'>";
+							echo "<div >";
 								$rx=$this->respuestas_ver($row->id);
-								foreach ($rx as $respuesta) {
-									$texto_resp="";
-									$valor_resp="";
-									$resp_idrespuesta="";
-
-									//////////////////para obtener Respuestas
-									$sql="select * from contexto_resp where idcontexto=:id and idrespuesta=:idrespuesta";
-									$contx = $this->dbh->prepare($sql);
-									$contx->bindValue(":id",$row->id);
-									$contx->bindValue(":idrespuesta",$respuesta->id);
-									$contx->execute();
-									$resp=$contx->fetch(PDO::FETCH_OBJ);
-									$correcta=0;
-									$texto_resp="";
-									if($contx->rowCount()>0){
-										$correcta=1;
-										$texto_resp=$resp->texto;
-										$valor_resp=$resp->valor;
-									}
-
+								if(strlen($row->incisos)==0 and $row->tipo=="pregunta" and strlen($row->personalizado)==0){
+									$idx=$row->id;
 									echo "<div class='row'>";
-										echo "<div class='col-1'>";
-											if($row->incisos==1){
-												$idx="";
-												echo "<input type='checkbox' is='s-submit' id='checkbox_".$respuesta->id."' name='checkbox_".$respuesta->id."' value='$respuesta->id' ";
-												if($respuesta->valor==$valor_resp){ echo " checked";}
-												echo ">";
+										echo "<div class='col-8'>";
+
+											$sql="select * from contexto_resp where idcontexto=$row->id";
+											$contx = $this->dbh->query($sql);
+											$resp=$contx->fetch(PDO::FETCH_OBJ);
+											$correcta=0;
+											$texto_resp="";
+											if($contx->rowCount()>0){
+												$correcta=$resp->idrespuesta;
+												$texto_resp=$resp->texto;
+												$valor_resp=$resp->valor;
 											}
-											else{
-												$idx=$row->id;
-												echo "<input type='radio' is='s-submit' id='radio_".$idx."' name='radio_".$idx."' value='$respuesta->id' ";
-													if($correcta){
-														echo " checked";
-													}
-												echo ">";
+
+											echo "<select class='form-control form-control-sm' name='select_".$idx."' is='s-submit' old='$correcta'>";
+											echo "<option value='' disabled selected>Seleccione una opcion</value>";
+											foreach ($rx as $respuesta) {
+												//////////////////para obtener Respuestas
+												echo "<option value='$respuesta->id' ";
+												if($correcta==$respuesta->id){ echo " selected"; }
+												echo ">$respuesta->nombre</option>";
 											}
+											echo "</select>";
 										echo "</div>";
-
-										if(strlen($respuesta->imagen)>0){
-											echo "<div class='col-1'>";
-												echo "<img src=".$this->doc.$respuesta->imagen." alt='' width='20px'>";
-											echo "</div>";
-										}
-
-										echo "<div class='col-6'>";
-											echo $respuesta->nombre;
-										echo "</div>";
-
 										echo "<div class='col-4'>";
 											if($row->usuario==1){
-												echo "<input type='text' name='resp_".$respuesta->id."' id='resp_".$respuesta->id."' value='$texto_resp' placeholder='Define..' class='form-control form-control-sm'>";
+												echo "<input type='text' is='s-submit' name='resp_".$idx."' id='resp_".$idx."' value='$texto_resp' placeholder='Define..' class='form-control form-control-sm'>";
 											}
 										echo "</div>";
 									echo "</div>";
 								}
-								if($row->personalizado==1){
-									$texto="";
-									$otro=0;
-									$sql="select * from contexto_resp where idcontexto=$row->id and valor='OTRO'";
-									$contx = $this->dbh->prepare($sql);
-									$contx->execute();
-									if($contx->rowCount()>0){
-										$resp=$contx->fetch(PDO::FETCH_OBJ);
-										$texto=$resp->texto;
-										$otro=1;
-									}
+								else{
+									foreach ($rx as $respuesta) {
+										$texto_resp="";
+										$valor_resp="";
+										$resp_idrespuesta="";
 
-									echo "<div class='row'>";
-										if($row->incisos==1){
+										//////////////////para obtener Respuestas
+										$sql="select * from contexto_resp where idcontexto=:id and idrespuesta=:idrespuesta";
+										$contx = $this->dbh->prepare($sql);
+										$contx->bindValue(":id",$row->id);
+										$contx->bindValue(":idrespuesta",$respuesta->id);
+										$contx->execute();
+										$resp=$contx->fetch(PDO::FETCH_OBJ);
+										$correcta=0;
+										$texto_resp="";
+										if($contx->rowCount()>0){
+											$correcta=1;
+											$texto_resp=$resp->texto;
+											$valor_resp=$resp->valor;
+										}
+
+										echo "<div class='row'>";
+											echo "<div class='col-1'>";
+												if($row->incisos==1){
+													$idx="";
+													echo "<input type='checkbox' is='s-submit' id='checkbox_".$respuesta->id."' name='checkbox_".$respuesta->id."' value='$respuesta->id' ";
+													if($respuesta->valor==$valor_resp){ echo " checked";}
+													echo ">";
+												}
+												else{
+													$idx=$row->id;
+													echo "<input type='radio' is='s-submit' id='radio_".$idx."' name='radio_".$idx."' value='$respuesta->id' ";
+														if($correcta){
+															echo " checked";
+														}
+													echo ">";
+												}
+											echo "</div>";
+
+											if(strlen($respuesta->imagen)>0){
 												echo "<div class='col-1'>";
-													echo "<input type='checkbox' is='s-submit' name='checkbox_otro'";
-													if($otro==1){
-														echo " checked";
-													}
-													echo " value='otro'>";
-												echo "</div>";
-												echo "<div class='col-10'>";
-													echo "<input type='text' name='resp_otro' id='resp_otro' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
+													echo "<img src=".$this->doc.$respuesta->imagen." alt='' width='20px'>";
 												echo "</div>";
 											}
-											else{
-												echo "<div class='col-1'>";
-													echo "<input type='radio' is='s-submit' id='radio_".$idx."' name='radio_".$idx."' value='otro'";
-													if($otro==1){
-														echo " checked";
-													}
-													echo " value='1'>";
-												echo "</div>";
-												echo "<div class='col-10'>";
-													echo "<input type='text' name='resp_otro' id='per_".$row->id."' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
-												echo "</div>";
+
+											echo "<div class='col-6'>";
+												echo $respuesta->nombre;
+											echo "</div>";
+
+											echo "<div class='col-4'>";
+												if($row->usuario==1){
+													echo "<input type='text' name='resp_".$respuesta->id."' id='resp_".$respuesta->id."' value='$texto_resp' placeholder='Define..' class='form-control form-control-sm'>";
+												}
+											echo "</div>";
+										echo "</div>";
+									}
+									if($row->personalizado==1){
+										$texto="";
+										$otro=0;
+										$sql="select * from contexto_resp where idcontexto=$row->id and valor='OTRO'";
+										$contx = $this->dbh->prepare($sql);
+										$contx->execute();
+										if($contx->rowCount()>0){
+											$resp=$contx->fetch(PDO::FETCH_OBJ);
+											$texto=$resp->texto;
+											$otro=1;
 										}
-									echo "</div>";
+
+										echo "<div class='row'>";
+											if($row->incisos==1){
+													echo "<div class='col-1'>";
+														echo "<input type='checkbox' is='s-submit' name='checkbox_otro'";
+														if($otro==1){
+															echo " checked";
+														}
+														echo " value='otro'>";
+													echo "</div>";
+													echo "<div class='col-10'>";
+														echo "<input type='text' name='resp_otro' id='resp_otro' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
+													echo "</div>";
+												}
+												else{
+													echo "<div class='col-1'>";
+														echo "<input type='radio' is='s-submit' id='radio_".$idx."' name='radio_".$idx."' value='otro'";
+														if($otro==1){
+															echo " checked";
+														}
+														echo " value='1'>";
+													echo "</div>";
+													echo "<div class='col-10'>";
+														echo "<input type='text' name='resp_otro' id='per_".$row->id."' value='$texto' class='form-control form-control-sm' placeholder='otro'>";
+													echo "</div>";
+											}
+										echo "</div>";
+									}
 								}
 							echo "</div>";
 						}

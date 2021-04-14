@@ -169,7 +169,7 @@
 							<!-- Preguntas  -->
 							<div class="container-fluid">
 
-								<form is="f-submit" id="form_g_<?php echo $row->id; ?>" db="a_respuesta/db_" fun="guarda_respuesta" des="a_pacientes/actividad_ver" desid="idactividad" msg="0" v_idactividad="<?php echo $idactividad; ?>" v_idpaciente="<?php echo $idpaciente; ?>">
+								<form is="f-submit" id="form_g_<?php echo $row->id; ?>" db="a_respuesta/db_" fun="guarda_respuesta" des="a_pacientes/actividad_ver" desid="idactividad" msg="0" v_idactividad="<?php echo $idactividad; ?>">
 								<?php
 								$rx=$db->respuestas_ver($row->id);
 								foreach ($rx as $respuesta) {

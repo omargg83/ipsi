@@ -1,5 +1,6 @@
 <?php
 	require_once("db_.php");
+	$nombresDias = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado" );
 
 	$pag=0;
 	$texto="";
@@ -28,23 +29,33 @@
 
   echo "<div class='header-row'>";
     echo "<div class='cell'>#</div>";
+    echo "<div class='cell'>#ID</div>";
     echo "<div class='cell'>Sucursal</div>";
     echo "<div class='cell'>Paciente</div>";
+		echo "<div class='cell'>Fecha</div>";
     echo "<div class='cell'>Hora</div>";
-    echo "<div class='cell'>Fecha</div>";
+    echo "<div class='cell'>Dia</div>";
 		echo "<div class='cell'>Terapeuta</div>";
     echo "<div class='cell'>status</div>";
   echo "</div>";
 
   foreach($pd as $key){
+		$hora = new DateTime($key->desde);
+
     echo "<div class='body-row'>";
       echo "<div class='cell'>";
 
 				if($_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
-	        echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/editar' dix='contenido' tp='edit' v_idcita='$key->idcita' title='editar'>Editar</button>";
+					if($key->estatus=="Pendiente"){
+		        echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/editar' dix='contenido' tp='edit' v_idcita='$key->idcita' title='editar'>Editar</button>";
+					}
 				}
 
         echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='cita_quitar' v_idcita='$key->idcita' tp='¿Desea cancelar la cita seleccionada?' title='Borrar'>Cancelar</button>";
+      echo "</div>";
+
+			echo "<div class='cell' data-titulo='Sucursal'>";
+        echo "#".$key->idcita;
       echo "</div>";
 
       echo "<div class='cell' data-titulo='Sucursal'>";
@@ -56,16 +67,23 @@
         echo $ter->nombre." ".$ter->apellidop." ".$ter->apellidom;
       echo "</div>";
 
-      echo "<div class='cell' data-titulo='Hora'>";
-        $hora = new DateTime($key->desde);
+			echo "<div class='cell' data-titulo='Fecha'>";
+        echo $hora->format("d-m-Y");
+      echo "</div>";
+
+			echo "<div class='cell' data-titulo='Hora'>";
         echo $hora->format("h:i A")." - " ;
 				$hora = new DateTime($key->hasta);
 				echo $hora->format("h:i A");
       echo "</div>";
 
-      echo "<div class='cell' data-titulo='Fecha'>";
-        echo $hora->format("d-m-Y");
+			echo "<div class='cell' data-titulo='Dia'>";
+			$dia_prog = $nombresDias[$hora->format("w")];
+			echo $dia_prog;
       echo "</div>";
+
+
+
 
 			echo "<div class='cell' data-titulo='Terapeuta'>";
         $ter=$db->terapueuta_($key->idusuario);
