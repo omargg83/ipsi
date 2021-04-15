@@ -11,8 +11,7 @@
 	$foto=$pd->foto;
 	$numero=$pd->numero;
 	$edad=$pd->edad;
-	$telefono=$pd->telefono;
-	$observaciones=$pd->observaciones;
+	$telefono=$pd->telefono;	
 
 	/////////////////////Relaciones
 	$sql="select * from cliente_terapeuta	left outer join clientes on clientes.id=cliente_terapeuta.idcliente where cliente_terapeuta.idusuario=$idusuario";

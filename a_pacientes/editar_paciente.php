@@ -208,6 +208,7 @@
 					echo "<select name='estatus' id='estatus' class='form-control form-control-sm' required>";
 						if($idpaciente>=0){
 							echo "<option value='NUEVO'"; if($estatus=='NUEVO') echo 'selected'; echo ">NUEVO</option>";
+							echo "<option value='PROSPECTO'"; if($estatus=='PROSPECTO') echo 'selected'; echo ">PROSPECTO</option>";
 						}
 						if($idpaciente>0){
 							echo "<option value='EN CURSO'"; if($estatus=='EN CURSO') echo 'selected'; echo ">EN CURSO</option>";
