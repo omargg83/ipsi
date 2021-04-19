@@ -39,7 +39,7 @@
   	echo "<div class='tabla_v' id='tabla_css'>";
 
   	echo "<div class='header-row'>";
-  		echo "<div class='cell'>#</div>";
+  		echo "<div class='cell'></div>";
   		echo "<div class='cell'>Terapeuta</div>";
   		echo "<div class='cell'>Dia</div>";
   		echo "<div class='cell'>Fecha</div>";

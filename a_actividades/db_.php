@@ -294,6 +294,8 @@ class Cuest extends ipsi{
 				if (isset($_REQUEST['idpaciente'])){
 					$idpaciente=$_REQUEST['idpaciente'];
 					$arreglo+=array('idpaciente'=>$idpaciente);
+
+					$this->update('clientes',array('id'=>$idpaciente),array("estatus"=>"ACTIVO"));
 				}
 				$x=$this->insert('actividad', $arreglo);
 				

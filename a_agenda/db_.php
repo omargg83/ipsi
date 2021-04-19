@@ -29,21 +29,22 @@ class Agenda extends ipsi{
 			die();
 		}
 	}
-	public function agenda_lista($pagina,$idsucursal,$idusuario,$fecha_cita,$idpaciente){
+	public function agenda_lista($pagina,$idsucursal,$idusuario,$fecha_cita,$idpaciente,$orden, $asc){
 		try{
 			$pagina=$pagina*$_SESSION['pagina'];
-			$sql="SELECT * FROM citas";
+			$sql="SELECT idcita, citas.desde, citas.hasta, citas.estatus, sucursal.nombre as sucursalx, clientes.nombre, clientes.apellidop, clientes.apellidom, 
+			usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom FROM citas";
 			$ac=0;
 			$query="";
 
 			if(strlen($idsucursal)>0){
 				if($ac==1) $query.=" and ";
-				$query.=" idsucursal=$idsucursal";
+				$query.=" citas.idsucursal=$idsucursal";
 				$ac=1;
 			}
 			if(strlen($idusuario)>0){
 				if($ac==1) $query.=" and ";
-				$query.=" idusuario=$idusuario";
+				$query.=" citas.idusuario=$idusuario";
 				$ac=1;
 			}
 			if(strlen($fecha_cita)>0){
@@ -54,14 +55,28 @@ class Agenda extends ipsi{
 			}
 			if(strlen($idpaciente)>0){
 				if($ac==1) $query.=" and ";
-				$query.=" idpaciente=$idpaciente";
+				$query.=" citas.idpaciente=$idpaciente";
 				$ac=1;
 			}
+			$sql.=" left outer join sucursal on sucursal.idsucursal=citas.idsucursal";
+			$sql.=" left outer join clientes on clientes.id=citas.idpaciente";
+			$sql.=" left outer join usuarios on usuarios.idusuario=citas.idusuario";
 			if($ac==1){
 				$sql=$sql." where ".$query." ";
 			}
-			$sql.=" order by desde asc";
+
+			if($orden=="idsucursal") $orden="sucursal.nombre";
+			if($orden=="idpaciente") $orden="clientes.nombre";
+			if($orden=="idterapeuta") $orden="usuarios.nombre";
+			if($orden=="estatus") $orden="citas.estatus";
+			if($orden=="dia") $orden="weekday(citas.desde)";
+			if($orden=="fecha") $orden="date(citas.desde)";
+			if($orden=="hora") $orden="time(citas.desde)";
+			
+
+			$sql.=" order by $orden $asc";
 			$sql.=" limit $pagina,".$_SESSION['pagina']."";
+			//echo $sql;
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -265,6 +280,13 @@ class Agenda extends ipsi{
 		$texto="texto";
 		$asunto="asunto";
 		$this->correo($correo, $texto, $asunto);
+		return $x;
+	}
+	public function paciente_confirma(){
+		$idcita=$_REQUEST['idcita'];
+		$arreglo=array();
+		$arreglo+=array("estatus"=>"CONFIRMADA POR PACIENTE");
+		$x=$this->update('citas',array("idcita"=>$idcita),$arreglo);
 		return $x;
 	}
 }

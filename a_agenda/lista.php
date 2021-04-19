@@ -41,7 +41,7 @@
 					}
 
 					echo "<div class='cell2'>";
-					echo "<input type='date' name='fecha_cita' id='fecha_cita' value='$fecha' class='form-control form-control-sm filter_x'>";
+					echo "<input type='date' name='fechacita' id='fechacita' value='$fecha' class='form-control form-control-sm filter_x'>";
 					echo "</div>";
 
 					if($_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){

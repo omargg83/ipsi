@@ -605,6 +605,9 @@ class Cliente extends ipsi{
 			$idactividad=$_REQUEST['idactividad'];
 			$idpaciente=$_REQUEST['idpaciente'];
 
+			$x=$this->update('clientes',array('id'=>$idpaciente),array("estatus"=>"ACTIVO"));
+
+
 			$sql="select * from actividad where idactividad=:idactividad";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":idactividad",$idactividad);
