@@ -28,14 +28,48 @@
     $sth = $db->dbh->query($sql);
     $correo=$sth->fetch(PDO::FETCH_OBJ);		
     
-    echo $correo->tiempo;
 
-    $sql="SELECT * FROM citas where TIMEDIFF(now(),desde)<$correo->tiempo";
+    $sql="SELECT * FROM citas where TIMEDIFF(now(),desde)<$correo->tiempo limit 1";
     $sth = $db->dbh->query($sql);
-    $correo=$sth->fetch(PDO::FETCH_OBJ);		
-
+    $citas=$sth->fetch(PDO::FETCH_OBJ);	
+	
+	$asunto="asunto";
+	$texto=$correo->texto;
     
+	require '../vendor/autoload.php';
+	$mail = new PHPMailer;
+	$mail->CharSet = 'UTF-8';
+
+	$asunto=$correo->asunto;
+	$mail->Body    = $asunto;
+	$mail->Subject = $asunto;
+	$mail->AltBody = $asunto;
+
+	$mail->isSMTP();
+
+	////////////cambiar esta configuracion
+		$mail->Host = $correo->host;						  // Specify main and backup SMTP servers
+		$mail->SMTPAuth = true;                               // Enable SMTP authentication
+
+		$mail->Username = $correo->user;       // SMTP username
+		$mail->Password = $correo->pass;
 
 
+		$mail->SMTPSecure = $correo->smptsecure;                            // Enable TLS encryption, `ssl` also accepted
+		$mail->Port = $correo->port;                                    // TCP port to connect to
+		$mail->CharSet = 'UTF-8';
+
+		$mail->From = $correo->user;   //////////esto solo muestra el remitente
+		$mail->FromName = $asunto;			//////////// remitente
+	//////////hasta aca
+
+	$mail->IsHTML(true);
+	$mail->addAddress($correo);
+	//$mail->addAddress("omargg83@gmail.com");
+
+	$mail->msgHTML($texto);
+	$arreglo=array();
+
+	$mail->send()
 ?>
 

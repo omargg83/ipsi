@@ -33,7 +33,7 @@ class Agenda extends ipsi{
 		try{
 			$pagina=$pagina*$_SESSION['pagina'];
 			$sql="SELECT idcita, citas.desde, citas.hasta, citas.estatus, sucursal.nombre as sucursalx, clientes.nombre, clientes.apellidop, clientes.apellidom, 
-			usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom FROM citas";
+			usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom, consultorio.nombre as consultorio FROM citas";
 			$ac=0;
 			$query="";
 
@@ -61,6 +61,7 @@ class Agenda extends ipsi{
 			$sql.=" left outer join sucursal on sucursal.idsucursal=citas.idsucursal";
 			$sql.=" left outer join clientes on clientes.id=citas.idpaciente";
 			$sql.=" left outer join usuarios on usuarios.idusuario=citas.idusuario";
+			$sql.=" left outer join consultorio on consultorio.idconsultorio=citas.idconsultorio";
 			if($ac==1){
 				$sql=$sql." where ".$query." ";
 			}
@@ -228,6 +229,11 @@ class Agenda extends ipsi{
 		$sth = $this->dbh->query($sql);
 		return $sth->fetch(PDO::FETCH_OBJ);
 	}
+	public function terapeuta_($id){
+		$sql="select * from usuarios where idusuario='$id'";
+		$sth = $this->dbh->query($sql);
+		return $sth->fetch(PDO::FETCH_OBJ);
+	}
 	public function cita_quitar(){
 		$idcita=$_REQUEST['idcita'];
 		$x=$this->borrar('citas',"idcita",$idcita);
@@ -253,7 +259,8 @@ class Agenda extends ipsi{
 		$idconsultorio=$_REQUEST['idconsultorio'];
 		$idcita=$_REQUEST['idcita'];
 		$cita=$this::cita($idcita);
-		$cliente=$this::cliente_($cita->idusuario);
+		$cliente=$this::cliente_($cita->idpaciente);
+		$terap=$this::terapeuta_($cita->idusuario);
 
 		$desdedia=$_REQUEST['desdedia'];
 
@@ -276,10 +283,39 @@ class Agenda extends ipsi{
 		$arreglo+=array('estatus'=>"Aprobada");
 		$x=$this->update('citas',array('idcita'=>$idcita), $arreglo);
 
-		$correo="omargg83@gmail.com";
-		$texto="texto";
-		$asunto="asunto";
-		$this->correo($correo, $texto, $asunto);
+		$correo=$cliente->correo;
+		$tipo="aprobar";
+		$variables=array();
+		$variables+=array("terapeuta"=>$terap->nombre." ".$terap->apellidop." ".$terap->apellidom);
+		$variables+=array("horario"=>fecha($cita->desde,3));
+
+		$this->correo($correo, $variables, $tipo);
+		return $x;
+	}
+	public function agregar_online(){
+		$arreglo =array();
+		$idcita=$_REQUEST['idcita'];
+		$texto_linea=$_REQUEST['texto_linea'];
+
+		$cita=$this::cita($idcita);
+		$cliente=$this::cliente_($cita->idpaciente);
+		$terap=$this::terapeuta_($cita->idusuario);
+
+
+		$arreglo+=array('online'=>$texto_linea);
+		$arreglo+=array('estatus'=>"Aprobada");
+		$x=$this->update('citas',array('idcita'=>$idcita), $arreglo);
+		
+
+
+		$correo=$cliente->correo;
+		$tipo="aprobar_online";
+		$variables=array();
+		$variables+=array("terapeuta"=>$terap->nombre." ".$terap->apellidop." ".$terap->apellidom);
+		$variables+=array("horario"=>fecha($cita->desde,3));
+		$variables+=array("enlace"=>$texto_linea);
+
+		$this->correo($correo, $variables, $tipo);
 		return $x;
 	}
 	public function paciente_confirma(){

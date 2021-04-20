@@ -1,12 +1,12 @@
-let intval=""
+	let intval=""
 
-onload = ()=> {
-	loadContent(location.hash.slice(1));
-	if(intval==""){
-		intval=setInterval(function(){ sesion_ver(); }, 60000);
-	}
-	cargando(false);
-};
+	onload = ()=> {
+		loadContent(location.hash.slice(1));
+		if(intval==""){
+			intval=setInterval(function(){ sesion_ver(); }, 60000);
+		}
+		cargando(false);
+	};
 
 
 	let url=window.location.href;
@@ -316,6 +316,7 @@ onload = ()=> {
 					focusCancel:true
 				}).then((result) => {
 					if (result.value) {
+						cargando(true);
 						let variable=0;
 						let xhr = new XMLHttpRequest();
 						xhr.open('POST',datos.db);
@@ -328,8 +329,10 @@ onload = ()=> {
 									timer: 1000
 								});
 								console.log(data.target.response);
+								cargando(false);
 								return;
 							}
+							cargando(false);
 							var respon = JSON.parse(data.target.response);
 							if (respon.error==0){
 								Swal.fire({
@@ -352,6 +355,7 @@ onload = ()=> {
 							}
 						});
 						xhr.onerror = (e)=>{
+							cargando(false);
 						};
 						xhr.send(formData);
 					}

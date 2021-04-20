@@ -1,7 +1,7 @@
 <?php
 	require_once("db_.php");
 
-  $idcita=$_REQUEST['idcita'];
+  	$idcita=$_REQUEST['idcita'];
 	$nombresDias = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado" );
 
 	$cita=$db->cita($idcita);
@@ -17,14 +17,15 @@
 
 	$horad=$h_desde->format("h:i A");
 
-  $horad = date ('h:i A' , strtotime($cita->desde));
-  $horah = date ('h:i A' , strtotime($cita->hasta));
+	$horad = date ('h:i A' , strtotime($cita->desde));
+	$horah = date ('h:i A' , strtotime($cita->hasta));
 
 
 	$suc=$db->sucursal_($cita->idsucursal);
 	$sucursal_nombre=$suc->nombre;
 
 	$ter=$db->terapueuta_($cita->idusuario);
+	$terapeuta_mail=$ter->correo;
 	$terapeuta_nombre=$ter->nombre." ".$ter->apellidop." ".$ter->apellidom;
 
 	$cli=$db->cliente_($cita->idpaciente);
@@ -55,26 +56,34 @@
 
  				<div class="col-3">
  					<label for="">Inicio</label>
- 					<input type="text" name="hora" id="hora" value="<?php echo $horad;?>"  class='form-control' readonly>
+ 					<input type="text" name="horad" id="horad" value="<?php echo $horad;?>"  class='form-control' readonly>
  				</div>
 
  				<div class="col-3">
  					<label for="">Fin</label>
- 					<input type="text" name="hora" id="hora" value="<?php echo $horah;?>"  class='form-control' readonly>
+ 					<input type="text" name="horah" id="horah" value="<?php echo $horah;?>"  class='form-control' readonly>
  				</div>
 
 				<div class="col-3">
  					<label for="">Dia</label>
  					<input type="text" name="dia_prog" id="dia_prog" value="<?php echo $dia_prog;?>"  class='form-control' readonly>
  				</div>
-
- 				<div class="col-3">
+			</div>
+			<div class="row">
+ 				<div class="col-4">
  					<label for="">Sucursal</label>
  					<input type="text" name="sx" id="sx" value="<?php echo $sucursal_nombre;?>"  class='form-control' readonly>
  				</div>
+			</div>
+			<hr>
+			<div class="row">
  				<div class="col-3">
  					<label for="">Terapeuta</label>
  					<input type="text" name="ter" id="ter" value="<?php echo $terapeuta_nombre;?>"  class='form-control' readonly>
+ 				</div>
+				 <div class="col-3">
+ 					<label for="">Terapeuta EMAIL</label>
+ 					<input type="text" name="termail" id="termail" value="<?php echo $terapeuta_mail;?>"  class='form-control' readonly>
  				</div>
  				<div class="col-3">
  					<label for="">Paciente</label>
@@ -82,55 +91,97 @@
  				</div>
  				<div class="col-3">
  					<label for="">Status</label>
- 					<input type="text" name="cli" id="cli" value="<?php echo $estatus;?>"  class='form-control' readonly>
+ 					<input type="text" name="estatus" id="estatus" value="<?php echo $estatus;?>"  class='form-control' readonly>
  				</div>
 			</div>
 		</div>
 	</div>
 
-	<div >
+	
 		<?php
-		echo "<div class='tabla_v' id='tabla_css'>";
-			echo "<h5>Consultorios disponibles</h5>";
-			echo "<div class='header-row'>";
-				echo "<div class='cell'>#</div>";
-				echo "<div class='cell'>Consultorio</div>";
-				echo "<div class='cell'>Dia</div>";
-				echo "<div class='cell'>Disponible</div>";
-				echo "<div class='cell'>Fin</div>";
+		echo "<div class='card mt-3'>";
+			echo "<div class='card-header'>";
+				echo "Consultorios disponibles";
 			echo "</div>";
+			echo "<div class='card-body'>";
 
-			foreach($consultorios as $v2){
+				echo "<div class='tabla_v' id='tabla_css'>";
+					
+					echo "<div class='header-row'>";
+						echo "<div class='cell'>#</div>";
+						echo "<div class='cell'>Consultorio</div>";
+						echo "<div class='cell'>Dia</div>";
+						echo "<div class='cell'>Disponible</div>";
+						echo "<div class='cell'>Fin</div>";
+					echo "</div>";
 
-				$fdesde = new DateTime($v2->desde);
-	      $fhasta = new DateTime($v2->hasta);
+					foreach($consultorios as $v2){
 
-				$sql="select * from citas where idconsultorio=$v2->idconsultorio and desde='$cita->desde'";
-				$ver = $db->dbh->query($sql);
-				if($ver->rowCount()==0){
-					echo "<div class='body-row'>";
-						echo "<div class='cell'>";
-							echo "<button class='btn btn-warning btn-sm' type='button' id='can_$v2->idhorario' is='b-link'  db='a_agenda/db_' des='a_agenda/index' dix='contenido' fun='agregar_consultorio' tp='¿Desea aprobar la cita en el consultorio seleccionado?' v_idcita='$idcita' v_idconsultorio='$v2->idconsultorio' v_condesde='$v2->desde' v_conhasta='$v2->hasta' v_desdedia='$v2->desde_dia' v_fechan='$cita->desde'>Asignar</button>";
-						echo "</div>";
+						$fdesde = new DateTime($v2->desde);
+						$fhasta = new DateTime($v2->hasta);
 
-						echo "<div class='cell'>";
-							echo $v2->nombre;
+						$sql="select * from citas where idconsultorio=$v2->idconsultorio and desde='$cita->desde'";
+						$ver = $db->dbh->query($sql);
+						if($ver->rowCount()==0){
+							echo "<div class='body-row'>";
+								echo "<div class='cell'>";
+									echo "<button class='btn btn-warning btn-sm' type='button' id='can_$v2->idhorario' is='b-link'  db='a_agenda/db_' des='a_agenda/index' dix='contenido' fun='agregar_consultorio' tp='¿Desea aprobar la cita en el consultorio seleccionado?' v_idcita='$idcita' v_idconsultorio='$v2->idconsultorio' v_condesde='$v2->desde' v_conhasta='$v2->hasta' v_desdedia='$v2->desde_dia' v_fechan='$cita->desde'>Asignar</button>";
+								echo "</div>";
+
+								echo "<div class='cell'>";
+									echo $v2->nombre;
+								echo "</div>";
+								echo "<div class='cell'>";
+									echo $v2->desde_dia;
+								echo "</div>";
+								echo "<div class='cell'>";
+									$fdesde = new DateTime($v2->desde);
+									echo $fdesde->format("h:i A");
+								echo "</div>";
+								echo "<div class='cell'>";
+									$fdesde = new DateTime($v2->hasta);
+									echo $fdesde->format("h:i A");
+								echo "</div>";
+							echo "</div>";
+						}
+					}
+				echo "</div>";
+			echo "</div>";
+		echo "</div>";
+		
+
+		
+			echo "<hr>";
+			
+			echo "<form is='f-submit' id='formonline' db='a_agenda/db_' fun='agregar_online' des='a_agenda/index' dix='contenido'>";
+				echo "<input type='hidden' name='idcita' id='idcita' value='$idcita'>";
+				echo "<div class='card'>";
+					echo "<div class='card-header'>";
+						echo "Cita en linea";
+					echo "</div>";
+					echo "<div class='card-body'>";
+					
+						echo "<div class='row'>";
+							echo "<div class='col-12'>";
+								echo "<label>En linea</label>";
+								echo "<div id='div_linea' name='div_linea' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'></div>";
+								echo "<small>De clic para editar</small>";
+							echo "</div>";
 						echo "</div>";
-						echo "<div class='cell'>";
-							echo $v2->desde_dia;
-						echo "</div>";
-						echo "<div class='cell'>";
-							$fdesde = new DateTime($v2->desde);
-							echo $fdesde->format("h:i A");
-						echo "</div>";
-						echo "<div class='cell'>";
-							$fdesde = new DateTime($v2->hasta);
-							echo $fdesde->format("h:i A");
+					
+					
+						echo "<div class='row'>";
+							echo "<div class='col-12'>";
+								echo "<button type='submit' class='btn btn-warning btn-sm' >Online</button>";
+							echo "</div>";
 						echo "</div>";
 					echo "</div>";
-				}
-			}
-			echo "</div>";
+				echo "</div>";
+			echo "</form>";
+
+			
+
+			
 		 ?>
 	</div>
 

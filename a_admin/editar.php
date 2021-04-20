@@ -10,6 +10,8 @@
 		$smtpsecure=$pd->smptsecure;
 		$port=$pd->port;
 		$tiempo=$pd->tiempo;
+		$texto=$pd->texto;
+		$asunto=$pd->asunto;
 		
 	}
 ?>
@@ -61,6 +63,23 @@
 					<label class="col-2">Tiempo:</label>
 					<div class='col-10'>	
 						<input type="text" class="form-control " name="tiempo" id="tiempo" value="<?php echo $tiempo;?>" placeholder="Tiempo" maxlength='145' >
+					</div>
+				</div>
+
+				<div class=' form-group row'>
+					<label class="col-2">Asunto:</label>
+					<div class='col-10'>	
+						<input type="text" class="form-control " name="asunto" id="asunto" value="<?php echo $asunto;?>" placeholder="asunto" maxlength='145' >
+					</div>
+				</div>
+
+				<div class=' form-group row'>
+					<label class="col-2">Texto:</label>
+					<div class='col-10'>
+						<?php
+							echo "<div id='div_$idmail' name='div_$idmail' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'>$texto</div>";
+							echo "<small>De clic para editar</small>";
+						?>
 					</div>
 				</div>
 

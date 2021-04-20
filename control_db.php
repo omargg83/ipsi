@@ -193,50 +193,24 @@
 
 		////////////////////////////funciones
 
-		public function recuperar(){
-			$x="";
-			if (isset($_REQUEST['telefono'])){$texto=$_REQUEST['telefono'];}
-			$sql="select * from usuarios where usuario='$texto' or correo='$texto'";
-			$res=$this->general($sql);
-			if(count($res)>0){
-				if(strlen($res[0]['correo'])>0){
-
-
-					$pass=$this->genera_random(8);
-					$passg=md5(trim($pass));
-
-					$sql="update usuarios set pass=:pass where idpersona=:id";
-					$sth = $this->dbh->prepare($sql);
-					$sth->bindValue(":pass",$passg);
-					$sth->bindValue(":id",$res[0]['idpersona']);
-					$sth->execute();
-
-					$texto="La nueva contraseña es: <br> $pass";
-					$texto.="<br></a>";
-
-					$asunto= "Recuperar contraseña";
-					return $this->correo($res[0]['correo'], $texto, $asunto);
-				}
-				else{
-					$arreglo+=array('id1'=>0);
-					$arreglo+=array('error'=>0);
-					$arreglo+=array('terror'=>"no tiene correo registrado en la plantilla");
-					return json_encode($arreglo);
-				}
-			}
-			else{
-				return 0;
-			}
-		}
-		public function genera_random($length = 8) {
-			return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
-		}
-		public function correo($correo, $texto, $asunto){
+		public function correo($correo_send, $variables, $tipo){
 			/////////////////////////////////////////////Correo
+			$sql="SELECT * FROM correo where config='$tipo'";
+			$sth = $this->dbh->query($sql);
+			$correo=$sth->fetch(PDO::FETCH_OBJ);
+			
+			$texto=$correo->texto;
+			
+			foreach($variables as $f => $key){
+				$texto=str_replace("%".$f,$key,$texto);
+			}
+			
 			require '../vendor/autoload.php';
 			$mail = new PHPMailer;
 			$mail->CharSet = 'UTF-8';
 
+			
+			$asunto=$correo->asunto;
 			$mail->Body    = $asunto;
 			$mail->Subject = $asunto;
 			$mail->AltBody = $asunto;
@@ -244,22 +218,24 @@
 			$mail->isSMTP();
 
 			////////////cambiar esta configuracion
-				$mail->Host = Host_MAIL;						  // Specify main and backup SMTP servers
-				$mail->SMTPAuth = SMTPAuth_MAIL;                               // Enable SMTP authentication
+				$mail->Host = $correo->host;						  // Specify main and backup SMTP servers
+				$mail->SMTPAuth = true;                               // Enable SMTP authentication
 
-				$mail->Username = Username_MAIL;       // SMTP username
-				$mail->Password = Password_MAIL;                       // SMTP password  <----------- AGREGAR AQUI EL PASSWORDS
+				$mail->Username = $correo->user;       // SMTP username
+				$mail->Password = $correo->pass;
 
-				$mail->SMTPSecure = "ssl";                            // Enable TLS encryption, `ssl` also accepted
-				$mail->Port = 465;                                    // TCP port to connect to
+
+				$mail->SMTPSecure = $correo->smptsecure;                            // Enable TLS encryption, `ssl` also accepted
+				$mail->Port = $correo->port;                                    // TCP port to connect to
 				$mail->CharSet = 'UTF-8';
 
-				$mail->From = From_MAIL;   //////////esto solo muestra el remitente
-				$mail->FromName = FromName_MAIL;			//////////// remitente
+				$mail->From = $correo->user;   //////////esto solo muestra el remitente
+				$mail->FromName = $asunto;			//////////// remitente
 			//////////hasta aca
 
 			$mail->IsHTML(true);
-			$mail->addAddress($correo);
+			$mail->addAddress($correo_send);
+			
 
 			$mail->msgHTML($texto);
 			$arreglo=array();
@@ -272,7 +248,7 @@
 			} else {
 				$arreglo+=array('id'=>0);
 				$arreglo+=array('error'=>0);
-				$arreglo+=array('terror'=>'Se nofiticó al correo: '.$correo.' la nueva contraseña');
+				$arreglo+=array('terror'=>'Se nofiticó al correo: '.$correo_send.' la nueva contraseña');
 				return json_encode($arreglo);
 			}
 		}
@@ -378,29 +354,30 @@
 		return "$ ".number_format( $valor, 2, "." , "," );
 	}
 	function fecha($fecha,$key=""){
-		$fecha = new DateTime($fecha);
-		if($key==1){
-			$mes=$fecha->format('m');
-			if ($mes==1){ $mes="Enero";}
-			if ($mes==2){ $mes="Febrero";}
-			if ($mes==3){ $mes="Marzo";}
-			if ($mes==4){ $mes="Abril";}
-			if ($mes==5){ $mes="Mayo";}
-			if ($mes==6){ $mes="Junio";}
-			if ($mes==7){ $mes="Julio";}
-			if ($mes==8){ $mes="Agosto";}
-			if ($mes==9){ $mes="Septiembre";}
-			if ($mes==10){ $mes="Octubre";}
-			if ($mes==11){ $mes="Noviembre";}
-			if ($mes==12){ $mes="Diciembre";}
-
-			return $fecha->format('d')." de $mes de ".$fecha->format('Y');
-		}
-		if($key==2){
-			return $fecha->format('d-m-Y H:i:s');
-		}
-		else{
-			return $fecha->format('d-m-Y');
+		$mesn=["","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+		if(strlen($fecha)>0){
+			$fecha = new DateTime($fecha);
+			if ($key==""){
+				return $fecha->format('d-m-Y');
+			}
+			if($key==1){
+				$mes=$fecha->format('n');
+				return $fecha->format('d')." de $mesn[$mes] de ".$fecha->format('Y');
+			}
+			if($key==2){
+				return $fecha->format('d-m-Y H:i:s');
+			}
+			if($key==3){
+				$mes=$fecha->format('n');
+				return $fecha->format('d')." de ". $mesn[$mes] ." de ".$fecha->format('Y')." ".$fecha->format('H:i:s');
+			}
+			if ($key=="4"){
+				return $fecha->format('d/m/Y');
+			}
+			if ($key=="5"){
+				$mes=$fecha->format('n');
+				return $fecha->format('d')." de $mesn[$mes]";
+			}
 		}
 	}
 

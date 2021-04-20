@@ -59,10 +59,12 @@ class Configuración extends ipsi{
 		if (isset($_REQUEST['tiempo'])){
 			$arreglo+=array('tiempo'=>$_REQUEST['tiempo']);
 		}
-	
-	
-	
-
+		if (isset($_REQUEST['asunto'])){
+			$arreglo+=array('asunto'=>$_REQUEST['asunto']);
+		}
+		if (isset($_REQUEST["texto_".$idmail])){
+			$arreglo+=array('texto'=>$_REQUEST["texto_".$idmail]);
+		}
 		if($idmail==0){
 			$x=$this->insert('correo', $arreglo);
 		}
@@ -71,35 +73,6 @@ class Configuración extends ipsi{
 		}
 		return $x;
 	}
-	public function borrar_sucursal(){
-		$idsucursal=$_REQUEST['idsucursal'];
-		$x=$this->borrar('sucursal',"idsucursal",$idsucursal);
-		return $x;
-	}
-
-	public function relacion_buscar($texto,$idsucursal){
-		try{
-			$sql="select * from usuarios where nivel=3 and (nombre like '%$texto%' or apellidop like '%$texto%' or apellidom like '%$texto%')";
-			$sth = $this->dbh->query($sql);
-			$sth->execute();
-			return $sth->fetchAll(PDO::FETCH_OBJ);
-		}
-		catch(PDOException $e){
-			return "Database access FAILED!";
-		}
-	}
-	public function asignar_admin(){
-		$arreglo =array();
-		$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
-		$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
-		return $this->insert('sucursal_administracion', $arreglo);
-	}
-	public function quitar_admin(){
-		$idsucursal=$_REQUEST['idsucursal'];
-		$idadmi=$_REQUEST['idadmi'];
-		return $this->borrar('sucursal_administracion',"idadmi",$idadmi);
-	}
-
 }
 
 $db = new Configuración();
