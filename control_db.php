@@ -10,7 +10,7 @@
 
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\SMTP;
-
+	$_SESSION['horas_confirma']=24;
 	/*
 		if($_SESSION['nivel']==1){
 			$_SESSION['tipo_user'] = "Admin General";

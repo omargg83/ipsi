@@ -127,6 +127,9 @@
 						if ($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
 							echo "<a class='nav-link' is='menu-link' href='#a_consultorios/index' title='Consultorios'><div class='sb-nav-link-icon'><i class='fas fa-store'></i></div>Consultorios</a>";
 						}
+						if ($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
+							echo "<a class='nav-link' is='menu-link' href='#a_admin/index' title='configuración'><div class='sb-nav-link-icon'><i class='fas fa-tools'></i></div>Configuración</a>";
+						}
 						if ($_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
 							echo "<a class='nav-link' is='menu-link' href='#a_usuarios/editar_contenido' title='Mi cuenta'><div class='sb-nav-link-icon'><i class='fas fa-user-alt'></i></div>Mi cuenta</a>";
 						}

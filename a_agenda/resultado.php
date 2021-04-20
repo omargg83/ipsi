@@ -65,8 +65,16 @@
 			}
 		}
 
-		if($_SESSION['nivel']==666 and $key->estatus=='Pendiente'){
-			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='paciente_confirma' v_idcita='$key->idcita' tp='¿Desea confirmar la cita seleccionada?' title='Confirmar'>Confirmar</button>";				
+		if($_SESSION['nivel']==666 and $key->estatus=='Aprobada'){
+			$ts_fin = strtotime(date("Y-m-d H:m:i"));
+			$ts_ini = strtotime($key->desde);
+			
+
+			$diferencia=($ts_fin-$ts_ini)/3600;
+			if($diferencia<$_SESSION['horas_confirma']){
+
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='paciente_confirma' v_idcita='$key->idcita' tp='¿Desea confirmar la cita seleccionada?' title='Confirmar'>Confirmar</button>";				
+			}
 		}
 
         echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='cita_quitar' v_idcita='$key->idcita' tp='¿Desea cancelar la cita seleccionada?' title='Borrar'>Cancelar</button>";
