@@ -73,6 +73,7 @@ class Agenda extends ipsi{
 			if($orden=="dia") $orden="weekday(citas.desde)";
 			if($orden=="fecha") $orden="date(citas.desde)";
 			if($orden=="hora") $orden="time(citas.desde)";
+			if($orden=="consultorio") $orden="consultorio.nombre";
 			
 
 			$sql.=" order by $orden $asc";
@@ -113,6 +114,11 @@ class Agenda extends ipsi{
 		catch(PDOException $e){
 			return "Database access FAILED!".$e->getMessage();
 		}
+	}
+	public function conss($id){	
+		$sql="select * from consultorio where idconsultorio=$id";
+		$sth = $this->dbh->query($sql);
+		return $sth->fetch(PDO::FETCH_OBJ);
 	}
 
 	public function pacientes(){
@@ -289,7 +295,11 @@ class Agenda extends ipsi{
 		$variables+=array("terapeuta"=>$terap->nombre." ".$terap->apellidop." ".$terap->apellidom);
 		$variables+=array("horario"=>fecha($cita->desde,3));
 
-		$this->correo($correo, $variables, $tipo);
+		$ccp=array();
+		$ccp+=array($cliente->correo);
+
+
+		$this->correo($correo,$ccp, $variables, $tipo);
 		return $x;
 	}
 	public function agregar_online(){
@@ -306,8 +316,6 @@ class Agenda extends ipsi{
 		$arreglo+=array('estatus'=>"Aprobada");
 		$x=$this->update('citas',array('idcita'=>$idcita), $arreglo);
 		
-
-
 		$correo=$cliente->correo;
 		$tipo="aprobar_online";
 		$variables=array();
@@ -315,7 +323,10 @@ class Agenda extends ipsi{
 		$variables+=array("horario"=>fecha($cita->desde,3));
 		$variables+=array("enlace"=>$texto_linea);
 
-		$this->correo($correo, $variables, $tipo);
+		$ccp=array();
+		$ccp+=array($terap->correo);
+
+		$this->correo($correo, $ccp, $variables, $tipo);
 		return $x;
 	}
 	public function paciente_confirma(){

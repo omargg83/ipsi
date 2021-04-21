@@ -28,11 +28,20 @@
     $sth = $db->dbh->query($sql);
     $correo=$sth->fetch(PDO::FETCH_OBJ);		
     
-
-    $sql="SELECT * FROM citas where TIMEDIFF(now(),desde)<$correo->tiempo limit 1";
+    $sql="SELECT * FROM citas where TIMEDIFF(now(),desde)<$correo->tiempo  and estatus='Aprobada' limit 1";
     $sth = $db->dbh->query($sql);
     $citas=$sth->fetch(PDO::FETCH_OBJ);	
-	
+
+
+	$sql="SELECT * FROM usuarios where idusuario=$citas->idusuario";
+	echo $sql;
+    $sth = $db->dbh->query($sql);
+    $usuario=$sth->fetch(PDO::FETCH_OBJ);	
+
+
+	$correo_usr=$usuario->correo;
+
+
 	$asunto="asunto";
 	$texto=$correo->texto;
     
@@ -64,12 +73,12 @@
 	//////////hasta aca
 
 	$mail->IsHTML(true);
-	$mail->addAddress($correo);
+	$mail->addAddress($correo_usr);
 	//$mail->addAddress("omargg83@gmail.com");
 
 	$mail->msgHTML($texto);
 	$arreglo=array();
 
-	$mail->send()
+	echo $mail->send();
 ?>
 

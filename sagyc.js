@@ -176,7 +176,7 @@
 				 confirmButtonText: 'Guardar'
 			 }).then((result) => {
 				 if (result.value) {
-
+					 cargando(true);
 					 let xhr = new XMLHttpRequest();
 					 xhr.open('POST',datos.db);
 					 xhr.addEventListener('load',(data)=>{
@@ -188,9 +188,10 @@
 								 showConfirmButton: false,
 								 timer: 1000
 							 });
+							 cargando(false);
 							 return;
 						 }
-
+						 cargando(false);
 						 var respon = JSON.parse(data.target.response);
 						 if (respon.error==0){
 							 if (datos.desid !== undefined && datos.desid.length>0) {

@@ -193,7 +193,7 @@
 
 		////////////////////////////funciones
 
-		public function correo($correo_send, $variables, $tipo){
+		public function correo($correo_send, $ccp ,$variables, $tipo){
 			/////////////////////////////////////////////Correo
 			$sql="SELECT * FROM correo where config='$tipo'";
 			$sth = $this->dbh->query($sql);
@@ -235,6 +235,10 @@
 
 			$mail->IsHTML(true);
 			$mail->addAddress($correo_send);
+
+			foreach($ccp as $key){
+			 	$mail->addCC($key);
+			}
 			
 
 			$mail->msgHTML($texto);

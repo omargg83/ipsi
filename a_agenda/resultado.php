@@ -51,11 +51,10 @@
 	echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="idterapeuta" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='idterapeuta'>"; if($orden=="idterapeuta"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Terapeuta</a></div>";
 
 
-	echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="estatus" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='estatus'>"; if($orden=="estatus"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Consultorio</a></div>";
+	echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="consultorio" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='consultorio'>"; if($orden=="consultorio"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Consultorio</a></div>";
 
     echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="estatus" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='estatus'>"; if($orden=="estatus"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "status</a></div>";
 
-	 
   echo "</div>";
 
   foreach($pd as $key){
@@ -64,10 +63,19 @@
     echo "<div class='body-row'>";
       echo "<div class='cell'>";
 
+	  	if($key->estatus=="Pendiente"){
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/aprobar' dix='contenido' tp='edit' v_idcita='$key->idcita' title='editar'>Aprobar</button>";
+			}
+		}
+
 		if($_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
 			if($key->estatus=="Pendiente"){
-       			 echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/editar' dix='contenido' tp='edit' v_idcita='$key->idcita' title='editar'>Editar</button>";
+       			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/editar' dix='contenido' tp='edit' v_idcita='$key->idcita' title='editar'>Editar</button>";
 			}
+		}
+		if($key->estatus=="Aprobada"){
+			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/ver_cita' dix='contenido' tp='edit' v_idcita='$key->idcita' title='editar'>Ver</button>";
 		}
 
 		if($_SESSION['nivel']==666 and $key->estatus=='Aprobada'){
@@ -81,6 +89,8 @@
 				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='paciente_confirma' v_idcita='$key->idcita' tp='¿Desea confirmar la cita seleccionada?' title='Confirmar'>Confirmar</button>";				
 			}
 		}
+		
+		
 
         echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='cita_quitar' v_idcita='$key->idcita' tp='¿Desea cancelar la cita seleccionada?' title='Borrar'>Cancelar</button>";
       echo "</div>";
@@ -117,23 +127,15 @@
 		echo "</div>";
 
 		echo "<div class='cell' data-titulo='Consultorio'>";
-			echo $key->consultorio;
+			if(strlen($key->consultorio)>0 and $key->estatus=="Aprobada")
+				echo $key->consultorio;
+			else
+				echo "Online";
 		echo "</div>";
 
       	echo "<div class='cell' data-titulo='Status'>";
-			if($key->estatus=="Pendiente"){
-				if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
-					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/aprobar' dix='contenido' tp='edit' v_idcita='$key->idcita' title='editar'>Aprobar</button>";
-				}
-				else{
-					echo $key->estatus;
-				}
-			}
-			else{
-				echo $key->estatus;
-			}
-
-      echo "</div>";
+			echo $key->estatus;
+      	echo "</div>";
     echo "</div>";
   }
 

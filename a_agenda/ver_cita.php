@@ -5,6 +5,9 @@
 	$nombresDias = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado" );
 
 	$cita=$db->cita($idcita);
+    if($cita->idconsultorio)
+    $consultorio=$db->conss($cita->idconsultorio);
+
 	$idsucursal=$cita->idsucursal;
 	$idpaciente=$cita->idpaciente;
 	$idusuario=$cita->idusuario;
@@ -31,16 +34,13 @@
 	$cli=$db->cliente_($cita->idpaciente);
 	$cliente_nombre=$cli->nombre." ".$cli->apellidop." ".$cli->apellidom;
 	$cli_correo=$cli->correo;
-
-	///////////////////////////////////
-	$nombreDia = $nombresDias[$h_desde->format("w")];
-	$consultorios=$db->consultorios($cita->desde,$cita->hasta, $nombreDia);
+		
  ?>
 
  <nav aria-label='breadcrumb'>
  	<ol class='breadcrumb'>
  		<li class='breadcrumb-item' id='lista_track' is="li-link" des="a_agenda/index" dix="contenido">Citas</li>
- 		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_agenda/aprobar" v_idcita="<?php echo $idcita; ?>" dix="contenido">Aprobar cita: <?php echo "#".$idcita;?></li>
+ 		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_agenda/ver_cita" v_idcita="<?php echo $idcita; ?>" dix="contenido">Aprobar cita: <?php echo "#".$idcita;?></li>
  		<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_agenda/index" dix="contenido">Regresar</button>
  	</ol>
  </nav>
@@ -48,13 +48,12 @@
  <div class="container">
 	<input type="hidden" name="idcita" id="idcita" value="<?php echo $idcita;?>">
  	<div class="card">
-			<div class="card-body">
+		<div class="card-body">
  			<div class="row">
  				<div class="col-3">
  					<label for="">Fecha</label>
  					<input type="date" name="fecha_cita" id="fecha_cita" value="<?php echo $fecha_cita;?>"  class='form-control' readonly>
  				</div>
-
 
  				<div class="col-3">
  					<label for="">Inicio</label>
@@ -101,100 +100,29 @@
 				 <div class="col-4">
  					<label for="">Paciente Correo</label>
  					<input type="text" name="cli_correo" id="cli_correo" value="<?php echo $cli_correo;?>"  class='form-control' readonly>
- 				</div>
-
- 				
+ 				</div>				
 			</div>
 		</div>
 	</div>
-
-	
-		<?php
-		echo "<div class='card mt-3'>";
-			echo "<div class='card-header'>";
-				echo "Consultorios disponibles";
-			echo "</div>";
-			echo "<div class='card-body'>";
-
-				echo "<div class='tabla_v' id='tabla_css'>";
-					
-					echo "<div class='header-row'>";
-						echo "<div class='cell'>#</div>";
-						echo "<div class='cell'>Consultorio</div>";
-						echo "<div class='cell'>Dia</div>";
-						echo "<div class='cell'>Disponible</div>";
-						echo "<div class='cell'>Fin</div>";
-					echo "</div>";
-
-					foreach($consultorios as $v2){
-
-						$fdesde = new DateTime($v2->desde);
-						$fhasta = new DateTime($v2->hasta);
-
-						$sql="select * from citas where idconsultorio=$v2->idconsultorio and desde='$cita->desde'";
-						$ver = $db->dbh->query($sql);
-						if($ver->rowCount()==0){
-							echo "<div class='body-row'>";
-								echo "<div class='cell'>";
-									echo "<button class='btn btn-warning btn-sm' type='button' id='can_$v2->idhorario' is='b-link'  db='a_agenda/db_' des='a_agenda/index' dix='contenido' fun='agregar_consultorio' tp='¿Desea aprobar la cita en el consultorio seleccionado?' v_idcita='$idcita' v_idconsultorio='$v2->idconsultorio' v_condesde='$v2->desde' v_conhasta='$v2->hasta' v_desdedia='$v2->desde_dia' v_fechan='$cita->desde'>Asignar</button>";
-								echo "</div>";
-
-								echo "<div class='cell'>";
-									echo $v2->nombre;
-								echo "</div>";
-								echo "<div class='cell'>";
-									echo $v2->desde_dia;
-								echo "</div>";
-								echo "<div class='cell'>";
-									$fdesde = new DateTime($v2->desde);
-									echo $fdesde->format("h:i A");
-								echo "</div>";
-								echo "<div class='cell'>";
-									$fdesde = new DateTime($v2->hasta);
-									echo $fdesde->format("h:i A");
-								echo "</div>";
-							echo "</div>";
-						}
-					}
-				echo "</div>";
-			echo "</div>";
-		echo "</div>";
-		
-
-		
-			echo "<hr>";
-			
-			echo "<form is='f-submit' id='formonline' db='a_agenda/db_' fun='agregar_online' des='a_agenda/index' dix='contenido'>";
-				echo "<input type='hidden' name='idcita' id='idcita' value='$idcita'>";
-				echo "<div class='card'>";
-					echo "<div class='card-header'>";
-						echo "Cita en linea";
-					echo "</div>";
-					echo "<div class='card-body'>";
-					
-						echo "<div class='row'>";
-							echo "<div class='col-12'>";
-								echo "<label>En linea</label>";
-								echo "<div id='div_linea' name='div_linea' onclick='editable(this)' style='width:100%; height: 200px; border:1px solid silver'></div>";
-								echo "<small>De clic para editar</small>";
-							echo "</div>";
-						echo "</div>";
-					
-					
-						echo "<div class='row'>";
-							echo "<div class='col-12'>";
-								echo "<button type='submit' class='btn btn-warning btn-sm' >Online</button>";
-							echo "</div>";
-						echo "</div>";
-					echo "</div>";
-				echo "</div>";
-			echo "</form>";
-
-			
-
-			
-		 ?>
-	</div>
-
+    <div class='card mt-3'>
+        <div class="card-header">
+            Detalles de la cita
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <?php
+                    echo "<div class='col-12'>";
+                    if(strlen($cita->online)>0){
+                        echo $cita->online;
+                    }
+                    else{
+                        echo "<label>Consultorio:</label><br>".$consultorio->nombre;
+                    }
+                    echo "</div>";
+                ?>
+            </div>
+        </div>
+    </div>
+  
 
 </div>
