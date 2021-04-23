@@ -5,14 +5,14 @@
 	$nombresDias = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado" );
 
 	$cita=$db->cita($idcita);
-    if($cita->idconsultorio)
-    $consultorio=$db->conss($cita->idconsultorio);
+
+  
 
 	$idsucursal=$cita->idsucursal;
 	$idpaciente=$cita->idpaciente;
 	$idusuario=$cita->idusuario;
 	$estatus=$cita->estatus;
-
+	$fecha_notif=fecha($cita->fecha_notif,2);
 	$h_desde = new DateTime($cita->desde);
 	$fecha_cita=$h_desde->format("Y-m-d");
 
@@ -34,6 +34,7 @@
 	$cli=$db->cliente_($cita->idpaciente);
 	$cliente_nombre=$cli->nombre." ".$cli->apellidop." ".$cli->apellidom;
 	$cli_correo=$cli->correo;
+	
 		
  ?>
 
@@ -102,6 +103,17 @@
  					<input type="text" name="cli_correo" id="cli_correo" value="<?php echo $cli_correo;?>"  class='form-control' readonly>
  				</div>				
 			</div>
+			<?php
+				if($citas->notifica){
+					echo "<div class='row'>";
+						echo "<div class='col-12'>";
+							echo "<label for=''>Notificación de confirmación al usuario</label>";
+							echo "<input type='text' name='fecha_notif' id='fecha_notif' value='$fecha_notif'  class='form-control' readonly>";
+						echo "</div>";
+					echo "</div>";
+				}
+				
+			?>
 		</div>
 	</div>
     <div class='card mt-3'>
@@ -116,7 +128,10 @@
                         echo $cita->online;
                     }
                     else{
-                        echo "<label>Consultorio:</label><br>".$consultorio->nombre;
+						if($cita->idconsultorio){
+							$consultorio=$db->conss($cita->idconsultorio);
+							echo "<label>Consultorio:</label><br>".$consultorio->nombre;
+						}
                     }
                     echo "</div>";
                 ?>

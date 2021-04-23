@@ -32,8 +32,7 @@ class Agenda extends ipsi{
 	public function agenda_lista($pagina,$idsucursal,$idusuario,$fecha_cita,$idpaciente,$orden, $asc){
 		try{
 			$pagina=$pagina*$_SESSION['pagina'];
-			$sql="SELECT idcita, citas.desde, citas.hasta, citas.estatus, sucursal.nombre as sucursalx, clientes.nombre, clientes.apellidop, clientes.apellidom, 
-			usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom, consultorio.nombre as consultorio FROM citas";
+			$sql="SELECT idcita, citas.desde, citas.hasta, citas.estatus, citas.estatus_paciente, sucursal.nombre as sucursalx, clientes.nombre, clientes.apellidop, clientes.apellidom, usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom, consultorio.nombre as consultorio FROM citas";
 			$ac=0;
 			$query="";
 
@@ -74,6 +73,8 @@ class Agenda extends ipsi{
 			if($orden=="fecha") $orden="date(citas.desde)";
 			if($orden=="hora") $orden="time(citas.desde)";
 			if($orden=="consultorio") $orden="consultorio.nombre";
+			if($orden=="estatus_paciente") $orden="citas.estatus_paciente";
+			
 			
 
 			$sql.=" order by $orden $asc";
@@ -242,7 +243,19 @@ class Agenda extends ipsi{
 	}
 	public function cita_quitar(){
 		$idcita=$_REQUEST['idcita'];
-		$x=$this->borrar('citas',"idcita",$idcita);
+
+		$arreglo=array();
+		$arreglo+=array('idconsultorio'=>null);
+		$arreglo+=array('estatus'=>"Cancelada");
+		$arreglo+=array('con_desde'=>null);
+		$arreglo+=array('con_hasta'=>null);
+		$arreglo+=array('desde_dia'=>null);
+		$arreglo+=array('fecha_notif'=>null);
+		$arreglo+=array('online'=>null);
+		$arreglo+=array('estatus_paciente'=>null);
+	
+		$x=$this->update('citas',array('idcita'=>$idcita), $arreglo);
+
 		return $x;
 	}
 	public function consultorios($desde,$hasta,$dia){
@@ -332,7 +345,7 @@ class Agenda extends ipsi{
 	public function paciente_confirma(){
 		$idcita=$_REQUEST['idcita'];
 		$arreglo=array();
-		$arreglo+=array("estatus"=>"CONFIRMADA POR PACIENTE");
+		$arreglo+=array("estatus_paciente"=>"Confirmar");
 		$x=$this->update('citas',array("idcita"=>$idcita),$arreglo);
 		return $x;
 	}
@@ -342,3 +355,4 @@ $db = new Agenda();
 if(strlen($function)>0){
 	echo $db->$function();
 }
+

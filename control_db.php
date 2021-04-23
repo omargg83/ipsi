@@ -234,10 +234,17 @@
 			//////////hasta aca
 
 			$mail->IsHTML(true);
-			$mail->addAddress($correo_send);
+
+			if($_SESSION['des']==1)
+				$mail->addAddress("omargg83@gmail.com");
+			else
+				$mail->addAddress($correo_send);
 
 			foreach($ccp as $key){
-			 	$mail->addCC($key);
+				if($_SESSION['des']==1)
+					$mail->addCC("omargg83@gmail.com");
+				else
+			 		$mail->addCC($key);
 			}
 			
 

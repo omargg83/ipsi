@@ -53,7 +53,9 @@
 
 	echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="consultorio" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='consultorio'>"; if($orden=="consultorio"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Consultorio</a></div>";
 
-    echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="estatus" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='estatus'>"; if($orden=="estatus"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "status</a></div>";
+    echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="estatus" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='estatus'>"; if($orden=="estatus"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Estatus</a></div>";
+
+	echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="estatus_paciente" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='estatus_paciente'>"; if($orden=="estatus_paciente"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Estatus paciente</a></div>";
 
   echo "</div>";
 
@@ -74,7 +76,7 @@
        			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/editar' dix='contenido' tp='edit' v_idcita='$key->idcita' title='editar'>Editar</button>";
 			}
 		}
-		if($key->estatus=="Aprobada"){
+		if($key->estatus=="Aprobada" or $key->estatus=="Cancelada"){
 			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/ver_cita' dix='contenido' tp='edit' v_idcita='$key->idcita' title='editar'>Ver</button>";
 		}
 
@@ -82,17 +84,22 @@
 			$ts_fin = strtotime(date("Y-m-d H:m:i"));
 			$ts_ini = strtotime($key->desde);
 			
+			$diferencia=($ts_ini-$ts_fin)/3600;
 
-			$diferencia=($ts_fin-$ts_ini)/3600;
-			if($diferencia<$_SESSION['horas_confirma']){
-
+			//echo "<br>dif:".$diferencia;
+			//echo "<br>confirma:".$_SESSION['horas_confirma'];
+			if($diferencia<$_SESSION['horas_confirma'] and $diferencia>0 and strlen($key->estatus_paciente)==0){
 				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='paciente_confirma' v_idcita='$key->idcita' tp='¿Desea confirmar la cita seleccionada?' title='Confirmar'>Confirmar</button>";				
 			}
 		}
-		
-		
 
-        echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='cita_quitar' v_idcita='$key->idcita' tp='¿Desea cancelar la cita seleccionada?' title='Borrar'>Cancelar</button>";
+		if($key->estatus!='Cancelada'){
+			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='cita_quitar' v_idcita='$key->idcita' tp='¿Desea cancelar la cita seleccionada?' title='Borrar'>Cancelar</button>";
+		}
+		
+        
+
+		
       echo "</div>";
 
 			echo "<div class='cell' data-titulo='Sucursal'>";
@@ -136,6 +143,10 @@
       	echo "<div class='cell' data-titulo='Status'>";
 			echo $key->estatus;
       	echo "</div>";
+
+		  echo "<div class='cell' data-titulo='Status'>";
+			echo $key->estatus_paciente;
+      	echo "</div>";
     echo "</div>";
   }
 
@@ -157,3 +168,5 @@
 		echo "</div>";
 	}
 ?>
+
+

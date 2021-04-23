@@ -299,7 +299,6 @@ class Usuario extends ipsi{
 			$sth = $this->dbh->prepare($sql);
 			$a=$sth->execute();
 			if($sth->rowCount()>0){
-				echo $sql;
 				$arreglo+=array('id1'=>0);
 				$arreglo+=array('error'=>1);
 				$arreglo+=array('terror'=>"Ya existe el horario favor de verificar");
