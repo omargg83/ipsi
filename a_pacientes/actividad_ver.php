@@ -200,6 +200,19 @@
 					<p>Anotaciones -Solo visible al terapéuta-</p>
 					<?php echo $anotaciones; ?>
 				</div>
+
+				<?php
+					$sql="SELECT * FROM actividad_per left outer join usuarios on usuarios.idusuario where idactividad=$idactividad";
+					$sth = $db->dbh->query($sql);
+					$asignado=$sth->fetch(PDO::FETCH_OBJ);
+
+					echo "<div class='mb-3'>";
+						echo "<p><b>Asignado por</b></p>";
+						echo $asignado->nombre." ".$asignado->apellidop." ".$asignado->apellidop;
+					echo "</div>";				
+				?>
+
+				
 		</div>
 	</div>
 

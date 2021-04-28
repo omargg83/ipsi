@@ -67,7 +67,13 @@
 									echo "<div class='col-12'>";
 										$resp=$db->terapias_paciente($idpaciente);
 										foreach($resp as $key){
-											echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/track' dix='trabajo' v_idpaciente='$idpaciente' v_idterapia='$key->id'>$key->nombre</button>";
+											echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/track' dix='trabajo' v_idpaciente='$idpaciente' v_idterapia='$key->id'>";
+											echo $key->nombre;
+											$sql="select * from usuarios where idusuario=$key->idterapeuta";
+											$sth = $db->dbh->query($sql);
+											$terapeuta=$sth->fetch(PDO::FETCH_OBJ);
+											echo "<br>".$terapeuta->nombre." ".$terapeuta->apellidop." ".$terapeuta->apellidom;
+											echo "</button>";
 										}
 									echo "</div>";
 									echo "<div class='col-4'>";

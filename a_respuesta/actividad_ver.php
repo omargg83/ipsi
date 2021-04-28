@@ -131,6 +131,17 @@ echo "</nav>";
 				<p>Indicaciones</p>
 				<?php echo $indicaciones; ?>
 			</div>
+
+			<?php
+				$sql="SELECT * FROM actividad_per left outer join usuarios on usuarios.idusuario where idactividad=$idactividad";
+				$sth = $db->dbh->query($sql);
+				$asignado=$sth->fetch(PDO::FETCH_OBJ);
+
+				echo "<div class='card-body'>";
+					echo "<p><b>Asignado por</b></p>";
+					echo $asignado->nombre." ".$asignado->apellidop." ".$asignado->apellidop;
+				echo "</div>";				
+			?>
 	</div>
 <!-- Fin de actividad  -->
 

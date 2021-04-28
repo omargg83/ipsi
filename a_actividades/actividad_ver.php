@@ -155,6 +155,8 @@ echo "</nav>";
 				<?php echo $indicaciones; ?>
 			</div>
 
+		
+
 		</div>
 
 <!-- Fin de actividad  -->

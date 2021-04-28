@@ -375,6 +375,7 @@ class Cliente extends ipsi{
 			$arreglo=array();
 			$arreglo+=array('idterapia'=>$idterapia);
 			$arreglo+=array('idpaciente'=>$idpaciente);
+			$arreglo+=array('idterapeuta'=>$_SESSION['idusuario']);
 			$x=$this->insert('terapias_per', $arreglo);
 			return $x;
 		}
@@ -604,7 +605,6 @@ class Cliente extends ipsi{
 			$x="";
 			$idactividad=$_REQUEST['idactividad'];
 			$idpaciente=$_REQUEST['idpaciente'];
-
 			$x=$this->update('clientes',array('id'=>$idpaciente),array("estatus"=>"ACTIVO"));
 
 
@@ -632,6 +632,7 @@ class Cliente extends ipsi{
 			//////////////////Permisos
 			$arreglo=array();
 			$arreglo+=array('idpaciente'=>$idpaciente);
+			$arreglo+=array('idterapeuta'=>$_SESSION['idusuario']);
 			$arreglo+=array('idactividad'=>$idactividad_array['id1']);
 			$x=$this->insert('actividad_per', $arreglo);
 
@@ -948,9 +949,8 @@ class Cliente extends ipsi{
 	/////////////////////
 	public function terapias_paciente($id){
 		try{
-			$sql="SELECT * from terapias_per left outer join terapias on terapias.id=terapias_per.idterapia where terapias_per.idpaciente=:id";
+			$sql="SELECT * from terapias_per left outer join terapias on terapias.id=terapias_per.idterapia where terapias_per.idpaciente=$id";
 			$sth = $this->dbh->prepare($sql);
-			$sth->bindValue(":id",$id);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
 		}

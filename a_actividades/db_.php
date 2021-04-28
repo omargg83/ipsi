@@ -60,6 +60,7 @@ class Cuest extends ipsi{
 				$arreglo =array();
 				$arreglo+=array('idterapia'=>$resp->id1);
 				$arreglo+=array('idpaciente'=>$idpaciente);
+				$arreglo+=array('idterapeuta'=>$_SESSION['idusuario']);
 				$x=$this->insert('terapias_per',$arreglo);
 			}
 		}
