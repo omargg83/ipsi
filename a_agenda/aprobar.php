@@ -75,7 +75,7 @@
  					<label for="">Status</label>
  					<input type="text" name="estatus" id="estatus" value="<?php echo $estatus;?>"  class='form-control' readonly>
  				</div>
-			
+
  				<div class="col-4">
  					<label for="">Sucursal</label>
  					<input type="text" name="sx" id="sx" value="<?php echo $sucursal_nombre;?>"  class='form-control' readonly>
@@ -103,12 +103,12 @@
  					<input type="text" name="cli_correo" id="cli_correo" value="<?php echo $cli_correo;?>"  class='form-control' readonly>
  				</div>
 
- 				
+
 			</div>
 		</div>
 	</div>
 
-	
+
 		<?php
 		echo "<div class='card mt-3'>";
 			echo "<div class='card-header'>";
@@ -117,7 +117,7 @@
 			echo "<div class='card-body'>";
 
 				echo "<div class='tabla_v' id='tabla_css'>";
-					
+
 					echo "<div class='header-row'>";
 						echo "<div class='cell'>#</div>";
 						echo "<div class='cell'>Consultorio</div>";
@@ -159,11 +159,11 @@
 				echo "</div>";
 			echo "</div>";
 		echo "</div>";
-		
 
-		
+
+
 			echo "<hr>";
-			
+
 			echo "<form is='f-submit' id='formonline' db='a_agenda/db_' fun='agregar_online' des='a_agenda/index' dix='contenido'>";
 				echo "<input type='hidden' name='idcita' id='idcita' value='$idcita'>";
 				echo "<div class='card'>";
@@ -171,7 +171,7 @@
 						echo "Cita en linea";
 					echo "</div>";
 					echo "<div class='card-body'>";
-					
+
 						echo "<div class='row'>";
 							echo "<div class='col-12'>";
 								echo "<label>En linea</label>";
@@ -179,8 +179,7 @@
 								echo "<small>De clic para editar</small>";
 							echo "</div>";
 						echo "</div>";
-					
-					
+
 						echo "<div class='row'>";
 							echo "<div class='col-12'>";
 								echo "<button type='submit' class='btn btn-warning btn-sm' >Online</button>";
@@ -190,9 +189,6 @@
 				echo "</div>";
 			echo "</form>";
 
-			
-
-			
 		 ?>
 	</div>
 

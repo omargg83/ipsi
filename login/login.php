@@ -1,5 +1,5 @@
 <?php
-	session_name("ipsi_online#&%1");
+	session_name("ipsi_online644");
 	@session_start();
 
 	error_reporting(E_ALL);

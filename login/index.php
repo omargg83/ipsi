@@ -1,5 +1,5 @@
 <?php
-  session_name("ipsi_online#&%1");
+  session_name("ipsi_online644");
   @session_start();
   if(isset($_SESSION['idusuario']) and strlen($_SESSION['idusuario'])>0){
     header("location: /");

@@ -25,23 +25,26 @@
 		<div class='cell'>Dirección</div>
 	</div>
 
-		<?php
-			foreach($pd as $key){
-				echo "<div class='body-row' >";
-					echo "<div class='cell'>";
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/editar' dix='contenido' v_idconsultorio='$key->idconsultorio'>Editar</button>";
+	<?php
+		foreach($pd as $key){
+			echo "<div class='body-row' >";
+				echo "<div class='cell'>";
 
-						echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/horarios' dix='contenido' v_idconsultorio='$key->idconsultorio'>Horarios</button>";
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/editar' dix='contenido' v_idconsultorio='$key->idconsultorio'>Editar</button>";
+
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/horarios' dix='contenido' v_idconsultorio='$key->idconsultorio'>Horarios</button>";
+
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/disponibilidad' dix='contenido' v_idconsultorio='$key->idconsultorio'>Disponibilidad</button>";
 
 
-					echo "</div>";
-					echo "<div class='cell' data-titulo='Nombre'>".$key->nombre."</div>";
-					echo "<div class='cell' data-titulo='Sucursal'>".$key->sucursal."</div>";
-					echo "<div class='cell' data-titulo='Dirección'>".$key->ubicacion."</div>";
 				echo "</div>";
-			}
-		?>
-	</div>
+				echo "<div class='cell' data-titulo='Nombre'>".$key->nombre."</div>";
+				echo "<div class='cell' data-titulo='Sucursal'>".$key->sucursal."</div>";
+				echo "<div class='cell' data-titulo='Dirección'>".$key->ubicacion."</div>";
+			echo "</div>";
+		}
+	?>
+</div>
 
 
 	<?php

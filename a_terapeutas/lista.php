@@ -33,6 +33,8 @@
 							echo "<div class='btn-group'>";
 					?>
 								<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_terapeutas/terapeuta' dix='trabajo' tp="edit" v_idusuario='<?php echo $key->idusuario; ?>' title='editar'>Editar</button>
+
+								<button class='btn btn-warning btn-sm' type="button" is="b-link" des='a_terapeutas/disponibilidad' dix='trabajo' tp="edit" v_idusuario='<?php echo $key->idusuario; ?>' title='editar'>Disponibilidad</button>
 								</div>
 							</div>
 						<div class='cell' data-titulo='Nombre'><?php echo "$key->nombre $key->apellidop $key->apellidom"; ?></div>

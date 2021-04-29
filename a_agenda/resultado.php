@@ -45,7 +45,7 @@
 
     echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="desde" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo "v_orden='desde'>"; if($orden=="desde"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Hora</a></div>";
 
-    echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="dia" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='dia'>"; if($orden=="dia"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} 
+    echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="dia" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='dia'>"; if($orden=="dia"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";}
     echo "Dia</a></div>";
 
 	echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="idterapeuta" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='idterapeuta'>"; if($orden=="idterapeuta"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Terapeuta</a></div>";
@@ -83,23 +83,23 @@
 		if($_SESSION['nivel']==666 and $key->estatus=='Aprobada'){
 			$ts_fin = strtotime(date("Y-m-d H:m:i"));
 			$ts_ini = strtotime($key->desde);
-			
+
 			$diferencia=($ts_ini-$ts_fin)/3600;
 
 			//echo "<br>dif:".$diferencia;
 			//echo "<br>confirma:".$_SESSION['horas_confirma'];
 			if($diferencia<$_SESSION['horas_confirma'] and $diferencia>0 and strlen($key->estatus_paciente)==0){
-				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='paciente_confirma' v_idcita='$key->idcita' tp='¿Desea confirmar la cita seleccionada?' title='Confirmar'>Confirmar</button>";				
+				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='paciente_confirma' v_idcita='$key->idcita' tp='¿Desea confirmar la cita seleccionada?' title='Confirmar'>Confirmar</button>";
 			}
 		}
 
 		if($key->estatus!='Cancelada'){
 			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='cita_quitar' v_idcita='$key->idcita' tp='¿Desea cancelar la cita seleccionada?' title='Borrar'>Cancelar</button>";
 		}
-		
-        
 
-		
+
+
+
       echo "</div>";
 
 			echo "<div class='cell' data-titulo='Sucursal'>";
@@ -134,19 +134,24 @@
 		echo "</div>";
 
 		echo "<div class='cell' data-titulo='Consultorio'>";
-			if(strlen($key->consultorio)>0 and $key->estatus=="Aprobada")
-				echo $key->consultorio;
-			else
+			if($key->ubicacion=="Fisica"){
+				if(strlen($key->consultorio)>0 and $key->estatus=="Aprobada" )
+					echo $key->consultorio;
+			}
+			if($key->ubicacion=="En linea"){
 				echo "Online";
+			}
 		echo "</div>";
 
       	echo "<div class='cell' data-titulo='Status'>";
-			echo $key->estatus;
+					echo $key->estatus;
       	echo "</div>";
 
 		  echo "<div class='cell' data-titulo='Status'>";
-			echo $key->estatus_paciente;
-      	echo "</div>";
+				if($key->estatus_paciente=="Confirmar"){
+					echo "Cita confirmada por el paciente";
+				}
+      echo "</div>";
     echo "</div>";
   }
 
@@ -161,12 +166,10 @@
 
 			$var=array();
 			$var+=array("orden"=>$orden);
-			$var+=array("asc"=>$asc);	
+			$var+=array("asc"=>$asc);
 
 			echo $db->paginar_x($paginas,$pagina,"a_agenda/resultado","resultado_sql",$var);
 
 		echo "</div>";
 	}
 ?>
-
-

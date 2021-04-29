@@ -6,7 +6,7 @@
 
 	$cita=$db->cita($idcita);
 
-  
+
 
 	$idsucursal=$cita->idsucursal;
 	$idpaciente=$cita->idpaciente;
@@ -34,8 +34,8 @@
 	$cli=$db->cliente_($cita->idpaciente);
 	$cliente_nombre=$cli->nombre." ".$cli->apellidop." ".$cli->apellidom;
 	$cli_correo=$cli->correo;
-	
-		
+
+
  ?>
 
  <nav aria-label='breadcrumb'>
@@ -75,7 +75,7 @@
  					<label for="">Status</label>
  					<input type="text" name="estatus" id="estatus" value="<?php echo $estatus;?>"  class='form-control' readonly>
  				</div>
-			
+
  				<div class="col-4">
  					<label for="">Sucursal</label>
  					<input type="text" name="sx" id="sx" value="<?php echo $sucursal_nombre;?>"  class='form-control' readonly>
@@ -101,10 +101,10 @@
 				 <div class="col-4">
  					<label for="">Paciente Correo</label>
  					<input type="text" name="cli_correo" id="cli_correo" value="<?php echo $cli_correo;?>"  class='form-control' readonly>
- 				</div>				
+ 				</div>
 			</div>
 			<?php
-				if($citas->notifica){
+				if($cita->notifica){
 					echo "<div class='row'>";
 						echo "<div class='col-12'>";
 							echo "<label for=''>Notificación de confirmación al usuario</label>";
@@ -112,7 +112,7 @@
 						echo "</div>";
 					echo "</div>";
 				}
-				
+
 			?>
 		</div>
 	</div>
@@ -128,16 +128,16 @@
                         echo $cita->online;
                     }
                     else{
-						if($cita->idconsultorio){
-							$consultorio=$db->conss($cita->idconsultorio);
-							echo "<label>Consultorio:</label><br>".$consultorio->nombre;
-						}
+											if($cita->idconsultorio){
+												$consultorio=$db->conss($cita->idconsultorio);
+												echo "<label>Consultorio:</label><br>".$consultorio->nombre;
+											}
                     }
                     echo "</div>";
                 ?>
             </div>
         </div>
     </div>
-  
+
 
 </div>

@@ -1,5 +1,5 @@
 <?php
-	session_name("ipsi_online#&%1");
+	session_name("ipsi_online644");
 	@session_start();
 	if (isset($_REQUEST['function'])){$function=clean_var($_REQUEST['function']);}	else{ $function="";}
 	if (isset($_REQUEST['ctrl'])){$ctrl=clean_var($_REQUEST['ctrl']);}	else{ $ctrl="";}
@@ -198,18 +198,18 @@
 			$sql="SELECT * FROM correo where config='$tipo'";
 			$sth = $this->dbh->query($sql);
 			$correo=$sth->fetch(PDO::FETCH_OBJ);
-			
+
 			$texto=$correo->texto;
-			
+
 			foreach($variables as $f => $key){
 				$texto=str_replace("%".$f,$key,$texto);
 			}
-			
+
 			require '../vendor/autoload.php';
 			$mail = new PHPMailer;
 			$mail->CharSet = 'UTF-8';
 
-			
+
 			$asunto=$correo->asunto;
 			$mail->Body    = $asunto;
 			$mail->Subject = $asunto;
@@ -246,8 +246,6 @@
 				else
 			 		$mail->addCC($key);
 			}
-			
-
 			$mail->msgHTML($texto);
 			$arreglo=array();
 

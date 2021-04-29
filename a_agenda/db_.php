@@ -32,7 +32,7 @@ class Agenda extends ipsi{
 	public function agenda_lista($pagina,$idsucursal,$idusuario,$fecha_cita,$idpaciente,$orden, $asc){
 		try{
 			$pagina=$pagina*$_SESSION['pagina'];
-			$sql="SELECT idcita, citas.desde, citas.hasta, citas.estatus, citas.estatus_paciente, sucursal.nombre as sucursalx, clientes.nombre, clientes.apellidop, clientes.apellidom, usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom, consultorio.nombre as consultorio FROM citas";
+			$sql="SELECT idcita, citas.desde, citas.hasta, citas.estatus, citas.estatus_paciente, sucursal.nombre as sucursalx, clientes.nombre, clientes.apellidop, clientes.apellidom, usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom, consultorio.nombre as consultorio, citas.ubicacion FROM citas";
 			$ac=0;
 			$query="";
 
@@ -74,8 +74,8 @@ class Agenda extends ipsi{
 			if($orden=="hora") $orden="time(citas.desde)";
 			if($orden=="consultorio") $orden="consultorio.nombre";
 			if($orden=="estatus_paciente") $orden="citas.estatus_paciente";
-			
-			
+
+
 
 			$sql.=" order by $orden $asc";
 			$sql.=" limit $pagina,".$_SESSION['pagina']."";
@@ -116,7 +116,7 @@ class Agenda extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
-	public function conss($id){	
+	public function conss($id){
 		$sql="select * from consultorio where idconsultorio=$id";
 		$sth = $this->dbh->query($sql);
 		return $sth->fetch(PDO::FETCH_OBJ);
@@ -243,7 +243,8 @@ class Agenda extends ipsi{
 	}
 	public function cita_quitar(){
 		$idcita=$_REQUEST['idcita'];
-
+		return $this->borrar('citas',"idcita",$idcita);
+		/*
 		$arreglo=array();
 		$arreglo+=array('idconsultorio'=>null);
 		$arreglo+=array('estatus'=>"Cancelada");
@@ -253,10 +254,11 @@ class Agenda extends ipsi{
 		$arreglo+=array('fecha_notif'=>null);
 		$arreglo+=array('online'=>null);
 		$arreglo+=array('estatus_paciente'=>null);
-	
 		$x=$this->update('citas',array('idcita'=>$idcita), $arreglo);
-
 		return $x;
+		*/
+
+
 	}
 	public function consultorios($desde,$hasta,$dia){
 		try{
@@ -300,6 +302,7 @@ class Agenda extends ipsi{
 		$arreglo+=array('con_hasta'=>$phasta);
 		$arreglo+=array('desde_dia'=>$desdedia);
 		$arreglo+=array('estatus'=>"Aprobada");
+		$arreglo+=array('ubicacion'=>"Fisica");
 		$x=$this->update('citas',array('idcita'=>$idcita), $arreglo);
 
 		$correo=$cliente->correo;
@@ -324,11 +327,11 @@ class Agenda extends ipsi{
 		$cliente=$this::cliente_($cita->idpaciente);
 		$terap=$this::terapeuta_($cita->idusuario);
 
-
 		$arreglo+=array('online'=>$texto_linea);
+		$arreglo+=array('ubicacion'=>"En linea");
 		$arreglo+=array('estatus'=>"Aprobada");
 		$x=$this->update('citas',array('idcita'=>$idcita), $arreglo);
-		
+
 		$correo=$cliente->correo;
 		$tipo="aprobar_online";
 		$variables=array();
@@ -347,6 +350,8 @@ class Agenda extends ipsi{
 		$arreglo=array();
 		$arreglo+=array("estatus_paciente"=>"Confirmar");
 		$x=$this->update('citas',array("idcita"=>$idcita),$arreglo);
+
+
 		return $x;
 	}
 }
@@ -355,4 +360,3 @@ $db = new Agenda();
 if(strlen($function)>0){
 	echo $db->$function();
 }
-
