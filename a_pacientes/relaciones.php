@@ -17,7 +17,7 @@
 	$telefono=$pd->telefono;
 	$correo=$pd->correo;
 	$foto=$pd->foto;
-	$observaciones=$pd->observaciones;
+	
 
 	/////////////////////Relaciones
 	$sql="select * from clientes_relacion

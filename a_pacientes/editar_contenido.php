@@ -9,7 +9,7 @@
 	}
 /*
 
-	$foto="";	
+	$foto="";
 	$autoriza="1";
 	$idsucursal="";
 	$nombre="";
@@ -28,7 +28,7 @@
 	$nombre_vive="";
 	$telefono_vive="";
 	$parentesco_vive="";
-		
+
 	$enfermedad_cronica="";
 	$enfermedad="";
 
@@ -48,7 +48,10 @@
 	$sucursal = $db->sucursal_lista();
 
 	if($idpaciente>0){*/
+
+
 		$pd = $db->cliente_editar($idpaciente);
+		$numero=$pd->numero;
 		$idsucursal=$pd->idsucursal;
 		$foto=$pd->foto;
 		$autoriza=$pd->autoriza;
@@ -68,7 +71,7 @@
 		$nombre_vive=$pd->nombre_vive;
 		$telefono_vive=$pd->telefono_vive;
 		$parentesco_vive=$pd->parentesco_vive;
-		
+
 		$enfermedad_cronica=$pd->enfermedad_cronica;
 		$enfermedad=$pd->enfermedad;
 
@@ -77,13 +80,13 @@
 
 		$consumo_medicamentos=$pd->consumo_medicamentos;
 		$c_medicamentos=$pd->c_medicamentos;
-	
+
 		$alergias=$pd->alergias;
 		$c_alergias=$pd->c_alergias;
 
 		$lesiones=$pd->lesiones;
 		$c_lesiones=$pd->c_lesiones;
-		
+
 	//}
 
 echo "<div class='container'>";
@@ -96,7 +99,7 @@ echo "<div class='container'>";
 					echo "<div class='row'>";
 						echo "<div class='col-sm-12'>";
 							echo "<button class='btn btn-warning btn-sm' type='submit'>Guardar</button>";
-							
+
 							echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_pacientes/form_foto' v_idpaciente='$idpaciente' v_desde='contenido' omodal='1'>Foto</button>";
 							echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_pacientes/form_pass' v_idpaciente='$idpaciente' v_desde='contenido' omodal='1'>Contraseña</button>";
 
