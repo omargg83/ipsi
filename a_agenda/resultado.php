@@ -88,14 +88,15 @@
 
 			//echo "<br>dif:".$diferencia;
 			//echo "<br>confirma:".$_SESSION['horas_confirma'];
-			if($diferencia<$_SESSION['horas_confirma'] and $diferencia>0 and strlen($key->estatus_paciente)==0){
+			if($diferencia>$_SESSION['horas_confirma'] and strlen($key->estatus_paciente)==0){
 				echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='paciente_confirma' v_idcita='$key->idcita' tp='¿Desea confirmar la cita seleccionada?' title='Confirmar'>Confirmar</button>";
 			}
 		}
-
+		/*
 		if($key->estatus!='Cancelada'){
 			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='cita_quitar' v_idcita='$key->idcita' tp='¿Desea cancelar la cita seleccionada?' title='Borrar'>Cancelar</button>";
 		}
+		*/
 
 
 

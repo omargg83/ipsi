@@ -55,8 +55,14 @@
     $sth = $db->dbh->query($sql);
     $correo=$sth->fetch(PDO::FETCH_OBJ);
 
-    $sql="SELECT * FROM citas where TIMEDIFF(now(),desde)<$correo->tiempo  and estatus='Aprobada' and notifica is null limit 1";
-    $sth = $db->dbh->query($sql);
+		$fecha_actual = date("Y-m-d H:i:s");
+		$fecha_final24=date("Y-m-d H:i:s",strtotime($fecha_actual."$correo->tiempo hour"));
+		$fecha_final48=date("Y-m-d H:i:s",strtotime($fecha_actual."+48 hour"));
+
+		$sql="SELECT * FROM citas where desde>'$fecha_final24' and desde<'$fecha_final48' and estatus='Aprobada' and notifica is null and estatus_paciente is null limit 1 ";
+		//echo $sql;
+
+		$sth = $db->dbh->query($sql);
     $citas=$sth->fetch(PDO::FETCH_OBJ);
 
 	if($sth->rowCount()){

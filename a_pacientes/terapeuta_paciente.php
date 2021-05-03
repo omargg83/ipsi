@@ -46,7 +46,7 @@
 		        echo "<div class='card-body' style='overflow:auto; height:220px'>";
 		          echo "<div class='row'>";
 		            echo "<div class='col-12'>";
-                  $sql="select * from ";
+                  $sql="select * from citas where idpaciente='$idpaciente'";
                   echo "Terapias:";
 		             // echo $key->observaciones;
 		            echo "</div>";
