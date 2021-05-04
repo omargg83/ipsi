@@ -10,7 +10,7 @@
 
 	echo "<nav aria-label='breadcrumb'>";
 	 echo "<ol class='breadcrumb'>";
-		 echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/terapeuta_paciente' dix='contenido'>Terapeutas</li>";
+		 echo "<li class='breadcrumb-item active' id='lista_track' is='li-link' des='a_pacientes/terapeuta_paciente' dix='contenido'>Terapeutas</li>";
 
 
 	 echo "</ol>";
@@ -23,7 +23,6 @@
 
 
   $sql="SELECT * from cliente_terapeuta left outer join usuarios on usuarios.idusuario= cliente_terapeuta.idusuario where idcliente=$idpaciente";
-
   $sth = $db->dbh->query($sql);
   $acinicial=$sth->fetchAll(PDO::FETCH_OBJ);
 
@@ -46,8 +45,15 @@
 		        echo "<div class='card-body' style='overflow:auto; height:220px'>";
 		          echo "<div class='row'>";
 		            echo "<div class='col-12'>";
-                  $sql="select * from citas where idpaciente='$idpaciente'";
-                  echo "Terapias:";
+                  $sql="select * from citas where idpaciente='$idpaciente' and citas.idusuario='$key->idusuario' and estatus_paciente='confirmar'";
+                  $sth = $db->dbh->query($sql);
+									echo "Citas confirmadas: ".$sth->rowCount();
+
+									$sql="select * from citas where idpaciente='$idpaciente' and citas.idusuario='$key->idusuario'";
+                  $sth = $db->dbh->query($sql);
+									echo "<br>Citas Totales: ".$sth->rowCount();
+
+									echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/citas_historico' dix='contenido' v_idpaciente='$idpaciente' v_idterapeuta='$key->idusuario'>Ver</button>";
 		             // echo $key->observaciones;
 		            echo "</div>";
 		          echo "</div>";

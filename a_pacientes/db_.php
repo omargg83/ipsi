@@ -175,7 +175,7 @@ class Cliente extends ipsi{
 		}
 		$correo=$_REQUEST['correo'];
 		$arreglo+=array('correo'=>$correo);
-		
+
 		if (isset($_REQUEST['telefono'])){
 			$arreglo+=array('telefono'=>clean_var($_REQUEST['telefono']));
 		}
@@ -716,7 +716,7 @@ class Cliente extends ipsi{
 		$sth = $this->dbh->query($sql);
 		if($sth->rowCount()==0){
 			$sql="select * from terapias_per where idterapia=$idterapia and idpaciente=$idpaciente";
-			$sth = $this->dbh->query($sql);			
+			$sth = $this->dbh->query($sql);
 			if ($sth->rowCount()>0){
 				$res=$sth->fetch(PDO::FETCH_OBJ);
 				return $this->borrar('terapias_per',"id",$res->id);
@@ -730,14 +730,14 @@ class Cliente extends ipsi{
 			return json_encode($arreglo);
 		}
 	}
-	
+
 	public function quitar_track(){
 
 		$idtrack=clean_var($_REQUEST['idtrack']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
 
 
-		$sql="SELECT * from modulo_per 
+		$sql="SELECT * from modulo_per
 		left outer join modulo on modulo.id=modulo_per.idmodulo where modulo_per.idpaciente=$idpaciente and modulo.idtrack=$idtrack order by modulo.orden asc";
 
 		$sth = $this->dbh->query($sql);
@@ -798,8 +798,8 @@ class Cliente extends ipsi{
 	public function quitar_actividad(){
 		$idactividad=clean_var($_REQUEST['idactividad']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
-		
-		
+
+
 		return $this->borrar('actividad',"idactividad",$idactividad);
 	}
 
@@ -1674,9 +1674,9 @@ class Cliente extends ipsi{
 			return json_encode($arreglo);
 		}
 	}
-	
-	
-	
+
+
+
 }
 
 $db = new Cliente();

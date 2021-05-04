@@ -29,34 +29,21 @@
 		$texto=1;
 	}
 	else{
-		$pd = $db->agenda_lista($pagina,$idsucursal,$idusuario,$fechacita,$idpaciente,$orden,$asc);
+		$pd = $db->agenda_lista($pagina,$idsucursal,$idusuario,$fechacita,$idpaciente);
 	}
 
   echo "<div class='header-row'>";
-    echo "<div class='cell'>#</div>";
-
-    echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="idcita" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo "v_orden='idcita'>"; if($orden=="idcita"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "#ID</a></div>";
-
-    echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="idsucursal" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo "v_orden='idsucursal'>"; if($orden=="idsucursal"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Sucursal</a></div>";
-
-    echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="idpaciente" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo "v_orden='idpaciente'>"; if($orden=="idpaciente"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Paciente</a></div>";
-
-	echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="fecha" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo "v_orden='fecha'>"; if($orden=="fecha"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Fecha</a></div>";
-
-    echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="desde" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo "v_orden='desde'>"; if($orden=="desde"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Hora</a></div>";
-
-    echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="dia" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='dia'>"; if($orden=="dia"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";}
-    echo "Dia</a></div>";
-
-	echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="idterapeuta" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='idterapeuta'>"; if($orden=="idterapeuta"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Terapeuta</a></div>";
-
-
-	echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="consultorio" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='consultorio'>"; if($orden=="consultorio"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Consultorio</a></div>";
-
-    echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="estatus" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='estatus'>"; if($orden=="estatus"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Estatus</a></div>";
-
-	echo "<div class='cell'><a is='b-link' des='a_agenda/resultado' dix='resultado_sql' v_idsucursal='$idsucursal' v_idusuario='$idusuario' v_fechacita='$fechacita' $idpaciente='$idpaciente'"; if($orden=="estatus_paciente" and $asc=="desc") echo "v_asc='asc'"; else echo "v_asc='desc'"; echo " v_orden='estatus_paciente'>"; if($orden=="estatus_paciente"){ if($asc=="desc") echo "<i class='fas fa-arrow-down'></i>"; else echo "<i class='fas fa-arrow-up'></i>";} echo "Estatus paciente</a></div>";
-
+    echo "<div class='cell' onclick='sortTable(0)'>#</div>";
+    echo "<div class='cell' onclick='sortTable(1)'>#ID</a></div>";
+    echo "<div class='cell' onclick='sortTable(2)'>Sucursal</a></div>";
+    echo "<div class='cell' onclick='sortTable(3)'>Paciente</a></div>";
+		echo "<div class='cell' onclick='sortTable(4)'>Fecha</a></div>";
+    echo "<div class='cell' onclick='sortTable(5)'>Hora</a></div>";
+    echo "<div class='cell' onclick='sortTable(6)'>Dia</a></div>";
+		echo "<div class='cell' onclick='sortTable(7)'>Terapeuta</a></div>";
+		echo "<div class='cell' onclick='sortTable(8)'>Consultorio</a></div>";
+    echo "<div class='cell' onclick='sortTable(9)'>Estatus</a></div>";
+		echo "<div class='cell' onclick='sortTable(10)'>Estatus paciente</a></div>";
   echo "</div>";
 
   foreach($pd as $key){
@@ -97,8 +84,6 @@
 			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/lista' dix='trabajo' db='a_agenda/db_' fun='cita_quitar' v_idcita='$key->idcita' tp='¿Desea cancelar la cita seleccionada?' title='Borrar'>Cancelar</button>";
 		}
 		*/
-
-
 
 
       echo "</div>";

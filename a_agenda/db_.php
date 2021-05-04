@@ -29,7 +29,7 @@ class Agenda extends ipsi{
 			die();
 		}
 	}
-	public function agenda_lista($pagina,$idsucursal,$idusuario,$fecha_cita,$idpaciente,$orden, $asc){
+	public function agenda_lista($pagina,$idsucursal,$idusuario,$fecha_cita,$idpaciente){
 		try{
 			$pagina=$pagina*$_SESSION['pagina'];
 			$sql="SELECT idcita, citas.desde, citas.hasta, citas.estatus, citas.estatus_paciente, sucursal.nombre as sucursalx, clientes.nombre, clientes.apellidop, clientes.apellidom, usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom, consultorio.nombre as consultorio, citas.ubicacion FROM citas";
@@ -65,19 +65,6 @@ class Agenda extends ipsi{
 				$sql=$sql." where ".$query." ";
 			}
 
-			if($orden=="idsucursal") $orden="sucursal.nombre";
-			if($orden=="idpaciente") $orden="clientes.nombre";
-			if($orden=="idterapeuta") $orden="usuarios.nombre";
-			if($orden=="estatus") $orden="citas.estatus";
-			if($orden=="dia") $orden="weekday(citas.desde)";
-			if($orden=="fecha") $orden="date(citas.desde)";
-			if($orden=="hora") $orden="time(citas.desde)";
-			if($orden=="consultorio") $orden="consultorio.nombre";
-			if($orden=="estatus_paciente") $orden="citas.estatus_paciente";
-
-
-
-			$sql.=" order by $orden $asc";
 			$sql.=" limit $pagina,".$_SESSION['pagina']."";
 			//echo $sql;
 			$sth = $this->dbh->prepare($sql);

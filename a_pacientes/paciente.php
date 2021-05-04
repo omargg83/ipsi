@@ -69,6 +69,7 @@
 										foreach($resp as $key){
 											echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/track' dix='trabajo' v_idpaciente='$idpaciente' v_idterapia='$key->id'>";
 											echo $key->nombre;
+
 											$sql="select * from usuarios where idusuario=$key->idterapeuta";
 											$sth = $db->dbh->query($sql);
 											$terapeuta=$sth->fetch(PDO::FETCH_OBJ);
@@ -265,6 +266,33 @@
 					</div>
 				</div>
 			</div>
+			<?php
+				if($_SESSION['nivel']==2){
+			 ?>
+			<div class='row p-3'>
+				<div class='card col-12'>
+					<div class='card-body'>
+						<div class='row'>
+							<div class='col-12'>
+								<h5>Mis Citas con el paciente</h5>
+							</div>
+						</div>
+						<?php
+							$sql="SELECT * FROM citas where idpaciente=$idpaciente and idusuario=".$_SESSION['idusuario']." and estatus_paciente='confirmar'";
+							$sth = $db->dbh->query($sql);
+							echo "Citas confirmadas: ".$sth->rowCount();
+
+							$sql="select * from citas where idpaciente='$idpaciente' and citas.idusuario=".$_SESSION['idusuario']."";
+							$sth = $db->dbh->query($sql);
+							echo "<br>Citas Totales: ".$sth->rowCount();
+						?>
+
+					</div>
+				</div>
+			</div>
+			<?php
+				}
+			 ?>
 		</div>
 	</div>
 </div>
