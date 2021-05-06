@@ -36,6 +36,8 @@
 
 					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/disponibilidad' dix='contenido' v_idconsultorio='$key->idconsultorio'>Disponibilidad</button>";
 
+					echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_consultorios/sugerencia' dix='contenido' v_idconsultorio='$key->idconsultorio'>Sugerencia</button>";
+
 
 				echo "</div>";
 				echo "<div class='cell' data-titulo='Nombre'>".$key->nombre."</div>";

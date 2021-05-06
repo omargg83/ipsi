@@ -49,6 +49,18 @@ class Agenda extends ipsi{
       return "Database access FAILED!".$e->getMessage();
     }
   }
+
+	public function terapeutas_lista(){
+    try{
+      $sql="SELECT * FROM usuarios where nivel=2";
+      $sth = $this->dbh->prepare($sql);
+      $sth->execute();
+      return $sth->fetchAll(PDO::FETCH_OBJ);
+    }
+    catch(PDOException $e){
+      return "Database access FAILED!".$e->getMessage();
+    }
+  }
 }
 
 $db = new Agenda();
