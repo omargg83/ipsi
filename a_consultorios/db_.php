@@ -232,6 +232,42 @@ class Consultorio extends ipsi{
 		return $x;
 	}
 
+	public function agregar_terconsl(){
+		try{
+			$sql="select * from consultorio_sug where idusuario=:idusuario and idconsultorio=:idconsultorio";
+			$sth = $this->dbh->prepare($sql);
+			$sth->bindValue(":idusuario",$_REQUEST['idusuario']);
+			$sth->bindValue(":idconsultorio",$_REQUEST['idconsultorio']);
+			$sth->execute();
+			if ($sth->rowCount()==0){
+				$arreglo=array();
+				$x="";
+				$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
+				$arreglo+=array('idconsultorio'=>$_REQUEST['idconsultorio']);
+				$this->insert('consultorio_sug',$arreglo);
+
+				$arreglo=array();
+				$arreglo+=array('id1'=>$_REQUEST['idconsultorio']);
+				$arreglo+=array('error'=>0);
+				return json_encode($arreglo);
+			}
+			else{
+				$arreglo=array();
+				$arreglo+=array('id1'=>0);
+				$arreglo+=array('error'=>1);
+				$arreglo+=array('terror'=>"el terapeuta ya esta asignado");
+				return json_encode($arreglo);
+			}
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!";
+		}
+	}
+	public function terapeutasuc_quitar(){
+		$id=$_REQUEST['id'];
+		return $this->borrar('consultorio_sug',"id",$id);
+	}
+
 }
 
 $db = new Consultorio();

@@ -6,6 +6,12 @@
   $pd = $db->consultorio($idconsultorio);
   $nombre=$pd->nombre;
 
+
+	$sql="select * from usuarios where nivel=2";
+	$sth = $db->dbh->prepare($sql);
+	$sth->execute();
+	$relaciones=$sth->fetchAll(PDO::FETCH_OBJ);
+
 ?>
 
 <nav aria-label='breadcrumb'>
@@ -19,24 +25,39 @@
 
 
 <div class="alert alert-danger text-center" role="alert">
-	Agregar Paciente
+	Agregar Terapeuta a Consultorio
 </div>
 
 <div class='container'>
+  <div class='row'>
 
-    <form is="f-submit" id="form_ads" des="a_terapeutas/paciente_buscar" dix='resultados' action='' >
-      <input type="hidden" id="idconsultorio" name='idconsultorio' value='<?php echo $idconsultorio;?>'/>
-      <div class='row'>
-        <div class='col-12'>
-          <label>Buscar</label>
-          <input type="text" id="buscar" name='buscar' placeholder="Buscar" class='form-control'/>
+    <?php
+    foreach($relaciones as $key){
+    ?>
+      <div class='col-4 p-3 w-50 actcard'>
+        <div class='card'>
+          <img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="<?php echo "a_archivos/terapeuta/".trim($key->foto); ?>">
+
+
+          <div class='card-body'>
+            <div class='row'>
+              <div class='col-12 text-center'>
+                <?php echo $key->nombre." ".$key->apellidop." ".$key->apellidom; ?>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='col-12 text-center'>
+                <?php
+                  echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' db='a_consultorios/db_' tp='¿Desea agregar el terapeuta seleccionado?' fun='agregar_terconsl' des='a_consultorios/sugerencia' iddes='idconsultorio' dix='contenido' tp='edit' v_idusuario='$key->idusuario' v_idconsultorio='$idconsultorio'>Agregar</button>";
+                ?>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </form>
-
-    <div id='resultados'>
-			<?php
-				include "sugerencia_buscar.php";
-			?>
-    </div>
+    <?php
+    }
+    ?>
+  </div>
 </div>

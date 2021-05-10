@@ -34,7 +34,11 @@
 
 	///////////////////////////////////
 	$nombreDia = $nombresDias[$h_desde->format("w")];
+
 	$consultorios=$db->consultorios($cita->desde,$cita->hasta, $nombreDia);
+
+
+	$consultorios_sug=$db->consultorios_sug($cita->desde,$cita->hasta, $nombreDia, $cita->idusuario);
  ?>
 
  <nav aria-label='breadcrumb'>
@@ -110,11 +114,10 @@
 
 
 		<?php
-		echo "<div class='card mt-3'>";
-			echo "<div class='card-header'>";
-				echo "Consultorios disponibles";
-			echo "</div>";
-			echo "<div class='card-body'>";
+			echo "<div class='card mt-3'>";
+				echo "<div class='card-header'>";
+					echo "Consultorios disponibles";
+				echo "</div>";
 
 				echo "<div class='tabla_v' id='tabla_css'>";
 
@@ -127,7 +130,6 @@
 					echo "</div>";
 
 					foreach($consultorios as $v2){
-
 						$fdesde = new DateTime($v2->desde);
 						$fhasta = new DateTime($v2->hasta);
 
@@ -158,7 +160,55 @@
 					}
 				echo "</div>";
 			echo "</div>";
-		echo "</div>";
+
+
+			echo "<div class='card mt-3'>";
+				echo "<div class='card-header'>";
+					echo "Consultorios Sugeridos";
+				echo "</div>";
+
+				echo "<div class='tabla_v' id='tabla_css'>";
+
+					echo "<div class='header-row'>";
+						echo "<div class='cell'>#</div>";
+						echo "<div class='cell'>Consultorio</div>";
+						echo "<div class='cell'>Dia</div>";
+						echo "<div class='cell'>Disponible</div>";
+						echo "<div class='cell'>Fin</div>";
+					echo "</div>";
+
+					foreach($consultorios_sug as $v2){
+						$fdesde = new DateTime($v2->desde);
+						$fhasta = new DateTime($v2->hasta);
+
+						$sql="select * from citas where idconsultorio=$v2->idconsultorio and desde='$cita->desde'";
+						$ver = $db->dbh->query($sql);
+						if($ver->rowCount()==0){
+							echo "<div class='body-row'>";
+								echo "<div class='cell'>";
+									echo "<button class='btn btn-warning btn-sm' type='button' id='can_$v2->idhorario' is='b-link'  db='a_agenda/db_' des='a_agenda/index' dix='contenido' fun='agregar_consultorio' tp='¿Desea aprobar la cita en el consultorio seleccionado?' v_idcita='$idcita' v_idconsultorio='$v2->idconsultorio' v_condesde='$v2->desde' v_conhasta='$v2->hasta' v_desdedia='$v2->desde_dia' v_fechan='$cita->desde'>Asignar</button>";
+								echo "</div>";
+
+								echo "<div class='cell'>";
+									echo $v2->nombre;
+								echo "</div>";
+								echo "<div class='cell'>";
+									echo $v2->desde_dia;
+								echo "</div>";
+								echo "<div class='cell'>";
+									$fdesde = new DateTime($v2->desde);
+									echo $fdesde->format("h:i A");
+								echo "</div>";
+								echo "<div class='cell'>";
+									$fdesde = new DateTime($v2->hasta);
+									echo $fdesde->format("h:i A");
+								echo "</div>";
+							echo "</div>";
+						}
+					}
+				echo "</div>";
+			echo "</div>";
+
 
 
 

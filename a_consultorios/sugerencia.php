@@ -3,6 +3,13 @@
   $idconsultorio=$_REQUEST['idconsultorio'];
   $pd = $db->consultorio($idconsultorio);
   $nombre=$pd->nombre;
+
+
+	/////////////////////Relaciones
+	$sql="SELECT * FROM consultorio_sug LEFT OUTER JOIN usuarios ON consultorio_sug.idusuario = usuarios.idusuario WHERE consultorio_sug.idconsultorio =$idconsultorio";
+	$sth = $db->dbh->prepare($sql);
+	$sth->execute();
+	$terap=$sth->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 
@@ -14,6 +21,37 @@
  </ol>
 </nav>
 
+<div class='container'>
+	<div class='row'>
+
+		<?php
+
+		foreach($terap as $key){
+		?>
+			<div class='col-4 p-3 w-50 actcard'>
+				<div class='card'>
+					<img style="vertical-align: bottom;border-radius: 10px;max-width: 70px;margin: 0 auto;padding: 10px;" src="<?php echo "a_archivos/terapeuta/".trim($key->foto); ?>">
+					<div class='row'>
+						<div class='col-12'>
+
+							<button class="btn btn-warning btn-sm float-right" type="button" is="b-link" des="a_consultorios/sugerencia" dix="contenido" db="a_consultorios/db_" fun="terapeutasuc_quitar" v_idconsultorio="<?php echo $idconsultorio; ?>"  v_id='<?php echo $key->id; ?>' tp="¿Desea eliminar la sugerencia seleccionada?" title="Borrar"><i class="far fa-trash-alt"></i></button>
+
+						</div>
+					</div>
+
+					<div class='card-body'>
+						<div class='row'>
+							<div class='col-12 text-center'>
+								<?php echo $key->nombre." ".$key->apellidop." ".$key->apellidom; ?>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		<?php
+		}
+		?>
 
 <?php
 

@@ -261,6 +261,23 @@ class Agenda extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
+	public function consultorios_sug($desde,$hasta,$dia,$terapeuta){
+		try{
+			$fdesde = new DateTime($desde);
+			$xdesde="2021-01-01 ".$fdesde->format("H:i").":00";
+
+			$sql="select consultorio_horarios.*,consultorio.* from consultorio_horarios
+			left outer join consultorio on consultorio.idconsultorio=consultorio_horarios.idconsultorio
+			left outer join consultorio_sug on consultorio_sug.idconsultorio=consultorio.idconsultorio
+			where consultorio_horarios.desde_dia='$dia' and desde='$xdesde' and consultorio_sug.idusuario=$terapeuta";
+			$sth = $this->dbh->query($sql);
+			return $sth->fetchAll(PDO::FETCH_OBJ);
+		}
+		catch(PDOException $e){
+			return "Database access FAILED!".$e->getMessage();
+		}
+	}
+
 	public function agregar_consultorio(){
 		$arreglo =array();
 
