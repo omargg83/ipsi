@@ -11,9 +11,9 @@
 	$divdes="contenido";
 	if(isset($_REQUEST['divdes']))
 		$divdes=$_REQUEST['divdes'];
-	
+
 	$nombrec="Agregar paciente";
-	$foto="";	
+	$foto="";
 	$autoriza="1";
 	$idsucursal="";
 	$nombre="";
@@ -33,7 +33,7 @@
 	$telefono_vive="";
 	$parentesco_vive="";
 	$estatus="";
-		
+
 	$enfermedad_cronica="";
 	$enfermedad="";
 
@@ -49,6 +49,7 @@
 
 	$lesiones="";
 	$c_lesiones="";
+	$tipo_paciente="Paciente";
 
 	$per = $db->personal();
 	$sucursal = $db->sucursal_lista();
@@ -75,7 +76,7 @@
 		$nombre_vive=$pd->nombre_vive;
 		$telefono_vive=$pd->telefono_vive;
 		$parentesco_vive=$pd->parentesco_vive;
-		
+
 		$enfermedad_cronica=$pd->enfermedad_cronica;
 		$enfermedad=$pd->enfermedad;
 
@@ -84,19 +85,20 @@
 
 		$consumo_medicamentos=$pd->consumo_medicamentos;
 		$c_medicamentos=$pd->c_medicamentos;
-	
+
 		$alergias=$pd->alergias;
 		$c_alergias=$pd->c_alergias;
 
 		$lesiones=$pd->lesiones;
 		$c_lesiones=$pd->c_lesiones;
-		
+
 		$nombrec="$nombre $apellidop $apellidom";
 
 		$estatus=$pd->estatus;
+		$tipo_paciente=$pd->tipo_paciente;
 	}
 
-	
+
 	echo "<nav aria-label='breadcrumb'>";
 		echo "<ol class='breadcrumb'>";
 			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/index' dix='trabajo'>Pacientes</li>";
@@ -114,34 +116,34 @@
 			}
 		echo "</ol>";
 	echo "</nav>";
-	
+
 
 echo "<div class='container'>";
-	
+
 	echo "<form is='f-submit' id='form_cliente' db='a_pacientes/db_' fun='guardar_cliente' des='a_pacientes/editar_trabajo' desid='idpaciente' dix='trabajo'>";
 		echo "<input type='hidden' name='idpaciente' id='idpaciente' value='$idpaciente'>";
 		echo "<div class='card'>";
 			include "editar_paciente.php";
 
-			
-			
-		
+
+
+
 			echo "<div class='card-footer'>";
 				echo "<div class='row'>";
 					echo "<div class='col-sm-12'>";
 						echo "<button class='btn btn-warning btn-sm' type='submit'>Guardar</button>";
-						
+
 							if($idpaciente>0){
 								echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_pacientes/form_foto' v_desde='trabajo' v_idpaciente='$idpaciente' omodal='1'>Foto</button>";
 
 								echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_pacientes/form_pass' v_desde='trabajo' v_idpaciente='$idpaciente' omodal='1'>Contraseña</button>";
-								
+
 								echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_pacientes/paciente' v_idpaciente='$idpaciente' dix='trabajo'>Regresar</button>";
 							}
 							else{
 								echo "<button class='btn btn-warning btn-sm ml-1' type='button' is='b-link' des='a_pacientes/index' dix='trabajo'>Regresar</button>";
 							}
-							
+
 					echo "</div>";
 				echo "</div>";
 			echo "</div>";

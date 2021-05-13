@@ -12,7 +12,7 @@
 	<div class="col-12">
 		<h5><center><b>DATOS GENERALES</b></center></h5>
 	</div>
-	
+
 
 	<div class='row'>
 		<div class="col-3">
@@ -125,7 +125,7 @@
 			</select>
 		</div>
 	</div>
-	
+
 	<hr>
 
 	<div class='row'>
@@ -203,7 +203,7 @@
 		if($_SESSION['nivel']!=666){
 			echo "<hr>";
 			echo "<div class='row'>";
-				echo "<div class='col-4'>";
+				echo "<div class='col-3'>";
 					echo "<label>Estatus:</label>";
 					echo "<select name='estatus' id='estatus' class='form-control form-control-sm' required>";
 						if($idpaciente>=0){
@@ -218,7 +218,7 @@
 					echo "</select>";
 				echo "</div>";
 
-				echo "<div class='col-4'>";
+				echo "<div class='col-3'>";
 					echo "<label for='nombre'>Sucursal</label>";
 					echo "<select name='idsucursal' id='idsucursal' class='form-control form-control-sm'>";
 						foreach($sucursal as $key){
@@ -232,7 +232,7 @@
 					echo "</select>";
 				echo "</div>";
 
-				echo "<div class='col-4'>";
+				echo "<div class='col-3'>";
 					echo "<label for=''>Activo:</label>";
 					echo "<select class='form-control form-control-sm' name='autoriza' id='autoriza'>";
 					echo "<option value='1'"; if($autoriza=="1") echo "selected"; echo ">Activo</option>";
@@ -240,14 +240,14 @@
 					echo "</select>";
 				echo "</div>";
 
-				
-				
-					
-				
-				
+				echo "<div class='col-3'>";
+					echo "<label for=''>Tipo de paciente:</label>";
+					echo "<select class='form-control form-control-sm' name='tipo_paciente' id='tipo_paciente'>";
+					echo "<option value='Paciente'"; if($tipo_paciente=="Paciente") echo "selected"; echo ">Paciente</option>";
+					echo "<option value='Tutor'"; if($tipo_paciente=="Tutor") echo "selected"; echo ">Tutor sin terapia</option>";
+					echo "</select>";
+				echo "</div>";
 			echo "</div>";
 		}
 	?>
 </div>
-			
-		

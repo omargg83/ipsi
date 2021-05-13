@@ -250,6 +250,9 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['autoriza'])){
 			$arreglo+=array('autoriza'=>clean_var($_REQUEST['autoriza']));
 		}
+		if (isset($_REQUEST['tipo_paciente'])){
+			$arreglo+=array('tipo_paciente'=>clean_var($_REQUEST['tipo_paciente']));
+		}
 
 		if($idpaciente==0){
 			$sql="select * from clientes where correo='$correo'";
