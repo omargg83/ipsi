@@ -1382,7 +1382,7 @@ class Cliente extends ipsi{
 			$idrelacion=$_REQUEST['idrelacion'];
 
 			if($idrelacion==0){
-				$sql="select * from clientes_relacion where idcliente='$idpaciente' and idrel='$idrel'";
+				$sql="select * from clientes_relacion where (idcliente='$idpaciente' and idrel='$idrel') or (idrel='$idpaciente' and idcliente='$idrel')";
 				$sth = $this->dbh->prepare($sql);
 				$sth->execute();
 				if ($sth->rowCount()>0){
@@ -1594,10 +1594,8 @@ class Cliente extends ipsi{
 			$actividad=$sth->fetch(PDO::FETCH_OBJ);
 			if($actividad->idtrack){
 				$idtrack=$actividad->idtrack;
-
 			}
 			if($actividad->idmodulo){
-
 				$sql="select * from modulo_per where idpaciente=$idrel and idmodulo=$actividad->idmodulo";
 				$sth = $this->dbh->query($sql);
 				if($sth->rowCount()==0){
@@ -1606,13 +1604,12 @@ class Cliente extends ipsi{
 					$arreglo+=array('idmodulo'=>$actividad->idmodulo);
 					$x=$this->insert('modulo_per', $arreglo);
 				}
-
 				$sql="select * from modulo where id=$actividad->idmodulo";
 				$sth = $this->dbh->query($sql);
 				$modulo=$sth->fetch(PDO::FETCH_OBJ);
 				$idtrack=$modulo->idtrack;
-
 			}
+
 			$sql="select * from track_per where idpaciente=$idrel and idtrack=$idtrack";
 			$sth = $this->dbh->query($sql);
 			if($sth->rowCount()==0){
@@ -1649,10 +1646,11 @@ class Cliente extends ipsi{
 	public function eliminar_pareja(){
 		$idactividad=$_REQUEST['idactividad'];
 		$idpaciente=$_REQUEST['idpaciente'];
-		$idper=$_REQUEST['idper'];
+		$id=$_REQUEST['id'];
 
-		return $this->borrar('actividad_per',"id",$idper);
+		return $this->borrar('actividad_per',"id",$id);
 	}
+
 
 	public function agregar_grupo(){
 		$idgrupo=clean_var($_REQUEST['idgrupo']);

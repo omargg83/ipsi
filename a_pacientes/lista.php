@@ -35,6 +35,7 @@
 			<div class='cell'>Status</div>
 			<div class='cell'>Terapeuta</div>
 			<div class='cell'>Correo</div>
+			<div class='cell'>Tipo de paciente</div>
 		</div>
 
 		<?php
@@ -60,11 +61,12 @@
 					$sql="SELECT * FROM cliente_terapeuta LEFT OUTER JOIN usuarios ON cliente_terapeuta.idusuario = usuarios.idusuario WHERE cliente_terapeuta.idcliente =$key->id";
 					$sth = $db->dbh->query($sql);
 					$terap=$sth->fetchAll(PDO::FETCH_OBJ);
-					foreach($terap as $key){
-						echo "$key->nombre $key->apellidop $key->apellidom, ";
+					foreach($terap as $ter){
+						echo "$ter->nombre $ter->apellidop $ter->apellidom, ";
 					}
 					echo "</div>";
 					echo "<div class='cell' data-titulo='correo'>".$key->correo."</div>";
+					echo "<div class='cell' data-titulo='Tipo'>".$key->tipo_paciente."</div>";
 				echo "</div>";
 			}
 		?>

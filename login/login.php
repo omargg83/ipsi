@@ -34,7 +34,7 @@
 					return 0;
 				}
 				$userPOST = clean_var($_REQUEST["inputEmail"]);
-				$passPOST=md5(clean_var($_REQUEST["inputPassword"]));
+				$passPOST=clean_var($_REQUEST["inputPassword"]);
 
 				$sql="SELECT * FROM usuarios where correo=:usuario and pass=:pass and autoriza=1";
 				$sth = $this->dbh->prepare($sql);

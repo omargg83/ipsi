@@ -8,9 +8,8 @@
     $texto=$_REQUEST['buscar'];
 
     $sql="SELECT * FROM clientes_relacion
-    left outer join clientes on clientes.id=clientes_relacion.idrel
     left outer join rol_familiar on rol_familiar.idrol=clientes_relacion.idrol
-    where clientes_relacion.idcliente=$idpaciente";
+    where clientes_relacion.idcliente=$idpaciente or clientes_relacion.idrel=$idpaciente";
     $sth = $db->dbh->query($sql);
     $pd=$sth->fetchAll(PDO::FETCH_OBJ);
   }
@@ -26,19 +25,48 @@
 
  		<?php
  			foreach($pd as $key){
- 				echo "<div class='body-row' >";
- 					echo "<div class='cell'>";
- 						echo "<div class='btn-group'>";
+				if($key->idrel==$idpaciente){
+					$sql="SELECT * FROM clientes
+					where clientes.id=$key->idcliente";
+					$sth = $db->dbh->query($sql);
+					$familiar=$sth->fetch(PDO::FETCH_OBJ);
 
-				        echo "<button class='btn btn-warning btn-sm' id='can_$key->idrelacion' type='button' is='b-link' v_idpaciente='$idpaciente' v_idactividad='$idactividad' v_idrel='$key->idrel' db='a_pacientes/db_' des='a_pacientes/actividad_ver' dix='trabajo' fun='asignar_pareja' tp='¿Desea agregar el usuario a la actividad seleccionada?' title='Borrar'>Agregar</button>";
+					echo "<div class='body-row' >";
+	 					echo "<div class='cell'>";
+	 						echo "<div class='btn-group'>";
 
- 						echo "</div>";
- 					echo "</div>";
- 					echo "<div class='cell' data-titulo='Nombre'>".$key->nombre." ".$key->apellidop." ".$key->apellidom."</div>";
- 					echo "<div class='cell' data-titulo='Nivel'>$key->rol";
- 					echo "</div>";
- 				echo "</div>";
+					      echo "<button class='btn btn-warning btn-sm' id='can_$key->idrelacion' type='button' is='b-link' v_idpaciente='$idpaciente' v_idactividad='$idactividad' v_idrel='$key->idcliente' db='a_pacientes/db_' des='a_pacientes/actividad_ver' dix='trabajo' fun='asignar_pareja' tp='¿Desea agregar el usuario a la actividad seleccionada?' title='Borrar'>Agregar</button>";
+
+	 						echo "</div>";
+	 					echo "</div>";
+	 					echo "<div class='cell' data-titulo='Nombre'>".$familiar->nombre." ".$familiar->apellidop." ".$familiar->apellidom."</div>";
+	 					echo "<div class='cell' data-titulo='Nivel'>$key->rol";
+	 					echo "</div>";
+	 				echo "</div>";
+				}
+				else{
+					$sql="SELECT * FROM clientes
+					where clientes.id=$key->idrel";
+					$sth = $db->dbh->query($sql);
+					$familiar=$sth->fetch(PDO::FETCH_OBJ);
+
+					echo "<div class='body-row' >";
+	 					echo "<div class='cell'>";
+	 						echo "<div class='btn-group'>";
+
+					      echo "<button class='btn btn-warning btn-sm' id='can_$key->idrelacion' type='button' is='b-link' v_idpaciente='$idpaciente' v_idactividad='$idactividad' v_idrel='$key->idrel' db='a_pacientes/db_' des='a_pacientes/actividad_ver' dix='trabajo' fun='asignar_pareja' tp='¿Desea agregar el usuario a la actividad seleccionada?' title='Borrar'>Agregar</button>";
+
+	 						echo "</div>";
+	 					echo "</div>";
+	 					echo "<div class='cell' data-titulo='Nombre'>".$familiar->nombre." ".$familiar->apellidop." ".$familiar->apellidom."</div>";
+	 					echo "<div class='cell' data-titulo='Nivel'>$key->rol";
+	 					echo "</div>";
+	 				echo "</div>";
+				}
+
+
  			}
+
  		?>
 
  </div>

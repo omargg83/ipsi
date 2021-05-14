@@ -2,10 +2,46 @@
 	require_once("db_.php");
 	$idactividad=$_REQUEST['idactividad'];
 	$idpaciente=$_REQUEST['idpaciente'];
+
+	$sql="select * from actividad_per where idactividad=$idactividad order by id asc";
+	$sth = $db->dbh->query($sql);
+	$pd=$sth->fetchAll(PDO::FETCH_OBJ);
+	echo "<div class='tabla_v' id='tabla_css'>";
+
+	 	echo "<div class='header-row'>";
+	 		echo "<div class='cell'>#</div>";
+	 		echo "<div class='cell'>Pacientes en esta Actividad</div>";
+	 	echo "</div>";
+		$uno=0;
+		foreach($pd as $key){
+				$sql="SELECT * FROM clientes
+				where clientes.id=$key->idpaciente";
+				$sth = $db->dbh->query($sql);
+				$familiar=$sth->fetch(PDO::FETCH_OBJ);
+
+				echo "<div class='body-row' >";
+					echo "<div class='cell'>";
+
+						if($uno!=0){
+							echo "<button class='btn btn-warning btn-sm' id='can_$key->id' type='button' is='b-link' v_id='$key->id'  db='a_pacientes/db_' des='a_pacientes/actividad_ver' dix='trabajo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' fun='eliminar_pareja' tp='¿Desea eliminar el usuario de la actividad seleccionada?' title='Borrar' cmodal='2'>Eliminar</button>";
+						}
+						$uno++;
+
+					echo "</div>";
+					echo "<div class='cell' data-titulo='Nombre'>".$familiar->nombre." ".$familiar->apellidop." ".$familiar->apellidom."</div>";
+				echo "</div>";
+		}
+	echo "</div>";
+
+
+
 ?>
+
+
 <div class="modal-header">
   Agregar familiar
 </div>
+
 <div class="modal-body">
   <form is="f-submit" id="form_ads" des="a_pacientes/roles_buscar" dix='resultados' action='' >
     <input type="hidden" id="idactividad" name='idactividad' value='<?php echo $idactividad;?>'/>

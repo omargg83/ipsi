@@ -14,7 +14,6 @@
 		$telefono=$pd->telefono;
 		$correo=$pd->correo;
 		$foto=$pd->foto;
-		$observaciones=$pd->observaciones;
 
 		if($idrelacion>0){
 			$editar=$db->relacion_editar($idrelacion);
@@ -38,7 +37,7 @@
   		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/paciente" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo"><?php echo $nombre." ".$apellidop." ".$apellidom; ?></li>
   		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/relaciones" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Relaciones</li>
   		<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/relaciones_agregar" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Agregar</li>
-			<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/relaciones_editar" v_idpaciente="<?php echo $idpaciente; ?>" v_id="<?php echo $id; ?>" dix="trabajo">Asignar</li>
+			<li class='breadcrumb-item active' id='lista_track' is="li-link" des="a_pacientes/relaciones_editar" v_idpaciente="<?php echo $idpaciente; ?>" v_id="<?php echo $id; ?>" v_idrelacion='<?php echo $idrelacion; ?>' dix="trabajo">Asignar</li>
   		<button class="btn btn-warning btn-sm" type="button" is="b-link" des="a_pacientes/relaciones" v_idpaciente="<?php echo $idpaciente; ?>" dix="trabajo">Regresar</button>
   	</ol>
   </nav>
