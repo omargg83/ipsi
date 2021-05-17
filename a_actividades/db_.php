@@ -295,11 +295,10 @@ class Cuest extends ipsi{
 				if (isset($_REQUEST['idpaciente'])){
 					$idpaciente=$_REQUEST['idpaciente'];
 					$arreglo+=array('idpaciente'=>$idpaciente);
-
 					$this->update('clientes',array('id'=>$idpaciente),array("estatus"=>"ACTIVO"));
 				}
 				$x=$this->insert('actividad', $arreglo);
-				
+
 				$resp=json_decode($x);
 				if (isset($_REQUEST['idpaciente'])){
 					$idpaciente=$_REQUEST['idpaciente'];
@@ -1051,7 +1050,7 @@ class Cuest extends ipsi{
 		$arreglo=array();
 
 		$paciente=0;
-		
+
 
 		$sql="select * from actividad where idactividad=$idactividad";
 		$sth = $this->dbh->query($sql);
@@ -1065,7 +1064,7 @@ class Cuest extends ipsi{
 		}
 
 		////////////Clonar actividad
-		
+
 		$arreglo+=array('idgrupo'=>$resp->idgrupo);
 		$arreglo+=array('idcreado'=>$resp->idcreado);
 		$arreglo+=array('nombre'=>$resp->nombre." Duplicada");

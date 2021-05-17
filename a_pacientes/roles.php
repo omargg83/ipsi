@@ -6,6 +6,10 @@
 	$sql="select * from actividad_per where idactividad=$idactividad order by id asc";
 	$sth = $db->dbh->query($sql);
 	$pd=$sth->fetchAll(PDO::FETCH_OBJ);
+	echo "<div class='modal-header'>";
+		echo "<b>Usuarios en la actividad</b>";
+	echo "</div>";
+
 	echo "<div class='tabla_v' id='tabla_css'>";
 
 	 	echo "<div class='header-row'>";
@@ -33,13 +37,11 @@
 		}
 	echo "</div>";
 
-
-
 ?>
 
 
 <div class="modal-header">
-  Agregar familiar
+  <b>Agregar familiar</b>
 </div>
 
 <div class="modal-body">

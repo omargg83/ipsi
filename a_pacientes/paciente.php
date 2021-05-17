@@ -12,6 +12,7 @@
 	$foto=$pd->foto;
 	$numero=$pd->numero;
 	$estatus=$pd->estatus;
+	$tipo_paciente=$pd->tipo_paciente;
 
 	$suc=$db->sucursal($pd->idsucursal);
 
@@ -66,14 +67,72 @@
 								echo "<div class='row'>";
 									echo "<div class='col-12'>";
 										$resp=$db->terapias_paciente($idpaciente);
+
 										foreach($resp as $key){
+											$terapeuta=array();
 											echo "<button class='btn btn-warning btn-block' type='button' is='b-link' des='a_pacientes/track' dix='trabajo' v_idpaciente='$idpaciente' v_idterapia='$key->id'>";
 											echo $key->nombre;
 
-											$sql="select * from usuarios where idusuario=$key->idterapeuta";
-											$sth = $db->dbh->query($sql);
-											$terapeuta=$sth->fetch(PDO::FETCH_OBJ);
-											echo "<br>".$terapeuta->nombre." ".$terapeuta->apellidop." ".$terapeuta->apellidom;
+											$sql="select * from track where idterapia=$key->id";
+											$sth1 = $db->dbh->query($sql);
+											$tracksdb=$sth1->fetchAll(PDO::FETCH_OBJ);
+											foreach($tracksdb as $track){
+												//echo "<br>track:".$track->nombre;
+
+												/////////////modulo
+												$sql="select * from modulo where idtrack=$track->id";
+												$sth2 = $db->dbh->query($sql);
+												$modulossdb=$sth2->fetchAll(PDO::FETCH_OBJ);
+												foreach($modulossdb as $modulo){
+													//echo "<br>Modulo:".$modulo->nombre;
+
+													$sql="select * from grupo_actividad where idmodulo=$modulo->id";
+
+													$sth3 = $db->dbh->query($sql);
+													$grupossdb=$sth3->fetchAll(PDO::FETCH_OBJ);
+													foreach($grupossdb as $grupo){
+														//echo "<br>Grupo:".$grupo->grupo;
+
+														$sql="select usuarios.idusuario, usuarios.nombre,usuarios.apellidop, usuarios.apellidom from actividad
+														left outer join actividad_per on actividad_per.idactividad=actividad.idactividad
+														left outer join usuarios on usuarios.idusuario=actividad.idcreado
+														where idgrupo=$grupo->idgrupo and actividad_per.idpaciente=$idpaciente";
+														$sth4 = $db->dbh->query($sql);
+														$actividaddb=$sth4->fetchAll(PDO::FETCH_OBJ);
+														foreach($actividaddb as $actividad){
+																$terapeuta[$actividad->idusuario]="$actividad->nombre $actividad->apellidop $actividad->apellidom";
+																//echo "<br>$actividad->nombre $actividad->apellidop $actividad->apellidom";
+														}
+
+													}
+
+												}
+
+
+												/////////////////ACTIVIDADES INICIALES
+												/////////////grupo
+												$sql="select * from grupo_actividad where idtrack=$track->id";
+												$sth3 = $db->dbh->query($sql);
+												$grupossdb=$sth3->fetchAll(PDO::FETCH_OBJ);
+												foreach($grupossdb as $grupo){
+													//echo "<br>Grupo:".$grupo->grupo;
+													$sql="select usuarios.idusuario, usuarios.nombre,usuarios.apellidop, usuarios.apellidom from actividad
+													left outer join actividad_per on actividad_per.idactividad=actividad.idactividad
+													left outer join usuarios on usuarios.idusuario=actividad.idcreado
+													where idgrupo=$grupo->idgrupo and actividad_per.idpaciente=$idpaciente";
+													$sth4 = $db->dbh->query($sql);
+													$actividaddb=$sth4->fetchAll(PDO::FETCH_OBJ);
+													foreach($actividaddb as $actividad){
+															$terapeuta[$actividad->idusuario]="$actividad->nombre $actividad->apellidop $actividad->apellidom";
+															//echo "<br>$actividad->nombre $actividad->apellidop $actividad->apellidom";
+													}
+												}
+
+											}
+											foreach($terapeuta as $terx){
+												echo "<br>$terx";
+											}
+											//echo "<hr>";
 											echo "</button>";
 										}
 									echo "</div>";
@@ -83,11 +142,13 @@
 									echo "</div>";
 								echo "</div>";
 							echo "</div>";
-							echo "<div class='card-body'>";
-								echo "<div class='col-12 text-center'>";
-										echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/terapias_agregar' dix='trabajo' v_idpaciente='$idpaciente' >Nueva terapia</button>";
+							if($tipo_paciente=='Paciente'){
+								echo "<div class='card-body'>";
+									echo "<div class='col-12 text-center'>";
+											echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/terapias_agregar' dix='trabajo' v_idpaciente='$idpaciente' >Nueva terapia</button>";
+									echo "</div>";
 								echo "</div>";
-							echo "</div>";
+							}
 						echo "</div>";
 					echo "</div>";
 				}

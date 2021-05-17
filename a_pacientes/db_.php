@@ -610,7 +610,6 @@ class Cliente extends ipsi{
 			$idpaciente=$_REQUEST['idpaciente'];
 			$x=$this->update('clientes',array('id'=>$idpaciente),array("estatus"=>"ACTIVO"));
 
-
 			$sql="select * from actividad where idactividad=:idactividad";
 			$sth = $this->dbh->prepare($sql);
 			$sth->bindValue(":idactividad",$idactividad);
@@ -629,6 +628,7 @@ class Cliente extends ipsi{
 			$arreglo+=array('visible'=>$resp->visible);
 			$arreglo+=array('tipo'=>$resp->tipo);
 			$arreglo+=array('fecha'=>$fecha);
+			$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
 			$x=$this->insert('actividad', $arreglo);
 			$idactividad_array=json_decode($x,true);
 
@@ -1583,7 +1583,7 @@ class Cliente extends ipsi{
 		$sth = $this->dbh->query($sql);
 		$activ_per=$sth->fetch(PDO::FETCH_OBJ);
 		if($sth->rowCount()==0){
-
+			///////agrega permisos en la actividad
 			$arreglo=array();
 			$arreglo+=array('idpaciente'=>$idrel);
 			$arreglo+=array('idactividad'=>$idactividad);
@@ -1592,22 +1592,37 @@ class Cliente extends ipsi{
 			$sql="select * from actividad where idactividad=$idactividad";
 			$sth = $this->dbh->query($sql);
 			$actividad=$sth->fetch(PDO::FETCH_OBJ);
-			if($actividad->idtrack){
-				$idtrack=$actividad->idtrack;
+
+			//////////////agrega permisos en el grupo
+			$sql="select * from grupo_actividad_pre where idpaciente=$idrel and idgrupo=$actividad->idgrupo";
+			$sth = $this->dbh->query($sql);
+			if($sth->rowCount()==0){
+				$arreglo=array();
+				$arreglo+=array('idpaciente'=>$idrel);
+				$arreglo+=array('idgrupo'=>$actividad->idgrupo);
+				$x=$this->insert('grupo_actividad_pre', $arreglo);
 			}
-			if($actividad->idmodulo){
-				$sql="select * from modulo_per where idpaciente=$idrel and idmodulo=$actividad->idmodulo";
+
+			$sql="select * from grupo_actividad where idgrupo=$actividad->idgrupo";
+			$sth = $this->dbh->query($sql);
+			$grupo=$sth->fetch(PDO::FETCH_OBJ);
+
+			if($grupo->idmodulo){
+				$sql="select * from modulo_per where idpaciente=$idrel and idmodulo=$grupo->idmodulo";
 				$sth = $this->dbh->query($sql);
 				if($sth->rowCount()==0){
 					$arreglo=array();
 					$arreglo+=array('idpaciente'=>$idrel);
-					$arreglo+=array('idmodulo'=>$actividad->idmodulo);
+					$arreglo+=array('idmodulo'=>$grupo->idmodulo);
 					$x=$this->insert('modulo_per', $arreglo);
 				}
-				$sql="select * from modulo where id=$actividad->idmodulo";
+				$sql="select * from modulo where id=$grupo->idmodulo";
 				$sth = $this->dbh->query($sql);
 				$modulo=$sth->fetch(PDO::FETCH_OBJ);
 				$idtrack=$modulo->idtrack;
+			}
+			else{
+				$idtrack=$grupo->idtrack;
 			}
 
 			$sql="select * from track_per where idpaciente=$idrel and idtrack=$idtrack";

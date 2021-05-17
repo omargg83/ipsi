@@ -149,7 +149,7 @@
 						}
 						else{
 							echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_pacientes_e/actividad_editar' dix='trabajo'
-							v_idactividad='$idactividad' v_idpaciente='$idpaciente'  v_proviene='actividadver'><i class='fas fa-pencil-alt'></i></button>";
+							v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_proviene='actividadver'><i class='fas fa-pencil-alt'></i></button>";
 						}
 					?>
 
@@ -209,10 +209,10 @@
 					echo "<div class='mb-3'>";
 						echo "<p><b>Asignado por</b></p>";
 						echo $asignado->nombre." ".$asignado->apellidop." ".$asignado->apellidop;
-					echo "</div>";				
+					echo "</div>";
 				?>
 
-				
+
 		</div>
 	</div>
 

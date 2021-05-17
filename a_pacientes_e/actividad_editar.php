@@ -35,7 +35,7 @@
 	$sth = $db->dbh->query($sql);
 	$grupo=$sth->fetch(PDO::FETCH_OBJ);
 	if(strlen($grupo->idtrack)){
-		
+
 		$sql="select * from track where id=$grupo->idtrack";
 		$sth = $db->dbh->query($sql);
 		$track=$sth->fetch(PDO::FETCH_OBJ);
@@ -43,7 +43,6 @@
 		$sql="select * from terapias where id=$track->idterapia";
 		$sth = $db->dbh->query($sql);
 		$terapia=$sth->fetch(PDO::FETCH_OBJ);
-
 
 	}
 	else{
@@ -87,7 +86,12 @@
 			}
 		}
 		if($proviene=="actividadver"){
-			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/actividades' dix='trabajo' v_idmodulo='$modulo->id' v_idpaciente='$idpaciente'>$modulo->nombre</li>";
+			if(strlen($grupo->idmodulo)){
+				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/actividades' dix='trabajo' v_idmodulo='$modulo->id' v_idpaciente='$idpaciente'>$modulo->nombre</li>";
+			}
+			else{
+				echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes/actividades' dix='trabajo' v_idgrupo='$grupo->idgrupo' v_idpaciente='$idpaciente'>$grupo->grupo</li>";
+			}
 			echo "<li class='breadcrumb-item' id='lista_track' is='li-link' des='a_pacientes_e/actividad_editar' dix='trabajo' v_idactividad='$idactividad' v_idpaciente='$idpaciente' v_proviene='$proviene'>$nombre</li>";
 		}
 
@@ -139,12 +143,12 @@
 				if($proviene=="nuevaagregar"){
 					echo "<form is='f-submit' id='form_editaract' db='a_actividades/db_' fun='guarda_actividad' v_idpaciente='$idpaciente' v_idmodulo='$idmodulo' des='a_pacientes/actividad_ver' desid='idactividad'>";
 				}
-				
+
 				echo "<input type='hidden' class='form-control' id='idgrupo' name='idgrupo' value='$idgrupo' readonly>";
 				echo "<input type='hidden' class='form-control' id='idactividad' name='idactividad' value='$idactividad' readonly>";
 				echo "<input type='hidden' class='form-control' id='idpaciente' name='idpaciente' value='$idpaciente' readonly>";
 			?>
-			
+
 
 			<div class='card'>
 				<div class="card-header">
