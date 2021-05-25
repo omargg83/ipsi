@@ -60,7 +60,7 @@
 								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/actividades' dix='trabajo' db='a_actividades/db_' fun='borrar_grupo' v_idmodulo='$key->idmodulo' v_idgrupo='$key->idgrupo' tp='¿Desea eliminar el grupo seleccionado?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
 								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades_e/grupo_editar' dix='trabajo' v_idmodulo='$key->idmodulo' v_idgrupo='$key->idgrupo'><i class='fas fa-pencil-alt'></i></button>";
-								
+								 
 							echo "</div>";
 						echo "</div>";
 					echo "</div>";

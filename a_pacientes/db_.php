@@ -628,8 +628,8 @@ class Cliente extends ipsi{
 			$arreglo+=array('visible'=>$resp->visible);
 			$arreglo+=array('tipo'=>$resp->tipo);
 			$arreglo+=array('fecha'=>$fecha);
-			$arreglo+=array('idusuario'=>$_SESSION['idusuario']);
 			$x=$this->insert('actividad', $arreglo);
+
 			$idactividad_array=json_decode($x,true);
 
 			//////////////////Permisos
@@ -653,7 +653,6 @@ class Cliente extends ipsi{
 				$arreglo+=array('idactividad'=>$idactividad_array['id1']);
 				$x=$this->insert('subactividad', $arreglo);
 				$subactividad_array=json_decode($x,true);
-
 
 				/////////////clonando escala
 				$sql="select * from escala_sub where idsubactividad='".$key->idsubactividad."'";
@@ -685,7 +684,9 @@ class Cliente extends ipsi{
 					$arreglo+=array('usuario'=>$subkey->usuario);
 					$arreglo+=array('descripcion'=>$subkey->descripcion);
 					$x=$this->insert('contexto', $arreglo);
+
 					$contexto_array=json_decode($x,true);
+
 
 					////////////Clonar respuestas
 					$sql="select * from respuestas where idcontexto=:idcontexto";
@@ -704,6 +705,7 @@ class Cliente extends ipsi{
 					}
 				}
 			}
+
 			return $x;
 		}
 		catch(PDOException $e){
@@ -715,7 +717,9 @@ class Cliente extends ipsi{
 		$idterapia=clean_var($_REQUEST['idterapia']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
 
-		$sql="SELECT * from track_per left outer join track on track.id=track_per.idtrack where track_per.idpaciente=$idpaciente and track.idterapia=$idterapia order by track.inicial desc, track.orden asc";
+		$sql="SELECT * from track_per
+		left outer join track on track.id=track_per.idtrack
+		where track_per.idpaciente=$idpaciente and track.idterapia=$idterapia order by track.inicial desc, track.orden asc";
 		$sth = $this->dbh->query($sql);
 		if($sth->rowCount()==0){
 			$sql="select * from terapias_per where idterapia=$idterapia and idpaciente=$idpaciente";
@@ -786,8 +790,11 @@ class Cliente extends ipsi{
 	public function borrar_grupo(){
 		if (isset($_REQUEST['idgrupo'])){$idgrupo=$_REQUEST['idgrupo'];}
 		if (isset($_REQUEST['idper'])){$idper=$_REQUEST['idper'];}
+		if (isset($_REQUEST['idpaciente'])){$idpaciente=$_REQUEST['idpaciente'];}
 
-		$sql="select * from actividad where idgrupo=$idgrupo";
+		$sql="select * from actividad_per
+		left outer join actividad on actividad_per.idactividad=actividad.idactividad
+		where idgrupo=$idgrupo and actividad_per.idpaciente=$idpaciente";
 		$sth = $this->dbh->query($sql);
 		if($sth->rowCount()>0){
 			$arreglo=array();
@@ -798,6 +805,8 @@ class Cliente extends ipsi{
 		}
 		return $this->borrar('grupo_actividad_pre',"idper",$idper);
 	}
+
+
 	public function quitar_actividad(){
 		$idactividad=clean_var($_REQUEST['idactividad']);
 		$idpaciente=clean_var($_REQUEST['idpaciente']);
@@ -1442,6 +1451,12 @@ class Cliente extends ipsi{
 				$arreglo+=array('idusuario'=>$_REQUEST['idusuario']);
 				$arreglo+=array('idcliente'=>$_REQUEST['idpaciente']);
 				$this->insert('cliente_terapeuta',$arreglo);
+
+
+				$arreglo=array();
+				$arreglo+=array('estatus'=>"NUEVO");
+				$this->update('clientes',array('id'=>$_REQUEST['idpaciente']), $arreglo);
+
 
 				$arreglo=array();
 				$arreglo+=array('id1'=>$_REQUEST['idpaciente']);

@@ -45,7 +45,7 @@
 								echo "<div class='form-group text-center' id='imagen_div'>";
 									echo "<img src='".$db->pac.trim($foto)."' class='img-thumbnail' width='200px'>";
 									echo "<div class='text-center'>".$nombre." ".$apellidop." ".$apellidom."</div>";
-									echo "<div class='text-center'>Paciente</div>";
+									echo "<div class='text-center'>$tipo_paciente</div>";
 									echo "<div class='text-center'>ID: $numero</div>";
 									echo "<div class='text-center'>Sucursal: $suc->nombre</div>";
 								echo "</div>";
@@ -142,6 +142,7 @@
 									echo "</div>";
 								echo "</div>";
 							echo "</div>";
+
 							if($tipo_paciente=='Paciente'){
 								echo "<div class='card-body'>";
 									echo "<div class='col-12 text-center'>";

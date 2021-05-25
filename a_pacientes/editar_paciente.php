@@ -207,11 +207,11 @@
 					echo "<label>Estatus:</label>";
 					echo "<select name='estatus' id='estatus' class='form-control form-control-sm' required>";
 						if($idpaciente>=0){
-							echo "<option value='NUEVO'"; if($estatus=='NUEVO') echo 'selected'; echo ">NUEVO</option>";
 							echo "<option value='PROSPECTO'"; if($estatus=='PROSPECTO') echo 'selected'; echo ">PROSPECTO</option>";
 						}
 						if($idpaciente>0){
-							echo "<option value='EN CURSO'"; if($estatus=='EN CURSO') echo 'selected'; echo ">EN CURSO</option>";
+							echo "<option value='NUEVO'"; if($estatus=='NUEVO') echo 'selected'; echo ">NUEVO</option>";
+							echo "<option value='ACTIVO'"; if($estatus=='ACTIVO') echo 'selected'; echo ">ACTIVO</option>";
 							echo "<option value='BAJA'"; if($estatus=='BAJA') echo 'selected'; echo ">BAJA</option>";
 							echo "<option value='ALTA'"; if($estatus=='ALTA') echo 'selected'; echo ">ALTA</option>";
 						}

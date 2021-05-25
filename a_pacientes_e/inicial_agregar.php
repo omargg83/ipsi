@@ -16,11 +16,11 @@
 	if(strlen($grupo->idtrack)){
 		$tipo="track";
     $idtrack=$grupo->idtrack;
-		
+
 	}
 	else{
     $tipo="modulo";
-    
+
     $sql="select * from modulo where id=$grupo->idmodulo";
 		$sth = $db->dbh->query($sql);
 		$modulo=$sth->fetch(PDO::FETCH_OBJ);
@@ -31,11 +31,11 @@
   $sql="select * from track where id=$idtrack";
   $sth = $db->dbh->query($sql);
   $track=$sth->fetch(PDO::FETCH_OBJ);
-    
+
   $sql="select * from terapias where id=$track->idterapia";
   $sth = $db->dbh->query($sql);
   $terapia=$sth->fetch(PDO::FETCH_OBJ);
-  
+
 	$idterapia=$track->idterapia;
   $sql="select * from terapias where id=$idterapia";
   $sth = $db->dbh->query($sql);
@@ -53,7 +53,7 @@ echo "<nav aria-label='breadcrumb'>";
 		echo "<li class='breadcrumb-item' is='li-link' des='a_pacientes/track' dix='trabajo' title='Terapias' v_idterapia='$idterapia' v_idpaciente='$idpaciente'>$terapia->nombre</li>";
 
 		echo "<li class='breadcrumb-item' is='li-link' des='a_pacientes/modulos' dix='trabajo' title='Terapias' v_idtrack='$idtrack' v_idpaciente='$idpaciente'>$track->nombre</li>";
-		
+
 		echo "<li class='breadcrumb-item' is='li-link' des='a_pacientes/grupos' dix='trabajo' v_idgrupo='$grupo->idgrupo' v_idpaciente='$idpaciente'>$grupo->grupo</li>";
 
     echo "<li class='breadcrumb-item active' is='li-link' des='a_pacientes_e/inicial_agregar' dix='trabajo' title='Terapias' v_idgrupo='$idgrupo' v_idpaciente='$idpaciente'>Agregar actividad inicial</li>";
@@ -68,7 +68,7 @@ echo "</nav>";
 
   echo "<div class='container'>";
     echo "<div class='row'>";
-      
+
       foreach($actividad as $key){
 
         echo "<div class='col-4 p-2 w-50 actcard'>";

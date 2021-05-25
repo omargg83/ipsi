@@ -12,8 +12,6 @@
 	$sth = $db->dbh->prepare($sql);
 	$sth->execute();
 	$relaciones=$sth->fetchAll(PDO::FETCH_OBJ);
-
-
 ?>
 
 <nav aria-label='breadcrumb'>

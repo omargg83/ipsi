@@ -59,7 +59,7 @@
 						echo "<div class='row'>";
 							echo "<div class='col-12'>";
 
-								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_actividades/actividades' dix='trabajo' db='a_pacientes/db_' fun='borrar_grupo' v_idmodulo='$key->idmodulo' v_idgrupo='$key->idgrupo' tp='¿Desea eliminar el grupo seleccionado?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
+								echo "<button class='btn btn-warning btn-sm float-right' type='button' is='b-link' des='a_pacientes/actividades' dix='trabajo' db='a_pacientes/db_' fun='borrar_grupo' v_idmodulo='$key->idmodulo' v_idgrupo='$key->idgrupo' v_idpaciente='$idpaciente' v_idper='$key->idper' tp='¿Desea eliminar el grupo seleccionado?' tt='Ya no podrá deshacer el cambio' title='Borrar'><i class='far fa-trash-alt'></i></button>";
 
 							echo "</div>";
 						echo "</div>";
