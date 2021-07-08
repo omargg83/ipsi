@@ -25,6 +25,7 @@
 
 	if(isset($_REQUEST['buscar'])){
 		$texto=$_REQUEST['buscar'];
+
 		$pd = $db->agenda_buscar($texto);
 		$texto=1;
 	}
@@ -58,7 +59,7 @@
 			}
 		}
 
-		if($_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
+		if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
 			if($key->estatus=="Pendiente"){
        			echo "<button class='btn btn-warning btn-sm' type='button' is='b-link' des='a_agenda/editar' dix='contenido' tp='edit' v_idcita='$key->idcita' title='editar'>Editar</button>";
 			}

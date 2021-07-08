@@ -766,3 +766,37 @@
 	    }
 	  }
 	}
+
+	$(document).on('change',".idsucursalc",function(e){
+			e.preventDefault();
+			let idsucursal=$( ".idsucursalc" ).val();
+			var formData = new FormData();
+			formData.append("function","terap_suc");
+			formData.append("idsucursal",idsucursal);
+
+			let xhr = new XMLHttpRequest();
+			xhr.open('POST',"a_agenda/db_.php");
+			xhr.addEventListener('load',(data)=>{
+				document.getElementById("terapcita").innerHTML = data.target.response;
+			});
+			xhr.onerror =  ()=>{
+				console.log("error");
+			};
+			xhr.send(formData);
+
+			var formData = new FormData();
+			formData.append("function","pac_suc");
+			formData.append("idsucursal",idsucursal);
+
+			let xhor = new XMLHttpRequest();
+			xhor.open('POST',"a_agenda/db_.php");
+			xhor.addEventListener('load',(data)=>{
+				document.getElementById("paccita").innerHTML = data.target.response;
+			});
+			xhor.onerror =  ()=>{
+				console.log("error");
+			};
+			xhor.send(formData);
+
+
+	});

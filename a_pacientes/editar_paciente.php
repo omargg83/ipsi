@@ -211,6 +211,7 @@
 						}
 						if($idpaciente>0){
 							echo "<option value='NUEVO'"; if($estatus=='NUEVO') echo 'selected'; echo ">NUEVO</option>";
+							echo "<option value='POR CONTACTAR'"; if($estatus=='POR CONTACTAR') echo 'selected'; echo ">POR CONTACTAR</option>";
 							echo "<option value='ACTIVO'"; if($estatus=='ACTIVO') echo 'selected'; echo ">ACTIVO</option>";
 							echo "<option value='BAJA'"; if($estatus=='BAJA') echo 'selected'; echo ">BAJA</option>";
 							echo "<option value='ALTA'"; if($estatus=='ALTA') echo 'selected'; echo ">ALTA</option>";

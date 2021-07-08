@@ -277,8 +277,7 @@ class Cliente extends ipsi{
 		if (isset($_REQUEST['pass2'])){$pass2=$_REQUEST['pass2'];}
 		if(trim($pass1)==($pass2)){
 			$arreglo=array();
-			$passPOST=md5(trim($pass1));
-			$arreglo=array('pass'=>$passPOST);
+			$arreglo=array('pass'=>$pass1);
 			$x=$this->update('clientes',array('id'=>$id), $arreglo);
 			return $x;
 		}

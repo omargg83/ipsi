@@ -32,6 +32,7 @@ class Agenda extends ipsi{
 	public function agenda_lista($pagina,$idsucursal,$idusuario,$fecha_cita,$idpaciente){
 		try{
 			$pagina=$pagina*$_SESSION['pagina'];
+
 			$sql="SELECT idcita, citas.desde, citas.hasta, citas.estatus, citas.estatus_paciente, sucursal.nombre as sucursalx, clientes.nombre, clientes.apellidop, clientes.apellidom, usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom, consultorio.nombre as consultorio, citas.ubicacion FROM citas";
 			$ac=0;
 			$query="";
@@ -47,7 +48,6 @@ class Agenda extends ipsi{
 				$ac=1;
 			}
 			if(strlen($fecha_cita)>0){
-
 				if($ac==1) $query.=" and ";
 				$query.=" (desde>='$fecha_cita 00:00:00' and hasta<='$fecha_cita 23:59:59')";
 				$ac=1;
@@ -64,6 +64,28 @@ class Agenda extends ipsi{
 			if($ac==1){
 				$sql=$sql." where ".$query." ";
 			}
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4)
+			{
+
+			}
+			if($_SESSION['nivel']==3){
+				if($ac==1){
+					$sql.=" and ";
+				}
+				else{
+					$sql.=" where ";
+				}
+				$sql.="sucursal.idsucursal=".$_SESSION['idsucursal'];
+			}
+			if($_SESSION['nivel']==2){
+				if($ac==1){
+					$sql.=" and ";
+				}
+				else{
+					$sql.=" where ";
+				}
+				$sql.="usuarios.idusuario=".$_SESSION['idusuario'];
+			}
 
 			$sql.=" limit $pagina,".$_SESSION['pagina']."";
 			//echo $sql;
@@ -75,14 +97,40 @@ class Agenda extends ipsi{
 			return "Database access FAILED!".$e->getMessage();
 		}
 	}
-	public function agenda_buscar(){
+	public function agenda_buscar($texto){
+		$texto=clean_var($texto);
 		try{
-			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4)
-			$sql="SELECT * FROM citas";
+			/*
+				if($_SESSION['nivel']==1 or $_SESSION['nivel']==4)
+				$sql="SELECT idcita, citas.desde, citas.hasta, citas.estatus, citas.estatus_paciente, sucursal.nombre as sucursalx, clientes.nombre, clientes.apellidop, clientes.apellidom, usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom, consultorio.nombre as consultorio, citas.ubicacion FROM citas";
 
-			if($_SESSION['nivel']==666)
-			$sql="SELECT * FROM citas where idpaciente='".$_SESSION['idusuario']."'";
+				if($_SESSION['nivel']==2)
+				$sql="SELECT idcita, citas.desde, citas.hasta, citas.estatus, citas.estatus_paciente, sucursal.nombre as sucursalx, clientes.nombre, clientes.apellidop, clientes.apellidom, usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom, consultorio.nombre as consultorio, citas.ubicacion FROM citas where idusuario='".$_SESSION['idusuario']."'";
 
+				if($_SESSION['nivel']==666)
+				$sql="SELECT idcita, citas.desde, citas.hasta, citas.estatus, citas.estatus_paciente, sucursal.nombre as sucursalx, clientes.nombre, clientes.apellidop, clientes.apellidom, usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom, consultorio.nombre as consultorio, citas.ubicacion FROM citas where idpaciente='".$_SESSION['idusuario']."'";
+
+			*/
+
+			$sql="SELECT idcita, citas.desde, citas.hasta, citas.estatus, citas.estatus_paciente, sucursal.nombre as sucursalx, clientes.nombre, clientes.apellidop, clientes.apellidom, usuarios.nombre as usnombre, usuarios.apellidop as usapellidp, usuarios.apellidom as usapellidom, consultorio.nombre as consultorio, citas.ubicacion FROM citas";
+			$ac=0;
+			$query="";
+
+
+			$sql.=" left outer join sucursal on sucursal.idsucursal=citas.idsucursal";
+			$sql.=" left outer join clientes on clientes.id=citas.idpaciente";
+			$sql.=" left outer join usuarios on usuarios.idusuario=citas.idusuario";
+			$sql.=" left outer join consultorio on consultorio.idconsultorio=citas.idconsultorio";
+
+			if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
+				$sql.=" where clientes.nombre like '%$texto%'";
+			}
+			if($_SESSION['nivel']==3){
+					$sql.="where sucursal.idsucursal=".$_SESSION['idsucursal'];
+			}
+			if($_SESSION['nivel']==2){
+				$sql.=" where usuarios.idusuario=".$_SESSION['idusuario']." and clientes.nombre like '%$texto%'";
+			}
 			$sth = $this->dbh->prepare($sql);
 			$sth->execute();
 			return $sth->fetchAll(PDO::FETCH_OBJ);
@@ -123,7 +171,6 @@ class Agenda extends ipsi{
 
 			if($_SESSION['nivel']==2)
 			$sql="select * from cliente_terapeuta left outer join clientes on clientes.id=cliente_terapeuta.idcliente where idsucursal='".$_SESSION['idsucursal']."' and cliente_terapeuta.idusuario='".$_SESSION['idusuario']."'";
-
 
 			if($_SESSION['nivel']==3)
 			$sql="SELECT * FROM clientes where idsucursal='".$_SESSION['idsucursal']."'";
@@ -357,6 +404,41 @@ class Agenda extends ipsi{
 
 
 		return $x;
+	}
+
+
+	public function terap_suc(){
+		$idsucursal=$_REQUEST['idsucursal'];
+
+		$sql="select * from usuarios where nivel=2 and idsucursal='$idsucursal'";
+		$sth = $this->dbh->query($sql);
+		$terapeutas=$sth->fetchAll(PDO::FETCH_OBJ);
+		echo "<label for=''>Terapeuta</label>";
+		echo "<select name='idusuario' id='idusuario' class='form-control'>";
+		echo "<option value='' disabled selected>Seleccione una opcion</option>";
+			foreach($terapeutas as $key){
+				echo  "<option value='$key->idusuario' >$key->nombre $key->apellidop $key->apellidom</option>";
+			}
+		echo "</select>";
+
+	}
+	public function pac_suc(){
+		$idsucursal=$_REQUEST['idsucursal'];
+		$sql="select * from clientes where idsucursal='$idsucursal'";
+		$sth = $this->dbh->query($sql);
+		$pacientes=$sth->fetchAll(PDO::FETCH_OBJ);
+		echo "<label for='idpaciente'>Pacientes</label>";
+		echo "<select name='idpaciente' id='idpaciente' class='form-control' >";
+		echo "<option value='' disabled selected>Seleccione una opcion</option>";
+			foreach($pacientes as $key){
+				echo  "<option value=".$key->id;
+				if ($key->id==$idpaciente){
+					echo  " selected ";
+				}
+				echo  ">$key->nombre $key->apellidop $key->apellidom</option>";
+			}
+		echo "</select>";
+
 	}
 }
 

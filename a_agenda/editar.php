@@ -18,7 +18,7 @@
 	}
 
 	$sucursal=$db->sucursal();
-	$terapueutas=$db->terapueutas();
+	$terapeutas=$db->terapueutas();
 	$pacientes=$db->pacientes();
 
 	$fecha_min=date("Y-m-d");
@@ -40,16 +40,13 @@
   	<div class="card">
 			<div class="card-body">
 			<div class="row">
-				<div class="col-3">
-					<label for="">Fecha</label>
-					<input type="date" name="fecha_cita" id="fecha_cita" value="<?php echo $fecha;?>" min='<?php echo $fecha_min;?>' class='form-control' required>
-				</div>
-
 				<?php
+
 				if($_SESSION['nivel']==1 or $_SESSION['nivel']==4){
 					echo "<div class='col-3'>";
 						echo "<label for='idsucursal'>Sucursal</label>";
-						echo "<select name='idsucursal' id='idsucursal' class='form-control'>";
+						echo "<select name='idsucursal' id='idsucursal' class='form-control idsucursalc'>";
+						echo "<option value='' disabled selected>Seleccione una opcion</option>";
 							foreach($sucursal as $key){
 								echo  "<option value=".$key->idsucursal;
 								if ($key->idsucursal==$idsucursal){
@@ -61,11 +58,26 @@
 					echo "</div>";
 				}
 
+				if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4 or $_SESSION['nivel']==666){
+					echo "<div class='col-3' id='terapcita'>";
+						/*
+							echo "<label for=''>Terapeuta</label>";
+							echo "<select name='idusuario' id='idusuario' class='form-control'>";
+							echo "<option value='' disabled selected>Seleccione una opcion</option>";
+								foreach($terapeutas as $key){
+									echo  "<option value='$key->idusuario' >$key->nombre $key->apellidop $key->apellidom</option>";
+								}
+							echo "</select>";
+						*/
+					echo "</div>";
+				}
+
 				if($_SESSION['nivel']==1 or $_SESSION['nivel']==2 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4){
-					echo "<div class='col-3'>";
+					echo "<div class='col-3' id='paccita'>";
+						/*
 						echo "<label for='idpaciente'>Pacientes</label>";
 						echo "<select name='idpaciente' id='idpaciente' class='form-control' >";
-
+						echo "<option value='' disabled selected>Seleccione una opcion</option>";
 							foreach($pacientes as $key){
 								echo  "<option value=".$key->id;
 								if ($key->id==$idpaciente){
@@ -74,22 +86,15 @@
 								echo  ">$key->nombre $key->apellidop $key->apellidom</option>";
 							}
 						echo "</select>";
+						*/
 					echo "</div>";
 				}
-				if($_SESSION['nivel']==1 or $_SESSION['nivel']==3 or $_SESSION['nivel']==4 or $_SESSION['nivel']==666){
-					echo "<div class='col-3'>";
-						echo "<label for=''>Terapeuta</label>";
-						echo "<select name='idusuario' id='idusuario' class='form-control'>";
-							foreach($terapueutas as $key){
-								echo  "<option value=".$key->idusuario;
-								if ($key->idusuario==$idusuario){
-									echo  " selected ";
-								}
-								echo  ">$key->nombre $key->apellidop $key->apellidom</option>";
-							}
-						echo "</select>";
-					echo "</div>";
-				}
+
+				echo "<div class='col-3'>";
+					echo "<label for=''>Fecha</label>";
+					echo "<input type='date' name='fecha_cita' id='fecha_cita' value='$fecha' min='<?php echo $fecha_min;?>' class='form-control' required>";
+				echo "</div>";
+
 			echo "</div>";
 			?>
 

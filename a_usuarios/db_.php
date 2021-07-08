@@ -58,7 +58,7 @@ class Usuario extends ipsi{
 		}
 		if($_SESSION['nivel']==4){
 			$sql="select * from usuarios where nivel>1 and nivel!=2 and idusuario!=".$_SESSION['idusuario']." limit $pagina,".$_SESSION['pagina']."";
-		}		
+		}
 		$sth = $this->dbh->query($sql);
 		return $sth->fetchAll(PDO::FETCH_OBJ);
 	}
@@ -221,11 +221,11 @@ class Usuario extends ipsi{
 		if (isset($_REQUEST['nivel'])){
 			$arreglo+=array('nivel'=>clean_var($_REQUEST['nivel']));
 		}
-			
+
 		if (isset($_REQUEST['idsucursal'])){
 			$arreglo+=array('idsucursal'=>$_REQUEST['idsucursal']);
 		}
-		
+
 		if($idusuario==0){
 			$sql="select * from usuarios where correo='$correo'";
 			$sth = $this->dbh->prepare($sql);
@@ -249,8 +249,7 @@ class Usuario extends ipsi{
 		if (isset($_REQUEST['pass2'])){$pass2=$_REQUEST['pass2'];}
 		if(trim($pass1)==($pass2)){
 			$arreglo=array();
-			$passPOST=md5(trim($pass1));
-			$arreglo=array('pass'=>$passPOST);
+			$arreglo=array('pass'=>$pass1);
 			$x=$this->update('usuarios',array('idusuario'=>$id), $arreglo);
 			return $x;
 		}

@@ -28,8 +28,6 @@
 		$idde_cliente=$pd->idde_cliente;
 		$idde_usuario=$pd->idde_usuario;
 	}
-
-
 ?>
 
 <div class="container">
@@ -56,7 +54,6 @@
 						<?php
 							if($idticket==0){
 								echo "<label>Enviar a:</label>";
-								echo $_SESSION['nivel'];
 								echo "<select name='idpara' id='idpara' class='form-control form-control-sm' >";
 									if($_SESSION['nivel']==666){
 										echo  "<optgroup label='Terapeutas'>";
